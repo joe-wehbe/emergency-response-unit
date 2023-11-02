@@ -1,0 +1,7 @@
+{
+  "name": "SSF",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
