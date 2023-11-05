@@ -1,27 +1,28 @@
-#container {
-  text-align: center;
+.background{
+  --ion-background-color:#FFEDED;
+}
 
+.logo{
+  display: block;
+  margin: 0 auto;
+  width: 50%;
+  margin-top: 8%;
+  max-width: 100%;
+}
+
+.shape{
+  position: fixed;
+  bottom:0;
+  width: 100%;
+}
+
+
+
+h1 {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  width: 5em;
+  top: 9em;
+  left: 1em;
+  font-size: 28px;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
-}
