@@ -16,13 +16,87 @@
   width: 100%;
 }
 
-
-
 h1 {
-  position: absolute;
+  position: fixed;
   width: 5em;
-  top: 9em;
+  top: 9.5em;
   left: 1em;
   font-size: 28px;
+  font-weight: normal;
 }
+
+.container{
+  position: fixed;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 12em;
+  left: 10%;
+}
+
+ion-input{
+  --padding-end: 60px;
+  --padding-start: 50px;
+  margin-bottom: 16px;
+  border-radius: 25px;
+  height: 52px;
+  background: #FFEDED;
+  color: black;
+  --placeholder-color: #464141;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.35); 
+}
+
+ion-select{
+  padding-left: 14px;
+  margin-bottom: 16px;
+  border-radius: 25px;
+  height: 52px;
+  background: #FFEDED;
+  color: black;
+  --placeholder-color: #464141;
+  box-shadow: 0px 4px 4px rgba(0.0, 0, 0, 0.35); 
+}
+
+ion-icon[name="lock-closed"], ion-icon[name="mail-outline"], ion-icon[name="person-outline"] {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 14px;
+  font-size: 25px;
+  color: #464141;
+}
+
+ion-icon[name="eye"], ion-icon[name="eye-off"] {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 11.5em;
+  font-size: 1.5em;
+  color: #464141;
+}
+
+ion-checkbox {
+  --size: 32px;
+  --checkbox-background-checked: #4169E1;
+  padding-top: 16px;
+  margin-left: 4em;
+  color: black
+}
+
+ion-checkbox::part(container) {
+  border-radius: 6px;
+}
+
+ion-button {
+  display: block;
+  margin: 30px auto 0; /* Add margin-top to lower the button */
+  width: 8em;
+  --background: #FFEDED;
+  --color: black;
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.35); /* Fix the rgba syntax */
+}
+
+
+
+
 

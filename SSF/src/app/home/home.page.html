@@ -2,7 +2,31 @@
     <img class="logo" src="/assets/img/logo.png">
     <img class="shape" src="/assets/img/login-background.png">
 
-    <div class="stmt">
-        <h1>Login with your LAU credentials</h1>
+    <h1>Login with your LAU credentials</h1>
+
+    <div class="container">
+        <ion-select placeholder="Please select" [(ngModel)]="selectedOption">
+            <ion-select-option value="SSF">Student, staff, or faculty</ion-select-option>
+            <ion-select-option value="ERUM">ERU member</ion-select-option>
+            <ion-select-option value="ERUB">ERU board member</ion-select-option>
+        </ion-select>
+        
+
+        <ion-input type="email" placeholder="Email">
+            <ion-icon name="mail-outline" slot="start"></ion-icon>
+        </ion-input>
+
+        <ion-input placeholder="Password" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password">
+            <ion-icon name="lock-closed" slot="start"></ion-icon>
+            <ion-icon [name]="showPassword ? 'eye-off' : 'eye'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
+        </ion-input>    
+
+        <ion-checkbox labelPlacement="end">Keep me signed in</ion-checkbox>
+
+        <ion-button>
+            <ion-icon slot="start" name="log-in-outline"></ion-icon>
+            Sign in
+        </ion-button>
     </div>
+
 </ion-content>
