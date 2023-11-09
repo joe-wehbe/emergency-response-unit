@@ -1,9 +1,10 @@
 <ion-content class="gradient-background">
   <div class="circles-container">
     <button class="sos-button" (click)="sendSOS()"><h1>SOS</h1></button>
-    <button class="circle circle-2"></button>
-    <button class="circle circle-3"></button>
+    <div [ngClass]="{'circle circle-2-animated': isButtonClicked, 'circle circle-2': !isButtonClicked}"></div>
+    <div [ngClass]="{'circle circle-3-animated': isButtonClicked, 'circle circle-3': !isButtonClicked}"></div>
   </div>
+  
 
   <div class="welcome">
     <h3>Welcome,</h3>

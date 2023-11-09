@@ -7,12 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportPage implements OnInit {
 
+  isButtonClicked = false;
+
   constructor() { }
 
   ngOnInit() {
   }
 
   sendSOS() {
+    this.isButtonClicked = true;
     const sosButton = document.querySelector('.sos-button');
     if (sosButton) {
       sosButton.classList.add('clicked');
