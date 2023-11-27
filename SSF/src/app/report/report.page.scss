@@ -77,11 +77,11 @@
 .circle-2-animated {
   position: absolute;
   border-radius: 50%;
-  width: 200px;
-  height: 200px;
+  width: 190px;
+  height: 190px;
   background-color: rgba(129, 8, 8, 0.4);
   z-index: 2;
-  animation: sos-wave 1.5s ease-out infinite;
+  animation: sos-wave 1.2s ease-out infinite;
 }
 
 .circle-3 {
@@ -100,7 +100,7 @@
   height: 240px;
   background-color: rgba(129, 8, 8, 0.2);
   z-index: 1;
-  animation: sos-wave 1.5s ease-out infinite;
+  animation: sos-wave 1.2s ease-out infinite;
 }
     
 @keyframes sos-wave {
