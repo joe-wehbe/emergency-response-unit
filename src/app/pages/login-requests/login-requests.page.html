@@ -1,0 +1,38 @@
+<ion-header [translucent]="true">
+  <ion-toolbar >
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" class="custom-button" expand="block"><ion-icon name="chevron-back-outline" slot="start"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Log In Requests</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="gradient-background">
+  <ion-header>
+    <ion-toolbar class="header-background">
+      <ion-title></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <strong class="capitalize">1 Login Request</strong>
+    <p>Check if the user trying to login is an ERU member</p>
+    <div class="centered-container">
+
+      <ion-item lines="full" class="custom-item">
+        <ion-label>John Smith
+        <h3>jsmithlau.edu</h3>
+      </ion-label>
+        <ion-button slot="end" size="small" class="accept" shape="round"> Accept </ion-button>
+        <ion-button slot="end" size="small" class="reject" shape="round"> Reject </ion-button>
+  
+      </ion-item>
+   
+    </div>
+  </div>
+
+ 
+ 
+
+</ion-content>
+

@@ -1,0 +1,57 @@
+<ion-header [translucent]="true">
+  <ion-toolbar >
+    <ion-buttons slot="start">
+      <ion-button  (click)="goBack()" class="custom-button" expand="block"><ion-icon name="chevron-back-outline" slot="start"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Medical FAQs</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="gradient-background">
+  <ion-header>
+    <ion-toolbar class="header-background">
+      <ion-title></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <strong class="capitalize">Add Useful Medical FAQs</strong>
+    <p>This can help members know what to do during emergencies</p>
+
+    <ion-card>
+    
+      <ion-card-content>
+        <ion-item class="custom-item">
+          <ion-icon  class="custom" name="help-outline" slot="start"></ion-icon>
+          <ion-input label="Write the FAQ" labelPlacement="stacked" placeholder="Question..."  class="custom-input"></ion-input>
+        </ion-item>
+
+        <ion-item class="custom-item">
+          <ion-icon class="custom" name="at-outline" slot="start"></ion-icon>
+          <ion-input label="Write the answer to the question" labelPlacement="stacked" placeholder="Answer..."  class="custom-input"></ion-input>
+        </ion-item>
+
+        <ion-list>
+          <ion-item>
+            <ion-select aria-label="FAQtype" interface="popover" placeholder="FAQ Category">
+              <ion-select-option value="PA">Patient Assessment</ion-select-option>
+              <ion-select-option value="VS">Vital Signs</ion-select-option>
+              <ion-select-option value="cardio">Cardio</ion-select-option>
+              <ion-select-option value="respiration">Respiration</ion-select-option>
+              <ion-select-option value="neuro">Neuro</ion-select-option>
+              <ion-select-option value="BLSD">BLSD</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+  
+      </ion-card-content>
+
+    </ion-card>
+
+  <ion-button class="add" shape="round">Add</ion-button>
+  </div>
+
+  
+
+
+ </ion-content>

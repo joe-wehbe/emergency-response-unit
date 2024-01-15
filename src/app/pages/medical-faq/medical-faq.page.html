@@ -1,0 +1,101 @@
+<ion-header [translucent]="true">
+  <ion-toolbar >
+    <ion-buttons slot="start">
+      <ion-button  (click)="goBack()" class="custom-button" expand="block"><ion-icon name="chevron-back-outline" slot="start"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Medical FAQs</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="gradient-background">
+  <ion-header>
+    <ion-toolbar class="header-background">
+      <ion-title></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <strong class="capitalize">Select Which Category To Manage</strong>
+
+  </div>
+
+
+  <ion-grid fixed class="grid">
+    <ion-row>
+      <ion-col size="6" size-md="3">
+        <ion-card>
+          <img class="centered-image" alt="Patient Assessment" src="assets/imgs/patient.png" />
+          <ion-card-header>
+           
+            <ion-card-subtitle>Patient Assessment</ion-card-subtitle>
+          </ion-card-header>
+        
+        </ion-card>
+      </ion-col>
+      <ion-col size="6" size-md="3">
+        <ion-card>
+          <img class="vital"alt="Vital Signs" src="assets/imgs/Medical agreement.png" />
+          <ion-card-header>
+            
+            <ion-card-subtitle>Vital Signs</ion-card-subtitle>
+          </ion-card-header>
+        
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6" size-md="3">
+        <ion-card >
+          <img class="heart" alt="Cardio" src="assets/imgs/Pink heart.png" />
+          <ion-card-header>
+            
+            <ion-card-subtitle>Cardio</ion-card-subtitle>
+          </ion-card-header>
+        
+        </ion-card>
+      </ion-col>
+      <ion-col size="6" size-md="3">
+        <ion-card>
+          <img class="lungs" alt="Respiration" src="assets/imgs/Pink lungs.png" />
+          <ion-card-header>
+          
+            <ion-card-subtitle>Respiration</ion-card-subtitle>
+          </ion-card-header>
+        
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+
+    <ion-row>
+      <ion-col size="6" size-md="3">
+        <ion-card >
+          <img class="brain" alt="Neuro" src="assets/imgs/Pink brain.png" />
+          <ion-card-header>
+           
+            <ion-card-subtitle>Neuro</ion-card-subtitle>
+          </ion-card-header>
+        
+        </ion-card>
+      </ion-col>
+      <ion-col size="6" size-md="3">
+        <ion-card>
+          <img class="kit" alt="BLSD" src="assets/imgs/First aid kit .png" />
+          <ion-card-header>
+            
+            <ion-card-subtitle>BLSD</ion-card-subtitle>
+          </ion-card-header>
+        
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    </ion-grid>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)=" goToAddFAQ()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+</ion-content>
+

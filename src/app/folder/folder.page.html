@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar >
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -7,15 +7,94 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">{{ folder }}</ion-title>
+<ion-content [fullscreen]="true" class="gradient-background">
+  <ion-header>
+    <ion-toolbar class="header-background">
+      <ion-title>{{ folder }}</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <div id="container">
-    <strong class="capitalize">{{ folder }}</strong>
-    <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <strong class="capitalize">Hello, Joe</strong>
+    <p>Manage everything through the admin panel</p>
+
   </div>
+
+
+  <ion-grid fixed class="grid">
+    <ion-row>
+      <ion-col size="6" size-md="3">
+        <ion-card>
+          <img class="centered-image" alt="Manage Members" src="assets/imgs/task management.png" />
+          <ion-card-header>
+           
+            <ion-card-subtitle>Manage Members</ion-card-subtitle>
+          </ion-card-header>
+        
+        </ion-card>
+      </ion-col>
+      <ion-col size="6" size-md="3">
+        <ion-card (click)="goToManageAnnouncements()">
+          <img class="megaphone"alt="Send Announcements" src="assets/imgs/megaphone.png" />
+          <ion-card-header>
+            
+            <ion-card-subtitle>Send Announcements</ion-card-subtitle>
+          </ion-card-header>
+        
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6" size-md="3">
+        <ion-card (click)="goToManageFAQs()">
+          <img class="record" alt="Manage FAQs" src="assets/imgs/medical document.png" />
+          <ion-card-header>
+            
+            <ion-card-subtitle>Manage FAQs</ion-card-subtitle>
+          </ion-card-header>
+        
+        </ion-card>
+      </ion-col>
+      <ion-col size="6" size-md="3">
+        <ion-card (click)="goToExtensions()">
+          <img alt="Manage extensions" src="assets/imgs/phone.png" />
+          <ion-card-header>
+          
+            <ion-card-subtitle>Manage Extensions</ion-card-subtitle>
+          </ion-card-header>
+        
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+
+    <ion-row>
+      <ion-col size="6" size-md="3">
+        <ion-card (click)="goToRequests()">
+          <img alt="SLogin Requests" src="assets/imgs/Log in.png" />
+          <ion-card-header>
+           
+            <ion-card-subtitle>Login Requests</ion-card-subtitle>
+          </ion-card-header>
+        
+        </ion-card>
+      </ion-col>
+      <ion-col size="6" size-md="3">
+        <ion-card>
+          <img alt="Attendance Records" src="assets/imgs/check mark text.png" />
+          <ion-card-header>
+            
+            <ion-card-subtitle>Attendance Records</ion-card-subtitle>
+          </ion-card-header>
+        
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+
+
 </ion-content>
+

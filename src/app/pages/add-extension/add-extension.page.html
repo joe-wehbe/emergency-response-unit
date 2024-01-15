@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar >
+    <ion-buttons slot="start">
+      <ion-button  (click)="goBack()" class="custom-button" expand="block"><ion-icon name="chevron-back-outline" slot="start"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Add Extension</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="gradient-background">
+  <ion-header>
+    <ion-toolbar class="header-background">
+      <ion-title></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <strong class="capitalize">Add Useful Extensions</strong>
+    <p>This allows quick access to extensions during emergencies</p>
+
+    <ion-card>
+    
+      <ion-card-content>
+        <ion-item class="custom-item">
+      
+          <ion-input label="Write the name of the extension" labelPlacement="stacked" placeholder="Name..."  class="custom-input"></ion-input>
+        </ion-item>
+
+        <ion-item class="custom-item">
+    
+          <ion-input label="Write the number of the extension" labelPlacement="stacked" placeholder="Number..."  class="custom-input"></ion-input>
+        </ion-item>
+
+  
+      </ion-card-content>
+
+    </ion-card>
+
+  <ion-button class="add" shape="round">Add</ion-button>
+  </div>
+
+  
+
+
+ </ion-content>

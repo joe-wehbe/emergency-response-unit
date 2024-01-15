@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar >
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" class="custom-button" expand="block"><ion-icon name="chevron-back-outline" slot="start"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Phone Extensions</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="gradient-background">
+  <ion-header>
+    <ion-toolbar class="header-background">
+      <ion-title></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+
+    <ion-searchbar [debounce]="500" (ionInput)="handleInput($event)" color="light" placeholder="Search for a user..."></ion-searchbar>
+  
+    <ion-list>
+      <ng-container *ngFor="let key of alphabetKeys">
+        <ion-item-group class="custom-item-group">
+          <ion-item-divider class="custom-item-divider">
+            {{ key }}
+          </ion-item-divider>
+          <ion-item *ngFor="let user of filteredUsers[key]" class="custom-item">
+            {{ user.name }}
+            <ion-label slot="end" class="custom-label">
+              Ext: 2012
+            </ion-label>
+          </ion-item>
+        </ion-item-group>
+      </ng-container>
+    </ion-list>
+
+  </div>
+
+ 
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="goToAddExtension()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

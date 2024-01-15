@@ -1,0 +1,179 @@
+ion-title{
+    color: #000;
+  
+  font-family: Inter;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  }
+
+  ion-menu-button {
+    color: var(--ion-color-primary);
+  }
+  
+  .gradient-background{
+    --ion-background-color:#FFEDED;
+    --ion-background-color: linear-gradient(to bottom, #FFEDED 75%, #DB7575);
+  
+  }
+
+  ion-toolbar {
+    --background:#FFEDED;
+  }
+
+  .custom-button{
+    --color: gray;
+  }
+
+  
+#container {
+    text-align: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 10%;
+    padding-bottom: 50px;
+    
+  }
+  
+  .capitalize{
+    color: #000;
+  text-align: center;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  padding-top: 50px;
+  }
+
+  
+  
+  
+  
+  
+  #container strong {
+    padding-top: 50px;
+    font-size: 20px;
+    line-height: 26px;
+    color: #000;
+  text-align: center;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 700;
+  }
+  
+  #container p {
+  
+    color: #837272;
+    text-align: center;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    padding-bottom: 40px;
+  }
+  
+  .custom-subtitle {
+    margin-bottom: 0; 
+    text-align: center;
+    color: white;
+    font-size: 12px;
+    font-family: 'Cairo', sans-serif;
+  }
+
+h2{
+color: #000;
+font-family: Inter;
+font-style: normal;
+font-weight: bolder ;
+line-height: normal;
+}
+
+ion-item{
+    --background: #FFEDED;
+}
+
+ion-icon.trash{
+    font-size: 32px;
+    color: gray;
+}
+ion-item {
+    --inner-padding-start: 0;
+  }
+  
+  ion-label .user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0; 
+  }
+
+  .cancel{
+    color: gray; 
+    --border-color: gray;
+    --background-activated: #380404;
+  --background-hover: #4e0808;
+  }
+
+  .delete{
+    --background: #810808;
+    --color: white;
+    --background-activated: #380404;
+  --background-hover: #4e0808;
+  }
+  
+  ion-fab-button {
+    --background: #810808;
+    --color: white;
+    --background-activated: #380404;
+  --background-hover: #4e0808;
+  }
+
+
+  .user-info h2,
+  .user-info p {
+    margin: 0;
+  }
+  
+  .user-info p {
+    margin-left: 50px; 
+    padding-top: 40px;
+color: red !important;
+  }
+
+h6{
+    color:gray;
+    padding: 10px;
+}
+
+ion-text{
+    color: #000;
+
+font-family: Inter;
+font-size: 18px;
+font-style: normal;
+font-weight: 300;
+line-height: normal;
+}
+ 
+
+  ion-label{
+    max-height: fit-content !important;
+  }
+  
+
+
+  
+
+  .centered-container {
+    width: 90%; 
+    margin: 20px auto; 
+    padding-top: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  
