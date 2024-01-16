@@ -62,14 +62,47 @@
           <ion-item-divider class="custom-item-divider">
             Medics (2)
           </ion-item-divider>
-          
+          <ion-row class="card-row">
+            <ion-col size="3" class="custom-card-col">
+              <ion-card class="custom-card">
+                <ion-card-content class="custom-content">
+                  <ion-avatar class="custom-avatar">
+                    <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Avatar Image">
+                  </ion-avatar>
+                  
+                  <ion-card-title class="custom-name">Roula Test</ion-card-title>
+                  <ion-card-title class="custom-position">Board Member</ion-card-title>
+                </ion-card-content>
+              
+                <div class="custom-grey-band"></div>
+              </ion-card>
+            </ion-col>
+            <ion-col size="3" class="custom-card-col">
+              <ion-card class="custom-card">
+                <ion-card-content class="custom-content">
+                  
+                  <ion-avatar class="custom-avatar">
+                    <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Avatar Image">
+                  </ion-avatar>
+                  
+                  <ion-card-title class="custom-name">Roula Test</ion-card-title>
+                  <ion-card-title class="custom-position">Board Member</ion-card-title>
+                </ion-card-content>
+              
+                <div class="custom-grey-band"></div>
+              </ion-card>
+            </ion-col>
+           
+          </ion-row>
         </ion-item-group>
 
         <ion-item-group class="custom-item-group">
           <ion-item-divider class="custom-item-divider">
             All Members (42)
           </ion-item-divider>
-          
+          <ion-item-divider class="custom-item-divider">
+            A
+          </ion-item-divider>
         </ion-item-group>
       </ng-container>
     </ion-list>
@@ -78,9 +111,23 @@
 
  
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button >
+    <ion-fab-button id="open-custom-dialog"  >
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+  <ion-modal id="example-modal" #modal trigger="open-custom-dialog">
+    <ng-template>
+      <div class="wrapper">
+        <h1>Add Member?</h1>
+        <p>Enter the member’s LAU email, they will be able to login as an ERU member.</p>
+       
+      
+          <ion-input placeholder="LAU Email..."  class="custom-input"></ion-input>
+    
+        <ion-button fill="outline" class="cancel" shape="round">Cancel</ion-button> <ion-button class="add" shape="round">Add</ion-button>
+      </div>
+    </ng-template>
+  </ion-modal>
 
 </ion-content>

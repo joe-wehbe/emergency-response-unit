@@ -115,6 +115,7 @@ ion-item {
     --border-color: gray;
     --background-activated: #380404;
   --background-hover: #4e0808;
+  
   }
 
   .delete{
@@ -122,6 +123,7 @@ ion-item {
     --color: white;
     --background-activated: #380404;
   --background-hover: #4e0808;
+
   }
   
   ion-fab-button {
@@ -130,7 +132,6 @@ ion-item {
     --background-activated: #380404;
   --background-hover: #4e0808;
   }
-
 
   .user-info h2,
   .user-info p {

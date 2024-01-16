@@ -118,3 +118,36 @@ ion-title{
     background-color: green;
     border-radius: 50%;
   }
+
+  p{
+    color: gray;
+    padding-left: 20px;
+  }
+
+  .custom-input {
+    padding: 10%;
+    background-color: #ccc;
+    position: relative;
+    width: 80%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .cancel{
+    color: gray; 
+    --border-color: gray;
+    --background-activated: #380404;
+  --background-hover: #4e0808;
+  padding-left: 20px;
+  width: 120px;
+  }
+
+  .add{
+    --background: #08811B;
+    --color: white;
+    --background-activated: #023109;
+  --background-hover: #29b73f;
+    width: 120px;
+  }
