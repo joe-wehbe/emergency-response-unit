@@ -11,27 +11,27 @@ ion-card {
   --background: white;
   width: 150px;
   max-height: max-content;
- 
-
-
+  height: 150px; 
 }
 
-.megaphone{
+.megaphone, .record {
   padding-left: 20%;
 }
-
-.record {
-  padding-left: 30%;
+.att {
+padding-left: 0;
 }
+
+
+
 img {
   max-width: 100%; 
-  flex-grow: 1; 
   padding-left: 10%;
+  height: 95px;
 }
 
 ion-card-header {
   --background:#D4D4D4;
-  flex-grow: 0;
+  margin-bottom: 0; 
 }
 
 ion-card-subtitle{
