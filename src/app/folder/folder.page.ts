@@ -31,4 +31,8 @@ export class FolderPage implements OnInit {
   goToExtensions(){
     this.router.navigate(['/manage-extensions']);
   }
+
+  goToMembers(){
+    this.router.navigate(["/manage-members"]);
+  }
 }

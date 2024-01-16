@@ -54,6 +54,10 @@ const routes: Routes = [
   {
     path: 'add-extension',
     loadChildren: () => import('./pages/add-extension/add-extension.module').then( m => m.AddExtensionPageModule)
+  },
+  {
+    path: 'manage-members',
+    loadChildren: () => import('./pages/manage-members/manage-members.module').then( m => m.ManageMembersPageModule)
   }
 ];
 
