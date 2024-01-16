@@ -13,7 +13,7 @@ export class AddAnnouncementsPage implements OnInit {
   }
 
   goBack(){
-    this.router.navigate(['/folder/Admin Panel']);
+    this.router.navigate(['/manage-announcements']);
   }
 
 }

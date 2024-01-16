@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+
 @Component({
   selector: 'app-manage-announcements',
   templateUrl: './manage-announcements.page.html',
@@ -7,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class ManageAnnouncementsPage implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private modalContrl:ModalController) { }
 
   ngOnInit() {
   }
@@ -19,4 +21,7 @@ export class ManageAnnouncementsPage implements OnInit {
     this.router.navigate(['add-announcements']);
   }
 
+  cancel(){
+    this.modalContrl.dismiss();
+  }
 }
