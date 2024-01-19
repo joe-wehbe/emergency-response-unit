@@ -1,0 +1,42 @@
+ion-title{
+    color: #000;
+  
+  font-family: Inter;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  }
+
+  ion-menu-button {
+    color: var(--ion-color-primary);
+  }
+  
+  .gradient-background{
+    --ion-background-color:#FFEDED;
+    --ion-background-color: linear-gradient(to bottom, #FFEDED 75%, #DB7575);
+  
+  }
+
+  ion-toolbar {
+    --background:#FFEDED;
+  }
+
+
+  
+#container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    padding-bottom: 50px;
+    
+  }
+  
+  .card-container {
+    height: 80vh; 
+    --ion-background-color: linear-gradient(to top,  #FFEDED 75%, #DB7575);
+  }
+ 
+
+
+
