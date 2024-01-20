@@ -34,9 +34,6 @@
   margin-top: -0.5em;
 }
 
-
-
-
 .circles-container {
   position: absolute;
   display: flex;
@@ -45,7 +42,7 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  margin-top: 2em;
+  margin-top: -17em;
 }
 
 .sos-button {
@@ -59,6 +56,20 @@
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+
+.sos-button-animated {
+  border-radius: 50%;
+  width: 160px;
+  height: 160px;
+  background-color: rgba(129, 8, 8, 0.6);
+  z-index: 3;
+  color: white;
+  font-size: 24px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  animation: sos-pulse 1.2s ease-out infinite;
 }
 
 .sos-button h1{
@@ -102,6 +113,18 @@
   z-index: 1;
   animation: sos-wave 1.2s ease-out infinite;
 }
+
+@keyframes sos-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
     
 @keyframes sos-wave {
   0% {
@@ -114,6 +137,21 @@
   }
 }
 
+.notif-stmt{
+  text-align: center;
+  color: black;
+  margin-top: 20em;
+}
+
+.custom-alert{
+  background-color: white;
+  color: red; /* Change the title color */
+
+}
+
+.custom-alert .alert-title {
+  color: red; /* Change the title color */
+}
 
 
 

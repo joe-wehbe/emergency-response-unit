@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-report',
@@ -6,12 +7,55 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./report.page.scss'],
 })
 export class ReportPage implements OnInit {
-
   isButtonClicked = false;
+  notifyingStatement: string = '';
+  firstH4Content: string = 'Press the button below';
+  secondH4Content: string = 'to notify medics';
 
-  constructor() { }
+  constructor(public alertController: AlertController) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Emergency Alert',
+      subHeader: 'Please provide emergency information',
+      cssClass: 'custom-alert',
+
+      inputs: [
+        {
+          name: 'Location',
+          type: 'text',
+          placeholder: 'Location...',
+        },
+
+        {
+          name: 'Description',
+          type: 'text',
+          placeholder: 'Description...',
+        },
+      ],
+
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancelled');
+          },
+        },
+        {
+          text: 'Send',
+          handler: (data) => {
+            this.sendSOS();
+            this.notifyingStatement = 'Notifying medics...';
+            this.firstH4Content = "We will let you know";
+            this.secondH4Content = "when a medic responds";
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
 
   sendSOS() {
@@ -21,10 +65,7 @@ export class ReportPage implements OnInit {
       sosButton.classList.add('clicked');
       setTimeout(() => {
         sosButton.classList.remove('clicked');
-      }, 500); // Reset the animation after 500ms
-
-      // You can add your SOS functionality here
-      // For example, send a request to a service or display an SOS message
+      }, 500);
     }
   }
 }
