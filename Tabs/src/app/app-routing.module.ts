@@ -15,6 +15,10 @@ const routes: Routes = [
     path: 'pending-request',
     loadChildren: () => import('./pages/pending-request/pending-request.module').then( m => m.PendingRequestPageModule)
   },
+  {
+    path: 'request-rejected',
+    loadChildren: () => import('./pages/request-rejected/request-rejected.module').then( m => m.RequestRejectedPageModule)
+  },
 ];
 
 @NgModule({
