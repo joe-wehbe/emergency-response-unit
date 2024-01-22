@@ -1,0 +1,20 @@
+<ion-content class="gradient-background">
+
+  <div class="body">
+    <div class="stmt">
+      <h1>Received an emergency call?</h1>
+      <h4>{{ firstH4Content }}</h4>
+      <h4 class="second">{{ secondH4Content }}</h4>
+    </div>
+  
+    <div class="circles-container">
+      <button class="sos-button" [ngClass]="{'sos-button-animated': isButtonClicked}" (click)="presentAlert()"><h1>SOS</h1></button>
+      <div [ngClass]="{'circle circle-2-animated': isButtonClicked, 'circle circle-2': !isButtonClicked}"></div>
+      <div [ngClass]="{'circle circle-3-animated': isButtonClicked, 'circle circle-3': !isButtonClicked}"></div>
+    </div>
+  
+    <div *ngIf="notifyingStatement" class="notif-stmt">
+      <h2>{{ notifyingStatement }}</h2>
+    </div>
+  </div>
+</ion-content>
