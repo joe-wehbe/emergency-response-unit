@@ -1,4 +1,37 @@
-ion-toolbar{
+.menu-toolbar{
+    height: 110px;
+    --background: rgba(0, 0, 0, 0.0);
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.profile-picture{
+    margin: 10px;
+    font-size: 80px;
+    color: #837272;
+}
+
+.profile-info{
+    margin-top: -1em;
+}
+
+.name{
+    color: black;
+    font-size: 22px;
+}
+
+.role{
+    color: #837272;
+    font-size: 16px;
+    margin-top: -1em;
+    margin-left: 0.4em;
+}
+
+.toolbar{
     height: 60px;
     --background: rgba(0, 0, 0, 0.0);
 }
@@ -9,10 +42,27 @@ ion-menu-button{
     margin-top: 12px;
 }
 
-ion-title{
+.title{
     font-size: 22px;
     color: black;
     font-weight: normal;
-    margin-top: 6px;
+    margin-top: 7px;
     margin-left: -27%;
+}
+
+.first-block, .second-block, .third-block{
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 15px;
+
+}
+
+ion-list{
+    background-color: transparent;
+}
+
+ion-item{
+    --background: transparent;
+    color: black;
+    padding: 5px;
 }
