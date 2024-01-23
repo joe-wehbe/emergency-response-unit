@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PendingRequestPage } from './pending-request.page';
+import { CommunityPage } from './community.page';
 
-describe('PendingRequestPage', () => {
-  let component: PendingRequestPage;
-  let fixture: ComponentFixture<PendingRequestPage>;
+describe('CommunityPage', () => {
+  let component: CommunityPage;
+  let fixture: ComponentFixture<CommunityPage>;
 
   beforeEach(async(() => {
-    fixture = TestBed.createComponent(PendingRequestPage);
+    fixture = TestBed.createComponent(CommunityPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

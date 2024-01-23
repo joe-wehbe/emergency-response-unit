@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { RequestRejectedPage } from './request-rejected.page';
+import { CommunityPage } from './community.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: RequestRejectedPage
+    component: CommunityPage
   }
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class RequestRejectedPageRoutingModule {}
+export class CommunityPageRoutingModule {}

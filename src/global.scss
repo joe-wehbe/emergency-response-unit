@@ -26,10 +26,11 @@
 @import "@ionic/angular/css/flex-utils.css";
 
 .background{
-    --ion-background-color:#FFEDED;
+  --ion-background-color:#FFEDED;
 }
-  
+
 .gradient-background{
---ion-background-color:#FFEDED;
---ion-background-color: linear-gradient(to bottom, #FFEDED 75%, #DB7575);
+  --ion-background-color:#FFEDED;
+  --ion-background-color: linear-gradient(to bottom, #FFEDED 75%, #DB7575);
+
 }
