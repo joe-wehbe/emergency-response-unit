@@ -7,16 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { ReportEmergencyPageRoutingModule } from './report-emergency-routing.module';
 
 import { ReportEmergencyPage } from './report-emergency.page';
-import { MenuComponent } from 'src/app/components/menu/menu.component';
-import { TabsComponent } from 'src/app/components/tabs/tabs.component';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ComponentsModule,
     ReportEmergencyPageRoutingModule
   ],
-  declarations: [ReportEmergencyPage, MenuComponent, TabsComponent]
+  declarations: [ReportEmergencyPage]
 })
 export class ReportEmergencyPageModule {}

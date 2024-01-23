@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'pending-request',
+    redirectTo: 'report-emergency',
     pathMatch: 'full'
   },
   {
@@ -18,6 +18,10 @@ const routes: Routes = [
   {
     path: 'report-emergency',
     loadChildren: () => import('./pages/report-emergency/report-emergency.module').then( m => m.ReportEmergencyPageModule)
+  },
+  {
+    path: 'standby',
+    loadChildren: () => import('./pages/standby/standby.module').then( m => m.StandbyPageModule)
   },
 ];
 
