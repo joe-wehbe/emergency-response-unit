@@ -6,13 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./standby.page.scss'],
 })
 export class StandbyPage implements OnInit {
+  
+  selectedSegment: string = 'Ongoing';
 
   constructor() { }
-
-  buttonClicked() {
-    console.log('Button clicked!');
-    // You can add your custom logic here
-  }
 
   ngOnInit() {
   }
