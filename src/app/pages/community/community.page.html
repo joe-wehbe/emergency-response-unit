@@ -1,11 +1,15 @@
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-menu-button icon="menu-outline"></ion-menu-button> 
-    <ion-title>Community</ion-title>
-  </ion-toolbar>
-</ion-header> -->
+<ion-content class="background">
 
-<ion-content class = "background">
+  <ion-header id="main-content">
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="title">Community</ion-title>
+  </ion-toolbar>
+</ion-header>
+<app-menu></app-menu>
+
   <ion-searchbar (ionInput)="filterMembers($event)"></ion-searchbar>
 
   <ion-col side="start" class="alphabet-column">

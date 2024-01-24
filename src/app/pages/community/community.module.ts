@@ -9,6 +9,7 @@ import { CommunityPageRoutingModule } from './community-routing.module';
 
 import { CommunityPage } from './community.page';
 import { HttpClientModule } from '@angular/common/http';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
     IonicModule,
     CommunityPageRoutingModule,
     HttpClientModule,
+    ComponentsModule,
     RouterModule.forChild([
       {
         path: '',
