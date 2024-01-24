@@ -1,0 +1,116 @@
+.community-page {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+  }
+  
+  
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    
+  }
+  
+  .alphabet-column {
+    width: 3em; 
+    font-size: medium;
+    background-color: transparent;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: blue; /* Change the color to improve visibility */
+  }
+  
+  /* Styling for the right vertical scroll bar */
+  // .letter-scroll {
+    
+  //   position: absolute;
+  //   top: 0;
+  //   bottom: 0;
+  //   right: 0;
+  //   // width: 10x; /* Adjust the width of the scroll bar */
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-items: center;
+  // }
+  
+  .search-bar {
+    margin-bottom: 20px;
+  }
+  
+  .member-list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+  }
+  
+  .member-list ion-col {
+    flex: 0 0 calc(33.3333% - 1em); /* Adjust as needed, considering padding */
+    max-width: calc(33.3333% - 1em); /* Adjust as needed, considering padding */
+    margin: 1em;
+  }
+  
+  
+  .member-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .member-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .member-info {
+    flex: 1;
+  }
+  
+  .member-name {
+    font-weight: bold;
+  }
+  
+  .member-role {
+    font-size: 0.8em;
+    color: #888;
+  }
+  
+  .on-shift {
+    background-color: #f00; /* Adjust color for "On Shift" badge */
+    color: #fff;
+    padding: 5px;
+    font-size: 0.8em;
+    border-radius: 5px;
+    margin-left: 5px;
+  }
+  
+  
+  
+  ion-label {
+    text-align: center;
+    display: block;
+    font-size: 12px;
+    padding: 5px 0;
+    cursor: pointer;
+    color: gray;
+  }
+  
+  
+  /* Styling for the letter dividers */
+  ion-item-divider {
+    text-align: center;
+    font-size: 1em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
