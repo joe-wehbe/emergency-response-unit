@@ -4,7 +4,7 @@
       <ion-buttons slot="start">
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
-      <ion-title class="title">Emergency</ion-title>
+      <ion-title class="title">Standby</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -39,12 +39,31 @@
       </div>
       <div class="seperator"></div>
       <div class="third-box">
-        <div class="medic">Medic:
-            <p>Joe Wehbe</p>
+        <div class="medic">
+          <p>Medic:</p>
+          <p class="medic-name">Joe Wehbe</p>
         </div>
         <div class="request">
-            <p>Request: </p>
-            <p>Wheelchair</p>
+          <p>Request:</p>
+          <p class="request-tool">Wheelchair</p>
+        </div>
+        <div class="vitals">
+          <div class="heart-rate">
+            <ion-img src="assets/icon/hr.png"></ion-img>
+            <p class="hr">120</p>
+          </div>        
+          <div class="blood-pressure">
+            <ion-img src="assets/icon/bp.png"></ion-img>
+            <p class="bp">110/92</p>
+          </div>        
+          <div class="spo2">
+            <ion-img src="assets/icon/spo2.png"></ion-img>
+            <p class="-sp">96</p>
+          </div>        
+          <div class="temperature">
+            <ion-img src="assets/icon/temp.png"></ion-img>
+            <p class="temp">37.6</p>
+          </div>
         </div>
       </div>
     </ion-card>

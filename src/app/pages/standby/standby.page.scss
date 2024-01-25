@@ -82,6 +82,7 @@ ion-card{
 
 .second-box{
   display: flex;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 32%;
@@ -96,6 +97,7 @@ ion-card{
 .description-container{
   width: 100%;
   text-align: center;
+  overflow: auto;
 }
 
 .seperator{
@@ -105,17 +107,53 @@ ion-card{
 
 }
 
-// .third-box{
-//   display: flex;
-//   align-items: center;
-//   flex-direction: column;
-// }
-
-.info{
-  padding-left: 10px;
-  display: grid;
-  grid-template-columns: 2fr 2fr; /* Three columns of equal width */
+.third-box {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  height: 100%;
+  padding: 10px;
 }
+
+.medic, .request {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  height: 22%;
+  color: black;
+  font-size: 15px;
+}
+
+.medic-name{
+  color: green;
+}
+
+.request-tool{
+  color: gray;
+}
+
+.vitals{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  overflow: auto;
+}
+
+ion-img{
+  width: 20px;
+}
+
+.heart-rate, .blood-pressure, .spo2, .temperature{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 2px;
+}
+
+
+
 
 
 
