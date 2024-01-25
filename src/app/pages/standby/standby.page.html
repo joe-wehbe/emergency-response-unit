@@ -14,21 +14,17 @@
   <div class="segments">
     <ion-segment [(ngModel)]="selectedSegment" value="Ongoing">
       <ion-segment-button value="Ongoing">
-        <ion-label>Ongoing</ion-label>
+        <ion-label>Ongoing (2)</ion-label>
         <ion-icon name="hourglass-outline"></ion-icon>
       </ion-segment-button>
       <ion-segment-button value="Ended">
-        <ion-label>Ended</ion-label>
+        <ion-label>Ended (4)</ion-label>
         <ion-icon name="shield-checkmark-outline"></ion-icon>   
       </ion-segment-button>
     </ion-segment>
   </div>
   
   <ng-container *ngIf="selectedSegment === 'Ongoing'">
-    <div class="stmt">
-      <p>Cases marked in red indicate no medical response!</p>      
-    </div>
-
     <ion-card>
       <div class="first-box">
         9:07
@@ -37,21 +33,43 @@
         <div class="location">
           Zakhem 404
         </div>
-        <div class="Description">
-          Panick attack
+        <div class="description-container">
+          <p class="description">Difficulty breathing and panick attack</p>
+        </div>
+      </div>
+      <div class="seperator"></div>
+      <div class="third-box">
+        <div class="medic">Medic:
+            <p>Joe Wehbe</p>
+        </div>
+        <div class="request">
+            <p>Request: </p>
+            <p>Wheelchair</p>
+        </div>
+      </div>
+    </ion-card>
+  </ng-container>
+  
+  <ng-container *ngIf="selectedSegment === 'Ended'">
+    <ion-card>
+      <div class="first-box">
+        9:07
+      </div>
+      <div class="second-box">
+        <div class="location">
+          Zakhem 404
+        </div>
+        <div class="description-container">
+          <p class="description">Panick attack</p>
         </div>
       </div>
       <div class="seperator"></div>
     </ion-card>
   </ng-container>
   
-  <ng-container *ngIf="selectedSegment === 'Ended'">
-    <div class="stmt">
-      <p>Don't forget to fill the case report form</p>
-    </div>
-  </ng-container>
+  <!-- <div class="stmt">
+    <ion-icon class="info-icon" name="information-circle-outline"></ion-icon>
+    <p>Cases marked in red indicate no medical response</p>      
+  </div> -->
   
-
-
-
 </ion-content>
