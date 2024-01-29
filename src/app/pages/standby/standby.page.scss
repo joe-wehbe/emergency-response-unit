@@ -90,6 +90,15 @@ ion-card{
   height: 7em;
 }
 
+ion-card:active{
+  display: flex;
+  flex-direction: row;
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  height: 7em;
+  animation: pulse 0.1s ease-in-out;
+}
+
 .first-box-green{
   display: flex;
   justify-content: center;
@@ -140,6 +149,7 @@ ion-card{
 .third-box {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   width: 60%;
   height: 100%;
   padding: 10px;
@@ -175,11 +185,12 @@ ion-img{
   width: 20px;
 }
 
-.heart-rate, .blood-pressure, .spo2, .temperature{
+.heart-rate, .blood-pressure, .spo2, .temperature, 
+.respiration-rate, .capillary-refill, .pupils-reaction, .hemo-gluco-test{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 2px;
+  padding: 3px;
 }
 
 .options{
@@ -197,6 +208,28 @@ ion-img{
   color: black;
   width: 100%;
 
+}
+
+#open-action-sheet:active{
+  margin-top: 1em;
+  height: 2.5em;
+  border-radius: 5px;
+  background-color: #D9D9D9;
+  color: black;
+  width: 100%;
+  animation: pulse 0.1s ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 

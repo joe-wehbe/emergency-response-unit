@@ -1,0 +1,168 @@
+<ion-content class="background">
+  <ion-header id="main-content">
+    <ion-toolbar class="toolbar">
+      <ion-buttons slot="start">
+        <ion-button (click)="back()">
+          <ion-icon class="back-button" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title class="title">Emergency Details</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- <div class="stmt">
+    <p>Vitals recorded by the medic on scene</p>
+  </div> -->
+
+
+
+
+<!-- 
+  <ion-card class="case-card">
+    <div class="first-box-green">
+      9:07
+    </div>
+    <div class="second-box">
+      <div class="location">
+        Zakhem 404
+      </div>
+      <div class="description-container">
+        <p class="description">Difficulty breathing and panick attack</p>
+      </div>
+    </div>
+    <div class="seperator"></div>
+    <div class="third-box">
+      <div class="medic">
+        <p>Medic:</p>
+        <p class="medic-name">Joe Wehbe</p>
+      </div>
+      <div class="request">
+        <p>Request:</p>
+        <p class="request-tool">Wheelchair</p>
+      </div>
+    </div>
+  </ion-card> -->  
+
+
+
+
+  <div class="first-block">
+    <ion-card class="emergency-card">
+      <div class="container">
+        <div class="header">
+          <p class="card-title">Case Information</p>
+        </div>
+        <div class="emergency-info">
+          <ion-list>
+            <div class="info-container">
+              <ion-icon name="person-outline"></ion-icon>          
+              <p class="medic">Joe Wehbe</p>
+            </div>
+            <div class="info-container">
+              <ion-icon name="location-outline"></ion-icon>
+              <p class="location">Zakhem 404</p>
+            </div>
+            <div class="info-container">
+              <ion-icon name="document-text-outline"></ion-icon>
+              <p class="description">Someone passed out in the library they cnanot breathe properly</p>
+            </div>
+          </ion-list> 
+        </div>
+      </div>
+    </ion-card>
+  </div>
+
+
+  <ion-card class="patient-card">
+    <div class="container">
+
+      <div class="header">
+        <p class="card-title">Patient Information</p>
+      </div>
+      <div class="patient-info">
+        <ion-list>
+          <div class="info-container">
+            <ion-icon name="person-outline"></ion-icon>          
+            <p class="patient-name">Joe Wehbe</p>
+          </div>
+          <div class="info-container">
+            <ion-icon name="card-outline"></ion-icon>            
+            <p class="id">202000908</p>
+          </div>
+          <div class="info-container">
+            <ion-icon name="medkit-outline"></ion-icon>
+            <p class="medic-description">Hypertension</p>
+          </div>
+        </ion-list> 
+      </div>
+    </div>
+  </ion-card>
+
+  <ion-card class="vitals-card">
+    <div class="assessment">
+      <div class="header">
+        <p class="assessment-number">Assessment 1</p>
+        <p class="assessment-time">9:15</p>
+      </div>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td>         
+              <div class="heart-rate">
+                <ion-img src="assets/icon/hr.png"></ion-img>
+                <p class="hr">120</p>
+              </div>        
+            </td>
+            <td>         
+              <div class="blood-pressure">
+                <ion-img src="assets/icon/bp.png"></ion-img>
+                <p class="bp">110/92</p>
+              </div>    
+            </td>
+            <td>    
+              <div class="spo2">
+                <ion-img src="assets/icon/spo2.png"></ion-img>
+                <p class="sp">96</p>
+              </div>
+            </td>                    
+            <td>         
+              <div class="temperature">
+                <ion-img src="assets/icon/temp.png"></ion-img>
+                <p class="temp">37.6</p>
+              </div>      
+            </td>
+          </tr>
+          <tr>
+            <td>         
+              <div class="respiration-rate">
+                <ion-img src="assets/icon/rr.png"></ion-img>
+                <p class="rr">16</p>
+              </div>  
+            </td>
+            <td>         
+              <div class="capillary-refill">
+                <ion-img src="assets/icon/crt.png"></ion-img> 
+                <p class="crt">2</p>
+              </div> 
+            <td>    
+              <div class="pupils-reaction">
+                <ion-img src="assets/icon/pr.png"></ion-img> 
+                <p class="pr">N/A</p>
+              </div>                  
+            <td>         
+              <div class="hemo-gluco-test">
+                <ion-img src="assets/icon/hgt.png"></ion-img>
+                <p class="hgt">N/A</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ion-card>
+
+</ion-content>

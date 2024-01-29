@@ -74,10 +74,10 @@
           <p>Medic:</p>
           <p class="medic-name">Joe Wehbe</p>
         </div>
-        <div class="request">
+        <!-- <div class="request">
           <p>Request:</p>
           <p class="request-tool">Wheelchair</p>
-        </div>
+        </div> -->
         <div class="vitals">
           <div class="heart-rate">
             <ion-img src="assets/icon/hr.png"></ion-img>
@@ -89,12 +89,29 @@
           </div>        
           <div class="spo2">
             <ion-img src="assets/icon/spo2.png"></ion-img>
-            <p class="-sp">96</p>
-          </div>        
+            <p class="sp">96</p>
+          </div>
           <div class="temperature">
             <ion-img src="assets/icon/temp.png"></ion-img>
             <p class="temp">37.6</p>
+          </div>     
+          <div class="respiration-rate">
+            <ion-img src="assets/icon/rr.png"></ion-img>
+            <p class="rr">16</p>
           </div>
+          <div class="capillary-refill">
+            <ion-img src="assets/icon/crt.png"></ion-img> 
+            <p class="crt">2</p>
+          </div> 
+          <div class="pupils-reaction">
+            <ion-img src="assets/icon/pr.png"></ion-img> 
+            <p class="pr">N/A</p>
+          </div>
+          <div class="hemo-gluco-test">
+            <ion-img src="assets/icon/hgt.png"></ion-img>
+            <p class="hgt">N/A</p>
+          </div>
+
         </div>
       </div>
     </ion-card>
@@ -119,21 +136,15 @@
           <p>Medic:</p>
           <p class="medic-name">Joe Wehbe</p>
         </div>
-        <div class="request">
+        <!-- <div class="request">
           <p>Request:</p>
           <p class="request-tool">Wheelchair</p>
-        </div>
+        </div> -->
         <div class="options">
           <button id="open-action-sheet">View options</button>
           <ion-action-sheet trigger="open-action-sheet" header="Select" [buttons]="actionSheetButtons"></ion-action-sheet>
         </div>
       </div>
     </ion-card>
-  </ng-container>
-  
-  <!-- <div class="stmt">
-    <ion-icon class="info-icon" name="information-circle-outline"></ion-icon>
-    <p>Cases marked in red indicate no medical response</p>      
-  </div> -->
-  
+  </ng-container>  
 </ion-content>
