@@ -117,6 +117,10 @@ ion-icon{
 
   }
 
+  h5{
+    padding: 5%;
+  }
+
   .exp-text{
     color: gray;
     font-size: 0.8rem;
@@ -125,4 +129,35 @@ ion-icon{
 
   ion-badge{
     --background: #8108089e;
+  }
+
+  .rem-member{
+    margin-left: 10%;
+    --background: #810808;
+    --background-activated: #380404;
+    --background-hover: #4e0808;
+  }
+
+  .change {
+    --background: #08811B;
+    margin-left: 5%;
+    --background-activated: #074a11;
+    --background-hover: #08811a65;
+  }
+
+  .cancel{
+    color: gray; 
+    --border-color: gray;
+    --background-activated: #380404;
+  --background-hover: #4e0808;
+  width: 150px;
+  padding: 5%;
+  }
+
+  .remove{
+    --background: #810808;
+    --color: white;
+    --background-activated: #023109;
+  --background-hover: #810808;
+    width: 150px;
   }

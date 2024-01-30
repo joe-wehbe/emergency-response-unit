@@ -66,10 +66,39 @@
         <ion-badge>EMT-I</ion-badge>
       </ion-card>
 
+      <ion-text class="strike-through-text">Schedule</ion-text>
+
+
   </ion-card>
 
-
+<ion-button id ="open-custom-dialog" class="rem-member">Remove Member</ion-button> <ion-button id="open-custom-dia-rank" class="change">Change Rank</ion-button>
+<ion-modal id="example-modal" #modal trigger="open-custom-dialog">
+  <ng-template>
+    <div class="wrapper">
+      <h1>Remove Member?</h1>
+      <h5>Are you sure you want to permenantly remove this member?</h5>
   
- 
+      <ion-button fill="outline" class="cancel" (click)="cancel()">Cancel</ion-button> <ion-button class="remove">Remove</ion-button>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<ion-modal id="example-modal" #modal trigger="open-custom-dia-rank">
+  <ng-template>
+    <div class="wrapper">
+      <h1>Change Rank?</h1>
+      <h5>What rank do you want to promote/demote this member to?</h5>
+      <ion-list>
+        <ion-item>
+          <ion-select aria-label="imp" interface="popover" placeholder="Rank">
+            <ion-select-option value="BM">Board Member</ion-select-option>
+            <ion-select-option value="VS">Responder</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+      <ion-button fill="outline" class="cancel" (click)="cancel()">Cancel</ion-button> <ion-button class="change">Apply Changes</ion-button>
+    </div>
+  </ng-template>
+</ion-modal>
 </ion-content>
 
