@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 @Component({
   selector: 'app-manage-members',
   templateUrl: './manage-members.page.html',
@@ -7,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class ManageMembersPage implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private modalContrl:ModalController) { }
 
   ngOnInit() {
   }
@@ -15,4 +16,9 @@ export class ManageMembersPage implements OnInit {
   goBack(){
 this.router.navigate(["/folder/Admin Panel"])
   }
+
+  cancel(){
+    this.modalContrl.dismiss();
+  }
+
 }

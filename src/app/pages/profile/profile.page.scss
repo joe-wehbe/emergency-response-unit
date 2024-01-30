@@ -108,10 +108,21 @@ ion-icon{
 
   .exp{
     --ion-background-color:#F2F2F2;
+    padding: 5px;
+  }
+
+  .exp-skills{
+    --ion-background-color:#F2F2F2;
+    padding: 5px;
+
   }
 
   .exp-text{
     color: gray;
     font-size: 0.8rem;
     font-weight: lighter;
+  }
+
+  ion-badge{
+    --background: #8108089e;
   }
