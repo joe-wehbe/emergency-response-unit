@@ -17,9 +17,9 @@ export class StandbyPage implements OnInit {
       },
     },
     {
-      text: 'Vitals History',
+      text: 'Emergency Details',
       data: {
-        action: 'vitals',
+        action: 'details',
       },
     },
     {

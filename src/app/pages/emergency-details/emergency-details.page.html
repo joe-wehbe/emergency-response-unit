@@ -10,12 +10,14 @@
     </ion-toolbar>
   </ion-header>
 
+  <app-tabs></app-tabs>
+
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <div class="stmt">
-    <p>Stay up</p>
+    <p>Up-to-date emergency information</p>
   </div>
 
   <div class="first-block">
@@ -24,21 +26,12 @@
     </div>
     <ion-card class="emergency-card">
       <div class="container">
-        <div class="header">
-          <p class="card-title">Case Information</p>
-          <p class="emergency-time">9:10</p>
+        <div class="case-header">
+          <p class="card-title">Joe Wehbe</p>
+          <p class="emergency-status">Ongoing</p>
         </div>
         <div class="emergency-info">
           <ion-list>
-            <div class="info-container">
-              <div class="info-type">
-                <ion-icon name="person-outline"></ion-icon>          
-                <p class="type-medic">Medic on scene:</p>
-              </div>
-              <div class="info-answer">
-                <p class="medic">Joe Wehbe</p>
-              </div>
-            </div>
             <div class="info-container">
               <div class="info-type">
                 <ion-icon name="location-outline"></ion-icon>
@@ -55,6 +48,15 @@
               </div>
               <div class="info-answer">
                 <p class="description">Panick attack</p>
+              </div>
+            </div>
+            <div class="info-container">
+              <div class="info-type">
+                <ion-icon name="time-outline"></ion-icon>
+                <p class="type-time">Reported at: </p>
+              </div>
+              <div class="info-answer">
+                <p class="description">9:10</p>
               </div>
             </div>
           </ion-list> 

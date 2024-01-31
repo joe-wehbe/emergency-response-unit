@@ -1,205 +1,183 @@
 .toolbar{
-    height: 60px;
-    --background: rgba(0, 0, 0, 0.0);
-  }
-  
-  .back-button{
-    color: black;
-    font-weight: normal;
-    margin-top: 12px;
-  }
-    
-  .title{
-    font-size: 22px;
-    color: black;
-    font-weight: normal;
-    margin-top: 7px;
-  }
-  
-  .stmt{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    color: black;
-    font-weight: bold;
-    padding-top: 20px;
-  }
+  height: 60px;
+  --background: rgba(0, 0, 0, 0.0);
+}
 
+.back-button{
+  color: black;
+  font-weight: normal;
+  margin-top: 12px;
+}
+  
+.title{
+  font-size: 22px;
+  color: black;
+  font-weight: normal;
+  margin-top: 7px;
+}
 
+.stmt{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: black;
+  font-weight: bold;
+  padding-top: 20px;
+}
 
-  ////////////////////////////////////////////////////////////////////////////////////////
-  
-  
-  // .cards{
-  //   display: flex;
-  //   flex-direction: column;
-  //   justify-content: space-around;
-  //   align-items: center;
-  //   width: 100%;
-  // }
+.first-block, .second-block{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
-  .first-block, .second-block{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+.second-block{
+  margin-top: -1em;
+}
 
-  .second-block{
-    margin-top: -1em;
-  }
+.statement{
+  height: 1em;
+  padding-left: 1em;
+}
 
-  .statement{
-    height: 1em;
-    padding-left: 1em;
-  }
-  
-  .emergency-card, .patient-card{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-    padding: 5px;
-    width: 90%;
-  }
+.emergency-card, .patient-card{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  padding: 5px;
+  width: 90%;
+}
 
-  .container{
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-  }
+.container{
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
 
-  .info-type{
-    color: black;
-  }
+.info-type{
+  color: black;
+}
 
-  .info-answer{
-    color: gray;
-    overflow: hidden;
-  }
+.info-answer{
+  color: gray;
+  overflow: hidden;
+}
 
-  .card-title{
-    color: black;
-    font-size: 17px;
-  }
-  
-  .emergency-info, .patient-info{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    background-color: transparent;
-    font-size: 16px;
-  }
-  
-  ion-list{
-    background-color: transparent;
-    width: 100%;
-  }
+.card-title{
+  color: #08811B;
+  font-size: 17px;
+}
 
-  .first-statement, .second-statement{
-    color: gray;
-    font-weight: bold;
-  }
-  
-  .info-container{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    background-color: transparent;
-    width: 100%;
-    height: 2em;
-  }
+.emergency-status{
+  color: #D42B2B;
+}
 
-  .info-type{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  // .medic, .location, .description{
-  //   padding: 10px;
-  // }
+.emergency-info, .patient-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  background-color: transparent;
+  font-size: 16px;
+}
 
-  ion-icon{
-    color: #810808;
-    padding-right: 5px;
-    font-size: 20px;
-  }
-  
-  
-  //////////////////////////////////////////////////////////////////////////////////////////
-  
-  
-  .vitals-card{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-    width: 90%;
-  }
-  
-  .assessment{
-    width: 90%;
-  }
-  
-  .header{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    height: 2em;
-    padding-top: 2em;
-    padding-bottom: 1em;
-  }
-  
-  .assessment-number{
-    color: black;
-    font-size: 17px;
-  }
-  
-  .assessment-time, .emergency-time{
-    color: black;
-    font-size: 14px;
-  }
-  
-  .table {
-    border-collapse: collapse;
-    margin-bottom: 10px;
-    width: 100%;
-  }
-  
-  .table, .table td {
-    border: 1px solid #ddd;
-    text-align: left;
-  }
-  
-  ion-img{
-    width: 20px;
-  }
-  
-  .heart-rate, .blood-pressure, .spo2, .temperature, 
-  .respiration-rate, .capillary-refill, .pupils-reaction, .hemo-gluco-test{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    padding-left: 15px;
-    padding-right: 15px;
-  }
-  
-  
-    
-    
-    
-    
-    
-    
-    
-    
-    
+ion-list{
+  background-color: transparent;
+  width: 100%;
+}
+
+.first-statement, .second-statement{
+  color: gray;
+  font-size: 17px;
+}
+
+.info-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: transparent;
+  width: 100%;
+  height: 2em;
+}
+
+.info-type{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+ion-icon{
+  color: #810808;
+  padding-right: 5px;
+  font-size: 20px;
+}
+
+.vitals-card{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  width: 90%;
+}
+
+.assessment{
+  width: 90%;
+}
+
+.header, .case-header{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 2em;
+}
+
+.header{
+  padding-top: 2em;
+  padding-bottom: 1em;
+}
+
+.case-header{
+  padding-top: 1.5em;
+  padding-bottom: 1.5em;
+}
+
+.assessment-number{
+  color: black;
+  font-size: 17px;
+}
+
+.assessment-time{
+  color: black;
+  font-size: 14px;
+}
+
+.table {
+  border-collapse: collapse;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.table, .table td {
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+ion-img{
+  width: 20px;
+}
+
+.heart-rate, .blood-pressure, .spo2, .temperature, 
+.respiration-rate, .capillary-refill, .pupils-reaction, .hemo-gluco-test{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
