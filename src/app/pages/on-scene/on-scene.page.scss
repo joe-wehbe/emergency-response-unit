@@ -1,0 +1,30 @@
+.toolbar{
+    height: 60px;
+    --background: rgba(0, 0, 0, 0.0);
+}
+
+ion-menu-button{
+    color: black;
+    font-weight: normal;
+    margin-top: 12px;
+}
+
+.title{
+    font-size: 22px;
+    color: black;
+    font-weight: normal;
+    margin-top: 7px;
+}
+
+.statements{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    color: black;
+}
+
+.statement1{
+    font-size: 18px;
+    font-weight: bold;
+}

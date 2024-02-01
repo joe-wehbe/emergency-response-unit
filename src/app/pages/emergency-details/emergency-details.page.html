@@ -1,16 +1,15 @@
-<ion-content class="background">
-  <ion-header id="main-content">
-    <ion-toolbar class="toolbar">
-      <ion-buttons slot="start">
-        <ion-button (click)="back()">
-          <ion-icon class="back-button" name="chevron-back-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-      <ion-title class="title">Emergency Details</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-header id="main-content">
+  <ion-toolbar class="header-toolbar">
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <ion-icon class="back-button" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="title">Emergency Details</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <app-tabs></app-tabs>
+<ion-content class="background">
 
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
@@ -159,3 +158,9 @@
     </ion-card>
   </div>
 </ion-content>
+
+<ion-footer class="footer">
+  <ion-toolbar class="footer-toolbar">
+    <app-tabs></app-tabs>
+  </ion-toolbar>
+</ion-footer>
