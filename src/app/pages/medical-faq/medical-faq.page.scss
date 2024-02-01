@@ -9,9 +9,8 @@ ion-menu-button {
   }
   ion-card {
     --background: white;
-    width: 150px;
-    max-height: max-content;
-   
+    width: auto;
+    height: auto;
   
   
   }
@@ -48,6 +47,11 @@ ion-menu-button {
     flex-grow: 1; 
     padding-left: 10%;
     
+  }
+
+
+  ion-grid{
+    height: max-content;
   }
 
   .kit{
@@ -101,7 +105,6 @@ ion-menu-button {
   
   .grid{
     padding-top: 40%;
-  
   }
   
   
