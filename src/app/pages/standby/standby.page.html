@@ -1,45 +1,46 @@
+<ion-header id="main-content">
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-icon id="open-modal" class="info" name="information-circle-outline"></ion-icon>      
+    </ion-buttons>
+
+    <ion-modal trigger="open-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
+      <ng-template>
+        <div class="block">
+          <p>
+            <ion-icon name="warning-outline"></ion-icon>
+            Cases marked in red indicate no medical response.
+          </p>
+          <p>
+            <ion-icon name="warning-outline"></ion-icon>
+            When 'Request' is animating, this means that the medic on scene made a request.
+          </p>
+          <p>
+            <ion-icon name="information-circle-outline"></ion-icon>
+            The 'Ongoing' tab displays emergencies that are currently occuring.
+          </p>
+          <p>
+            <ion-icon name="information-circle-outline"></ion-icon>
+            The 'Ended' tab displays emergencies that ended and do not have a case report filled yet.
+          </p>
+          <p>
+            <ion-icon name="information-circle-outline"></ion-icon>
+            The vitals displayed are the latest vitals ones by the medic on scene.
+          </p>
+        </div>
+      </ng-template>
+    </ion-modal>
+
+    <ion-title class="title">Standby</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<app-menu></app-menu>
+
 <ion-content class="background">
-  <ion-header id="main-content">
-    <ion-toolbar class="toolbar">
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-buttons slot="end">
-        <ion-icon id="open-modal" class="info" name="information-circle-outline"></ion-icon>      
-      </ion-buttons>
-
-      <ion-modal trigger="open-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
-        <ng-template>
-          <div class="block">
-            <p>
-              <ion-icon name="warning-outline"></ion-icon>
-              Cases marked in red indicate no medical response.
-            </p>
-            <p>
-              <ion-icon name="warning-outline"></ion-icon>
-              When 'Request' is animating, this means that the medic on scene made a request.
-            </p>
-            <p>
-              <ion-icon name="information-circle-outline"></ion-icon>
-              The 'Ongoing' tab displays emergencies that are currently occuring.
-            </p>
-            <p>
-              <ion-icon name="information-circle-outline"></ion-icon>
-              The 'Ended' tab displays emergencies that ended and do not have a case report filled yet.
-            </p>
-            <p>
-              <ion-icon name="information-circle-outline"></ion-icon>
-              The vitals displayed are the latest vitals ones by the medic on scene.
-            </p>
-          </div>
-        </ng-template>
-      </ion-modal>
-
-      <ion-title class="title">Standby</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-menu></app-menu>
 
   <div class="segments">
     <ion-segment [(ngModel)]="selectedSegment" value="Ongoing">
