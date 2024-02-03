@@ -26,6 +26,8 @@ export class CommunityPage implements OnInit {
 
     // Group members by the first letter of their name
     this.groups = this.groupMembersByLetter();
+
+    
   }
 
   filterMembers(event: any) {

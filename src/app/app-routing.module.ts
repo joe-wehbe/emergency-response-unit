@@ -27,6 +27,10 @@ const routes: Routes = [
     path: 'community',
     loadChildren: () => import('./pages/community/community.module').then( m => m.CommunityPageModule)
   },
+  {
+    path: 'case-report',
+    loadChildren: () => import('./pages/case-report/case-report.module').then( m => m.CaseReportPageModule)
+  },
 ];
 
 @NgModule({
