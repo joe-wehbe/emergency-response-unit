@@ -56,7 +56,7 @@
   </div>
   
   <ng-container *ngIf="selectedSegment === 'Ongoing'">
-    <ion-card>
+    <ion-card (click)="navigateEmergencyDetails()">
       <div class="first-box-green">
         9:07
       </div>

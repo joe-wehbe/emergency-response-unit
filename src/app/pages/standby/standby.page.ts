@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-standby',
@@ -39,9 +40,13 @@ export class StandbyPage implements OnInit {
   ];
 
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
+  }
+
+  navigateEmergencyDetails(){
+    this.router.navigate(["./emergency-details"])
   }
 
 }

@@ -19,16 +19,18 @@
     <p>Up-to-date emergency information</p>
   </div>
 
-  <div class="first-block">
-    <div class="statement">
-      <p class="first-statement">Information sent by the reporter</p>
-    </div>
-    <ion-card class="emergency-card">
-      <div class="container">
-        <div class="case-header">
-          <p class="card-title">Joe Wehbe</p>
-          <p class="emergency-status">Ongoing</p>
-        </div>
+  <div class="case-header">
+    <p class="card-title">Joe Wehbe</p>
+    <p>|</p>
+    <p class="emergency-status">Ongoing</p>
+  </div>
+
+  <ion-accordion-group [multiple]="true" [value]="['first', 'second', 'third']">
+    <ion-accordion value="first">
+      <ion-item slot="header" class="first-item">
+        <p class="statement">Emergency Information</p>
+      </ion-item>
+      <div class="container" slot="content">
         <div class="emergency-info">
           <ion-list>
             <div class="info-container">
@@ -61,41 +63,61 @@
           </ion-list> 
         </div>
       </div>
-    </ion-card>
-  </div>
+    </ion-accordion>
 
-
-  <!-- <ion-card class="patient-card">
-    <div class="container">
-
-      <div class="header">
-        <p class="card-title">Patient Information</p>
+    <ion-accordion value="second" expanded="true">
+      <ion-item slot="header">
+        <p class="statement">Patient Information</p>
+      </ion-item>
+      <div class="container" slot="content">
+        <div class="patient-info">
+          <ion-list>
+            <div class="info-container">
+              <div class="info-type">
+                <ion-icon name="person-outline"></ion-icon>
+                <p class="type-patient-name">Patient name: </p>
+              </div>
+              <div class="info-answer">
+                <p class="patient-name">Joe Wehbe</p>
+              </div>
+            </div>
+            <div class="info-container">
+              <div class="info-type">
+                <ion-icon name="card-outline"></ion-icon>
+                <p class="type-patient-id">Patient ID: </p>
+              </div>
+              <div class="info-answer">
+                <p class="patient-id">202000908</p>
+              </div>
+            </div>    
+            <div class="info-container">
+              <div class="info-type">
+                <ion-icon name="document-text-outline"></ion-icon>
+                <p class="type-case-descritpion">Case description: </p>
+              </div>
+              <div class="info-answer">
+                <p class="case-description">Panick attack</p>
+              </div>
+            </div>
+            <div class="info-container">
+              <div class="info-type">
+                <ion-icon name="warning-outline"></ion-icon>
+                <p class="type-case-severity">Case severity: </p>
+              </div>
+              <div class="info-answer">
+                <p class="case-severity">Serious</p>
+              </div>
+            </div>
+          </ion-list> 
+        </div>
       </div>
-      <div class="patient-info">
-        <ion-list>
-          <div class="info-container">
-            <ion-icon name="person-outline"></ion-icon>          
-            <p class="patient-name">Joe Wehbe</p>
-          </div>
-          <div class="info-container">
-            <ion-icon name="card-outline"></ion-icon>            
-            <p class="id">202000908</p>
-          </div>
-          <div class="info-container">
-            <ion-icon name="medkit-outline"></ion-icon>
-            <p class="medic-description">Hypertension</p>
-          </div>
-        </ion-list> 
-      </div>
-    </div>
-  </ion-card> -->
+    </ion-accordion>
 
-  <div class="second-block">
-    <div class="statement">
-      <p class="second-statement">Vitals recorded by the medic on scene</p>
-    </div>
-    <ion-card class="vitals-card">
-      <div class="assessment">
+    <ion-accordion value="third">
+      <ion-item slot="header">
+        <p class="statement">Vitals Records</p>
+      </ion-item>   
+      <div class="assessment" slot="content">
         <div class="header">
           <p class="assessment-number">Assessment 1</p>
           <p class="assessment-time">9:15</p>
@@ -155,8 +177,8 @@
           </tbody>
         </table>
       </div>
-    </ion-card>
-  </div>
+    </ion-accordion>
+  </ion-accordion-group>
 </ion-content>
 
 <ion-footer class="footer">

@@ -3,26 +3,17 @@
   --background: #FFEDED;
 }
 
-.footer{
-  height: 55px;
-}
-
-.footer-toolbar{
-  height: 100%;
-  --background: #FFEDED;
-}
-
 .back-button{
-  color: black;
-  font-weight: normal;
   margin-top: 12px;
+  font-weight: normal;
+  color: black;
 }
   
 .title{
-  font-size: 22px;
-  color: black;
-  font-weight: normal;
   margin-top: 7px;
+  font-size: 22px;
+  font-weight: normal;
+  color: black;
 }
 
 .stmt{
@@ -30,59 +21,70 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  color: black;
-  font-weight: bold;
   padding-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
 }
 
-.first-block, .second-block{
+.case-header{
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.second-block{
-  margin-top: -1em;
-}
-
-.statement{
-  height: 1em;
-  padding-left: 1em;
-}
-
-.emergency-card, .patient-card{
-  display: flex;
-  justify-content: center;
+  flex-direction: row;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-  padding: 5px;
-  width: 90%;
+  justify-content: center;
+  height: 2em;
+  padding-bottom: 1em;
+  margin: 0 auto;
+  color: black;
+}
+
+.card-title{
+  padding: 10px;
+  font-size: 18px;
+  color: #08811B;
+}
+
+.emergency-status{
+  padding: 10px;
+  font-size: 18px;
+  color: #D42B2B;
+}
+
+ion-accordion-group{
+  padding: 10px;
+}
+
+ion-item{
+  --background: #e9dede;
+  color: black;
+}
+
+.first-item{
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.header{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 2em;
+  padding-top: 2em;
+  padding-bottom: 1em;
+}
+
+.statement {
+  font-size: 17px;
+  color: black;
 }
 
 .container{
   display: flex;
   flex-direction: column;
-  width: 90%;
-}
-
-.info-type{
-  color: black;
-}
-
-.info-answer{
-  color: gray;
-  overflow: hidden;
-}
-
-.card-title{
-  color: #08811B;
-  font-size: 17px;
-}
-
-.emergency-status{
-  color: #D42B2B;
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .emergency-info, .patient-info{
@@ -90,18 +92,13 @@
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  background-color: transparent;
   font-size: 16px;
+  background-color: transparent;
 }
 
 ion-list{
-  background-color: transparent;
   width: 100%;
-}
-
-.first-statement, .second-statement{
-  color: gray;
-  font-size: 17px;
+  background-color: transparent;
 }
 
 .info-container{
@@ -109,9 +106,9 @@ ion-list{
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background-color: transparent;
   width: 100%;
   height: 2em;
+  background-color: transparent;
 }
 
 .info-type{
@@ -119,54 +116,38 @@ ion-list{
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  color: black;
 }
 
 ion-icon{
-  color: #810808;
   padding-right: 5px;
   font-size: 20px;
+  color: #810808;
 }
 
-.vitals-card{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-  width: 90%;
+.info-answer{
+  color: black;
 }
 
 .assessment{
-  width: 90%;
-}
-
-.header, .case-header{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  height: 2em;
-}
-
-.header{
-  padding-top: 2em;
-  padding-bottom: 1em;
-}
-
-.case-header{
-  padding-top: 1.5em;
-  padding-bottom: 1.5em;
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  margin: 0 auto;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .assessment-number{
-  color: black;
   font-size: 17px;
+  color: black;
 }
 
 .assessment-time{
-  color: black;
   font-size: 14px;
+  color: black;
 }
 
 .table {
@@ -189,4 +170,14 @@ ion-img{
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  color: black
+}
+
+.footer{
+  height: 55px;
+}
+
+.footer-toolbar{
+  height: 100%;
+  --background: #FFEDED;
 }
