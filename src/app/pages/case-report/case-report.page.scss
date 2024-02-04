@@ -1,0 +1,47 @@
+.toolbar {
+    height: 60px;
+    --background: rgba(0, 0, 0, 0.0);
+}
+
+ion-item {
+    --background: transparent !important;
+}
+
+
+ion-input {
+    background-color: transparent;
+    --background: transparent !important;
+    color: gray;
+    border: 2px;
+    
+}
+
+/* Style label when input is not focused */
+ion-label {
+    color: black !important;
+}
+
+/* Style label when input is focused */
+ion-item.item-has-focus > ion-label{
+    color: blue !important;
+    border-width: 2px;
+}
+
+
+
+ion-input[type=date]{
+    color: black;
+    color-scheme: black; //for calendar icon
+}
+
+.questions {
+    flex-direction: column;
+    display: flex;
+    --background: transparent !important;
+    margin-bottom: 3em; 
+
+}
+
+ion-list {
+    background-color: transparent;
+}
