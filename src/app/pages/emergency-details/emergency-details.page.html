@@ -1,11 +1,16 @@
 <ion-header id="main-content">
   <ion-toolbar class="header-toolbar">
-    <ion-buttons slot="start">
-      <ion-button (click)="back()">
-        <ion-icon class="back-button" name="chevron-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title class="title">Emergency Details</ion-title>
+    <div class="toolbar-container">
+      <ion-buttons slot="start">
+        <ion-button (click)="back()">
+          <ion-icon class="back-button" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title class="title">Emergency Details</ion-title>
+      <ion-chip color="danger">
+        <ion-label>Ongoing</ion-label>
+      </ion-chip>
+    </div>
   </ion-toolbar>
 </ion-header>
 
@@ -16,23 +21,26 @@
   </ion-refresher>
 
   <div class="stmt">
-    <p>Up-to-date emergency information</p>
-  </div>
-
-  <div class="case-header">
-    <p class="card-title">Joe Wehbe</p>
-    <p>|</p>
-    <p class="emergency-status">Ongoing</p>
+    <p>Up-to-date emergency details</p>
   </div>
 
   <ion-accordion-group [multiple]="true" [value]="['first', 'second', 'third']">
     <ion-accordion value="first">
       <ion-item slot="header" class="first-item">
-        <p class="statement">Emergency Information</p>
+        <p class="statement">Case Information</p>
       </ion-item>
       <div class="container" slot="content">
         <div class="emergency-info">
           <ion-list>
+            <div class="info-container">
+              <div class="info-type">
+                <ion-icon name="person-outline"></ion-icon>
+                <p class="type-medic-name">Medic on scene: </p>
+              </div>
+              <div class="info-answer">
+                <p class="medic-name">Joe Wehbe</p>
+              </div>
+            </div>
             <div class="info-container">
               <div class="info-type">
                 <ion-icon name="location-outline"></ion-icon>
@@ -93,7 +101,7 @@
             <div class="info-container">
               <div class="info-type">
                 <ion-icon name="document-text-outline"></ion-icon>
-                <p class="type-case-descritpion">Case description: </p>
+                <p class="type-case-descritpion">Patient condition: </p>
               </div>
               <div class="info-answer">
                 <p class="case-description">Panick attack</p>
@@ -125,54 +133,60 @@
         <table class="table">
           <tbody>
             <tr>
-              <td>         
+              <td [ngClass]="{'highlight': HeartRate > 100 || HeartRate < 60}">
                 <div class="heart-rate">
                   <ion-img src="assets/icon/hr.png"></ion-img>
-                  <p class="hr">120</p>
-                </div>        
-              </td>
-              <td>         
+                  <p class="hr">{{ HeartRate }}</p>
+                </div>
+              </td>              
+              <td [ngClass]="{'highlight': Systolic > 150 || Systolic < 90 || Diastolic > 90 || Diastolic < 60}">
                 <div class="blood-pressure">
                   <ion-img src="assets/icon/bp.png"></ion-img>
-                  <p class="bp">110/92</p>
+                  <div class="bp">
+                    <p class="systolic"> {{ Systolic }}</p>
+                    <p class="systolic">/</p>
+                    <p class="diastolic">{{ Diastolic }}</p>
+                  </div>
                 </div>    
               </td>
-              <td>    
+              <td [ngClass]="{'highlight': BloodSaturation < 95}">
                 <div class="spo2">
                   <ion-img src="assets/icon/spo2.png"></ion-img>
-                  <p class="sp">96</p>
+                  <p class="sp">{{ BloodSaturation }}</p>
                 </div>
               </td>                    
-              <td>         
+              <td [ngClass]="{'highlight': Temperature < 36.6 || Temperature > 38.3}">
                 <div class="temperature">
                   <ion-img src="assets/icon/temp.png"></ion-img>
-                  <p class="temp">37.6</p>
+                  <p class="temp">{{ Temperature }}</p>
                 </div>      
               </td>
             </tr>
             <tr>
-              <td>         
+              <td [ngClass]="{'highlight': RespirationRate > 20 || RespirationRate < 12}">
                 <div class="respiration-rate">
                   <ion-img src="assets/icon/rr.png"></ion-img>
-                  <p class="rr">16</p>
+                  <p class="rr"> {{ RespirationRate }} </p>
                 </div>  
               </td>
-              <td>         
+              <td [ngClass]="{'highlight': CapillaryRefill > 2}">
                 <div class="capillary-refill">
                   <ion-img src="assets/icon/crt.png"></ion-img> 
-                  <p class="crt">2</p>
+                  <p class="crt">{{ CapillaryRefill }}</p>
                 </div> 
+              </td>                
+              <td [ngClass]="{'highlight': HemoGlucoTest < 60 || HemoGlucoTest > 120}">
+                <div class="hemo-gluco-test">
+                  <ion-img src="assets/icon/hgt.png"></ion-img>
+                  <p class="hgt">{{ HemoGlucoTest }}</p>
+                </div>
+              </td>
               <td>    
                 <div class="pupils-reaction">
                   <ion-img src="assets/icon/pr.png"></ion-img> 
                   <p class="pr">N/A</p>
-                </div>                  
-              <td>         
-                <div class="hemo-gluco-test">
-                  <ion-img src="assets/icon/hgt.png"></ion-img>
-                  <p class="hgt">N/A</p>
-                </div>
-              </td>
+                </div> 
+              </td> 
             </tr>
           </tbody>
         </table>

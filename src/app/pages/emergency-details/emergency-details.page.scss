@@ -3,6 +3,13 @@
   --background: #FFEDED;
 }
 
+.toolbar-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .back-button{
   margin-top: 12px;
   font-weight: normal;
@@ -14,6 +21,10 @@
   font-size: 22px;
   font-weight: normal;
   color: black;
+}
+
+ion-chip{
+  margin-top: 1em;
 }
 
 .stmt{
@@ -36,12 +47,6 @@
   padding-bottom: 1em;
   margin: 0 auto;
   color: black;
-}
-
-.card-title{
-  padding: 10px;
-  font-size: 18px;
-  color: #08811B;
 }
 
 .emergency-status{
@@ -160,6 +165,15 @@ ion-icon{
   border: 1px solid #ddd;
   text-align: left;
 }
+
+.bp{
+  display: flex;
+}
+
+.highlight {
+  background-color: #EAAAAA;
+}
+
 
 ion-img{
   width: 20px;
