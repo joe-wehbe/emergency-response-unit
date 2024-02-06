@@ -35,6 +35,11 @@ const routes: Routes = [
     path: 'on-scene',
     loadChildren: () => import('./pages/on-scene/on-scene.module').then( m => m.OnScenePageModule)
   },
+  {
+    path: 'case-report',
+    loadChildren: () => import('./pages/case-report/case-report.module').then( m => m.CaseReportPageModule)
+  },
+
 
 
 ];

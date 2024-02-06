@@ -14,4 +14,13 @@ export class CaseReportPage implements OnInit {
   ngOnInit() {
   }
 
+  selectedOption: string = 'serious';
+  otherInput: string = '';
+
+  optionSelected() {
+    if (this.selectedOption !== 'other') {
+      this.otherInput = '';
+    }
+  }
+
 }

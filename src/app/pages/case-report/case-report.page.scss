@@ -1,5 +1,4 @@
 
-
 .toolbar{
     height: 60px;
     --background: #FFEDED;
@@ -23,22 +22,28 @@ ion-item {
 }
 
 .mainpage{
-    margin:1em;
+    margin-top:3em;
+    margin: 3em;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+}
+
+ion-select{
+    --highlight-color: #810808;
 }
 
 ion-input {
     background-color: transparent;
     --background: transparent;
-    color: gray;
     border: 2px;
 }
 
 .questions {
-    flex-direction: column;
-    display: flex;
+    
     --background: transparent;
     margin-bottom: 2em; 
-    
+    color: gray;
 
 }
 
@@ -60,7 +65,6 @@ ion-input[type=date]{
 ion-input[type=time]{
     color-scheme: black; //for clock icon
 }
-
 
 
 ion-list {

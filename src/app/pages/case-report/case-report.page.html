@@ -37,27 +37,20 @@
     </div>
 
     <div class="questions">
-      <ion-radio-group>
-        <ion-item>
-          <ion-label>Serious</ion-label>
-          <ion-radio slot="start" value="option1"></ion-radio>
-        </ion-item>
-    
-        <ion-item>
-          <ion-label >Not serious</ion-label>
-          <ion-radio slot="start" value="option2"></ion-radio>
-        </ion-item>
-
-        <ion-item>
-          <ion-label >Other</ion-label>
-          <ion-radio slot="start" value="option3"></ion-radio>
-          <ion-input placeholder="Enter other"></ion-input>
-        </ion-item>
-      </ion-radio-group> 
+      <ng-container *ngIf="selectedOption !== 'other'" >
+        <ion-select [(ngModel)]="selectedOption" mode="md" fill="outline">
+          <ion-select-option value="serious">Serious</ion-select-option>
+          <ion-select-option value="not-serious">Not serious</ion-select-option>
+          <ion-select-option value="other">Other</ion-select-option>
+        </ion-select>
+      </ng-container>
+      <ng-container *ngIf="selectedOption === 'other'">
+        <ion-input placeholder="Specify..." mode="md" label-placement="floating" fill="outline"></ion-input>
+      </ng-container>
     </div>
 
     <div class="questions">
-      <ion-input label="Location of incident" type = "text" mode="md" label-placement="floating" fill="outline"></ion-input>
+        <ion-textarea label="Floating label" labelPlacement="floating" placeholder="Enter text"></ion-textarea>
     </div>
 
     <div class="questions">
