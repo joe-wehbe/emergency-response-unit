@@ -14,46 +14,51 @@
 
 <div>
   <ion-list>
-    <div class="questions">
+    <!-- <div class="questions">
       <ion-item class="input-with-label">
-        <ion-label position="floating">Date of incident</ion-label>
-        <ion-input type="date" required></ion-input>
+        <ion-label  position="floating">Date of incident</ion-label>
+        <ion-input mode="md" fill="outline" type="date" required></ion-input>
       </ion-item>
+    </div> -->
+
+    <div class="questions">
+      <ion-input label="Date of incident" type = "date" mode="md" label-placement="floating" fill="outline"></ion-input>
     </div>
 
     <div class="questions">
-      <ion-item class="input-with-label">
-        <ion-label position="floating">Date of incident</ion-label>
-        <ion-input type="date" required></ion-input>
-      </ion-item>
+      <ion-input label="Time of incident" type = "time" mode="md" label-placement="floating" fill="outline"></ion-input>
     </div>
 
     <div class="questions">
-      <ion-item class="input-with-label">
-        <ion-label position="floating">Date of incident</ion-label>
-        <ion-input type="date" required></ion-input>
-      </ion-item>
+      <ion-input label="First responder team on site" type = "text" mode="md" label-placement="floating" fill="outline"></ion-input>
     </div>
 
     <div class="questions">
-      <ion-item class="input-with-label">
-        <ion-label position="floating">Date of incident</ion-label>
-        <ion-input type="date" required></ion-input>
-      </ion-item>
+      <ion-input label="Patient's name" type = "text" mode="md" label-placement="floating" fill="outline"></ion-input>
     </div>
 
     <div class="questions">
-      <ion-item class="input-with-label">
-        <ion-label position="floating">Date of incident</ion-label>
-        <ion-input type="date" required></ion-input>
-      </ion-item>
-      </div>
+      <ion-input label="Location of incident" type = "text" mode="md" label-placement="floating" fill="outline"></ion-input>
+    </div>
 
     <div class="questions">
-      <ion-item class="input-with-label">
-        <ion-label position="floating">Date of incident</ion-label>
-        <ion-input type="date" required></ion-input>
-      </ion-item>
+      <ion-radio-group>
+        <ion-item>
+          <ion-label position="stacked">Serious</ion-label>
+          <ion-radio slot="start" value="option1"></ion-radio>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label position="stacked">Not serious</ion-label>
+          <ion-radio slot="start" value="option2"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Other</ion-label>
+          <ion-radio slot="start" value="option3"></ion-radio>
+          <ion-input placeholder="Enter other"></ion-input>
+        </ion-item>
+      </ion-radio-group> 
     </div>
 
     <div class="questions">
