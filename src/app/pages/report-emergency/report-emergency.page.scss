@@ -1,6 +1,6 @@
 .toolbar{
     height: 60px;
-    --background: rgba(0, 0, 0, 0.0);
+    --background: #FFEDED;
 }
 
 ion-menu-button{
@@ -16,38 +16,53 @@ ion-menu-button{
     margin-top: 7px;
 }
 
+.footer{
+height: 55px;
+}
+
+.footer-toolbar{
+height: 100%;
+--background: #FFEDED;
+}
+
 .body{
-margin-top: 7em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5em;
+}
+
+.stmt {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .stmt h1{
-text-align: center;
 font-weight: bold;
-margin-top: 3em;
 color: black;
 font-size: 24px;
 }
 
 .stmt h4{
-text-align: center;
 font-weight: bold;
 color: #837272;
 font-size: 18px;
 }
 
 .second{
-margin-top: -0.5em;
+    margin-top: -0.5em;
 }
 
 .circles-container {
-position: absolute;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-width: 100%;
-height: 100%;
-margin-top: -17em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 20em;
+
 }
 
 .sos-button {
@@ -143,19 +158,7 @@ animation: sos-wave 1.2s ease-out infinite;
 }
 
 .notif-stmt{
-text-align: center;
 color: black;
-margin-top: 20em;
-}
-
-.custom-alert{
-background-color: white;
-color: red;
-
-}
-
-.custom-alert .alert-title {
-color: red;
 }
 
 

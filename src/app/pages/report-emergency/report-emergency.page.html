@@ -1,14 +1,15 @@
-<ion-content class="background">
+<ion-header id="main-content">
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="title">Report Emergency</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <ion-header id="main-content">
-    <ion-toolbar class="toolbar">
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-title class="title">Report Emergency</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <app-menu></app-menu>
+<app-menu></app-menu>
+
+<ion-content class="background">
 
   <div class="body">
     <div class="stmt">
@@ -27,6 +28,12 @@
       <h2>{{ notifyingStatement }}</h2>
     </div>
   </div>
-
-  <app-tabs></app-tabs>
 </ion-content>
+
+<!--------------------------------------------------------------------->
+
+<ion-footer class = "footer">
+  <ion-toolbar class="footer-toolbar">
+    <app-tabs></app-tabs>
+  </ion-toolbar>
+</ion-footer>

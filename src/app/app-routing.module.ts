@@ -28,9 +28,15 @@ const routes: Routes = [
     loadChildren: () => import('./pages/community/community.module').then( m => m.CommunityPageModule)
   },
   {
-    path: 'case-report',
-    loadChildren: () => import('./pages/case-report/case-report.module').then( m => m.CaseReportPageModule)
+    path: 'emergency-details',
+    loadChildren: () => import('./pages/emergency-details/emergency-details.module').then( m => m.EmergencyDetailsPageModule)
   },
+  {
+    path: 'on-scene',
+    loadChildren: () => import('./pages/on-scene/on-scene.module').then( m => m.OnScenePageModule)
+  },
+
+
 ];
 
 @NgModule({
