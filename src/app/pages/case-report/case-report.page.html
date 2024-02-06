@@ -37,87 +37,83 @@
     </div>
 
     <div class="questions">
-      <ng-container *ngIf="selectedOption !== 'other'" >
-        <ion-select [(ngModel)]="selectedOption" mode="md" fill="outline">
+      <ng-container *ngIf="selectedOption1 !== 'other'" >
+        <ion-select [(ngModel)]="selectedOption1" label = "Patient's condition" mode="md" label-placement="floating" fill="outline">
           <ion-select-option value="serious">Serious</ion-select-option>
           <ion-select-option value="not-serious">Not serious</ion-select-option>
           <ion-select-option value="other">Other</ion-select-option>
         </ion-select>
       </ng-container>
-      <ng-container *ngIf="selectedOption === 'other'">
-        <ion-input placeholder="Specify..." mode="md" label-placement="floating" fill="outline"></ion-input>
+      <ng-container *ngIf="selectedOption1 === 'other'">
+        <ion-input placeholder="Specify..." mode="md" fill="outline"></ion-input>
       </ng-container>
     </div>
 
-    <div class="questions">
-        <ion-textarea label="Floating label" labelPlacement="floating" placeholder="Enter text"></ion-textarea>
+    <div class="questions"> 
+        <ion-textarea label="History" type = "text" label-placement="floating" fill = "outline"></ion-textarea>
     </div>
 
     <div class="questions">
       <ion-input label="Vitals description" type = "text" mode="md" label-placement="floating" fill="outline"></ion-input>
     </div>
 
-   
+    <div class="questions">
+      <ng-container *ngIf="selectedOption2 !== 'other'" >
+        <ion-select [(ngModel)]="selectedOption2" label = "Medication/Treatment administered by" mode="md" label-placement="floating" fill="outline">
+          <ion-select-option value="first responder team">First Responder Team</ion-select-option>
+          <ion-select-option value="lau clinic">LAU Clinic</ion-select-option>
+          <ion-select-option value="none">None</ion-select-option>
+          <ion-select-option value="other">Other</ion-select-option>
+        </ion-select>
+      </ng-container>
+      <ng-container *ngIf="selectedOption2 === 'other'">
+        <ion-input placeholder="Specify..." mode="md" fill="outline"></ion-input>
+      </ng-container>
+    </div>
 
-  <div class="questions">
-    <ion-radio-group>
-      <ion-item>
-        <ion-label>Serious</ion-label>
-        <ion-radio slot="start" value="option1"></ion-radio>
-      </ion-item>
-  
-      <ion-item>
-        <ion-label >Not serious</ion-label>
-        <ion-radio slot="start" value="option2"></ion-radio>
-      </ion-item>
+    <div class="questions">
+      <ng-container *ngIf="selectedOption3 !== 'other'" >
+        <ion-select [(ngModel)]="selectedOption3" label = "Transportation requested to" mode="md" label-placement="floating" fill="outline">
+          <ion-select-option value="lau clinic">LAU Clinic</ion-select-option>
+          <ion-select-option value="hospital">Hospital</ion-select-option>
+          <ion-select-option value="none">None</ion-select-option>
+          <ion-select-option value="other">Other</ion-select-option>
+        </ion-select>
+      </ng-container>
+      <ng-container *ngIf="selectedOption3 === 'other'">
+        <ion-input placeholder="Specify..." mode="md" fill="outline"></ion-input>
+      </ng-container>
+    </div>
 
-      <ion-item>
-        <ion-label >Other</ion-label>
-        <ion-radio slot="start" value="option3"></ion-radio>
-        <ion-input placeholder="Enter other"></ion-input>
-      </ion-item>
-    </ion-radio-group> 
-  </div>
+    <div class="questions">
+      <ng-container *ngIf="selectedOption4 !== 'other'" >
+        <ion-select [(ngModel)]="selectedOption4" label = "Consultation done with nurse" mode="md" label-placement="floating" fill="outline">
+          <ion-select-option value="yes">Yes</ion-select-option>
+          <ion-select-option value="no">No</ion-select-option>
+          <ion-select-option value="other">Other</ion-select-option>
+        </ion-select>
+      </ng-container>
+      <ng-container *ngIf="selectedOption4 === 'other'">
+        <ion-input placeholder="Specify..." mode="md" fill="outline"></ion-input>
+      </ng-container>
+    </div>
 
-  <div class="questions">
-    <ion-radio-group>
-      <ion-item>
-        <ion-label>Serious</ion-label>
-        <ion-radio slot="start" value="option1"></ion-radio>
-      </ion-item>
-  
-      <ion-item>
-        <ion-label >Not serious</ion-label>
-        <ion-radio slot="start" value="option2"></ion-radio>
-      </ion-item>
+    <div class="questions">
+      <ion-input label="Material/equipment used (if any)" type = "text" mode="md" label-placement="floating" fill="outline"></ion-input>
+    </div>
 
-      <ion-item>
-        <ion-label >Other</ion-label>
-        <ion-radio slot="start" value="option3"></ion-radio>
-        <ion-input placeholder="Enter other"></ion-input>
-      </ion-item>
-    </ion-radio-group> 
-  </div>
+    <div class="questions">
+      <ng-container *ngIf="selectedOption5 !== 'other'" >
+        <ion-select [(ngModel)]="selectedOption5" label = "Any issues encountered by the dispatch team" mode="md" label-placement="floating" fill="outline">
+          <ion-select-option value="serious">Yes</ion-select-option>
+          <ion-select-option value="not-serious">No</ion-select-option>
+        </ion-select>
+      </ng-container>
+      <ng-container *ngIf="selectedOption5 === 'other'">
+        <ion-input placeholder="Specify..." mode="md" fill="outline"></ion-input>
+      </ng-container>
+    </div>
 
-  <div class="questions">
-    <ion-radio-group>
-      <ion-item>
-        <ion-label>Serious</ion-label>
-        <ion-radio slot="start" value="option1"></ion-radio>
-      </ion-item>
-  
-      <ion-item>
-        <ion-label >Not serious</ion-label>
-        <ion-radio slot="start" value="option2"></ion-radio>
-      </ion-item>
-
-      <ion-item>
-        <ion-label >Other</ion-label>
-        <ion-radio slot="start" value="option3"></ion-radio>
-        <ion-input placeholder="Enter other"></ion-input>
-      </ion-item>
-    </ion-radio-group> 
-  </div>
 </ion-list>
 
 </div>

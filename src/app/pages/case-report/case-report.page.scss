@@ -29,9 +29,11 @@ ion-item {
     justify-content: center;
 }
 
+//basically color of the outline
 ion-select{
     --highlight-color: #810808;
 }
+
 
 ion-input {
     background-color: transparent;
@@ -56,6 +58,17 @@ ion-label {
 ion-input.has-focus  {
     --highlight-color: #810808;
 }
+
+/* Style label when input is focused */
+ion-textarea.has-focus  {
+    --highlight-color: #810808;
+}
+
+/* Style label when input is not empty */
+ion-label:not(:placeholder-shown)  {
+    color: black; /* Change color when input is not empty */
+}
+
 
 
 ion-input[type=date]{
