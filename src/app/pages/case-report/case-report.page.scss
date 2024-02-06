@@ -1,46 +1,67 @@
-.toolbar {
+
+
+.toolbar{
     height: 60px;
-    --background: rgba(0, 0, 0, 0.0);
+    --background: #FFEDED;
+}
+
+ion-menu-button{
+    color: black;
+    font-weight: normal;
+    margin-top: 12px;
+}
+
+.title{
+    font-size: 22px;
+    color: black;
+    font-weight: normal;
+    margin-top: 7px;
 }
 
 ion-item {
-    --background: transparent !important;
+    --background: transparent;
 }
 
+.mainpage{
+    margin:1em;
+}
 
 ion-input {
     background-color: transparent;
-    --background: transparent !important;
+    --background: transparent;
     color: gray;
     border: 2px;
-    
-}
-
-/* Style label when input is not focused */
-ion-label {
-    color: black !important;
-}
-
-/* Style label when input is focused */
-ion-item.item-has-focus > ion-label{
-    color: blue !important;
-    border-width: 2px;
-}
-
-
-
-ion-input[type=date]{
-    color: black;
-    color-scheme: black; //for calendar icon
 }
 
 .questions {
     flex-direction: column;
     display: flex;
-    --background: transparent !important;
-    margin-bottom: 3em; 
+    --background: transparent;
+    margin-bottom: 2em; 
+    
 
 }
+
+/* Style label when input is not focused */
+ion-label {
+    color: black;
+}
+
+/* Style label when input is focused */
+ion-input.has-focus  {
+    --highlight-color: #810808;
+}
+
+
+ion-input[type=date]{
+    color-scheme: black; //for calendar icon
+}
+
+ion-input[type=time]{
+    color-scheme: black; //for clock icon
+}
+
+
 
 ion-list {
     background-color: transparent;

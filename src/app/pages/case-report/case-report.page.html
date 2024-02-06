@@ -1,7 +1,4 @@
-<ion-header id="main-content"></ion-header>
-
-<ion-content class="gradient-background">
-
+<ion-header id="main-content">
 
   <ion-toolbar class="toolbar">
     <ion-buttons slot="start">
@@ -9,17 +6,15 @@
     </ion-buttons>
     <ion-title class="title">Case Report</ion-title>
   </ion-toolbar>
+</ion-header>
 
 <app-menu></app-menu>
 
-<div>
+<ion-content class="background">
+
+
+<div class = "mainpage">
   <ion-list>
-    <!-- <div class="questions">
-      <ion-item class="input-with-label">
-        <ion-label  position="floating">Date of incident</ion-label>
-        <ion-input mode="md" fill="outline" type="date" required></ion-input>
-      </ion-item>
-    </div> -->
 
     <div class="questions">
       <ion-input label="Date of incident" type = "date" mode="md" label-placement="floating" fill="outline"></ion-input>
@@ -44,17 +39,17 @@
     <div class="questions">
       <ion-radio-group>
         <ion-item>
-          <ion-label position="stacked">Serious</ion-label>
+          <ion-label>Serious</ion-label>
           <ion-radio slot="start" value="option1"></ion-radio>
         </ion-item>
     
         <ion-item>
-          <ion-label position="stacked">Not serious</ion-label>
+          <ion-label >Not serious</ion-label>
           <ion-radio slot="start" value="option2"></ion-radio>
         </ion-item>
 
         <ion-item>
-          <ion-label position="stacked">Other</ion-label>
+          <ion-label >Other</ion-label>
           <ion-radio slot="start" value="option3"></ion-radio>
           <ion-input placeholder="Enter other"></ion-input>
         </ion-item>
@@ -62,18 +57,74 @@
     </div>
 
     <div class="questions">
-      <ion-item class="input-with-label">
-        <ion-label position="floating">Date of incident</ion-label>
-        <ion-input type="date" required></ion-input>
-      </ion-item>
+      <ion-input label="Location of incident" type = "text" mode="md" label-placement="floating" fill="outline"></ion-input>
     </div>
 
     <div class="questions">
-      <ion-item class="input-with-label">
-        <ion-label position="floating">Date of incident</ion-label>
-        <ion-input type="date" required></ion-input>
-      </ion-item>
+      <ion-input label="Vitals description" type = "text" mode="md" label-placement="floating" fill="outline"></ion-input>
     </div>
 
-  </ion-list>
+   
+
+  <div class="questions">
+    <ion-radio-group>
+      <ion-item>
+        <ion-label>Serious</ion-label>
+        <ion-radio slot="start" value="option1"></ion-radio>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label >Not serious</ion-label>
+        <ion-radio slot="start" value="option2"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label >Other</ion-label>
+        <ion-radio slot="start" value="option3"></ion-radio>
+        <ion-input placeholder="Enter other"></ion-input>
+      </ion-item>
+    </ion-radio-group> 
+  </div>
+
+  <div class="questions">
+    <ion-radio-group>
+      <ion-item>
+        <ion-label>Serious</ion-label>
+        <ion-radio slot="start" value="option1"></ion-radio>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label >Not serious</ion-label>
+        <ion-radio slot="start" value="option2"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label >Other</ion-label>
+        <ion-radio slot="start" value="option3"></ion-radio>
+        <ion-input placeholder="Enter other"></ion-input>
+      </ion-item>
+    </ion-radio-group> 
+  </div>
+
+  <div class="questions">
+    <ion-radio-group>
+      <ion-item>
+        <ion-label>Serious</ion-label>
+        <ion-radio slot="start" value="option1"></ion-radio>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label >Not serious</ion-label>
+        <ion-radio slot="start" value="option2"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label >Other</ion-label>
+        <ion-radio slot="start" value="option3"></ion-radio>
+        <ion-input placeholder="Enter other"></ion-input>
+      </ion-item>
+    </ion-radio-group> 
+  </div>
+</ion-list>
+
 </div>
