@@ -1,0 +1,60 @@
+.toolbar{
+    height: 60px;
+    --background: #FFEDED;
+}
+
+ion-menu-button{
+    color: black;
+    font-weight: normal;
+    margin-top: 12px;
+}
+
+.title{
+    font-size: 22px;
+    color: black;
+    font-weight: normal;
+    margin-top: 7px;
+}
+
+.mainpage{
+    padding-top:2em;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.announcement-box{
+    flex-direction: row;
+    display: flex;
+}
+
+.profile-picture{
+    flex-direction: row;
+    display: flex; 
+  
+    margin: 10px;
+    font-size: 80px;
+    color: #837272;
+    
+}
+
+.text-row{
+    flex-direction: row;
+    display: flex; 
+}
+
+.name{
+    flex-direction: row;
+    display: flex;  
+}
+
+.importance{
+    flex-direction: row;
+    display: flex;  
+}
+
+.announcement-text{
+    flex-direction: column;
+    display: flex;   
+}
