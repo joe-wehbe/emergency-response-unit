@@ -17,21 +17,35 @@ ion-menu-button{
     margin-top: 7px;
 }
 
-ion-item {
-    --background: transparent;
-}
 
 .mainpage{
-    margin-top:3em;
-    margin: 3em;
+    padding-top:2em;
     flex-direction: column;
     display: flex;
     justify-content: center;
+    align-items: center;
+    font-size: 0.85em;
 }
 
-//basically color of the outline
+//sentence before the inputs
+.stmt{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+}
+
+.questions {
+    --background: transparent;
+    margin: 2em;
+}
+
 ion-select{
-    --highlight-color: #810808;
+    --highlight-color: #810808;//basically color of the outline
+    color: black;
 }
 
 
@@ -39,36 +53,41 @@ ion-input {
     background-color: transparent;
     --background: transparent;
     border: 2px;
-}
-
-.questions {
-    
-    --background: transparent;
-    margin-bottom: 2em; 
-    color: gray;
-
-}
-
-/* Style label when input is not focused */
-ion-label {
     color: black;
 }
+
+//color of label
+::ng-deep ion-input .label-text{
+    color: gray;
+}
+
+::ng-deep ion-textarea .label-text{
+    color: gray;
+}
+
+ion-textarea {
+    --highlight-color: #810808;
+    border: 2px;
+    color: black;
+}
+
+
 
 /* Style label when input is focused */
 ion-input.has-focus  {
     --highlight-color: #810808;
 }
 
-/* Style label when input is focused */
-ion-textarea.has-focus  {
+/* Style select when input is focused */
+ion-select.has-focus  {
     --highlight-color: #810808;
 }
 
-/* Style label when input is not empty */
-ion-label:not(:placeholder-shown)  {
-    color: black; /* Change color when input is not empty */
+/* Style textarea when input is focused */
+ion-textarea.has-focus  {
+    --highlight-color: #810808;
+    
 }
-
 
 
 ion-input[type=date]{
@@ -83,3 +102,18 @@ ion-input[type=time]{
 ion-list {
     background-color: transparent;
 }
+
+// submit button
+ion-button{
+    --background: #FFEDED;
+    --border-color: #810808;
+    --border-width: 1px;
+    --border-style: solid;
+    --color: black;
+    --background-activated: #d39d9d;
+    width: 35%;
+    margin-top: 10px;
+    margin: 0 auto;
+    display: block;
+
+  }
