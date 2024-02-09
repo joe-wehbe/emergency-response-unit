@@ -34,6 +34,10 @@ const routes: Routes = [
     path: 'on-scene',
     loadChildren: () => import('./pages/on-scene/on-scene.module').then( m => m.OnScenePageModule)
   },
+  {
+    path: 'medic-emergency-details',
+    loadChildren: () => import('./pages/medic-emergency-details/medic-emergency-details.module').then( m => m.MedicEmergencyDetailsPageModule)
+  },
 
 
 ];

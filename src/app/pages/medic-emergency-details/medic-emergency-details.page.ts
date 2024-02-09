@@ -3,21 +3,30 @@ import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-on-scene',
-  templateUrl: './on-scene.page.html',
-  styleUrls: ['./on-scene.page.scss'],
+  selector: 'app-medic-emergency-details',
+  templateUrl: './medic-emergency-details.page.html',
+  styleUrls: ['./medic-emergency-details.page.scss'],
 })
-export class OnScenePage implements OnInit {
+export class MedicEmergencyDetailsPage implements OnInit {
 
   constructor(private router:Router, public alertController: AlertController) { }
 
   ngOnInit() {
   }
 
+  selectedOption: string = 'serious';
+  otherInput: string = '';
+
+  optionSelected() {
+    if (this.selectedOption !== 'other') {
+      this.otherInput = '';
+    }
+  }
+
   async presentAlert() {
     const alert = await this.alertController.create({
-      header: 'Accept Emergency?',
-      subHeader: 'The emergency reporter and standbys will be notified that you are on the way',
+      header: 'End Emergency?',
+      subHeader: 'Patient and vitals records will be available',
       cssClass:'alert-dialog',
       buttons: [
         {
@@ -26,10 +35,10 @@ export class OnScenePage implements OnInit {
           cssClass: 'alert-button-cancel'
         },
         {
-          text: 'Accept',
+          text: 'End',
           cssClass: 'alert-button-ok-red',
           handler: () => {
-            this.router.navigate(["./medic-emergency-details"])
+            this.router.navigate(["./on-scene"])
           },
         },
       ],

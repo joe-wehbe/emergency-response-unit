@@ -11,7 +11,7 @@
 
 <ion-content class="background">
 
-  <div class="segments">
+  <div class="segments" mode="md">
     <ion-segment [(ngModel)]="selectedSegment" value="Ongoing">
       <ion-segment-button value="Ongoing">
         <ion-label>Ongoing (2)</ion-label>
@@ -43,10 +43,10 @@
           <p>Medic:</p>
           <p class="medic-name">Joe Wehbe</p>
         </div>
-        <!-- <div class="request">
-          <p>Request:</p>
-          <p class="request-tool">Wheelchair</p>
-        </div> -->
+        <div class="patient">
+          <p>Patient:</p>
+          <p class="patient-name">N/A</p>
+        </div>
         <div class="vitals">
           <div class="heart-rate">
             <ion-img src="assets/icon/hr.png"></ion-img>
@@ -72,13 +72,13 @@
             <ion-img src="assets/icon/crt.png"></ion-img> 
             <p class="crt">2</p>
           </div> 
-          <div class="pupils-reaction">
-            <ion-img src="assets/icon/pr.png"></ion-img> 
-            <p class="pr">N/A</p>
-          </div>
           <div class="hemo-gluco-test">
             <ion-img src="assets/icon/hgt.png"></ion-img>
             <p class="hgt">N/A</p>
+          </div>
+          <div class="pupils-reaction">
+            <ion-img src="assets/icon/pr.png"></ion-img> 
+            <p class="pr">N/A</p>
           </div>
         </div>
       </div>
@@ -104,10 +104,10 @@
           <p>Medic:</p>
           <p class="medic-name">Joe Wehbe</p>
         </div>
-        <!-- <div class="request">
-          <p>Request:</p>
-          <p class="request-tool">Wheelchair</p>
-        </div> -->
+        <div class="patient">
+          <p>Patient:</p>
+          <p class="patient-name">N/A</p>
+        </div>
         <div class="options">
           <button id="open-action-sheet">View options
           </button>

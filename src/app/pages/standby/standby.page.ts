@@ -56,7 +56,7 @@ export class StandbyPage implements OnInit {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Delete Case?',
-      subHeader: 'Delete a case only if you do not need to submit its report form.',
+      subHeader: 'Delete a case only if you do not need to submit its report form',
       cssClass:'alert-dialog',
       buttons: [
         {

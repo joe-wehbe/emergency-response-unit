@@ -38,10 +38,6 @@ ion-menu-button{
   color: black
 }
 
-ion-modal {
-  --height: auto;
-}
-
 .segments{
   padding: 10px;
 }
@@ -81,10 +77,6 @@ ion-segment-button.ios::part(indicator-background) {
   text-align: center;
   font-size: 16px;
   color: #837272
-}
-
-.info-icon{
-  font-size: 20px;
 }
 
 .ongoing-card, .ended-card{
@@ -157,10 +149,11 @@ ion-segment-button.ios::part(indicator-background) {
   justify-content: space-between;
   width: 60%;
   height: 100%;
-  padding: 10px;
-}
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;}
 
-.medic, .request {
+.medic, .patient {
   display: flex;
   justify-content: space-between;
   align-items: center;
