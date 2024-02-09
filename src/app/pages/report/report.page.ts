@@ -17,22 +17,28 @@ export class ReportPage implements OnInit {
   ngOnInit() {}
 
   async presentAlert() {
+    if (this.isButtonClicked) {
+      return;
+    }
+
     const alert = await this.alertController.create({
       header: 'Emergency Alert',
       subHeader: 'Please provide emergency information',
-      cssClass: 'custom-alert',
+      cssClass: "input-alert-dialog",
 
       inputs: [
         {
           name: 'Location',
           type: 'text',
           placeholder: 'Location...',
+          cssClass: 'location-input',
         },
 
         {
           name: 'Description',
           type: 'text',
           placeholder: 'Description...',
+          cssClass: 'description-input'
         },
       ],
 
@@ -40,13 +46,15 @@ export class ReportPage implements OnInit {
         {
           text: 'Cancel',
           role: 'cancel',
+          cssClass: 'alert-button-cancel',
           handler: () => {
             console.log('Cancelled');
           },
         },
         {
           text: 'Send',
-          handler: (data) => {
+          cssClass: 'alert-button-send',
+          handler: () => {
             this.sendSOS();
             this.notifyingStatement = 'Notifying medics...';
             this.firstH4Content = "We will let you know";
@@ -67,5 +75,12 @@ export class ReportPage implements OnInit {
         sosButton.classList.remove('clicked');
       }, 500);
     }
+
+    setTimeout(() => {
+      this.isButtonClicked = false;
+      this.notifyingStatement = 'No medics responded!';
+      this.firstH4Content = "Dial #3934 from a nearby";
+      this.secondH4Content = "campus phone or try again!";
+    }, 60000);
   }
 }
