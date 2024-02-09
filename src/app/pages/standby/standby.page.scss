@@ -1,24 +1,20 @@
 .toolbar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 60px;
   --background: #FFEDED;
 }
 
-ion-menu-button, .info{
+ion-menu-button{
   color: black;
   font-weight: normal;
-  margin-top: 12px;
-}
-
-.info{
-  font-size: 30px;
-  padding-right: 10px;
 }
 
 .title{
   font-size: 22px;
   color: black;
   font-weight: normal;
-  margin-top: 7px;
 }
 
 .footer{
@@ -91,7 +87,7 @@ ion-segment-button.ios::part(indicator-background) {
   font-size: 20px;
 }
 
-ion-card{
+.ongoing-card, .ended-card{
   display: flex;
   flex-direction: row;
   background-color: rgba(255, 255, 255, 0.3);
@@ -99,7 +95,7 @@ ion-card{
   height: 7em;
 }
 
-ion-card:active{
+.ongoing-card:active{
   display: flex;
   flex-direction: row;
   background-color: rgba(255, 255, 255, 0.3);

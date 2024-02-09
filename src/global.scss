@@ -25,11 +25,91 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+/* Backgrounds */
 .background{
-    --ion-background-color:#FFEDED;
+  --ion-background-color:#FFEDED;
 }
   
 .gradient-background{
---ion-background-color:#FFEDED;
---ion-background-color: linear-gradient(to bottom, #FFEDED 75%, #DB7575);
+  --ion-background-color:#FFEDED;
+  --ion-background-color: linear-gradient(to bottom, #FFEDED 75%, #DB7575);
 }
+
+/* Alert Dialog */
+.alert-dialog{
+
+  .alert-wrapper{
+    background-color: white;
+    border-radius: 20px;
+  }
+
+  .alert-wrapper .alert-title{
+    color: black;
+  }
+
+  .alert-sub-title{
+    color: gray;
+  }
+
+  .location-input{
+    background-color: #F1F1F1;
+    color: black;
+    border: none;
+    height: 40px; 
+    font-size: 15px;
+    border-radius: 10px;
+  }
+
+  .description-input{
+    background-color: #F1F1F1;
+    color: black;
+    border: none;
+    height: 40px; 
+    font-size: 15px;
+    border-radius: 10px;
+  }
+
+  .alert-button-cancel{
+    color: black;
+    background-color: #F1F1F1;
+  }
+
+  .alert-button-ok-red{
+    color: white;
+    background-color:#9d3e3e;
+  }
+
+  .alert-button-ok-green{
+    color: white;
+    background-color:green;
+  }
+}
+
+/* Action Sheet */
+.action-sheet{
+
+  .action-sheet-group {
+    background: white;
+  }
+
+  .action-sheet-title{
+    color: black;
+  }
+
+  .action-sheet-button{
+    color: black;
+  }
+
+  .delete-button{
+    color: red;
+  }
+
+  .action-sheet-cancel::after{
+    background: white;
+  }
+
+  .action-sheet-button:active{
+    color: gray;
+  }
+}
+

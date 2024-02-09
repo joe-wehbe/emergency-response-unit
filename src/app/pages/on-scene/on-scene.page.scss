@@ -1,18 +1,19 @@
 .toolbar{
   height: 60px;
   --background: #FFEDED;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 ion-menu-button{
   font-weight: normal;
-  margin-top: 12px;
   color: black;
 }
 
 .title{
   font-size: 22px;
   font-weight: normal;
-  margin-top: 7px;
   color: black;
 }
 

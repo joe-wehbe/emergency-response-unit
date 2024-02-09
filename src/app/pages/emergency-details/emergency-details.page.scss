@@ -1,6 +1,9 @@
 .header-toolbar{
   height: 60px;
   --background: #FFEDED;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .toolbar-container{
@@ -8,23 +11,22 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding: 5px;
 }
 
 .back-button{
-  margin-top: 12px;
   font-weight: normal;
   color: black;
 }
   
 .title{
-  margin-top: 7px;
   font-size: 22px;
   font-weight: normal;
   color: black;
 }
 
 ion-chip{
-  margin-top: 1em;
+  background-color: #e9dede;
 }
 
 .stmt{
