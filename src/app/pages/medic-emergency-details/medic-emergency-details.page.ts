@@ -38,7 +38,7 @@ export class MedicEmergencyDetailsPage implements OnInit {
           text: 'End',
           cssClass: 'alert-button-ok-red',
           handler: () => {
-            this.router.navigate(["./on-scene"])
+            this.router.navigate(["./tabs/on-scene"])
           },
         },
       ],

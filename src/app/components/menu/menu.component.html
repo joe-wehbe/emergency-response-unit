@@ -17,15 +17,15 @@
     <div class="menu-content-container">
       <div class="first-block">
         <ion-list>
-          <div class="tab-container">
+          <div class="tab-container" (click)="navigateReportEmergency()">
             <ion-img src="assets/icon/report-emergency.png"></ion-img>
             Emergency
           </div>
-          <div class="tab-container">
+          <div class="tab-container" (click)="navigateProfile()">
             <ion-img src="assets/icon/person.png"></ion-img>
             My profile
           </div>
-          <div class="tab-container">
+          <div class="tab-container" (click)="navigateCommunity()">
             <ion-img src="assets/icon/people.png"></ion-img>
             Community
           </div>
