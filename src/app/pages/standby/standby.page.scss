@@ -17,17 +17,17 @@ ion-menu-button{
   font-weight: normal;
 }
 
-.block {
-  width: 100%;
-  height: 300px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #FFEDED;
-  overflow: auto;
-  color: black
-}
+// .block {
+//   width: 100%;
+//   height: 300px;
+//   padding: 10px;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   background-color: #FFEDED;
+//   overflow: auto;
+//   color: black
+// }
 
 .segments{
   padding: 10px;
@@ -131,7 +131,6 @@ ion-segment-button.ios::part(indicator-background) {
   width: 1px;
   height: 100%;
   background-color: gray;
-
 }
 
 .third-box {

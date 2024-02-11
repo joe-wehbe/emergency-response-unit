@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ModalController } from '@ionic/angular';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -7,9 +7,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfilePage implements OnInit {
 
-  constructor() { }
+  constructor(private modalCtrl:ModalController) { }
 
   ngOnInit() {
   }
 
+  highlightedDates = (isoString:any) => {
+    const date = new Date(isoString);
+    const utcDay = date.getUTCDate();
+
+    if (utcDay % 5 === 0) {
+      return {
+        textColor: '#800080',
+        backgroundColor: '#ffc0cb',
+      };
+    }
+    return undefined;
+  };
+
+  // cancel(){
+  //   this.modalCtrl.dismiss();
+  // }
 }

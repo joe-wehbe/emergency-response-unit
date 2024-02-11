@@ -1,13 +1,125 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>profile</ion-title>
+<ion-header id="main-content">
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="title">My Profile</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">profile</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+<app-menu></app-menu>
+
+<ion-content class="gradient-background">
+  <ion-card class="card-container">
+      
+    <div class="header">
+      <ion-avatar class="icon">
+        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      </ion-avatar>
+  
+      <div class="header-container">
+          <h2 class="name">Joe Wehbe</h2>
+          <p class="position">Board Member & Medic</p>
+      </div>
+    </div>
+
+    <ion-grid [fixed]="true" class="grid-container">
+      <ion-row>
+        <ion-col size="6" size-md="4" size-lg="2">
+          <ion-img src="assets/icon/email.png"></ion-img>
+          <p>Joe Wehbe</p>
+        </ion-col>
+        <ion-col size="6" size-md="4" size-lg="2">
+          <ion-img src="assets/icon/phone.png"></ion-img>
+          <p>81955654</p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6" size-md="4" size-lg="2">
+          <ion-img src="assets/icon/id.png"></ion-img>
+          <p>202000908</p>
+        </ion-col>
+        <ion-col size="6" size-md="4" size-lg="2">
+          <ion-img src="assets/icon/major.png"></ion-img>
+          <p>Computer Science</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div class="seperator">
+      <div class="first-line"></div>
+      <p class="section-name">Experience</p>
+      <div class="second-line"></div>
+    </div>
+  
+    <div class="experience-sections">
+      <div class="first-experience-section">
+        <h6>Talk about your accomplishments</h6>
+        <ion-card class="experience-card">
+          <ion-text class="experience-text">Nursing student with 6 years in emergency response.
+            Member of the red cross since 2017. Obtained several certifications such as CPR, A-EMT and more.</ion-text>
+        </ion-card>
+      </div>
+  
+      <div class="second-experience-section">
+        <h6>Show your skills in the medical field</h6>
+        <ion-card class="skills-card">
+          <ion-badge>First Aid</ion-badge>
+          <ion-badge>EMT-B</ion-badge>
+          <ion-badge>Red Cross</ion-badge>
+          <ion-badge>CPR</ion-badge>
+          <ion-badge>Medical Protocols</ion-badge>
+          <ion-badge>A-EMT</ion-badge>
+          <ion-badge>Medication</ion-badge>
+          <ion-badge>EMT-I</ion-badge>
+          <ion-badge>Emergency Unit</ion-badge>
+          <ion-badge>Ventilation</ion-badge>
+        </ion-card>
+      </div>
+    </div>
+
+    <div class="seperator">
+      <div class="first-line"></div>
+      <p class="section-name">Schedule</p>
+      <div class="second-line"></div>
+    </div>
+
+    <div class="calendar">
+      <ion-datetime [highlightedDates]="highlightedDates"></ion-datetime>
+    </div>
+  </ion-card>
+
+
+
+
+
+<!-- <ion-button id ="open-custom-dialog" class="rem-member">Remove Member</ion-button> <ion-button id="open-custom-dia-rank" class="change">Change Rank</ion-button>
+<ion-modal id="example-modal" #modal trigger="open-custom-dialog">
+  <ng-template>
+    <div class="wrapper">
+      <h1>Remove Member?</h1>
+      <h5>Are you sure you want to permenantly remove this member?</h5>
+  
+      <ion-button fill="outline" class="cancel" (click)="cancel()">Cancel</ion-button> <ion-button class="remove">Remove</ion-button>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<ion-modal id="example-modal" #modal trigger="open-custom-dia-rank">
+  <ng-template>
+    <div class="wrapper">
+      <h1>Change Rank?</h1>
+      <h5>What rank do you want to promote/demote this member to?</h5>
+      <ion-list>
+        <ion-item>
+          <ion-select aria-label="imp" interface="popover" placeholder="Rank">
+            <ion-select-option value="BM">Board Member</ion-select-option>
+            <ion-select-option value="VS">Responder</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+      <ion-button fill="outline" class="cancel" (click)="cancel()">Cancel</ion-button> <ion-button class="change">Apply Changes</ion-button>
+    </div>
+  </ng-template>
+</ion-modal>
+</ion-content> -->
