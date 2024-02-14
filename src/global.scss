@@ -51,21 +51,39 @@
     color: gray;
   }
 
+  .alert-message {
+    color: gray;
+  }
+
   .location-input{
-    background-color: #F1F1F1;
+    background-color: #D9D9D9;
     color: black;
     border: none;
     height: 40px; 
     font-size: 15px;
     border-radius: 10px;
+    padding-left: 10px;
   }
 
   .description-input{
-    background-color: #F1F1F1;
+    background-color: #D9D9D9;
     color: black;
     border: none;
     height: 40px; 
     font-size: 15px;
+    border-radius: 10px;
+    padding-left: 10px;
+  }
+
+  .alert-radio-group{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 20px;
+  }
+
+  .alert-radio-label{
+    background-color: lightgray;
+    color: black;
     border-radius: 10px;
   }
 
