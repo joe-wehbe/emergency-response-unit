@@ -1,13 +1,36 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>extensions</ion-title>
+<ion-header id="main-content">
+
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="title">Phone Extensions</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">extensions</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<app-menu></app-menu>
+
+<ion-content class="gradient-background">
+
+  <div class="mainpage">
+    <ion-searchbar placeholder="Search name..."></ion-searchbar>
+
+    <div>
+      <ion-list>
+        <ion-list-header>A</ion-list-header>
+        <ion-item>Acdef Hijk <ion-note slot="end">Ext: 1249</ion-note></ion-item>
+        <ion-list-header>B</ion-list-header>
+        <ion-item>Brian Smith <ion-note slot="end">Ext: 1250</ion-note></ion-item>
+        <ion-item>Bethany Johnson <ion-note slot="end">Ext: 1251</ion-note></ion-item>
+        <ion-item>Bradley Cooper <ion-note slot="end">Ext: 1252</ion-note></ion-item>
+
+        <ion-list-header>C</ion-list-header>
+        <ion-item>Caroline Lee <ion-note slot="end">Ext: 1253</ion-note></ion-item>
+        <ion-item>Christopher Walker <ion-note slot="end">Ext: 1254</ion-note></ion-item>
+        <ion-item>Catherine Brown <ion-note slot="end">Ext: 1255</ion-note></ion-item>
+        <!-- Add more items here -->
+      </ion-list>
+      <!-- Add more lists for other letters here -->
+    </div>
+  </div>
 </ion-content>

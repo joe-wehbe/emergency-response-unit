@@ -1,0 +1,26 @@
+
+.toolbar{
+    height: 60px;
+    --background: #FFEDED;
+}
+
+ion-menu-button{
+    color: black;
+    font-weight: normal;
+    margin-top: 12px;
+}
+
+.title{
+    font-size: 22px;
+    color: black;
+    font-weight: normal;
+    margin-top: 7px;
+}
+
+ion-searchbar{
+    --background: #f0f0f0;
+}
+
+ion-list {
+    --ion-item-background: transparent;
+}

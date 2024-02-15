@@ -21,80 +21,13 @@ ion-menu-button{
     margin-top: 7px;
 }
  
-.footer{
-    height: 55px;
-  }
-  
-.footer-toolbar{
-    height: 100%;
-    --background: #FFEDED;
-  }
-  
-.block {
-    width: 100%;
-    height: 300px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #FFEDED;
-    overflow: auto;
-    color: black
-}
-  
-ion-modal {
-    --height: auto;
-}
 
-
-  
-.segments{
-    padding: 10px;
-}
-  
-  // Android
-ion-segment-button.md::part(native) {// Unchecked color
-    color: #000;
-  }
-  
-.segment-button-checked.md::part(native) {// checked color
-    color: #810808;
-}
-  
-ion-segment-button.md::part(indicator-background) {
-    height: 4px;
-    background: #810808;
-}
-  
-  /* iOS */
-ion-segment-button.ios::part(native) { // Unchecked color
-    color: #810808;
-}
-  
-.segment-button-checked.ios::part(native) { // Checked color
-    color: #fff;
-}
-  
-ion-segment-button.ios::part(indicator-background) {
-    border-radius: 20px;
-    background: #810808;
-}
-  
-.stmt{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    text-align: center;
-    font-size: 16px;
-    color: #837272
-}
 
 .announcements{
     display: flex;
     flex-direction: row;
     align-items: center; /* Align items vertically */
     border-bottom: 1px solid gray; /* Add a border to act as the separator line */
-    // padding-bottom: 10px;
 }
   
 ion-list{
@@ -168,9 +101,6 @@ ion-item:active{
 }
 
 ion-chip{
-    // display: flex;
-    // margin-bottom: 10em;
-    // text-align: center;
     font-size: 14px;
     height: 50%;
     text-align: center;
@@ -195,30 +125,14 @@ ion-chip{
 }
   
 
-.description-container{
-    // margin: 0;
-    // display: flex;
-    // width: 100%;
-    // text-align:start;
-    // color: #837272;
-    // align-items: center;
-
-}
-
 .description{
     margin: 0;
     color: black;
     opacity: 0.8;
 }
 
-
-
-
   
-  ion-img{
-    width: 20px;
-  }
-  
+
   
 #open-action-sheet{
     margin-top: 1em;
@@ -238,16 +152,4 @@ ion-chip{
     color: black;
     width: 100%;
     animation: pulse 0.1s ease-in-out;
-  }
-  
-  @keyframes pulse {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.1);
-    }
-    100% {
-      transform: scale(1);
-    }
   }

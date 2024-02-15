@@ -7,13 +7,17 @@ import { IonicModule } from '@ionic/angular';
 import { ExtensionsPageRoutingModule } from './extensions-routing.module';
 
 import { ExtensionsPage } from './extensions.page';
+import { HttpClientModule } from '@angular/common/http';
+import { ComponentsModule } from "../../components/components.module";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    HttpClientModule,
     IonicModule,
-    ExtensionsPageRoutingModule
+    ExtensionsPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [ExtensionsPage]
 })
