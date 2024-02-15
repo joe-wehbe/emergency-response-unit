@@ -43,6 +43,10 @@ const routes: Routes = [
     path: 'announcement',
     loadChildren: () => import('./pages/announcement/announcement.module').then( m => m.AnnouncementPageModule)
   },
+  {
+    path: 'extensions',
+    loadChildren: () => import('./pages/extensions/extensions.module').then( m => m.ExtensionsPageModule)
+  },
 
 
 
