@@ -8,6 +8,11 @@ ion-menu-button{
     font-weight: normal;
     margin-top: 12px;
 }
+.mainpage{
+    display: flex;
+    flex-direction: column;  
+}
+
 
 .title{
     font-size: 22px;
@@ -15,46 +20,234 @@ ion-menu-button{
     font-weight: normal;
     margin-top: 7px;
 }
-
-.mainpage{
-    padding-top:2em;
-    flex-direction: column;
+ 
+.footer{
+    height: 55px;
+  }
+  
+.footer-toolbar{
+    height: 100%;
+    --background: #FFEDED;
+  }
+  
+.block {
+    width: 100%;
+    height: 300px;
+    padding: 10px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    background-color: #FFEDED;
+    overflow: auto;
+    color: black
+}
+  
+ion-modal {
+    --height: auto;
 }
 
-.announcement-box{
+
+  
+.segments{
+    padding: 10px;
+}
+  
+  // Android
+ion-segment-button.md::part(native) {// Unchecked color
+    color: #000;
+  }
+  
+.segment-button-checked.md::part(native) {// checked color
+    color: #810808;
+}
+  
+ion-segment-button.md::part(indicator-background) {
+    height: 4px;
+    background: #810808;
+}
+  
+  /* iOS */
+ion-segment-button.ios::part(native) { // Unchecked color
+    color: #810808;
+}
+  
+.segment-button-checked.ios::part(native) { // Checked color
+    color: #fff;
+}
+  
+ion-segment-button.ios::part(indicator-background) {
+    border-radius: 20px;
+    background: #810808;
+}
+  
+.stmt{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    font-size: 16px;
+    color: #837272
+}
+
+.announcements{
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Align items vertically */
+    border-bottom: 1px solid gray; /* Add a border to act as the separator line */
+    // padding-bottom: 10px;
+}
+  
+ion-list{
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    // height: 7em;
+}
+  
+ion-item{
+    --background: transparent;
+    flex-direction: row;
+    width: 100%;
+    display: flex;
+}
+
+ion-item:active{
+    display: flex;
+    flex-direction: row;
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    height: 7em;
+    animation: pulse 0.1s ease-in-out;
+}
+
+
+.first-box {
     flex-direction: row;
     display: flex;
+    // width: 70%;
 }
 
 .profile-picture{
-    flex-direction: row;
-    display: flex; 
-  
-    margin: 10px;
-    font-size: 80px;
+    margin: 15px; 
     color: #837272;
-    
+    height:70px;
+    width: 70px;
 }
 
-.text-row{
-    flex-direction: row;
-    display: flex; 
+.second-box {
+    display: flex;
+    flex-direction: column;
+    // width: 100%;
+    // height: 100%;
+    padding: 10px;
 }
 
 .name{
+    display: flex;
     flex-direction: row;
-    display: flex;  
+    justify-content: space-between;
 }
 
-.importance{
-    flex-direction: row;
-    display: flex;  
+  
+.username {
+    font-weight: bold;
+    color: black;
+    font-size: 18px;
 }
 
-.announcement-text{
-    flex-direction: column;
-    display: flex;   
+.time-posted{
+    margin: 0;
+    display: flex;
 }
+.time{
+    color: #837272;
+    opacity: 0.8;
+    font-size: 13px;
+    font-weight:lighter;
+}
+
+ion-chip{
+    // display: flex;
+    // margin-bottom: 10em;
+    // text-align: center;
+    font-size: 14px;
+    height: 50%;
+    text-align: center;
+}
+
+.ion-chip-critical {
+    --background: #FF0000;
+    --color: white;
+
+
+}
+
+.ion-chip-important {
+    --background: #FF7A00;
+    --color: white;
+
+}
+
+.ion-chip-regular {
+    --background: #0BC813;
+    --color: white;
+}
+  
+
+.description-container{
+    // margin: 0;
+    // display: flex;
+    // width: 100%;
+    // text-align:start;
+    // color: #837272;
+    // align-items: center;
+
+}
+
+.description{
+    margin: 0;
+    color: black;
+    opacity: 0.8;
+}
+
+
+
+
+  
+  ion-img{
+    width: 20px;
+  }
+  
+  
+#open-action-sheet{
+    margin-top: 1em;
+    height: 2.5em;
+    border-radius: 5px;
+    background-color: #D9D9D9;
+    color: black;
+    width: 100%;
+  
+}
+  
+#open-action-sheet:active{
+    margin-top: 1em;
+    height: 2.5em;
+    border-radius: 5px;
+    background-color: #D9D9D9;
+    color: black;
+    width: 100%;
+    animation: pulse 0.1s ease-in-out;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
