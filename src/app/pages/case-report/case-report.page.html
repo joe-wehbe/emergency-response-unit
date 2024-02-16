@@ -1,0 +1,133 @@
+<ion-header id="main-content">
+
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="title">Case Report</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<app-menu></app-menu>
+
+<ion-content class="background">
+
+
+<div class = "mainpage">
+  <!-- note, this is to make the forms responsive based on eahc device -->
+  <ion-grid [fixed]="true"> 
+    
+    <div class = stmt>
+      Fill the case form
+    </div>
+    
+    <ion-list>
+
+      <div class="questions">
+        <ion-input label="Date of incident" type = "date" mode="md" label-placement="floating" fill="outline"></ion-input>
+      </div>
+
+      <div class="questions">
+        <ion-input label="Time of incident" type = "time" mode="md" label-placement="floating" fill="outline"></ion-input>
+      </div>
+
+      <div class="questions">
+        <ion-input label="First responder team on site" type = "text" mode="md" label-placement="floating" fill="outline"></ion-input>
+      </div>
+
+      <div class="questions">
+        <ion-input label="Patient's name" type = "text" mode="md" label-placement="floating" fill="outline"></ion-input>
+      </div>
+
+      <div class="questions">
+        <ion-input label="Location of incident" type = "text" mode="md" label-placement="floating" fill="outline"></ion-input>
+      </div>
+
+      <div class="questions">
+        <ng-container *ngIf="selectedOption1 !== 'other'" >
+          <ion-select [(ngModel)]="selectedOption1" label = "Patient's condition" mode="md" label-placement="floating" fill="outline">
+            <ion-select-option value="serious">Serious</ion-select-option>
+            <ion-select-option value="not-serious">Not serious</ion-select-option>
+            <ion-select-option value="other">Other</ion-select-option>
+          </ion-select>
+        </ng-container>
+        <ng-container *ngIf="selectedOption1 === 'other'">
+          <ion-input placeholder="Specify..." mode="md" fill="outline"></ion-input>
+        </ng-container>
+      </div>
+
+      <div class="questions"> 
+          <ion-textarea label="History" mode = "md" type = "text" label-placement="floating" fill = "outline"></ion-textarea>
+      </div>
+
+      <div class="questions">
+        <ion-input label="Vitals description" type = "text" mode="md" label-placement="floating" fill="outline"></ion-input>
+      </div>
+
+      <div class="questions">
+        <ng-container *ngIf="selectedOption2 !== 'other'" >
+          <ion-select [(ngModel)]="selectedOption2" label = "Medication/Treatment administered by" mode="md" label-placement="floating" fill="outline">
+            <ion-select-option value="first responder team">First Responder Team</ion-select-option>
+            <ion-select-option value="lau clinic">LAU Clinic</ion-select-option>
+            <ion-select-option value="none">None</ion-select-option>
+            <ion-select-option value="other">Other</ion-select-option>
+          </ion-select>
+        </ng-container>
+        <ng-container *ngIf="selectedOption2 === 'other'">
+          <ion-input placeholder="Specify..." mode="md" fill="outline"></ion-input>
+        </ng-container>
+      </div>
+
+      <div class="questions">
+        <ng-container *ngIf="selectedOption3 !== 'other'" >
+          <ion-select [(ngModel)]="selectedOption3" label = "Transportation requested to" mode="md" label-placement="floating" fill="outline">
+            <ion-select-option value="lau clinic">LAU Clinic</ion-select-option>
+            <ion-select-option value="hospital">Hospital</ion-select-option>
+            <ion-select-option value="none">None</ion-select-option>
+            <ion-select-option value="other">Other</ion-select-option>
+          </ion-select>
+        </ng-container>
+        <ng-container *ngIf="selectedOption3 === 'other'">
+          <ion-input placeholder="Specify..." mode="md" fill="outline"></ion-input>
+        </ng-container>
+      </div>
+
+      <div class="questions">
+        <ng-container *ngIf="selectedOption4 !== 'other'" >
+          <ion-select [(ngModel)]="selectedOption4" label = "Consultation done with nurse" mode="md" label-placement="floating" fill="outline">
+            <ion-select-option value="yes">Yes</ion-select-option>
+            <ion-select-option value="no">No</ion-select-option>
+            <ion-select-option value="other">Other</ion-select-option>
+          </ion-select>
+        </ng-container>
+        <ng-container *ngIf="selectedOption4 === 'other'">
+          <ion-input placeholder="Specify..." mode="md" fill="outline"></ion-input>
+        </ng-container>
+      </div>
+
+      <div class="questions">
+        <ion-input label="Material/equipment used (if any)" type = "text" mode="md" label-placement="floating" fill="outline"></ion-input>
+      </div>
+
+      <div class="questions">
+        <ng-container *ngIf="selectedOption5 !== 'other'" >
+          <ion-select [(ngModel)]="selectedOption5" label = "Any issues encountered by the dispatch team" mode="md" label-placement="floating" fill="outline">
+            <ion-select-option value="yes">Yes</ion-select-option>
+            <ion-select-option value="no">No</ion-select-option>
+          </ion-select>
+        </ng-container>
+        <ng-container *ngIf="selectedOption5 === 'other'">
+          <ion-input placeholder="Specify..." mode="md" fill="outline"></ion-input>
+        </ng-container>
+      </div>
+      
+    </ion-list>
+
+    <div>
+      <ion-button >Submit</ion-button>
+    </div>
+    
+
+  </ion-grid>
+
+</div>
