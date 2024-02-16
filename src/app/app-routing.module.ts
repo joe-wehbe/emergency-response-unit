@@ -40,21 +40,21 @@ const routes: Routes = [
     loadChildren: () => import('./pages/request-rejected/request-rejected.module').then( m => m.RequestRejectedPageModule)
   },
   {
-    path: 'community',
-    loadChildren: () => import('./pages/community/community.module').then( m => m.CommunityPageModule)
-  },
-  {
     path: 'emergency-details',
     loadChildren: () => import('./pages/emergency-details/emergency-details.module').then( m => m.EmergencyDetailsPageModule)
   },
   {
     path: 'medic-emergency-details',
     loadChildren: () => import('./pages/medic-emergency-details/medic-emergency-details.module').then( m => m.MedicEmergencyDetailsPageModule)
-  },  {
+  },
+  {
     path: 'profile',
     loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
   },
-
+  {
+    path: 'community',
+    loadChildren: () => import('./pages/community/community.module').then( m => m.CommunityPageModule)
+  },
 ];
 
 @NgModule({

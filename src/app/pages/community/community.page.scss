@@ -1,116 +1,276 @@
-.community-page {
+.toolbar{
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: row;
-    height: 100vh;
-  }
+    height: 60px;
+    --background: #FFEDED;
+}
   
+ion-menu-button{
+    font-weight: normal;
+    color: black;
+}
   
-  .main-content {
-    flex: 1;
-    padding: 20px;
-    
-  }
-  
-  .alphabet-column {
-    width: 3em; 
-    font-size: medium;
+.title{
+    font-size: 22px;
+    font-weight: normal;
+    color: black;
+}
+
+.filter-button{
+    color: black;
+    width: 20%;
+    font-size: 30px;
+}
+
+.filter-button:active{
+    color: gray;
+    width: 20%;
+    font-size: 30px;
+}
+
+.search-bar-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1em;
+}
+
+ion-searchbar.search-bar {
+    --background: white;
+    --color: black;
+    --placeholder-color: gray;
+    --icon-color: gray;
+    --clear-button-color: gray; 
+    --border-radius: 20px;
+    --box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    width: 80%;
+}
+
+ion-list {
     background-color: transparent;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    overflow-y: scroll;
+}
+
+ion-list-header{
+    --color: black;
+}
+
+.card{
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: blue; /* Change the color to improve visibility */
-  }
-  
-  /* Styling for the right vertical scroll bar */
-  // .letter-scroll {
-    
-  //   position: absolute;
-  //   top: 0;
-  //   bottom: 0;
-  //   right: 0;
-  //   // width: 10x; /* Adjust the width of the scroll bar */
-  //   display: flex;
-  //   flex-direction: column;
-  //   align-items: center;
-  // }
-  
-  .search-bar {
-    margin-bottom: 20px;
-  }
-  
-  .member-list {
+    justify-content: center;
+    margin: 0;
+    background-color: white;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.card-content{
     display: flex;
-    flex-wrap: wrap;
-    list-style: none;
-    padding: 0;
-  }
-  
-  .member-list ion-col {
-    flex: 0 0 calc(33.3333% - 1em); /* Adjust as needed, considering padding */
-    max-width: calc(33.3333% - 1em); /* Adjust as needed, considering padding */
-    margin: 1em;
-  }
-  
-  
-  .member-item {
-    display: flex;
+    flex-direction: column;
     align-items: center;
-    border-bottom: 1px solid #ddd;
+    justify-content: center;
     padding: 10px;
-    cursor: pointer;
-  }
+}
+
+.user-name{
+    color: black;
+    padding-top: 5px;
+}
+
+.gray-bottom{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    width: 100%;
+    background-color: #D4D4D4;
+}
+
+ion-modal {
+    --height: 65%;
+    --border-radius: 16px;
+    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.modal-content{
+    --ion-background-color: white;
+}
   
-  .member-avatar {
-    width: 50px;
-    height: 50px;
+ion-toolbar {
+    --background: linear-gradient(to top,  white -10%, #DB7575); 
+    --color: white;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-profile-pic{
+    margin: 5%;
+    height: 80px;
+    width: 80px;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 70%;
+}
+
+.np-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.name {
+    color: black;
+}
+  
+.name, .position {
+    margin: 0; 
+    font-size: 1.2rem; 
+}
+
+.position {
+    font-size: 0.8rem; 
+    color: #837272; 
+    padding-left: 5px;
+}
+
+.modal-grid{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.modal-row{
+    height: 3em;
+}
+
+.modal-col{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: gray
+}
+
+ion-img{
+    width: 40px;
+    padding-right: 10px;
+}
+
+.seperator{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.first-line{
+    position: relative;
+    width: 30%;
+    height: 1px;
+    background-color: #837272;
+}
+
+.first-line::before {
+    content: '';
+    position: absolute;
+    width: 10px; 
+    height: 10px; 
     border-radius: 50%;
-    margin-right: 10px;
-  }
-  
-  .member-info {
-    flex: 1;
-  }
-  
-  .member-name {
-    font-weight: bold;
-  }
-  
-  .member-role {
-    font-size: 0.8em;
-    color: #888;
-  }
-  
-  .on-shift {
-    background-color: #f00; /* Adjust color for "On Shift" badge */
-    color: #fff;
+    background-color: #837272;
+    left: 0;
+    top: -5px;
+}
+
+.section-name{
+    font-size: 16px;
     padding: 5px;
-    font-size: 0.8em;
-    border-radius: 5px;
-    margin-left: 5px;
-  }
-  
-  
-  
-  ion-label {
-    text-align: center;
-    display: block;
-    font-size: 12px;
-    padding: 5px 0;
-    cursor: pointer;
-    color: gray;
-  }
-  
-  
-  /* Styling for the letter dividers */
-  ion-item-divider {
-    text-align: center;
-    font-size: 1em;
-    margin-top: 20px;
+    color: black;
+    font-style: italic;
+}
+
+.second-line {
+    position: relative;
+    width: 100%;
+    height: 1px;
+    background-color: #837272;
+}
+
+.second-line::after {
+    content: '';
+    position: absolute;
+    width: 10px; 
+    height: 10px; 
+    border-radius: 50%;
+    background-color: #837272;
+    right: 0;
+    top: -5px;
+}
+
+.experience-sections{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.first-experience-section{
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    padding-right: 10px;
     margin-bottom: 10px;
-  }
+}
+
+h6{
+    font-size: 0.8rem;
+    color: #837272;
+    font-weight: lighter;
+    font-style: italic;
+    margin: 0;
+}
+
+.experience-card{
+    padding: 10px;
+    background-color:#F2F2F2;
+    margin: 0;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.experience-text{
+    color: black;
+    font-size: 0.8rem;
+    font-weight: lighter;
+}
+
+.second-experience-section{
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.skills-card{
+    background-color:#F2F2F2;
+    padding: 10px;
+    margin: 0;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+ion-badge{
+    background: #810808;
+    font-weight: normal;
+}
   
