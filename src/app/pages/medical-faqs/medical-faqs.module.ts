@@ -7,14 +7,12 @@ import { IonicModule } from '@ionic/angular';
 import { MedicalFaqsPageRoutingModule } from './medical-faqs-routing.module';
 
 import { MedicalFaqsPage } from './medical-faqs.page';
-import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ComponentsModule,
     MedicalFaqsPageRoutingModule
   ],
   declarations: [MedicalFaqsPage]

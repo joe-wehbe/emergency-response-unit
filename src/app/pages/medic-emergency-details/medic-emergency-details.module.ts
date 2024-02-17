@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { MedicEmergencyDetailsPageRoutingModule } from './medic-emergency-details-routing.module';
 
 import { MedicEmergencyDetailsPage } from './medic-emergency-details.page';
-import { ComponentsModule } from 'src/app/components/components.module';
 
 
 @NgModule({
@@ -15,7 +14,6 @@ import { ComponentsModule } from 'src/app/components/components.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    ComponentsModule,
     MedicEmergencyDetailsPageRoutingModule
   ],
   declarations: [MedicEmergencyDetailsPage]
