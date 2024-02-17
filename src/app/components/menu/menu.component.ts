@@ -16,11 +16,23 @@ export class MenuComponent  implements OnInit {
     this.router.navigate(["./tabs/report-emergency"])
   }
 
+  navigateProfile(){
+    this.router.navigate(["./profile"])
+  }
+
   navigateCommunity(){
     this.router.navigate(["./community"])
   }
 
-  navigateProfile(){
-    this.router.navigate(["./profile"])
+  navigateAnnouncement(){
+    this.router.navigate(["./announcement"])
+  }
+
+  navigateExtensions(){
+    this.router.navigate(["./extensions"])
+  }
+
+  navigateMedicalFAQs(){
+    this.router.navigate(["./medical-faqs"])
   }
 }

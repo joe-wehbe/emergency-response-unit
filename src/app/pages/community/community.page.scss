@@ -66,12 +66,41 @@ ion-list-header{
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
 }
 
+.card:active{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    background-color: white;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    animation: pulse 0.1s ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+}
+
 .card-content{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 10px;
+}
+
+.icon{
+    margin: 5%;
+    height: 65px;
+    width: 65px;
 }
 
 .user-name{
@@ -89,7 +118,7 @@ ion-list-header{
 }
 
 ion-modal {
-    --height: 65%;
+    --height: 60%;
     --border-radius: 16px;
     --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
@@ -112,7 +141,7 @@ ion-toolbar {
 
 .modal-profile-pic{
     margin: 5%;
-    height: 80px;
+    height: 75px;
     width: 80px;
 }
 

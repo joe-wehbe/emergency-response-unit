@@ -9,85 +9,57 @@
 
 <app-menu></app-menu>
 
-<ion-content class="gradient-background">
+<ion-content class="background">
   <div class="mainpage">
-    <div class="announcements">
+    <div class="announcement" id="view-announcement">
       <div class="first-box">
         <ion-avatar slot="start" class="profile-picture">
           <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
         </ion-avatar>
       </div>
-
       <div class="second-box">
         <div class="name">
           <h2 class="username">Roula Ghaleb</h2>
-          <ion-chip class="ion-chip-critical">critical</ion-chip>
+          <ion-chip color="danger">Very important</ion-chip>
         </div>
-
         <div class="description-container">
           <p class="description">
-            Difficulty and and and and and and and and and and and and and and
-            andbreathing and panick attack
+            {{ truncateDescription('Tomorrow meeting in the lounge to discuss shifts and schedules at 5pm, be on time', 65) }}
           </p>
         </div>
-
         <div class="time-posted">
           <h3 class="time">1 day ago</h3>
         </div>
       </div>
     </div>
-
-    <div class="announcements">
-      <div class="first-box">
-        <ion-avatar slot="start" class="profile-picture">
-          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-        </ion-avatar>
-      </div>
-
-      <div class="second-box">
-        <div class="name">
-          <h2 class="username">Roula Ghaleb</h2>
-          <ion-chip class="ion-chip-important">important</ion-chip>
-        </div>
-
-        <div class="description-container">
-          <p class="description">
-            Difficulty and and and and and and and and and and and and and and
-            andbreathing and panick attack
-          </p>
-        </div>
-
-        <div class="time-posted">
-          <h3 class="time">1 day ago</h3>
-        </div>
-      </div>
-    </div>
-
-    <div class="announcements">
-      <div class="first-box">
-        <ion-avatar slot="start" class="profile-picture">
-          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-        </ion-avatar>
-      </div>
-
-      <div class="second-box">
-        <div class="name">
-          <h2 class="username">Roula Ghaleb</h2>
-          <ion-chip class="ion-chip-regular">regular</ion-chip>
-        </div>
-
-        <div class="description-container">
-          <p class="description">
-            Difficulty and and and and and and and and and and and and and and
-            andbreathing and panick attack
-          </p>
-        </div>
-
-        <div class="time-posted">
-          <h3 class="time">1 day ago</h3>
-        </div>
-      </div>
-    </div>
-
   </div>
+
+  <ion-modal id="example-modal" #modal trigger="view-announcement">
+    <ng-template>
+      <div class="wrapper">
+        <div class="announcement" id="view-announcement">
+          <div class="first-box">
+            <ion-avatar slot="start" class="profile-picture">
+              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+            </ion-avatar>
+          </div>
+          <div class="second-box">
+            <div class="name">
+              <h2 class="username">Roula Ghaleb</h2>
+              <ion-chip color="danger">Very important</ion-chip>
+            </div>
+            <div class="description-container">
+              <p class="description">
+                Tomorrow meeting in the lounge to discuss shifts and schedules at 5pm, be on time and bring with you a paper and a pen
+              </p>
+            </div>
+            <div class="time-posted">
+              <h3 class="time">1 day ago</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
 </ion-content>

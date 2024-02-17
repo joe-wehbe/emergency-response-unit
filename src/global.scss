@@ -31,7 +31,11 @@
 }
   
 .gradient-background{
-  --ion-background-color: linear-gradient(to bottom, #FFEDED 75%, #DB7575);
+  --ion-background-color: linear-gradient(to bottom, #FFEDED 80%, #DB7575);
+}
+
+.menu-gradient-background{
+  --ion-background-color: linear-gradient(to bottom, #FFEDED 90%, #DB7575);
 }
 
 /* Alert Dialog */

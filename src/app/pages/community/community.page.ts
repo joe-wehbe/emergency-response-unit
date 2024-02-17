@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonModal } from '@ionic/angular'; // Import IonModal from @ionic/angular
 
 interface User {
   firstName: string;
@@ -25,6 +26,8 @@ export class CommunityPage implements OnInit {
 
   groupedUsers: { letter: string, users: User[] }[] = [];
   filteredGroupedUsers: { letter: string, users: User[] }[] = [];
+
+  @ViewChild('modal') modal: IonModal | undefined;
 
   constructor() {
     this.groupUsers();
@@ -64,5 +67,9 @@ export class CommunityPage implements OnInit {
         (user.firstName.toLowerCase() + ' ' + user.lastName.toLowerCase()).includes(query)
       )
     })).filter(filteredGroup => filteredGroup.users.length > 0);
+  }
+
+  openModal(user: User) {
+    this.modal?.present();
   }
 }

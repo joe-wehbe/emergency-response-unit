@@ -66,7 +66,15 @@ const routes: Routes = [
   {
     path: 'extensions',
     loadChildren: () => import('./pages/extensions/extensions.module').then( m => m.ExtensionsPageModule)
+  },  {
+    path: 'medical-faqs',
+    loadChildren: () => import('./pages/medical-faqs/medical-faqs.module').then( m => m.MedicalFaqsPageModule)
   },
+  {
+    path: 'reading-medical-faq',
+    loadChildren: () => import('./pages/reading-medical-faq/reading-medical-faq.module').then( m => m.ReadingMedicalFaqPageModule)
+  },
+
 ];
 
 @NgModule({

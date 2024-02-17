@@ -38,7 +38,7 @@
       <ion-grid>
         <ion-row>
           <ion-col size="4" *ngFor="let user of group.users">
-            <ion-card class="card" id="view-profile">
+            <ion-card class="card" (click)="openModal(user)">
               <div class="card-content">
                 <ion-avatar class="icon">
                   <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
@@ -53,7 +53,6 @@
       </ion-grid>
     </ion-list>
   </ng-container>
-
 
   <ion-modal #modal trigger="view-profile">
     <ng-template>
@@ -137,6 +136,3 @@
     </ng-template>
   </ion-modal>
 </ion-content>
-
-
-

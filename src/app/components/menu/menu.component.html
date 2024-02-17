@@ -1,4 +1,4 @@
-<ion-menu contentId="main-content" class="gradient-background">
+<ion-menu contentId="main-content" class="menu-gradient-background">
   <ion-header>
     <ion-toolbar class="menu-toolbar">
       <div class="container">
@@ -36,7 +36,7 @@
 
       <div class="second-block">
         <ion-list>
-          <div class="tab-container">
+          <div class="tab-container" (click)="navigateAnnouncement()">
             <ion-img src="assets/icon/announcement.png"></ion-img>
             Announcements
             <p class="notif">2</p>
@@ -51,11 +51,11 @@
             Case reports
             <p class="notif">5</p>
           </div>
-          <div class="tab-container">
+          <div class="tab-container" (click)="navigateExtensions()">
             <ion-img src="assets/icon/phone-extensions.png"></ion-img>
             Phone extensions
           </div>
-          <div class="tab-container">
+          <div class="tab-container" (click)="navigateMedicalFAQs()">
             <ion-img src="assets/icon/medical-faq.png"></ion-img>
             Medical FAQs
           </div>
