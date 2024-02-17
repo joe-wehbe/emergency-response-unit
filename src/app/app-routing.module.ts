@@ -24,10 +24,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/standby/standby.module').then( m => m.StandbyPageModule)
   },
   {
-    path: 'community',
-    loadChildren: () => import('./pages/community/community.module').then( m => m.CommunityPageModule)
-  },
-  {
     path: 'emergency-details',
     loadChildren: () => import('./pages/emergency-details/emergency-details.module').then( m => m.EmergencyDetailsPageModule)
   },
@@ -46,6 +42,14 @@ const routes: Routes = [
   {
     path: 'extensions',
     loadChildren: () => import('./pages/extensions/extensions.module').then( m => m.ExtensionsPageModule)
+  },
+  {
+    path: 'cover-requests',
+    loadChildren: () => import('./pages/cover-requests/cover-requests.module').then( m => m.CoverRequestsPageModule)
+  },
+  {
+    path: 'case-report-form',
+    loadChildren: () => import('./pages/case-report-form/case-report-form.module').then( m => m.CaseReportFormPageModule)
   },
 
 

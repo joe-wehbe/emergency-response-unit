@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'app-extensions',
@@ -12,11 +13,12 @@ export class ExtensionsPage implements OnInit {
   ngOnInit() {
   }
 
-  @ViewChild('listContainer') listContainer!: ElementRef;
-  scrollTo(letter: string): void {
-    const element = this.listContainer.nativeElement.querySelector(`#${letter}`);
+  @ViewChild(IonContent, { static: true })
+  content!: IonContent;
+  scrollTo(letter: string) {
+    const element = document.getElementById(letter);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      this.content.scrollToPoint(0, element.offsetTop, 500);
     }
   }
 

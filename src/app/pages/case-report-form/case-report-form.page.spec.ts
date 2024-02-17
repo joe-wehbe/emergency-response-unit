@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CommunityPage } from './community.page';
+import { CaseReportFormPage } from './case-report-form.page';
 
-describe('CommunityPage', () => {
-  let component: CommunityPage;
-  let fixture: ComponentFixture<CommunityPage>;
+describe('CaseReportFormPage', () => {
+  let component: CaseReportFormPage;
+  let fixture: ComponentFixture<CaseReportFormPage>;
 
   beforeEach(async(() => {
-    fixture = TestBed.createComponent(CommunityPage);
+    fixture = TestBed.createComponent(CaseReportFormPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
