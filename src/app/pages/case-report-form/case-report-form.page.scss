@@ -1,0 +1,119 @@
+
+.toolbar{
+    height: 60px;
+    --background: #FFEDED;
+}
+
+ion-menu-button{
+    color: black;
+    font-weight: normal;
+    margin-top: 12px;
+}
+
+.title{
+    font-size: 22px;
+    color: black;
+    font-weight: normal;
+    margin-top: 7px;
+}
+
+
+.mainpage{
+    padding-top:2em;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.85em;
+}
+
+//sentence before the inputs
+.stmt{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+}
+
+.questions {
+    --background: transparent;
+    margin: 2em;
+}
+
+ion-select{
+    --highlight-color: #810808;//basically color of the outline
+    color: black;
+}
+
+
+ion-input {
+    background-color: transparent;
+    --background: transparent;
+    border: 2px;
+    color: black;
+}
+
+//color of label
+::ng-deep ion-input .label-text{
+    color: gray;
+}
+
+::ng-deep ion-textarea .label-text{
+    color: gray;
+}
+
+ion-textarea {
+    --highlight-color: #810808;
+    border: 2px;
+    color: black;
+}
+
+
+
+/* Style label when input is focused */
+ion-input.has-focus  {
+    --highlight-color: #810808;
+}
+
+/* Style select when input is focused */
+ion-select.has-focus  {
+    --highlight-color: #810808;
+}
+
+/* Style textarea when input is focused */
+ion-textarea.has-focus  {
+    --highlight-color: #810808;
+    
+}
+
+
+ion-input[type=date]{
+    color-scheme: black; //for calendar icon
+}
+
+ion-input[type=time]{
+    color-scheme: black; //for clock icon
+}
+
+
+ion-list {
+    background-color: transparent;
+}
+
+// submit button
+ion-button{
+    --background: #FFEDED;
+    --border-color: #810808;
+    --border-width: 1px;
+    --border-style: solid;
+    --color: black;
+    --background-activated: #d39d9d;
+    width: 35%;
+    margin-top: 10px;
+    margin: 0 auto;
+    display: block;
+
+  }
