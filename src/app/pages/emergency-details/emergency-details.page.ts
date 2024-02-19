@@ -24,7 +24,7 @@ export class EmergencyDetailsPage implements OnInit {
   }
 
   back(){
-    this.router.navigate(["./standby"])
+    this.router.navigate(["./tabs/standby"])
   }
 
   handleRefresh(event: any) {

@@ -1,49 +1,20 @@
 .toolbar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 60px;
   --background: #FFEDED;
 }
 
-ion-menu-button, .info{
+ion-menu-button{
   color: black;
   font-weight: normal;
-  margin-top: 12px;
-}
-
-.info{
-  font-size: 30px;
-  padding-right: 10px;
 }
 
 .title{
   font-size: 22px;
   color: black;
   font-weight: normal;
-  margin-top: 7px;
-}
-
-.footer{
-  height: 55px;
-}
-
-.footer-toolbar{
-  height: 100%;
-  --background: #FFEDED;
-}
-
-.block {
-  width: 100%;
-  height: 300px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #FFEDED;
-  overflow: auto;
-  color: black
-}
-
-ion-modal {
-  --height: auto;
 }
 
 .segments{
@@ -87,11 +58,7 @@ ion-segment-button.ios::part(indicator-background) {
   color: #837272
 }
 
-.info-icon{
-  font-size: 20px;
-}
-
-ion-card{
+.ongoing-card, .ended-card{
   display: flex;
   flex-direction: row;
   background-color: rgba(255, 255, 255, 0.3);
@@ -99,7 +66,7 @@ ion-card{
   height: 7em;
 }
 
-ion-card:active{
+.ongoing-card:active{
   display: flex;
   flex-direction: row;
   background-color: rgba(255, 255, 255, 0.3);
@@ -152,7 +119,6 @@ ion-card:active{
   width: 1px;
   height: 100%;
   background-color: gray;
-
 }
 
 .third-box {
@@ -161,10 +127,11 @@ ion-card:active{
   justify-content: space-between;
   width: 60%;
   height: 100%;
-  padding: 10px;
-}
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;}
 
-.medic, .request {
+.medic, .patient {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -207,6 +174,7 @@ ion-img{
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  padding-bottom: 1em
 }
 
 #open-action-sheet{
@@ -216,7 +184,6 @@ ion-img{
   background-color: #D9D9D9;
   color: black;
   width: 100%;
-
 }
 
 #open-action-sheet:active{

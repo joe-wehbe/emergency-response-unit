@@ -1,0 +1,75 @@
+.header-toolbar{
+    height: 60px;
+    --background: #FFEDED;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.toolbar-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+  
+.back-button{
+    font-weight: normal;
+    color: black;
+}
+    
+.title{
+    font-size: 22px;
+    font-weight: normal;
+    color: black;
+}
+
+.stmt{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0.5em;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+}
+
+.cards-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+ion-card{
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    margin-top: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 1em;
+}
+
+.question-container{
+    background-color: #D9D9D9;
+    color: black;
+    padding: 10px;
+}
+
+.question{
+    margin: 0;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.answer-container{
+    background-color: white;
+    color: black;
+    padding: 10px;
+}
+
+.answer{
+    margin: 0;
+    font-size: 14px;
+}

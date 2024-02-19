@@ -12,4 +12,12 @@ export class AnnouncementPage implements OnInit {
   ngOnInit() {
   }
 
+  truncateDescription(description: string, limit: number): string {
+    if (description.length > limit) {
+      return description.slice(0, limit) + '...';
+    } else {
+      return description;
+    }
+  }
+
 }

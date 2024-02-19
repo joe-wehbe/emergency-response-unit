@@ -1,0 +1,76 @@
+<ion-header id="main-content">
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="title">Medical FAQs</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="gradient-background">
+
+  <div class="stmt">
+    <p>Stay informed of medical protocols</p>
+  </div>
+
+  <div class="grid-container">
+    <ion-grid>
+      <ion-row size="6">
+        <ion-col>
+          <ion-card (click)="navigateReadingFAQ()">
+            <ion-img src="./assets/img/patient-assessment.png"></ion-img>
+            <div class="gray-bottom">Patient Assessment</div>
+          </ion-card>
+        </ion-col>
+        <ion-col>
+          <ion-card (click)="navigateReadingFAQ()">
+            <ion-img src="./assets/img/vital-signs.png"></ion-img>
+            <div class="gray-bottom">Vital Signs</div>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row size="6">
+        <ion-col>
+          <ion-card (click)="navigateReadingFAQ()">
+            <ion-img src="./assets/img/cardio.png"></ion-img>
+            <div class="gray-bottom">Cardio</div>
+          </ion-card>
+        </ion-col>
+        <ion-col>
+          <ion-card (click)="navigateReadingFAQ()">
+            <ion-img src="./assets/img/respiration.png"></ion-img>
+            <div class="gray-bottom">Respiration</div>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row size="6">
+        <ion-col>
+          <ion-card (click)="navigateReadingFAQ()">
+            <ion-img src="./assets/img/neuro.png"></ion-img>
+            <div class="gray-bottom">Neuro</div>
+          </ion-card>
+        </ion-col>
+        <ion-col>
+          <ion-card (click)="navigateReadingFAQ()">
+            <ion-img src="./assets/img/blsd.png"></ion-img>
+            <div class="gray-bottom">BLSD</div>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row size="6">
+        <ion-col>
+          <ion-card (click)="navigateReadingFAQ()">
+            <ion-img src="./assets/img/trauma.png"></ion-img>
+            <div class="gray-bottom">Trauma</div>
+          </ion-card>
+        </ion-col>
+        <ion-col>
+          <ion-card (click)="navigateReadingFAQ()">
+            <ion-img src="./assets/img/bleeding.png"></ion-img>
+            <div class="gray-bottom">Bleeding</div>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

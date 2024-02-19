@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-standby',
@@ -10,7 +11,12 @@ export class StandbyPage implements OnInit {
   
   selectedSegment: string = 'Ongoing';
 
-    public actionSheetButtons = [
+  constructor(private router:Router, public alertController: AlertController) { }
+
+  ngOnInit() {
+  }
+
+  public actionSheetButtons = [
     {
       text: 'Case Report',
       data: {
@@ -22,12 +28,19 @@ export class StandbyPage implements OnInit {
       data: {
         action: 'details',
       },
+      handler: () => {
+        this.router.navigate(["./emergency-details"])
+      },
     },
     {
       text: 'Delete',
       role: 'destructive',
+      cssClass: 'delete-button',
       data: {
         action: 'delete',
+      },
+      handler: () => {
+        this.presentAlert()
       },
     },
     {
@@ -40,9 +53,24 @@ export class StandbyPage implements OnInit {
   ];
 
 
-  constructor(private router:Router) { }
-
-  ngOnInit() {
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Delete Case?',
+      subHeader: 'Delete a case only if you do not need to submit its report form',
+      cssClass:'alert-dialog',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'alert-button-cancel'
+        },
+        {
+          text: 'Delete',
+          cssClass: 'alert-button-ok-red'
+        },
+      ],
+    });
+    await alert.present();
   }
 
   navigateEmergencyDetails(){

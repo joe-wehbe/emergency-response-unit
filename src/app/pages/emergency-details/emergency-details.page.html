@@ -24,7 +24,7 @@
     <p>Up-to-date emergency details</p>
   </div>
 
-  <ion-accordion-group [multiple]="true" [value]="['first', 'second', 'third']">
+  <ion-accordion-group mode="ios" [multiple]="true" [value]="['first', 'second', 'third']">
     <ion-accordion value="first">
       <ion-item slot="header" class="first-item">
         <p class="statement">Case Information</p>
@@ -100,8 +100,8 @@
             </div>    
             <div class="info-container">
               <div class="info-type">
-                <ion-icon name="heart-circle-outline"></ion-icon>
-                <p class="type-case-descritpion">Patient condition: </p>
+                <ion-icon name="document-text-outline"></ion-icon>
+                <p class="type-case-descritpion">Description: </p>
               </div>
               <div class="info-answer">
                 <p class="case-description">Panick attack</p>
@@ -194,9 +194,3 @@
     </ion-accordion>
   </ion-accordion-group>
 </ion-content>
-
-<ion-footer class="footer">
-  <ion-toolbar class="footer-toolbar">
-    <app-tabs></app-tabs>
-  </ion-toolbar>
-</ion-footer>

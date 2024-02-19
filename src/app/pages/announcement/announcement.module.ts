@@ -8,17 +8,15 @@ import { AnnouncementPageRoutingModule } from './announcement-routing.module';
 
 import { AnnouncementPage } from './announcement.page';
 import { HttpClientModule } from '@angular/common/http';
-import { ComponentsModule } from "../../components/components.module";
 
 @NgModule({
   declarations: [AnnouncementPage],
   imports: [
-      CommonModule,
-      FormsModule,
-      HttpClientModule,
-      IonicModule,
-      AnnouncementPageRoutingModule,
-      ComponentsModule
+    CommonModule,
+    FormsModule,
+    HttpClientModule,
+    IonicModule,
+    AnnouncementPageRoutingModule,
   ]
 })
 export class AnnouncementPageModule {}
