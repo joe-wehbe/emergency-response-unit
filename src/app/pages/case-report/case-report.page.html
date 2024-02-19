@@ -1,0 +1,209 @@
+<ion-header id="main-content">
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="title">Case Report</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<app-menu></app-menu>
+
+<ion-content class="background">
+
+  <div class="stmt">
+    <p>Up-to-date emergency information</p>
+  </div>
+
+  <ion-accordion-group [multiple]="true" [value]="['first', 'second', 'third']">
+    <ion-accordion value="first">
+      <ion-item slot="header" class="first-item">
+        <p class="statement">Emergency Updates</p>
+      </ion-item>
+      <div class="container" slot="content">
+        <div class="emergency-info">
+          <ion-list>
+            <div class="info-container-first">
+              <div class="info-type">
+                <ion-icon name="person-outline"></ion-icon>
+                <p class="type-medic-name">Medic on scene: </p>
+              </div>
+              <div class="info-answer">
+                <p class="medic-name">Joe Wehbe</p>
+              </div>
+            </div>
+            <div class="info-container-first">
+              <div class="info-type">
+                <ion-icon name="location-outline"></ion-icon>
+                <p class="type-location">Location: </p>
+              </div>
+              <div class="info-answer">
+                <p class="location">Zakhem 404</p>
+              </div>
+            </div>
+            <div class="info-container-first">
+              <div class="info-type">
+                <ion-icon name="document-text-outline"></ion-icon>
+                <p class="type-description">Description: </p>
+              </div>
+              <div class="info-answer">
+                <p class="description">Panick attack</p>
+              </div>
+            </div>
+            <div class="info-container-first">
+              <div class="info-type">
+                <ion-icon name="time-outline"></ion-icon>
+                <p class="type-time">Reported at: </p>
+              </div>
+              <div class="info-answer">
+                <p class="description">9:10</p>
+              </div>
+            </div>
+            <div class="vitals">
+              <div class="heart-rate">
+                <ion-img src="assets/icon/hr.png"></ion-img>
+                <p class="hr">120</p>
+              </div>        
+              <div class="blood-pressure">
+                <ion-img src="assets/icon/bp.png"></ion-img>
+                <p class="bp">110/92</p>
+              </div>        
+              <div class="spo2">
+                <ion-img src="assets/icon/spo2.png"></ion-img>
+                <p class="sp">96</p>
+              </div>
+              <div class="temperature">
+                <ion-img src="assets/icon/temp.png"></ion-img>
+                <p class="temp">37.6</p>
+              </div>     
+              <div class="respiration-rate">
+                <ion-img src="assets/icon/rr.png"></ion-img>
+                <p class="rr">16</p>
+              </div>
+              <div class="capillary-refill">
+                <ion-img src="assets/icon/crt.png"></ion-img> 
+                <p class="crt">2</p>
+              </div> 
+              <div class="hemo-gluco-test">
+                <ion-img src="assets/icon/hgt.png"></ion-img>
+                <p class="hgt">N/A</p>
+              </div>
+              <div class="pupils-reaction">
+                <ion-img src="assets/icon/pr.png"></ion-img> 
+                <p class="pr">N/A</p>
+              </div>
+            </div>
+          </ion-list> 
+        </div>
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="second" expanded="true">
+      <ion-item slot="header">
+        <p class="statement">Patient Information</p>
+      </ion-item>
+      <div class="container" slot="content">
+        <div class="patient-info">
+          <ion-list>
+            <div class="info-container-second">
+              <div class="info-type">
+                <ion-icon name="person-outline"></ion-icon>
+                <p class="type-patient-name">Patient name: </p>
+              </div>
+              <div class="info-answer-second">
+                <ion-input class="patient-input"></ion-input>    
+              </div>
+            </div>
+            <div class="info-container-second">
+              <div class="info-type">
+                <ion-icon name="card-outline"></ion-icon>
+                <p class="type-patient-id">Patient ID: </p>
+              </div>
+              <div class="info-answer-second">
+                <ion-input type="number" class="patient-input"></ion-input>
+              </div>
+            </div>    
+            <div class="info-container-second">
+              <div class="info-type">
+                <ion-icon name="document-text-outline"></ion-icon>
+                <p class="type-case-descritpion">Description: </p>
+              </div>
+              <div class="info-answer-second">
+                <ion-input class="patient-input"></ion-input>
+              </div>
+            </div>
+            <div class="info-container-second">
+              <div class="info-type">
+                <ion-icon name="warning-outline"></ion-icon>
+                <p class="type-case-severity">Case severity: </p>
+              </div>
+              <div class="info-answer-second">
+                <ng-container *ngIf="selectedOption !== 'other'">
+                  <ion-select class="patient-input" [(ngModel)]="selectedOption">
+                    <ion-select-option value="serious">Serious</ion-select-option>
+                    <ion-select-option value="not-serious">Not serious</ion-select-option>
+                    <ion-select-option value="other">Other</ion-select-option>
+                  </ion-select>
+                </ng-container>
+                <ng-container *ngIf="selectedOption === 'other'">
+                  <ion-input placeholder="Specify..." class="patient-input"></ion-input>
+                </ng-container>
+              </div>
+            </div>
+          </ion-list> 
+        </div>
+        <ion-button>Submit</ion-button>
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="third">
+      <ion-item slot="header">
+        <p class="statement">Continuous Vital Monitoring</p>
+      </ion-item>   
+      <div class="assessment" slot="content">
+        <div class="header">
+          <p class="assessment-number">Assessment 1</p>
+        </div>
+        <div class="vitals-container">
+          <div class="line">
+            <ion-input type="number" placeholder="HR" class="vitals-input">
+              <ion-img src="assets/icon/hr.png" slot="start"></ion-img>
+            </ion-input>
+            <ion-input placeholder="BP" class="vitals-input">
+              <ion-img src="assets/icon/bp.png" slot="start"></ion-img>
+            </ion-input>
+            <ion-input type="number" placeholder="SpO2" class="vitals-input">
+              <ion-img src="assets/icon/spo2.png" slot="start"></ion-img>
+            </ion-input>
+            <ion-input type="number" placeholder="Temp" class="vitals-input">
+              <ion-img src="assets/icon/temp.png" slot="start"></ion-img>
+            </ion-input>
+          </div>  
+          <div class="line">
+            <ion-input type="number" placeholder="RR" class="vitals-input">
+              <ion-img src="assets/icon/rr.png" slot="start"></ion-img>
+            </ion-input>
+            <ion-input type="number" placeholder="CRT" class="vitals-input">
+              <ion-img src="assets/icon/crt.png" slot="start"></ion-img> 
+            </ion-input>
+            <ion-input type="number" placeholder="HGT" class="vitals-input">
+              <ion-img src="assets/icon/hgt.png" slot="start"></ion-img>
+            </ion-input>
+            <ion-input type="number" placeholder="PR" class="vitals-input">
+              <ion-img src="assets/icon/pr.png" slot="start"></ion-img> 
+            </ion-input>
+          </div>  
+        </div>
+        <div class="second-submit-button">
+          <ion-button>Submit</ion-button>
+        </div>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+</ion-content>
+
+<ion-footer class="footer">
+  <ion-toolbar class="footer-toolbar">
+    <app-tabs></app-tabs>
+  </ion-toolbar>
+</ion-footer>

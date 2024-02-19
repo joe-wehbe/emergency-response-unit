@@ -1,0 +1,233 @@
+.toolbar{
+    height: 60px;
+    --background: #FFEDED;
+  }
+  
+  ion-menu-button{
+    font-weight: normal;
+    margin-top: 12px;
+    color: black;
+  }
+  
+  .title{
+    font-size: 22px;
+    font-weight: normal;
+    margin-top: 7px;
+    color: black;
+  }
+  
+  .stmt{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+  }
+  
+  ion-accordion-group{
+    padding: 10px;
+  }
+  
+  ion-item{
+    --background: #e9dede;
+    color: black;
+  }
+  
+  .first-item{
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+  
+  .header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 2em;
+    padding-top: 2em;
+    padding-bottom: 1em;
+    padding-left: 10px;
+  }
+  
+  .statement {
+    font-size: 17px;
+    color: black;
+  }
+  
+  .container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .emergency-info, .patient-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    font-size: 16px;
+    background-color: transparent;
+  }
+  
+  ion-list{
+    width: 100%;
+    background-color: transparent;
+  }
+  
+  .info-container-first, .info-container-second{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background-color: transparent;
+  }
+  
+  .info-container-first{
+    height: 2em;
+  }
+  
+  .info-container-second{
+    height: 3.5em;
+  }
+  
+  .info-type{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: black;
+  }
+  
+  ion-icon{
+    padding-right: 5px;
+    font-size: 20px;
+    color: #810808;
+  }
+  
+  .info-answer{
+    color: black;
+  }
+  
+  .info-answer-second{
+    color: black;
+    width: 60%;
+  }
+  
+  .assessment{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-bottom: 10px;
+    margin: 0 auto;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .assessment-number{
+    font-size: 17px;
+    color: black;
+  }
+  
+  .assessment-time{
+    font-size: 14px;
+    color: black;
+  }
+  
+  .table {
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .table, .table td {
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  ion-img{
+    width: 30px;
+    padding-left: 0.5em;
+  }
+  
+  .heart-rate, .blood-pressure, .spo2, .temperature, 
+  .respiration-rate, .capillary-refill, .pupils-reaction, .hemo-gluco-test{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    color: black;
+    padding-left: 10px;
+  }
+  
+  .footer{
+    height: 55px;
+  }
+  
+  .footer-toolbar{
+    height: 100%;
+    --background: #FFEDED;
+  }
+  
+  .vitals-input {
+    width: 24%;
+    --background: #FFEDED;
+    --placeholder-color: #837272;
+    --border-radius: 10px;
+    color: black;
+  }
+  
+  .patient-input {
+    width: 100%;
+    background: transparent;
+    --placeholder-color: #837272;
+    border-radius: 10px;
+    --padding-start: 10px;
+    --padding-end: 10px;
+    border: 0.5px solid #810808; 
+  }
+  
+  .vitals-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .vitals{
+    display: flex;
+    overflow: auto;
+  }
+  
+  .line{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    padding-bottom: 5px;
+    width: 100%;
+  }
+  
+  ion-button{
+  --background: #FFEDED;
+  --border-color: #810808;
+  --border-width: 1px;
+  --border-style: solid;
+  --color: black;
+  --background-activated: #d39d9d;
+  width: 35%;
+  margin-top: 10px;
+  }
+  
+  .second-submit-button{
+  display: flex;
+  justify-content: center;
+  }
+  

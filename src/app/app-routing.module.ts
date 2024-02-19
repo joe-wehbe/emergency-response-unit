@@ -47,6 +47,10 @@ const routes: Routes = [
     path: 'case-report-form',
     loadChildren: () => import('./pages/case-report-form/case-report-form.module').then( m => m.CaseReportFormPageModule)
   },
+  {
+    path: 'case-report',
+    loadChildren: () => import('./pages/case-report/case-report.module').then( m => m.CaseReportPageModule)
+  },
 
 
 
