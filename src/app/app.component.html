@@ -1,27 +1,86 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay">
+    <ion-menu contentId="main-content" type="overlay" class="menu-gradient-background">
+      <ion-header>
+        <ion-toolbar class="menu-toolbar">
+          <div class="container">
+            <div class="profile-picture">
+              <ion-icon name="person-circle-outline"></ion-icon>
+            </div>
+            <div class="profile-info">
+              <p class="name">Joe Wehbe</p>
+              <p class="role">Dispatcher</p>
+            </div>
+          </div>
+        </ion-toolbar>
+      </ion-header>
+
       <ion-content>
-        <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi&#64;ionicframework.com</ion-note>
-
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-              <ion-label>{{ p.title }}</ion-label>
-            </ion-item>
+        <div class="menu-content-container">
+          <ion-menu-toggle auto-hide="false">
+            <div class="first-block">
+              <ion-list>
+                  <div class="tab-container" routerDirection="root" [routerLink]="'/tabs/report-emergency'" lines="none" detail="false" routerLinkActive="selected">
+                    <ion-img src="assets/icon/report-emergency.png"></ion-img>
+                    Emergency
+                  </div>
+                  <div class="tab-container" routerDirection="root" [routerLink]="'/profile'" lines="none" detail="false" routerLinkActive="selected">
+                    <ion-img src="assets/icon/person.png"></ion-img>
+                    My profile
+                  </div>
+                  <div class="tab-container" routerDirection="root" [routerLink]="'/community'" lines="none" detail="false" routerLinkActive="selected">
+                    <ion-img src="assets/icon/people.png"></ion-img>
+                    Community
+                  </div>
+              </ion-list>  
+            </div>
+      
+            <div class="seperator"></div>
+      
+            <div class="second-block">
+              <ion-list>
+                <div class="tab-container" routerDirection="root" [routerLink]="'/announcement'" lines="none" detail="false" routerLinkActive="selected">
+                  <ion-img src="assets/icon/announcement.png"></ion-img>
+                  Announcements
+                  <p class="notif">2</p>
+                </div>
+                <div class="tab-container" routerDirection="root" [routerLink]="''" lines="none" detail="false" routerLinkActive="selected">
+                  <ion-img src="assets/icon/cover-request.png"></ion-img>
+                  <p>Cover requests</p>
+                  <p class="notif">3</p>
+                </div>
+                <div class="tab-container" routerDirection="root" [routerLink]="'/case-report'" lines="none" detail="false" routerLinkActive="selected">
+                  <ion-img src="assets/icon/case-report.png"></ion-img>
+                  Case reports
+                  <p class="notif">5</p>
+                </div>
+                <div class="tab-container" routerDirection="root" [routerLink]="'/extensions'" lines="none" detail="false" routerLinkActive="selected">
+                  <ion-img src="assets/icon/phone-extensions.png"></ion-img>
+                  Phone extensions
+                </div>
+                <div class="tab-container" routerDirection="root" [routerLink]="'/medical-faqs'" lines="none" detail="false" routerLinkActive="selected">
+                  <ion-img src="assets/icon/medical-faq.png"></ion-img>
+                  Medical FAQs
+                </div>
+              </ion-list>  
+            </div>
+      
+            <div class="seperator"></div>
+      
+            <div class="third-block">
+              <ion-list>
+                <div class="tab-container" routerDirection="root" [routerLink]="'/admin-panel'" lines="none" detail="false" routerLinkActive="selected">
+                  <ion-img src="assets/icon/admin-panel.png"></ion-img>
+                  Admin panel
+                </div>
+                <div class="tab-container" routerDirection="root" [routerLink]="''" lines="none" detail="false" routerLinkActive="selected">
+                  <ion-img src="assets/icon/logout.png"></ion-img>
+                  Logout
+                </div>
+              </ion-list>  
+            </div>
           </ion-menu-toggle>
-        </ion-list>
-
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
-
-          <ion-item *ngFor="let label of labels" lines="none">
-            <ion-icon aria-hidden="true" slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-            <ion-label>{{ label }}</ion-label>
-          </ion-item>
-        </ion-list>
+        </div>
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>

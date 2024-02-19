@@ -1,0 +1,213 @@
+.header-toolbar{
+  height: 60px;
+  --background: #FFEDED;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toolbar-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+}
+
+.back-button{
+  font-weight: normal;
+  color: black;
+}
+  
+.title{
+  font-size: 22px;
+  font-weight: normal;
+  color: black;
+}
+
+.mainpage{
+  display: flex;
+  flex-direction: column;
+}
+
+.announcement, .modal-announcement{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1px solid gray;
+}
+
+.announcement:active{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1px solid gray;
+  background-color:  #c3baba;
+}
+
+.first-box {
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-picture{
+  margin: 15px; 
+  color: #837272;
+  height:70px;
+  width: 70px;
+}
+
+.second-box {
+  display: flex;
+  flex-direction: column;
+  padding-right: 10px;
+}
+
+.name{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.username {
+  font-weight: bold;
+  color: black;
+  font-size: 18px;
+}
+
+ion-chip{
+  font-size: 14px;
+  height: 50%;
+  text-align: center;
+}
+
+.ion-chip-critical {
+  --background: #FF0000;
+  --color: white;
+}
+
+.ion-chip-important {
+  --background: #FF7A00;
+  --color: white;
+}
+
+.ion-chip-regular {
+  --background: #0BC813;
+  --color: white;
+}
+
+.time-posted{
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.time{
+  color: #837272;
+  opacity: 0.8;
+  font-size: 13px;
+  font-weight:lighter;
+  margin-top: 10px;
+}
+
+.delete-icon{
+  font-size: 20px;
+  margin: 5px;
+  color: black;
+  opacity: 0.8;
+}
+
+.delete-icon:active{
+  font-size: 20px;
+  margin: 5px;
+  color: gray;
+  opacity: 0.8;
+}
+
+ion-fab-button {
+  --background: #810808;
+  --color: white;
+  --background-activated: #380404;
+  margin: 5px;
+}
+
+// VIEW ANNOUNCEMENT MODAL
+ion-modal#view-announcement-modal {
+  --width: 90%;
+  --min-width: 250px;
+  --height: fit-content;
+  --border-radius: 6px;
+  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+}
+
+ion-modal#view-announcement-modal .wrapper {
+  background-color: white;
+  color: black;
+}
+
+.description{
+  margin: 0;
+  color: black;
+  opacity: 0.8;
+}
+
+// ADD ANNOUNCEMENT MODAL
+ion-modal#add-announcement-modal {
+  --width: 90%;
+  --min-width: 250px;
+  --height: fit-content;
+  --border-radius: 6px;
+  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+}
+
+ion-modal#add-announcement-modal .wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: black;
+  padding: 10px;
+}
+
+.statement{
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.announcement-container, .receiver-container, .importance-container{
+  padding: 10px;
+  width: 100%;
+}
+
+ion-select, ion-textarea{
+  background-color: #F1F1F1;
+  border-radius: 10px;
+  padding-right: 10px;
+}
+
+.modal-icon{
+  font-size: 25px;
+  color: #810808;
+  padding-left: 10px;
+}
+
+.send-button-container{
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  width: 100%;
+}
+
+.send-button{
+  --background: #810808;
+  --border-color: #d39d9d;
+  --border-width: 1px;
+  --border-style: solid;
+  --color: white;
+  --background-activated: #d39d9d;
+  width: 50%;
+}

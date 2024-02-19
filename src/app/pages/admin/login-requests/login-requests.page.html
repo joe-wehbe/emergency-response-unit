@@ -1,0 +1,69 @@
+<ion-header id="main-content">
+  <ion-toolbar class="header-toolbar">
+    <div class="toolbar-container">
+      <ion-buttons slot="start">
+        <ion-button (click)="back()">
+          <ion-icon class="back-button" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title class="title">Login Requests</ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <div class="stmt">
+    <p>1 login request</p>
+    <p class="second-stmt">Check if the user trying to login is an ERU member</p>
+  </div>
+
+  <div class="cards">
+    <ion-card>
+      <div class="first-block">
+        <p class="date">05/02/2024</p>
+        <p class="time">9:07</p>
+      </div>
+      <div class="second-block">
+        <p class="name">John Smith</p>
+        <p class="email">john.smithlau.edu</p>
+      </div>
+      <div class="third-block">
+        <ion-icon class="accept-icon" name="checkmark-circle-outline" (click)="acceptAlert()"></ion-icon>
+        <ion-icon class="reject-icon" name="close-circle-outline" (click)="rejectAlert()"></ion-icon>
+      </div>
+    </ion-card>
+
+    <ion-card>
+      <div class="first-block">
+        <p class="date">05/02/2024</p>
+        <p class="time">9:07</p>
+      </div>
+      <div class="second-block">
+        <p class="name">John Smith</p>
+        <p class="email">john.smithlau.edu</p>
+      </div>
+      <div class="third-block">
+        <ion-icon class="accept-icon" name="checkmark-circle-outline" (click)="acceptAlert()"></ion-icon>
+        <ion-icon class="reject-icon" name="close-circle-outline" (click)="rejectAlert()"></ion-icon>
+      </div>
+    </ion-card>
+
+    <ion-card>
+      <div class="first-block">
+        <p class="date">05/02/2024</p>
+        <p class="time">9:07</p>
+      </div>
+      <div class="second-block">
+        <p class="name">John Smith</p>
+        <p class="email">john.smithlau.edu</p>
+      </div>
+      <div class="third-block">
+        <ion-icon class="accept-icon" name="checkmark-circle-outline" (click)="acceptAlert()"></ion-icon>
+        <ion-icon class="reject-icon" name="close-circle-outline" (click)="rejectAlert()"></ion-icon>
+      </div>
+    </ion-card>
+
+    
+  </div>
+</ion-content>
+

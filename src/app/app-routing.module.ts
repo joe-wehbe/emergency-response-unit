@@ -4,64 +4,40 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'folder/Admin Panel',
+    redirectTo: '/admin-panel',
     pathMatch: 'full'
   },
   {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
-  },
-  {
     path: 'login-requests',
-    loadChildren: () => import('./pages/login-requests/login-requests.module').then( m => m.LoginRequestsPageModule)
-  },
-  {
-    path: 'no-requests',
-    loadChildren: () => import('./pages/no-requests/no-requests.module').then( m => m.NoRequestsPageModule)
+    loadChildren: () => import('./pages/admin/login-requests/login-requests.module').then( m => m.LoginRequestsPageModule)
   },
   {
     path: 'medical-faq',
-    loadChildren: () => import('./pages/medical-faq/medical-faq.module').then( m => m.MedicalFAQPageModule)
+    loadChildren: () => import('./pages/admin/medical-faq/medical-faq.module').then( m => m.MedicalFAQPageModule)
   },
   {
     path: 'manage-faq',
-    loadChildren: () => import('./pages/manage-faq/manage-faq.module').then( m => m.ManageFAQPageModule)
-  },
-  {
-    path: 'no-faqs',
-    loadChildren: () => import('./pages/no-faqs/no-faqs.module').then( m => m.NoFAQsPageModule)
-  },
-  {
-    path: 'add-faq',
-    loadChildren: () => import('./pages/add-faq/add-faq.module').then( m => m.AddFAQPageModule)
-  },
-  {
-    path: 'add-announcements',
-    loadChildren: () => import('./pages/add-announcements/add-announcements.module').then( m => m.AddAnnouncementsPageModule)
+    loadChildren: () => import('./pages/admin/manage-faq/manage-faq.module').then( m => m.ManageFAQPageModule)
   },
   {
     path: 'manage-announcements',
-    loadChildren: () => import('./pages/manage-announcements/manage-announcements.module').then( m => m.ManageAnnouncementsPageModule)
-  },
-  {
-    path: 'no-announcements',
-    loadChildren: () => import('./pages/no-announcements/no-announcements.module').then( m => m.NoAnnouncementsPageModule)
+    loadChildren: () => import('./pages/admin/manage-announcements/manage-announcements.module').then( m => m.ManageAnnouncementsPageModule)
   },
   {
     path: 'manage-extensions',
-    loadChildren: () => import('./pages/manage-extensions/manage-extensions.module').then( m => m.ManageExtensionsPageModule)
-  },
-  {
-    path: 'add-extension',
-    loadChildren: () => import('./pages/add-extension/add-extension.module').then( m => m.AddExtensionPageModule)
+    loadChildren: () => import('./pages/admin/manage-extensions/manage-extensions.module').then( m => m.ManageExtensionsPageModule)
   },
   {
     path: 'manage-members',
-    loadChildren: () => import('./pages/manage-members/manage-members.module').then( m => m.ManageMembersPageModule)
+    loadChildren: () => import('./pages/admin/manage-members/manage-members.module').then( m => m.ManageMembersPageModule)
   },
   {
     path: 'profile',
-    loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
+    loadChildren: () => import('./pages/admin/profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
+    path: 'admin-panel',
+    loadChildren: () => import('./pages/admin/admin-panel/admin-panel.module').then( m => m.AdminPanelPageModule)
   }
 ];
 

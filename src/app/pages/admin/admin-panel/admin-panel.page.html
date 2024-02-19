@@ -1,0 +1,71 @@
+<ion-header id="main-content">
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="title">Admin Panel</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="gradient-background">
+
+  <div class="stmt">
+    <p>Hello, Joe</p>
+    <p class="second-stmt">Manage everything through the admin panel!</p>
+  </div>
+
+  <div class="grid-container">
+    <ion-grid>
+      <ion-row size="6">
+        <ion-col>
+          <ion-card (click)="goToMembers()">
+            <ion-img src="./assets/img/task-management.png"></ion-img>
+            <div class="gray-bottom">Manage Members</div>
+          </ion-card>
+        </ion-col>
+        <ion-col>
+          <ion-card (click)="goToManageAnnouncements()">
+            <ion-img src="./assets/img/send-announcement.png"></ion-img>
+            <div class="gray-bottom">Send Announcements</div>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row size="6">
+        <ion-col>
+          <ion-card (click)="goToManageFAQs()">
+            <ion-img src="./assets/img/medical-faq.png"></ion-img>
+            <div class="gray-bottom">Manage FAQs</div>
+          </ion-card>
+        </ion-col>
+        <ion-col>
+          <ion-card (click)="goToExtensions()">
+            <ion-img src="./assets/img/phone.png"></ion-img>
+            <div class="gray-bottom">Manage Extensions</div>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row size="6">
+        <ion-col>
+          <ion-card>
+            <ion-img src="./assets/img/emergency-records.png"></ion-img>
+            <div class="gray-bottom">Emergency Records</div>
+          </ion-card>
+        </ion-col>
+        <ion-col>
+          <ion-card>
+            <ion-img src="./assets/img/attendance-records.png"></ion-img>
+            <div class="gray-bottom">Attendance Records</div>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row size="6">
+        <ion-col>
+          <ion-card (click)="goToRequests()">
+            <ion-img src="./assets/img/login.png"></ion-img>
+            <div class="gray-bottom">Login Requests</div>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
