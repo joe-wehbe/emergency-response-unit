@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-case-report',
   templateUrl: './case-report.page.html',
@@ -7,18 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CaseReportPage implements OnInit {
 
-  constructor() { }
+  selectedSegment: string = 'Ongoing';
+
+  constructor(private router:Router) { }
 
   ngOnInit() {
   }
 
-  selectedOption: string = 'serious';
-  otherInput: string = '';
-
-  optionSelected() {
-    if (this.selectedOption !== 'other') {
-      this.otherInput = '';
-    }
-  }
-
+ navigateCaseReportForm(){
+  this.router.navigate(["./case-report-form"])
+ }
 }

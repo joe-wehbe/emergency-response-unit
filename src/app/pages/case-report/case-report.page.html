@@ -1,4 +1,4 @@
-<!-- <ion-header id="main-content">
+<ion-header id="main-content">
   <ion-toolbar class="toolbar">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
@@ -10,12 +10,12 @@
 <ion-content class="background">
 
   <div class="stmt">
-    <p>3 Cases with no response!</p>
-    <p class="second-stmt">Click on a case to accept</p>
+    <p>3 Cases with no report submitted</p>
+    <p class="second-stmt">Click on a case to fill its report</p>
   </div>
 
-  <ion-card class="ongoing-card" (click)="presentAlert()">
-    <div class="first-box-red">
+  <ion-card class="ongoing-card"  (click)="navigateCaseReportForm()"> 
+    <div class="first-box-green">
       9:07
     </div>
     <div class="second-box">
@@ -29,8 +29,8 @@
     <div class="seperator"></div>
     <div class="third-box">
       <div class="medic">
-        <p>Medic:</p>
-        <p class="medic-name-red">N/A</p>
+        <p>Medic on scene:</p>
+        <p class="medic-name-green">Ghadi</p>
       </div>
       <div class="patient">
         <p>Patient:</p>
@@ -40,11 +40,11 @@
         <div class="heart-rate">
           <ion-img src="assets/icon/hr.png"></ion-img>
           <p class="hr">N/A</p>
-        </div>        
+        </div>
         <div class="blood-pressure">
           <ion-img src="assets/icon/bp.png"></ion-img>
           <p class="bp">N/A</p>
-        </div>        
+        </div>
         <div class="spo2">
           <ion-img src="assets/icon/spo2.png"></ion-img>
           <p class="sp">N/A</p>
@@ -52,25 +52,26 @@
         <div class="temperature">
           <ion-img src="assets/icon/temp.png"></ion-img>
           <p class="temp">N/A</p>
-        </div>     
+        </div>
         <div class="respiration-rate">
           <ion-img src="assets/icon/rr.png"></ion-img>
           <p class="rr">N/A</p>
         </div>
         <div class="capillary-refill">
-          <ion-img src="assets/icon/crt.png"></ion-img> 
+          <ion-img src="assets/icon/crt.png"></ion-img>
           <p class="crt">N/A</p>
-        </div> 
+        </div>
         <div class="hemo-gluco-test">
           <ion-img src="assets/icon/hgt.png"></ion-img>
           <p class="hgt">N/A</p>
         </div>
         <div class="pupils-reaction">
-          <ion-img src="assets/icon/pr.png"></ion-img> 
+          <ion-img src="assets/icon/pr.png"></ion-img>
           <p class="pr">N/A</p>
         </div>
+
       </div>
     </div>
   </ion-card>
 
-</ion-content> -->
+</ion-content>
