@@ -232,3 +232,14 @@ ion-badge{
     --color: white;
     --background-activated: #d39d9d;
 }
+
+ion-content .picker-item,
+ion-content .picker-item-empty {
+    background-color: #ffffff; /* Solid white */
+}
+
+
+ion-datetime{
+    --wheel-highlight-background: white;
+    --wheel-fade-background-rgb: white;
+}
