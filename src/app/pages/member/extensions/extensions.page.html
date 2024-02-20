@@ -1,0 +1,37 @@
+<ion-header id="main-content">
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="title">Extensions</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+
+  <div class="search-bar-container">
+    <ion-searchbar class="search-bar" [debounce]="800" placeholder="Search a name..." (ionInput)="handleInput($event)"></ion-searchbar>
+  </div>
+
+  <div class="lists-container">
+    <ng-container *ngFor="let group of filteredGroupedUsers">
+        <ion-list *ngIf="group.users.length > 0">
+          <ion-list-header [id]="'header-' + group.letter">{{ group.letter }}</ion-list-header>
+          <ion-card>
+            <ion-item *ngFor="let user of group.users">
+              <span class="first-name">{{ user.name }}</span>
+              <ion-note slot="end">{{ user.extension }}</ion-note>
+            </ion-item>
+          </ion-card>
+        </ion-list>
+    </ng-container>
+  </div>
+
+  <div class="vertical-bar">
+    <ul>
+      <ng-container *ngFor="let letter of alphabet">
+        <li (click)="scrollTo(letter)">{{ letter }}</li>
+      </ng-container>
+    </ul>
+  </div>    
+</ion-content>

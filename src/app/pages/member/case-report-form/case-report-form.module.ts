@@ -4,11 +4,10 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ExtensionsPageRoutingModule } from './extensions-routing.module';
+import { CaseReportFormPageRoutingModule } from './case-report-form-routing.module';
 
-import { ExtensionsPage } from './extensions.page';
+import { CaseReportFormPage } from './case-report-form.page';
 import { HttpClientModule } from '@angular/common/http';
-import { ComponentsModule } from "../../components/components.module";
 
 @NgModule({
   imports: [
@@ -16,9 +15,8 @@ import { ComponentsModule } from "../../components/components.module";
     FormsModule,
     HttpClientModule,
     IonicModule,
-    ExtensionsPageRoutingModule,
-    ComponentsModule
+    CaseReportFormPageRoutingModule,
   ],
-  declarations: [ExtensionsPage]
+  declarations: [CaseReportFormPage]
 })
-export class ExtensionsPageModule {}
+export class CaseReportFormPageModule {}

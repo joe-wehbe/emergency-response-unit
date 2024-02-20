@@ -8,7 +8,6 @@ import { CoverRequestsPageRoutingModule } from './cover-requests-routing.module'
 
 import { CoverRequestsPage } from './cover-requests.page';
 import { HttpClientModule } from '@angular/common/http';
-import { ComponentsModule } from "../../components/components.module";
 
 @NgModule({
   imports: [
@@ -17,8 +16,6 @@ import { ComponentsModule } from "../../components/components.module";
     HttpClientModule,
     IonicModule,
     CoverRequestsPageRoutingModule,
-    ComponentsModule
-
   ],
   declarations: [CoverRequestsPage]
 })

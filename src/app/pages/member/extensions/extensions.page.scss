@@ -1,0 +1,94 @@
+.toolbar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  --background: #FFEDED;
+}
+
+ion-menu-button{
+  color: black;
+  font-weight: normal;
+}
+
+.title{
+  font-size: 22px;
+  color: black;
+  font-weight: normal;
+}
+
+.search-bar-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1em;
+}
+
+ion-searchbar.search-bar {
+  --background: white;
+  --color: black;
+  --placeholder-color: gray;
+  --icon-color: gray;
+  --clear-button-color: gray; 
+  --border-radius: 20px;
+  --box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  width: 80%;
+}
+
+.lists-container{
+  margin-left: 10px;
+  margin-right: 2em;  
+  margin-bottom: 5em;
+}
+
+ion-list {
+  --ion-item-background: transparent;
+
+}
+
+ion-list-header {
+  color: black;
+  font-weight: bold;
+}
+
+ion-card{
+  background-color: rgb(226, 205, 205);
+  margin: 0;
+}
+
+ion-item {
+  color: black;
+}
+
+.first-name {
+  font-weight: bold;
+}
+
+ion-note{
+  color: black;
+  size: 16px;
+  font-weight: bold;
+}
+
+.vertical-bar {
+  position: fixed;
+  top: 53%;
+  right: 0;
+  transform: translateY(-50%);
+  flex-direction: column;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5em;
+  width: 50px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  color: black;
+  font-size: 15px;
+  padding-bottom: 4px;
+}

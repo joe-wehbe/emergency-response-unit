@@ -14,15 +14,15 @@ const routes: Routes = [
     children: [
       {
         path: 'report-emergency',
-        loadChildren: () => import('src/app/pages/report-emergency/report-emergency.module').then( m => m.ReportEmergencyPageModule)
+        loadChildren: () => import('src/app/pages/member/report-emergency/report-emergency.module').then( m => m.ReportEmergencyPageModule)
       },
       {
         path: 'on-scene',
-        loadChildren: () => import('src/app/pages/on-scene/on-scene.module').then( m => m.OnScenePageModule)
+        loadChildren: () => import('src/app/pages/member/on-scene/on-scene.module').then( m => m.OnScenePageModule)
       },
       {
         path: 'standby',
-        loadChildren: () => import('src/app/pages/standby/standby.module').then( m => m.StandbyPageModule)
+        loadChildren: () => import('src/app/pages/member/standby/standby.module').then( m => m.StandbyPageModule)
       },
       {
         path: '',
@@ -33,59 +33,59 @@ const routes: Routes = [
   },
   {
     path: 'pending-request',
-    loadChildren: () => import('./pages/pending-request/pending-request.module').then( m => m.PendingRequestPageModule)
+    loadChildren: () => import('./pages/member/pending-request/pending-request.module').then( m => m.PendingRequestPageModule)
   },
   {
     path: 'request-rejected',
-    loadChildren: () => import('./pages/request-rejected/request-rejected.module').then( m => m.RequestRejectedPageModule)
+    loadChildren: () => import('./pages/member/request-rejected/request-rejected.module').then( m => m.RequestRejectedPageModule)
   },
   {
     path: 'emergency-details',
-    loadChildren: () => import('./pages/emergency-details/emergency-details.module').then( m => m.EmergencyDetailsPageModule)
+    loadChildren: () => import('./pages/member/emergency-details/emergency-details.module').then( m => m.EmergencyDetailsPageModule)
   },
   {
     path: 'medic-emergency-details',
-    loadChildren: () => import('./pages/medic-emergency-details/medic-emergency-details.module').then( m => m.MedicEmergencyDetailsPageModule)
+    loadChildren: () => import('./pages/member/medic-emergency-details/medic-emergency-details.module').then( m => m.MedicEmergencyDetailsPageModule)
   },
   {
     path: 'profile',
-    loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
+    loadChildren: () => import('./pages/member/profile/profile.module').then( m => m.ProfilePageModule)
   },
   {
     path: 'community',
-    loadChildren: () => import('./pages/community/community.module').then( m => m.CommunityPageModule)
+    loadChildren: () => import('./pages/member/community/community.module').then( m => m.CommunityPageModule)
   },
   {
     path: 'case-report',
-    loadChildren: () => import('./pages/case-report/case-report.module').then( m => m.CaseReportPageModule)
+    loadChildren: () => import('./pages/member/case-report/case-report.module').then( m => m.CaseReportPageModule)
   },
   {
     path: 'announcement',
-    loadChildren: () => import('./pages/announcement/announcement.module').then( m => m.AnnouncementPageModule)
+    loadChildren: () => import('./pages/member/announcement/announcement.module').then( m => m.AnnouncementPageModule)
   },
   {
     path: 'extensions',
-    loadChildren: () => import('./pages/extensions/extensions.module').then( m => m.ExtensionsPageModule)
+    loadChildren: () => import('./pages/member/extensions/extensions.module').then( m => m.ExtensionsPageModule)
   },
   {
     path: 'cover-requests',
-    loadChildren: () => import('./pages/cover-requests/cover-requests.module').then( m => m.CoverRequestsPageModule)
+    loadChildren: () => import('./pages/member/cover-requests/cover-requests.module').then( m => m.CoverRequestsPageModule)
   },
   {
     path: 'case-report-form',
-    loadChildren: () => import('./pages/case-report-form/case-report-form.module').then( m => m.CaseReportFormPageModule)
+    loadChildren: () => import('./pages/member/case-report-form/case-report-form.module').then( m => m.CaseReportFormPageModule)
   },
   {
     path: 'case-report',
-    loadChildren: () => import('./pages/case-report/case-report.module').then( m => m.CaseReportPageModule)
+    loadChildren: () => import('./pages/member/case-report/case-report.module').then( m => m.CaseReportPageModule)
   },
   {
     path: 'medical-faqs',
-    loadChildren: () => import('./pages/medical-faqs/medical-faqs.module').then( m => m.MedicalFaqsPageModule)
+    loadChildren: () => import('./pages/member/medical-faqs/medical-faqs.module').then( m => m.MedicalFaqsPageModule)
   },
   {
     path: 'reading-medical-faq',
-    loadChildren: () => import('./pages/reading-medical-faq/reading-medical-faq.module').then( m => m.ReadingMedicalFaqPageModule)
+    loadChildren: () => import('./pages/member/reading-medical-faq/reading-medical-faq.module').then( m => m.ReadingMedicalFaqPageModule)
   },
 
 ];

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { MenuComponent } from './menu/menu.component';
 import { TabsComponent } from './tabs/tabs.component';
 
 @NgModule({
@@ -10,11 +9,9 @@ import { TabsComponent } from './tabs/tabs.component';
     IonicModule,
   ],
   declarations: [
-    MenuComponent,
     TabsComponent
   ],
   exports: [
-    MenuComponent,
     TabsComponent
   ]
 

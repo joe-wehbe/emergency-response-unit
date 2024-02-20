@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-case-report-form',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CaseReportFormPage implements OnInit {
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
   }
@@ -27,6 +28,8 @@ export class CaseReportFormPage implements OnInit {
        this.otherInput = '';
      }
    }
- 
 
+   back(){
+    this.router.navigate(["./case-report"])
+  }
 }

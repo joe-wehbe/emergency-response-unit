@@ -1,21 +1,30 @@
-
-.toolbar{
+.header-toolbar{
     height: 60px;
     --background: #FFEDED;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
-ion-menu-button{
-    color: black;
+  
+.toolbar-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+  
+.back-button{
     font-weight: normal;
-    margin-top: 12px;
+    color: black;
 }
-
+    
 .title{
     font-size: 22px;
-    color: black;
     font-weight: normal;
-    margin-top: 7px;
+    color: black;
 }
+
 
 
 .mainpage{

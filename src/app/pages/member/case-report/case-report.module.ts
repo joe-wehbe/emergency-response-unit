@@ -7,14 +7,12 @@ import { IonicModule } from '@ionic/angular';
 import { CaseReportPageRoutingModule } from './case-report-routing.module';
 
 import { CaseReportPage } from './case-report.page';
-import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ComponentsModule,
     CaseReportPageRoutingModule,
   ],
   declarations: [CaseReportPage]
