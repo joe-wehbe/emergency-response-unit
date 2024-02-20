@@ -33,9 +33,6 @@ export class MedicalFAQPage implements OnInit {
         {
           text: 'Delete',
           cssClass: 'alert-button-ok-red',
-          handler: () => {
-            this.router.navigate(["./manage-announcements"])
-          },
         },
       ],
     });

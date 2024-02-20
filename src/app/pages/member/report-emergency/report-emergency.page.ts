@@ -53,7 +53,7 @@ export class ReportEmergencyPage implements OnInit {
           },
         },
         {
-          text: 'Send',
+          text: 'Report',
           cssClass: 'alert-button-ok-red',
           handler: () => {
             this.sendSOS();

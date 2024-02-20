@@ -65,7 +65,7 @@ ion-menu-button{
     padding-left: 5px;
 }
 
-.edit-button{
+.save-button{
     width: 25%;
     display: flex;
     justify-content: flex-end;
@@ -88,6 +88,7 @@ ion-icon:active{
 ion-grid{
     padding-left: 10px;
     padding-right: 10px;
+    opacity: 0.4;
 }
 
 ion-row{
@@ -200,6 +201,22 @@ h6{
     padding-right: 10px;
 }
 
+.first-experience-section:active, .second-experience-section:active{
+    animation: pulse 0.1s ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
 .skills-card{
     background-color:#F2F2F2;
     padding: 10px;
@@ -217,6 +234,7 @@ ion-badge{
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 0.4;
 }
 
 .calendar{
@@ -238,15 +256,76 @@ ion-badge{
     --border-style: solid;
     --color: white;
     --background-activated: #d39d9d;
+    opacity: 0.4;
 }
 
 ion-content .picker-item,
 ion-content .picker-item-empty {
-    background-color: #ffffff; /* Solid white */
+    background-color: #ffffff;
 }
-
 
 ion-datetime{
     --wheel-highlight-background: white;
     --wheel-fade-background-rgb: white;
+}
+
+ion-modal#edit-first-section-modal, ion-modal#edit-second-section-modal {
+    --width: 90%;
+    --min-width: 250px;
+    --height: fit-content;
+    --border-radius: 6px;
+    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+}
+  
+ion-modal#edit-first-section-modal .wrapper, ion-modal#edit-second-section-modal .wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    color: black;
+    padding: 10px;
+}
+  
+.statement{
+    font-weight: bold;
+    font-size: 18px;
+}
+  
+.input-container{
+    padding: 10px;
+    width: 100%;
+}
+
+ion-text{
+    color: gray;
+}
+  
+ion-textarea{
+    background-color: #F1F1F1;
+    border-radius: 10px;
+    --padding-start: 10px;
+}
+  
+.modal-icon{
+    font-size: 25px;
+    color: #810808;
+    padding-left: 10px;
+}
+  
+.send-button-container{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+}
+  
+.send-button{
+    --background: #810808;
+    --border-color: #d39d9d;
+    --border-width: 1px;
+    --border-style: solid;
+    --color: white;
+    --background-activated: #d39d9d;
+    width: 50%;
 }

@@ -24,7 +24,7 @@ export class ReportPage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Emergency Alert',
       subHeader: 'Please provide emergency information',
-      cssClass: "input-alert-dialog",
+      cssClass: "alert-dialog",
 
       inputs: [
         {
@@ -52,8 +52,8 @@ export class ReportPage implements OnInit {
           },
         },
         {
-          text: 'Send',
-          cssClass: 'alert-button-send',
+          text: 'Report',
+          cssClass: 'alert-button-ok-red',
           handler: () => {
             this.sendSOS();
             this.notifyingStatement = 'Notifying medics...';

@@ -164,4 +164,8 @@ export class ProfilePage implements OnInit {
     });
     await alert.present();
   } 
+
+  navigateEditProfile(){
+    this.router.navigate(["./edit-profile"]);
+  }
 }

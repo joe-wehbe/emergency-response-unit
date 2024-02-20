@@ -34,6 +34,10 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
     path: 'pending-request',
     loadChildren: () => import('./pages/member/pending-request/pending-request.module').then( m => m.PendingRequestPageModule)
   },
@@ -52,6 +56,10 @@ const routes: Routes = [
   {
     path: 'profile',
     loadChildren: () => import('./pages/member/profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
+    path: 'edit-profile',
+    loadChildren: () => import('./pages/member/edit-profile/edit-profile.module').then( m => m.EditProfilePageModule)
   },
   {
     path: 'community',
@@ -125,15 +133,13 @@ const routes: Routes = [
     loadChildren: () => import('./pages/admin/admin-panel/admin-panel.module').then( m => m.AdminPanelPageModule)
   },
 
-
-  {
-    path: 'home',
-    loadChildren: () => import('./pages/ssf/home/home.module').then( m => m.HomePageModule)
-  },
+  /* SSF Routes */
   {
     path: 'report',
     loadChildren: () => import('./pages/ssf/report/report.module').then( m => m.ReportPageModule)
-  }
+  },
+
+
 
 ];
 

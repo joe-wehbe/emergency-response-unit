@@ -22,6 +22,9 @@ export class StandbyPage implements OnInit {
       data: {
         action: 'report',
       },
+      handler: () => {
+        this.router.navigate(["./case-report-form"])
+      },
     },
     {
       text: 'Emergency Details',

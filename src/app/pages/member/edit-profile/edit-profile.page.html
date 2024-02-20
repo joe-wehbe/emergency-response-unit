@@ -21,8 +21,8 @@
           <p class="position">Board Member & Medic</p>
         </div>
 
-        <div class="edit-button">
-          <ion-icon name="create-outline" (click)="navigateEditProfile()"></ion-icon>
+        <div class="save-button">
+          <ion-icon name="checkbox-outline" (click)="navigateProfile()"></ion-icon>
         </div>
       </div>
     </div>
@@ -57,7 +57,7 @@
     </div>
   
     <div class="experience-sections">
-      <div class="first-experience-section">
+      <div class="first-experience-section" id="edit-first-section">
         <h6>Talk about your accomplishments</h6>
         <ion-card class="experience-card">
           <ion-text class="experience-text">Nursing student with 6 years in emergency response.
@@ -65,7 +65,7 @@
         </ion-card>
       </div>
   
-      <div class="second-experience-section">
+      <div class="second-experience-section" id="edit-second-section">
         <h6>Show your skills in the medical field</h6>
         <ion-card class="skills-card">
           <ion-badge>First Aid</ion-badge>
@@ -93,9 +93,9 @@
         class="calendar"
         mode="md" 
         presentation="date" 
+        [readonly]="true"
         [firstDayOfWeek]="1" 
-        [highlightedDates]="highlightedDates"
-        (ionChange)="showShiftTime($event)">
+        [highlightedDates]="highlightedDates">
       </ion-datetime> 
     </div>
 
@@ -103,4 +103,40 @@
       <ion-button class="attendance-button">Mark attendance</ion-button>
     </div>
   </ion-card>
+
+  <ion-modal id="edit-first-section-modal" #modal trigger="edit-first-section">
+    <ng-template>
+      <div class="wrapper">
+        <p class="statement"> Editing accomplishments</p>
+        <div class="input-container">
+          <ion-text>Talk about your accomplishments</ion-text>
+          <ion-textarea value="Nursing student with 6 years in emergency response. Member of the red cross since 2017. Obtained several certifications such as CPR, A-EMT and more."
+            [autoGrow]="true" placeholder="Announcement...">
+          </ion-textarea>
+        </div>
+        <div class="send-button-container">
+          <ion-button class="send-button" (click)="dismiss()">Save</ion-button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal id="edit-second-section-modal" #modal trigger="edit-second-section">
+    <ng-template>
+      <div class="wrapper">
+        <p class="statement"> Editing skills</p>
+        <div class="input-container">
+          <ion-text>Seperate tags with a comma</ion-text>
+          <ion-textarea value="First Aid, EMT-B, Red Cross, CPR, Medical Protocols, A-EMT, Medication, EMT-I, Emergency Unit, Ventilation"
+            [autoGrow]="true" placeholder="Announcement...">
+          </ion-textarea>
+        </div>
+        <div class="send-button-container">
+          <ion-button class="send-button" (click)="dismiss()">Save</ion-button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+
 </ion-content>
