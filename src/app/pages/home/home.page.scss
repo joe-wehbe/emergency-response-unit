@@ -1,0 +1,103 @@
+.main-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.logo-block{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30%;
+}
+
+.logo{
+  width: 50%;
+}
+
+.curved-shape {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70%;
+  background: linear-gradient(to top, #FFEDED 5%, #810808);
+  clip-path: ellipse(140% 100% at 35% 100%);
+}
+
+.statement-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 30%;
+  width: 40%;
+  padding-top: 1.5em;
+  padding-left: 2em;
+}
+
+.forms-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 55%;
+  padding-left: 2.5em;
+  padding-right: 2.5em;
+}
+
+ion-select{
+  padding-left: 1em;
+  padding-bottom: 5px;
+  border-radius: 25px;
+  height: 52px;
+  background: #FFEDED;
+  color: black;
+  --placeholder-color: #464141;
+  box-shadow: 0px 4px 4px rgba(0.0, 0, 0, 0.35);
+}
+
+ion-input{
+  padding-bottom: 5px;
+  border-radius: 25px;
+  height: 52px;
+  background: #FFEDED;
+  color: black;
+  --placeholder-color: #464141;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.35); 
+}
+
+ion-icon[name="lock-closed"], ion-icon[name="mail-outline"]{
+  padding-left: 0.5em;
+  font-size: 25px;
+  color: #464141;
+}
+
+ion-icon[name="eye"], ion-icon[name="eye-off"] {
+  padding-right: 0.5em;
+  font-size: 1.5em;
+  color: #464141;
+}
+
+ion-checkbox {
+  --size: 32px;
+  margin-top: 1em;
+  --checkbox-background-checked: #4169E1;
+  color: black
+}
+
+ion-checkbox::part(container) {
+  border-radius: 6px;
+}
+
+ion-button {
+  width: 8em;
+  --background: #FFEDED;
+  --color: black;
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.35);
+}
