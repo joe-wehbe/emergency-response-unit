@@ -3,6 +3,8 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { TabsComponent } from './components/tabs/tabs.component';
 
 const routes: Routes = [
+
+  /* Member Routes*/
   {
     path: '',
     redirectTo: '/tabs/report-emergency',
@@ -88,6 +90,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/member/reading-medical-faq/reading-medical-faq.module').then( m => m.ReadingMedicalFaqPageModule)
   },
 
+
+  /* Admin Routes */
   {
     path: 'login-requests',
     loadChildren: () => import('./pages/admin/login-requests/login-requests.module').then( m => m.LoginRequestsPageModule)
@@ -119,6 +123,16 @@ const routes: Routes = [
   {
     path: 'admin-panel',
     loadChildren: () => import('./pages/admin/admin-panel/admin-panel.module').then( m => m.AdminPanelPageModule)
+  },
+
+
+  {
+    path: 'home',
+    loadChildren: () => import('./pages/ssf/home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'report',
+    loadChildren: () => import('./pages/ssf/report/report.module').then( m => m.ReportPageModule)
   }
 
 ];
