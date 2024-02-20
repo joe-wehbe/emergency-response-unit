@@ -1,0 +1,107 @@
+<ion-header id="main-content">
+  <ion-toolbar class="header-toolbar">
+    <div class="toolbar-container">
+      <ion-buttons slot="start">
+        <ion-button (click)="back()">
+          <ion-icon class="back-button" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title class="title">Profile</ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="gradient-background">
+  <ion-card class="card-container">
+      
+    <div class="header">
+      <ion-avatar class="icon">
+        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      </ion-avatar>
+  
+      <div class="container">
+        <div class="np-container">
+          <h2 class="name">Joe Wehbe</h2>
+          <p class="position">Board Member & Medic</p>
+        </div>
+
+        <div class="options-icon-container">
+          <ion-icon id="open-action-sheet" class="options-icon" name="options-outline"></ion-icon>
+          <ion-action-sheet class="action-sheet" trigger="open-action-sheet" header="Select" [buttons]="actionSheetButtons"></ion-action-sheet>
+        </div>
+      </div>
+    </div>
+
+    <ion-grid [fixed]="true" class="grid-container">
+      <ion-row>
+        <ion-col size="6" size-md="4" size-lg="2">
+          <ion-img src="assets/icon/email.png"></ion-img>
+          <p>Joe Wehbe</p>
+        </ion-col>
+        <ion-col size="6" size-md="4" size-lg="2">
+          <ion-img src="assets/icon/phone.png"></ion-img>
+          <p>81955654</p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6" size-md="4" size-lg="2">
+          <ion-img src="assets/icon/id.png"></ion-img>
+          <p>202000908</p>
+        </ion-col>
+        <ion-col size="6" size-md="4" size-lg="2">
+          <ion-img src="assets/icon/major.png"></ion-img>
+          <p>Computer Science</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div class="seperator">
+      <div class="first-line"></div>
+      <p class="section-name">Experience</p>
+      <div class="second-line"></div>
+    </div>
+  
+    <div class="experience-sections">
+      <div class="first-experience-section">
+        <h6>Talk about your accomplishments</h6>
+        <ion-card class="experience-card">
+          <ion-text class="experience-text">Nursing student with 6 years in emergency response.
+            Member of the red cross since 2017. Obtained several certifications such as CPR, A-EMT and more.</ion-text>
+        </ion-card>
+      </div>
+  
+      <div class="second-experience-section">
+        <h6>Show your skills in the medical field</h6>
+        <ion-card class="skills-card">
+          <ion-badge>First Aid</ion-badge>
+          <ion-badge>EMT-B</ion-badge>
+          <ion-badge>Red Cross</ion-badge>
+          <ion-badge>CPR</ion-badge>
+          <ion-badge>Medical Protocols</ion-badge>
+          <ion-badge>A-EMT</ion-badge>
+          <ion-badge>Medication</ion-badge>
+          <ion-badge>EMT-I</ion-badge>
+          <ion-badge>Emergency Unit</ion-badge>
+          <ion-badge>Ventilation</ion-badge>
+        </ion-card>
+      </div>
+    </div>
+
+    <div class="seperator">
+      <div class="first-line"></div>
+      <p class="section-name">Schedule</p>
+      <div class="second-line"></div>
+    </div>
+
+    <div class="calendar-container">
+      <ion-datetime 
+        class="calendar"
+        mode="md" 
+        presentation="date" 
+        [firstDayOfWeek]="1" 
+        [highlightedDates]="highlightedDates"
+        (ionChange)="showShiftTime($event)">
+      </ion-datetime> 
+    </div>
+  </ion-card>
+</ion-content>

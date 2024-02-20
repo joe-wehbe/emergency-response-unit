@@ -1,0 +1,73 @@
+<ion-header id="main-content">
+  <ion-toolbar class="header-toolbar">
+    <div class="toolbar-container">
+      <ion-buttons slot="start">
+        <ion-button (click)="back()">
+          <ion-icon class="back-button" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title class="title">Medical FAQs</ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+
+  <div class="stmt">
+    <p class="section">Patient Assessment</p>
+    <p class="second-stmt">Click on a card to delete it</p>
+  </div>
+
+  <div class="cards-container">
+    <ion-card (click)="presentAlert()">
+      <div class="question-container">
+        <p class="question">What is the first responsibility of the EMT-B on the scene 
+          of an emergency before starting to assess the patient?</p>
+      </div>
+      <div class="answer-container">
+        <p class="answer">SCENE SIZE-UP
+          1. Dispatch information
+          2. Body Substance Isolation
+          3. Scene Safety/Scene hazards
+          4. Mechanism of injury/ Nature of illness
+          5. Number of patients
+          6. Additional resources needed
+          7. C-Spine Immobilization
+        </p>
+      </div>
+    </ion-card>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button id="add-faq">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-modal id="add-faq-modal" #modal trigger="add-faq">
+    <ng-template>
+      <div class="wrapper">
+
+        <p class="statement"> Add useful medical FAQ </p>
+
+        <div class="modal-question-container">
+          <ion-text>Write a frequently asked question</ion-text>
+          <ion-textarea [autoGrow]="true" placeholder="Question...">
+            <ion-icon class="modal-icon" name="help-circle-outline" slot="start"></ion-icon>
+          </ion-textarea>
+        </div>
+
+        <div class="modal-answer-container">
+          <ion-text>Write a detailed answer</ion-text>
+          <ion-textarea [autoGrow]="true" placeholder="Answer...">
+            <ion-icon class="modal-icon" name="information-circle-outline" slot="start"></ion-icon>
+          </ion-textarea>
+        </div>
+
+        <div class="send-button-container">
+          <ion-button class="send-button" (click)="add()">Add</ion-button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>

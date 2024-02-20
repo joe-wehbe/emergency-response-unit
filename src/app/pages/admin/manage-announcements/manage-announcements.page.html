@@ -1,0 +1,114 @@
+<ion-header id="main-content">
+  <ion-toolbar class="header-toolbar">
+    <div class="toolbar-container">
+      <ion-buttons slot="start">
+        <ion-button (click)="back()">
+          <ion-icon class="back-button" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title class="title">Send Announcement</ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <div class="mainpage">
+    <div class="announcement" id="view-announcement">
+      <div class="first-box">
+        <ion-avatar slot="start" class="profile-picture">
+          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        </ion-avatar>
+      </div>
+      <div class="second-box">
+        <div class="name">
+          <h2 class="username">Roula Ghaleb</h2>
+          <ion-chip color="danger">Very important</ion-chip>
+        </div>
+        <div class="description-container">
+          <p class="description">
+            {{ truncateDescription('Tomorrow meeting in the lounge to discuss shifts and schedules at 5pm, be on time', 65) }}
+          </p>
+        </div>
+        <div class="time-posted">
+          <h3 class="time">1 day ago</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button id="add-announcement">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-modal id="view-announcement-modal" #modal trigger="view-announcement">
+    <ng-template>
+      <div class="wrapper">
+        <div class="modal-announcement" id="view-announcement">
+          <div class="first-box">
+            <ion-avatar slot="start" class="profile-picture">
+              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+            </ion-avatar>
+          </div>
+          <div class="second-box">
+            <div class="name">
+              <h2 class="username">Roula Ghaleb</h2>
+              <ion-chip color="danger">Very important</ion-chip>
+            </div>
+            <div class="description-container">
+              <p class="description">
+                Tomorrow meeting in the lounge to discuss shifts and schedules at 5pm, be on time and bring with you a paper and a pen
+              </p>
+            </div>
+            <div class="time-posted">
+              <h3 class="time">1 day ago</h3>
+              <ion-icon class="delete-icon" name="trash-outline" (click)="presentAlert()"></ion-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal id="add-announcement-modal" #modal trigger="add-announcement">
+    <ng-template>
+      <div class="wrapper">
+
+        <p class="statement"> Share what you want to say </p>
+
+        <div class="announcement-container">
+          <ion-text>Write your announcement</ion-text>
+          <ion-textarea [autoGrow]="true" placeholder="Announcement...">
+            <ion-icon class="modal-icon" name="megaphone" slot="start"></ion-icon>
+          </ion-textarea>
+        </div>
+
+        <div class="receiver-container">
+          <ion-text>Specify who will see your announcement</ion-text>
+          <ion-select interface="popover" [(ngModel)]="receiverSelectedOption">
+            <ion-select-option value="all-members">All members</ion-select-option>
+            <ion-select-option value="board-members">Board members</ion-select-option>
+            <ion-select-option value="medics">Medics</ion-select-option>
+            <ion-select-option value="dispatchers">Dispatchers</ion-select-option>
+            <ion-icon class="modal-icon" slot="start" name="people"></ion-icon>
+          </ion-select>
+        </div>
+
+        <div class="importance-container">
+          <ion-text>Specify its importance level</ion-text>
+          <ion-select interface="popover" placeholder="Importance level" [(ngModel)]="importanceSelectedOption">
+            <ion-select-option value="very-important">Very important</ion-select-option>
+            <ion-select-option value="important">Important</ion-select-option>
+            <ion-select-option value="regular">Regular</ion-select-option>
+            <ion-icon class="modal-icon" slot="start" name="alert-circle-sharp"></ion-icon>
+          </ion-select>
+        </div>
+
+        <div class="send-button-container">
+          <ion-button class="send-button">Send</ion-button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>

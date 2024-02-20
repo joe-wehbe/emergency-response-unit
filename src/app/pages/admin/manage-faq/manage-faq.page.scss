@@ -1,0 +1,91 @@
+.header-toolbar{
+  height: 60px;
+  --background: #FFEDED;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toolbar-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+}
+
+.back-button{
+  font-weight: normal;
+  color: black;
+}
+  
+.title{
+  font-size: 22px;
+  font-weight: normal;
+  color: black;
+}
+
+.stmt{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1em;
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+}
+
+.grid-container{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+ion-card{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  margin: 3px;
+}
+
+ion-card:active{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  margin: 3px;
+  animation: pulse 0.1s ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+ion-img{
+  width: 120px;
+  height: 120px;
+  padding: 10px;
+}
+
+.gray-bottom{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 100%;
+  background-color: #D4D4D4;
+  color: black;
+}

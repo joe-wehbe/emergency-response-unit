@@ -1,0 +1,63 @@
+<ion-header id="main-content">
+  <ion-toolbar class="header-toolbar">
+    <div class="toolbar-container">
+      <ion-buttons slot="start">
+        <ion-button (click)="back()">
+          <ion-icon class="back-button" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title class="title">Manage Members</ion-title>
+    <ion-icon class="filter-button" name="filter-outline" slot="end" id="popover-button"></ion-icon>
+    <ion-popover trigger="popover-button" [dismissOnSelect]="true">
+      <ng-template>
+        <ion-content>
+          <ion-list>
+            <ion-item [button]="true" [detail]="false">On shift</ion-item>
+            <ion-item [button]="true" [detail]="false">Medics</ion-item>
+            <ion-item [button]="true" [detail]="false">Dispatchers</ion-item>
+            <ion-item [button]="true" [detail]="false">Board members</ion-item>
+            <ion-item [button]="true" [detail]="false">All members</ion-item>
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+
+  <div class="search-bar-container">
+    <ion-searchbar class="search-bar" [debounce]="800" placeholder="Search all members" (ionInput)="handleInput($event)"></ion-searchbar>
+  </div>
+
+  <ng-container *ngFor="let group of filteredGroupedUsers">
+    <ion-list *ngIf="group.users.length > 0">
+      <ion-list-header lines="inset">
+        {{ group.letter }}
+      </ion-list-header>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="4" *ngFor="let user of group.users">
+            <ion-card class="card" (click)="goToProfile()">
+              <div class="card-content">
+                <ion-avatar class="icon">
+                  <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                </ion-avatar>
+                <div class="user-name"> {{ user.firstName }} {{ user.lastName }} </div>
+                <div class="user-role">{{ user.role }}</div>
+              </div>
+              <div class="gray-bottom"></div>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+  </ng-container>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="presentAlert()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
