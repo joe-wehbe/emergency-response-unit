@@ -34,6 +34,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
              //write the route of the apis in the admin controller here 
              Route::post("delete_announcement", [AdminController::class, "deleteAnnouncement"]);
              Route::post("delete_user", [AdminController::class, "deleteUser"]);
+             Route::post("add_faq", [AdminController::class, "deleteFaq"]);
+             Route::post("delete_faq", [AdminController::class, "deleteFaq"]);
         });
 
 });
