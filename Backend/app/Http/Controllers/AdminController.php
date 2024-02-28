@@ -165,6 +165,52 @@ if (!$announcement) {
     }
 
     function deleteFaq(Request $request){
-        
+       $request->validate([
+        'admin_id' => 'required|integer',
+        'faq_id' => 'required|integer'
+     ]);
+
+     $faq = Medical_faq::where('id', $request->input('faq_id'))->first();
+
+     $admin = User::where('id', $request->input('admin_id'))->first();
+
+
+if (!$faq) {
+ return response()->json([
+     'status' => 'Error',
+     'message' => 'FAQ not found'
+ ]);
+}
+
+//checking admin authorities 
+     if (!$admin) {
+         return response()->json([
+             'status' => 'Error',
+             'message' => 'Admin not found'
+         ]);
+     }
+
+   
+     if ($admin->user_type != 3) {
+         return response()->json([
+             'status' => 'Error',
+             'message' => 'User is not an admin'
+         ]);
+     }
+
+     /*check if the user who initiated the request is the one who posted the FAQ
+     if ($admin->id != $faq->admin_id) {
+         return response()->json([
+             'status' => 'Error',
+             'message' => 'User does not match admin ID of poster'
+         ]);
+     }*/
+
+     
+     $faq->delete();
+     return response()->json([
+         'status' => 'Success',
+         'message' => 'FAQ deleted successfully'
+     ]);
     }
 }
