@@ -36,6 +36,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
              Route::post("delete_user", [AdminController::class, "deleteUser"]);
              Route::post("add_faq", [AdminController::class, "addFaq"]);
              Route::post("delete_faq", [AdminController::class, "deleteFaq"]);
+             Route::post("add_extension", [AdminController::class, "addExtension"]);
+             Route::post("delete_extension", [AdminController::class, "deleteExtension"]);
         });
 
 });
