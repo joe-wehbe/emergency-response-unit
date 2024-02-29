@@ -251,6 +251,44 @@ if (!$faq) {
     }
 
     function deleteExtension(Request $request){
-        
+        $request->validate([
+            'admin_id' => 'required|integer',
+            'extension_id' => 'required|integer'
+         ]);
+    
+         $extension = Extension::where('id', $request->input('extension_id'))->first();
+    
+         $admin = User::where('id', $request->input('admin_id'))->first();
+    
+    
+    if (!$extension) {
+     return response()->json([
+         'status' => 'Error',
+         'message' => 'Extension not found'
+     ]);
+    }
+    
+    //checking admin authorities 
+         if (!$admin) {
+             return response()->json([
+                 'status' => 'Error',
+                 'message' => 'Admin not found'
+             ]);
+         }
+    
+       
+         if ($admin->user_type != 3) {
+             return response()->json([
+                 'status' => 'Error',
+                 'message' => 'User is not an admin'
+             ]);
+         }
+    
+         
+         $extension->delete();
+         return response()->json([
+             'status' => 'Success',
+             'message' => 'Extension deleted successfully'
+         ]);
     }
 }
