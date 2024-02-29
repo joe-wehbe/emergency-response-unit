@@ -8,6 +8,7 @@ use App\Models\Announcement;
 use App\Models\User;
 use App\Models\Medical_faq;
 use App\Models\Extension;
+use App\Models\Login_request;
 
 class AdminController extends Controller
 {
@@ -290,5 +291,106 @@ if (!$faq) {
              'status' => 'Success',
              'message' => 'Extension deleted successfully'
          ]);
+    }
+
+    function getLoginRequests(){
+        $requests = Login_request::all();
+            if($requests->isEmpty()){
+            return response()->json([
+             'message' => 'No login entries in the db yet'
+            ]);
+        }else{
+            return response()->json($requests);
+        }
+    }
+
+    function acceptRequest(Request $request){
+        
+        $request->validate([
+            'request_id' => 'required|integer',
+            'admin_id' => 'required|integer'
+        ]);
+
+        $loginRequest = Login_Request::where('id', $request->input('request_id'))->first();
+        $admin = User::where('id', $request->input('admin_id'))->first();
+
+        if (!$admin) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Admin not found'
+            ]);
+        }
+   
+      
+        if ($admin->user_type != 3) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'User is not an admin'
+            ]);
+        }
+       
+        if (!$loginRequest) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Login Request not found'
+            ]);
+        }
+
+        
+        if ($loginRequest->status == 1) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Request has already been accepted'
+            ]);
+        }
+
+
+        $loginRequest->status = 1;
+        $loginRequest->save();
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Request accepted successfully'
+        ]);
+
+    }
+
+    function rejectRequest(Request $request){
+        $request->validate([
+            'request_id' => 'required|integer',
+            'admin_id' => 'required|integer'
+        ]);
+
+        $loginRequest = Login_request::where('id', $request->input('request_id'))->first();
+        $admin = User::where('id', $request->input('admin_id'))->first();
+
+        if (!$admin) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Admin not found'
+            ]);
+        }
+   
+      
+        if ($admin->user_type != 3) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'User is not an admin'
+            ]);
+        }
+
+        if (!$loginRequest) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Request not found'
+            ]);
+        }
+
+        $loginRequest->delete();
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Request rejected successfully'
+        ]);
+
     }
 }

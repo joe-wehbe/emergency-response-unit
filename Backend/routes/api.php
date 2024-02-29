@@ -32,6 +32,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     
         Route::group(["prefix" => "admin"], function(){
              //write the route of the apis in the admin controller here 
+             Route::get("get_login_requests", [AdminController::class, "getLoginRequests"]);
+             Route::post("accept_login_request", [AdminController::class, "acceptRequest"]);
+             Route::post("reject_login_request", [AdminController::class, "rejectRequest"]);
+             Route::post("delete_announcement", [AdminController::class, "deleteAnnouncement"]);
              Route::post("delete_announcement", [AdminController::class, "deleteAnnouncement"]);
              Route::post("delete_user", [AdminController::class, "deleteUser"]);
              Route::post("add_faq", [AdminController::class, "addFaq"]);
