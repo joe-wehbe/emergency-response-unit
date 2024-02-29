@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Announcement;
 use App\Models\User;
 use App\Models\Medical_faq;
+use App\Models\Extension;
 
 class AdminController extends Controller
 {
@@ -198,19 +199,58 @@ if (!$faq) {
          ]);
      }
 
-     /*check if the user who initiated the request is the one who posted the FAQ
-     if ($admin->id != $faq->admin_id) {
-         return response()->json([
-             'status' => 'Error',
-             'message' => 'User does not match admin ID of poster'
-         ]);
-     }*/
-
      
      $faq->delete();
      return response()->json([
          'status' => 'Success',
          'message' => 'FAQ deleted successfully'
      ]);
+    }
+
+    function addExtension(Request $request){
+        $admin = User::where('id', $request->input('admin_id'))->first();
+
+        //checking admin authorities 
+        if (!$admin) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Admin not found'
+            ]);
+        }
+
+        if ($admin->user_type != 3) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'User is not an admin'
+            ]);
+        }
+
+          $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'number' => 'required|integer',
+            
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => $validator->errors()->first()
+            ]);
+        }
+
+    
+        $extension = Extension::create([
+            'name' => $request->input('name'),
+            'number' => $request->input('number'),
+        ]);
+    
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Extension added successfully'
+        ]);
+    }
+
+    function deleteExtension(Request $request){
+        
     }
 }
