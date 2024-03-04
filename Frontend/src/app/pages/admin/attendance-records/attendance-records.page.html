@@ -1,0 +1,69 @@
+<ion-header id="main-content">
+  <ion-toolbar class="header-toolbar">
+    <div class="toolbar-container">
+      <ion-buttons slot="start">
+        <ion-button (click)="back()">
+          <ion-icon class="back-button" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title class="title">Attendance Records</ion-title>
+      <ion-icon class="calendar-button" name="calendar-outline" id="select-time"></ion-icon>
+    </div>
+  </ion-toolbar>
+
+  <ion-modal mode="ios" id="select-time-modal" #modal trigger="select-time">
+    <ng-template>
+      <div class="wrapper">
+        <div class="stmt">
+          <p class="section">Please select a month</p>
+        </div> 
+        <ion-datetime presentation="month-year" id="date" [(ngModel)]="selectedMonth" (ionChange)="onMonthChange($event)"></ion-datetime>
+        <div class="buttons-container">
+          <ion-button class="cancel-button" (click)="dismiss()">Cancel</ion-button>
+          <ion-button class="fetch-button" (click)="fetch()">View records</ion-button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-header>
+
+<ion-content class="background">
+  <div class="search-bar-container">
+    <ion-searchbar mode="md" #searchBar class="search-bar" [debounce]="800" placeholder="Search date..." (ionInput)="search($event)"></ion-searchbar>
+  </div>
+
+  <div class="container">
+    <div *ngFor="let date of Object.keys(groupedShifts)">
+      <ion-list-header>
+        <p class="date">{{ date }}</p>
+      </ion-list-header>
+  
+      <ion-card>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Shift</th>
+              <th>Name</th>
+              <th>Covered By</th>
+              <th>Attended</th>
+            </tr>
+        </thead>
+          <tbody>
+            <tr *ngFor="let shift of groupedShifts[date]">
+              <td>{{ shift.timeRange }}</td>
+              <td>{{ shift.name }}</td>              
+              <td>{{ shift.coveredBy }}</td> 
+              <td [ngStyle]="{ 'color': shift.isAttended === 'yes' ? 'green' : (shift.isAttended === 'no' ? 'red' : '') }">{{ shift.isAttended }}</td> 
+            </tr>
+          </tbody>
+        </table>
+      </ion-card>
+    </div>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button id="add-announcement">
+      <ion-icon class="download-icon" name="download-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

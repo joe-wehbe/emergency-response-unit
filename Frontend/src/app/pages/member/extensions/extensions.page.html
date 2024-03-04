@@ -10,7 +10,7 @@
 <ion-content class="background">
 
   <div class="search-bar-container">
-    <ion-searchbar class="search-bar" [debounce]="800" placeholder="Search a name..." (ionInput)="handleInput($event)"></ion-searchbar>
+    <ion-searchbar mode="md" class="search-bar" [debounce]="800" placeholder="Search a name..." (ionInput)="handleInput($event)"></ion-searchbar>
   </div>
 
   <div class="lists-container">
@@ -18,7 +18,7 @@
         <ion-list *ngIf="group.users.length > 0">
           <ion-list-header [id]="'header-' + group.letter">{{ group.letter }}</ion-list-header>
           <ion-card>
-            <ion-item *ngFor="let user of group.users">
+            <ion-item lines="full" *ngFor="let user of group.users">
               <span class="first-name">{{ user.name }}</span>
               <ion-note slot="end">{{ user.extension }}</ion-note>
             </ion-item>

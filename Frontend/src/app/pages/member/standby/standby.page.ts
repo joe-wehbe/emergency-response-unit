@@ -23,7 +23,7 @@ export class StandbyPage implements OnInit {
         action: 'report',
       },
       handler: () => {
-        this.router.navigate(["./case-report-form"])
+        this.router.navigate(['/case-report-form'], { queryParams: { from: 'tabs/standby' } });
       },
     },
     {

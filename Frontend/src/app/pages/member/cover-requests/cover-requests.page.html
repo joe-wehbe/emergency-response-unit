@@ -16,66 +16,33 @@
   </div>
 
   <ion-card (click)="presentAlert()">
-    <div class="gray-box">
-    </div>
-    <div class="second-box">
-      <ion-avatar slot="start" class="profile-picture">
-        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-      </ion-avatar>
-    </div>
-    <div class="third-box">
-      <div class="name">
-        Roula Wehbe
-      </div>
-      <div class="role">
-        Dispatcher
-      </div>
-      <div class="description-container">
-        <div>
-          <ion-icon class="icon" name="chatbubble-ellipses-outline"></ion-icon>
-        </div>
-        <div class="description">
-          <p>I have an exam</p>
-        </div>
-      </div>
-    </div>
-    <div class="fourth-box">
-      <div class="time">
-        <p>11:00-12:00</p>
-      </div>
-      
-    </div>
-  </ion-card>
 
-  <ion-card (click)="presentAlert()">
-    <div class="gray-box">
+    <div class="first-box">
     </div>
+
     <div class="second-box">
       <ion-avatar slot="start" class="profile-picture">
         <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-avatar>
     </div>
+
     <div class="third-box">
-      <div class="name">
-        Roula Roukaibe
-      </div>
-      <div class="role">
-        Dispatcher
-      </div>
-      <div class="description-container">
-        <div>
+
+        <div class="upper-container">
+          <div class="name-time-container">
+            <p class="name">Roula Wehbe</p>
+            <p class="time">11:00-12:00</p>
+          </div>
+          <div class="role-container">
+            <p class="role">Dispatcher</p>
+            <p class="date">20/02/2024</p>
+          </div>
+        </div>
+
+        <div class="description-container">
           <ion-icon class="icon" name="chatbubble-ellipses-outline"></ion-icon>
+          <p class="description">I have an exam</p>
         </div>
-        <div class="description">
-          <p>I have an exam</p>
-        </div>
-      </div>
-    </div>
-    <div class="fourth-box">
-      <div class="time">
-        <p>11:00-12:00</p>
-      </div>
-      
     </div>
   </ion-card>
 </ion-content>

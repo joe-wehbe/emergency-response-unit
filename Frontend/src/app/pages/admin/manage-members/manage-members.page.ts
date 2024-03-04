@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonModal } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 
 interface User {
   firstName: string;
@@ -14,6 +15,7 @@ interface User {
   templateUrl: './manage-members.page.html',
   styleUrls: ['./manage-members.page.scss'],
 })
+
 export class ManageMembersPage implements OnInit {
 
   users: User[] = [
@@ -32,7 +34,7 @@ export class ManageMembersPage implements OnInit {
 
   @ViewChild('modal') modal: IonModal | undefined;
 
-  constructor(private router:Router, public alertController: AlertController) {
+  constructor(private router:Router, public alertController: AlertController, private toastController:ToastController) {
     this.groupUsers();
     this.filteredGroupedUsers = [...this.groupedUsers];
   }
@@ -78,39 +80,58 @@ export class ManageMembersPage implements OnInit {
 
   async presentAlert() {
     const alert = await this.alertController.create({
-      header: 'Add member?',
+      header: 'Add member',
       subHeader: 'Enter their LAU email, they will be able to login as an ERU member.',
       cssClass: "alert-dialog",
-
       inputs: [
         {
           name: 'email',
           type: 'text',
           placeholder: 'Email...',
           cssClass: 'location-input',
+          attributes: {
+            required: true,
+          },
         },
-
       ],
-
       buttons: [
         {
           text: 'Cancel',
           role: 'cancel',
           cssClass: 'alert-button-cancel',
           handler: () => {
-            console.log('Cancelled');
+            return true;
           },
         },
         {
           text: 'Add',
-          cssClass: 'alert-button-ok-red',
+          cssClass: 'alert-button-ok-green',
+          handler: async (data) => {
+            if (!data.email || !this.isValidEmail(data.email)) {
+              const message = !data.email ? 'Email field cannot be empty' : 'Please enter a valid LAU email';
+              const toast = await this.toastController.create({
+                message: message,
+                duration: 2000, 
+                position: 'bottom'
+              });
+              toast.present();
+              return false;
+            } else {
+              return true;
+            }
+          },
         },
       ],
     });
     await alert.present();
   }
 
+  isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@lau\.edu(?:\.lb)?$/;
+    return emailRegex.test(email);
+  }
+
   goToProfile(){
-    this.router.navigate(["./profile"])
+    this.router.navigate(["./user-profile"])
   }
 }

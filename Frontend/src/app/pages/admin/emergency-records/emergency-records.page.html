@@ -1,0 +1,344 @@
+<ion-header id="main-content">
+  <ion-toolbar class="header-toolbar">
+    <div class="toolbar-container">
+      <ion-buttons slot="start">
+        <ion-button (click)="back()">
+          <ion-icon class="back-button" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title class="title">Emergency Records</ion-title>
+    <ion-icon class="calendar-button" name="calendar-outline" id="select-time"></ion-icon>
+    </div>
+  </ion-toolbar>
+
+  <ion-modal mode="ios" id="select-time-modal" #modal trigger="select-time">
+    <ng-template>
+      <div class="wrapper">
+        <div class="stmt">
+          <p class="section">Please select a time frame</p>
+        </div> 
+        <ion-radio-group mode="md" [(ngModel)]="selectedOption">
+          <ion-radio value="all-time" labelPlacement="end">
+            All time
+          </ion-radio><br><br>
+          <ion-radio value="this-month" labelPlacement="end">
+            This month
+          </ion-radio>
+          <ion-radio value="select-time" labelPlacement="end">
+            <div class="time-frame-container">
+              <p class="from">From</p>
+              <ion-datetime-button datetime="from-date"></ion-datetime-button>
+              <ion-modal [keepContentsMounted]="true">
+                <ng-template>
+                  <ion-datetime mode="ios"[showDefaultTitle]="true" [showDefaultButtons]="true" presentation="month-year" id="from-date">
+                    <span slot="title">Select starting month</span>
+                  </ion-datetime> 
+                </ng-template>
+              </ion-modal>
+              <p class="to">to</p>
+              <ion-datetime-button datetime="to-date"></ion-datetime-button>
+              <ion-modal [keepContentsMounted]="true">
+                <ng-template>
+                  <ion-datetime mode="ios" [showDefaultTitle]="true" [showDefaultButtons]="true" presentation="month-year" id="to-date">
+                    <span slot="title">Select ending month</span>
+                  </ion-datetime> 
+                </ng-template>
+              </ion-modal>
+            </div>
+          </ion-radio>
+        </ion-radio-group>
+        <div class="buttons-container">
+          <ion-button class="cancel-button" (click)="dismiss()">Cancel</ion-button>
+          <ion-button class="fetch-button" (click)="fetch()">View records</ion-button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-header>
+
+<ion-content class="background">
+  <div class="search-bar-container">
+    <ion-searchbar mode="md" #searchBar class="search-bar" [debounce]="800" placeholder="Search name, date, location..." (ionInput)="search($event)"></ion-searchbar>
+  </div>
+
+  <div *ngFor="let date of Object.keys(groupedItems)">
+    <ion-list-header lines="inset">
+      <p class="date">{{ date }}</p>
+    </ion-list-header>
+    <ion-card *ngFor="let item of groupedItems[date]" class="ongoing-card" (click)="openModal()">
+      <div class="first-box">
+        9:07
+      </div>
+      <div class="second-box">
+        <div class="location-container">
+          <p class="location">{{ item.location }}</p>
+        </div>
+        <div class="description-container">
+          <p class="description">Difficulty breathing and panic attack</p>
+        </div>
+      </div>
+      <div class="seperator"></div>
+      <div class="third-box">
+        <div class="medic">
+          <p>Medic:</p>
+          <p class="medic-name">{{ item.medicName }}</p>
+        </div>
+        <div class="patient">
+          <p>Patient:</p>
+          <p class="patient-name">{{ item.patientName }}</p>
+        </div>
+        <div class="vitals">
+          <div class="heart-rate">
+            <ion-img src="assets/icon/hr.png"></ion-img>
+            <p class="hr">120</p>
+          </div>        
+          <div class="blood-pressure">
+            <ion-img src="assets/icon/bp.png"></ion-img>
+            <p class="bp">110/92</p>
+          </div>        
+          <div class="spo2">
+            <ion-img src="assets/icon/spo2.png"></ion-img>
+            <p class="sp">96</p>
+          </div>
+          <div class="temperature">
+            <ion-img src="assets/icon/temp.png"></ion-img>
+            <p class="temp">37.6</p>
+          </div>     
+          <div class="respiration-rate">
+            <ion-img src="assets/icon/rr.png"></ion-img>
+            <p class="rr">16</p>
+          </div>
+          <div class="capillary-refill">
+            <ion-img src="assets/icon/crt.png"></ion-img> 
+            <p class="crt">2</p>
+          </div> 
+          <div class="hemo-gluco-test">
+            <ion-img src="assets/icon/hgt.png"></ion-img>
+            <p class="hgt">N/A</p>
+          </div>
+          <div class="pupils-reaction">
+            <ion-img src="assets/icon/pr.png"></ion-img> 
+            <p class="pr">N/A</p>
+          </div>
+        </div>
+      </div>
+    </ion-card>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button id="add-announcement">
+      <ion-icon class="download-icon" name="download-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-modal #detailsModal id="details-modal">
+    <ng-template>
+      <div class="wrapper">
+        <ion-header>
+          <ion-toolbar class="modal-header">
+            <ion-title>Emergency Details</ion-title>
+            <ion-buttons slot="end">
+              <ion-button class="close-button" (click)="detailsModal.dismiss()">Close</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+
+        <ion-accordion-group mode="ios" [multiple]="true" [value]="['first', 'second']">
+          <ion-accordion value="first">
+            <ion-item slot="header" class="first-item">
+              <p class="statement">Case Report</p>
+            </ion-item>
+            <div class="container" slot="content">
+              <div class="emergency-info">
+                <ion-list>
+                  <div class="info-container">
+                    <div class="info-type">
+                      <ion-icon class="modal-icon" name="calendar-number-outline"></ion-icon>
+                      <p class="question">Date of incident </p>
+                    </div>
+                    <div class="info-answer">
+                      <p class="answer">Joe Wehbe</p>
+                    </div>
+                  </div>
+                  <div class="info-container">
+                    <div class="info-type">
+                      <ion-icon class="modal-icon" name="time-outline"></ion-icon>
+                      <p class="question">Time  of incident </p>
+                    </div>
+                    <div class="info-answer">
+                      <p class="answer">Zakhem 404</p>
+                    </div>
+                  </div>
+                  <div class="info-container">
+                    <div class="info-type">
+                      <ion-icon class="modal-icon" name="people-outline"></ion-icon>
+                      <p class="question">First responder team on site </p>
+                    </div>
+                    <div class="info-answer">
+                      <p class="answer">Passed out</p>
+                    </div>
+                  </div>
+                  <div class="info-container">
+                    <div class="info-type">
+                      <ion-icon class="modal-icon" name="body-outline"></ion-icon>
+                      <p class="question">Patient's name </p>
+                    </div>
+                    <div class="info-answer">
+                      <p class="answer">9:10</p>
+                    </div>
+                  </div>
+                  <div class="info-container">
+                    <div class="info-type">
+                      <ion-icon class="modal-icon" name="location-outline"></ion-icon>
+                      <p class="question">Location of incident </p>
+                    </div>
+                    <div class="info-answer">
+                      <p class="answer">9:10</p>
+                    </div>
+                  </div>
+                  <div class="info-container">
+                    <div class="info-type">
+                      <ion-icon class="modal-icon" name="pulse-outline"></ion-icon>
+                      <p class="question">Patient's condition </p>
+                    </div>
+                    <div class="info-answer">
+                      <p class="answer">9:10</p>
+                    </div>
+                  </div>
+                  <div class="info-container">
+                    <div class="info-type">
+                      <ion-icon class="modal-icon" name="document-text-outline"></ion-icon>
+                      <p class="question">History </p>
+                    </div>
+                    <div class="info-answer">
+                      <p class="answer">9:10</p>
+                    </div>
+                  </div>
+                  <div class="info-container">
+                    <div class="info-type">
+                      <ion-icon class="modal-icon" name="medkit-outline"></ion-icon>
+                      <p class="question">Medication/Treatment administered by </p>
+                    </div>
+                    <div class="info-answer">
+                      <p class="answer">9:10</p>
+                    </div>
+                  </div>
+                  <div class="info-container">
+                    <div class="info-type">
+                      <ion-icon class="modal-icon" name="car-outline"></ion-icon>
+                      <p class="question">Transportation requested to </p>
+                    </div>
+                    <div class="info-answer">
+                      <p class="answer">9:10</p>
+                    </div>
+                  </div>
+                  <div class="info-container">
+                    <div class="info-type">
+                      <ion-icon class="modal-icon" name="chatbubbles-outline"></ion-icon>
+                      <p class="question">Consultation done with nurse </p>
+                    </div>
+                    <div class="info-answer">
+                      <p class="answer">9:10</p>
+                    </div>
+                  </div>
+                  <div class="info-container">
+                    <div class="info-type">
+                      <ion-icon class="modal-icon" name="bandage-outline"></ion-icon>
+                      <p class="question">Material/Equipment used (if any) </p>
+                    </div>
+                    <div class="info-answer">
+                      <p class="answer">9:10</p>
+                    </div>
+                  </div>
+                  <div class="info-container">
+                    <div class="info-type">
+                      <ion-icon class="modal-icon" name="warning-outline"></ion-icon>
+                      <p class="question">Issues encountered by the dispatch team </p>
+                    </div>
+                    <div class="info-answer">
+                      <p class="answer">9:10</p>
+                    </div>
+                  </div>
+                </ion-list> 
+              </div>
+            </div>
+          </ion-accordion>
+      
+          <ion-accordion value="second">
+            <ion-item slot="header">
+              <p class="statement">Vitals Records</p>
+            </ion-item>
+            <div class="assessments-container" slot="content">
+              <div class="assessment">
+                <div class="header">
+                  <p class="assessment-number">Assessment 1</p>
+                  <p class="assessment-time">9:15</p>
+                </div>
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td [ngClass]="{'highlight': HeartRate > 100 || HeartRate < 60}">
+                        <div class="heart-rate">
+                          <ion-img src="assets/icon/hr.png"></ion-img>
+                          <p class="hr">{{ HeartRate }}</p>
+                        </div>
+                      </td>              
+                      <td [ngClass]="{'highlight': Systolic > 150 || Systolic < 90 || Diastolic > 90 || Diastolic < 60}">
+                        <div class="blood-pressure">
+                          <ion-img src="assets/icon/bp.png"></ion-img>
+                          <div class="bp">
+                            <p class="systolic"> {{ Systolic }}</p>
+                            <p class="systolic">/</p>
+                            <p class="diastolic">{{ Diastolic }}</p>
+                          </div>
+                        </div>    
+                      </td>
+                      <td [ngClass]="{'highlight': BloodSaturation < 95}">
+                        <div class="spo2">
+                          <ion-img src="assets/icon/spo2.png"></ion-img>
+                          <p class="sp">{{ BloodSaturation }}</p>
+                        </div>
+                      </td>                    
+                      <td [ngClass]="{'highlight': Temperature < 36.6 || Temperature > 38.3}">
+                        <div class="temperature">
+                          <ion-img src="assets/icon/temp.png"></ion-img>
+                          <p class="temp">{{ Temperature }}</p>
+                        </div>      
+                      </td>
+                    </tr>
+                    <tr>
+                      <td [ngClass]="{'highlight': RespirationRate > 20 || RespirationRate < 12}">
+                        <div class="respiration-rate">
+                          <ion-img src="assets/icon/rr.png"></ion-img>
+                          <p class="rr"> {{ RespirationRate }} </p>
+                        </div>  
+                      </td>
+                      <td [ngClass]="{'highlight': CapillaryRefill > 2}">
+                        <div class="capillary-refill">
+                          <ion-img src="assets/icon/crt.png"></ion-img> 
+                          <p class="crt">{{ CapillaryRefill }}</p>
+                        </div> 
+                      </td>                
+                      <td [ngClass]="{'highlight': HemoGlucoTest < 60 || HemoGlucoTest > 120}">
+                        <div class="hemo-gluco-test">
+                          <ion-img src="assets/icon/hgt.png"></ion-img>
+                          <p class="hgt">{{ HemoGlucoTest }}</p>
+                        </div>
+                      </td>
+                      <td>    
+                        <div class="pupils-reaction">
+                          <ion-img src="assets/icon/pr.png"></ion-img> 
+                          <p class="pr">N/A</p>
+                        </div> 
+                      </td> 
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>

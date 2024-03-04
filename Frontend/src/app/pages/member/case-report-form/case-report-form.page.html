@@ -20,23 +20,33 @@
     
     <ion-list>
       <div class="question">
-        <ion-input label="Date of incident" type = "date" mode="md" label-placement="floating" fill="outline"></ion-input>
+        <ion-input label="Date of incident" type = "date" mode="md" label-placement="floating" fill="outline">
+          <ion-icon class="modal-icon" name="calendar-number-outline" slot="start"></ion-icon>
+        </ion-input>
       </div>
 
       <div class="question">
-        <ion-input label="Time of incident" type = "time" mode="md" label-placement="floating" fill="outline"></ion-input>
+        <ion-input label="Time of incident" type = "time" mode="md" label-placement="floating" fill="outline">
+          <ion-icon class="modal-icon" name="time-outline" slot="start"></ion-icon>
+        </ion-input>
       </div>
 
       <div class="question">
-        <ion-input label="First responder team on site" type = "text" mode="md" label-placement="floating" fill="outline"></ion-input>
+        <ion-input label="First responder team on site" type = "text" mode="md" label-placement="floating" fill="outline">
+          <ion-icon class="modal-icon" name="people-outline" slot="start"></ion-icon>
+        </ion-input>
       </div>
 
       <div class="question">
-        <ion-input label="Patient's name" type = "text" mode="md" label-placement="floating" fill="outline"></ion-input>
+        <ion-input label="Patient's name" type = "text" mode="md" label-placement="floating" fill="outline">
+          <ion-icon class="modal-icon" name="body-outline" slot="start"></ion-icon>
+        </ion-input>
       </div>
 
       <div class="question">
-        <ion-input label="Location of incident" type = "text" mode="md" label-placement="floating" fill="outline"></ion-input>
+        <ion-input label="Location of incident" type = "text" mode="md" label-placement="floating" fill="outline">
+          <ion-icon class="modal-icon" name="location-outline" slot="start"></ion-icon>
+        </ion-input>
       </div>
 
       <div class="question">
@@ -45,19 +55,20 @@
             <ion-select-option value="serious">Serious</ion-select-option>
             <ion-select-option value="not-serious">Not serious</ion-select-option>
             <ion-select-option value="other">Other</ion-select-option>
+            <ion-icon class="modal-icon" name="pulse-outline" slot="start"></ion-icon>
           </ion-select>
         </ng-container>
         <ng-container *ngIf="selectedOption1 === 'other'">
-          <ion-input placeholder="Specify..." mode="md" fill="outline"></ion-input>
+          <ion-input placeholder="Specify..." mode="md" fill="outline">
+            <ion-icon class="modal-icon" name="pulse-outline" slot="start"></ion-icon>
+          </ion-input>
         </ng-container>
       </div>
 
       <div class="question"> 
-          <ion-textarea label="History" mode = "md" type = "text" label-placement="floating" fill = "outline"></ion-textarea>
-      </div>
-
-      <div class="question">
-        <ion-input label="Vitals description" type = "text" mode="md" label-placement="floating" fill="outline"></ion-input>
+          <ion-textarea label="History" mode = "md" type = "text" label-placement="floating" fill = "outline">
+            <ion-icon class="modal-icon" name="document-text-outline" slot="start"></ion-icon>
+          </ion-textarea>
       </div>
 
       <div class="question">
@@ -67,10 +78,13 @@
             <ion-select-option value="lau clinic">LAU Clinic</ion-select-option>
             <ion-select-option value="none">None</ion-select-option>
             <ion-select-option value="other">Other</ion-select-option>
+            <ion-icon class="modal-icon" name="medkit-outline" slot="start"></ion-icon>
           </ion-select>
         </ng-container>
         <ng-container *ngIf="selectedOption2 === 'other'">
-          <ion-input placeholder="Specify..." mode="md" fill="outline"></ion-input>
+          <ion-input placeholder="Specify..." mode="md" fill="outline">
+            <ion-icon class="modal-icon" name="medkit-outline" slot="start"></ion-icon>
+          </ion-input>
         </ng-container>
       </div>
 
@@ -81,10 +95,13 @@
             <ion-select-option value="hospital">Hospital</ion-select-option>
             <ion-select-option value="none">None</ion-select-option>
             <ion-select-option value="other">Other</ion-select-option>
+            <ion-icon class="modal-icon" name="car-outline" slot="start"></ion-icon>
           </ion-select>
         </ng-container>
         <ng-container *ngIf="selectedOption3 === 'other'">
-          <ion-input placeholder="Specify..." mode="md" fill="outline"></ion-input>
+          <ion-input placeholder="Specify..." mode="md" fill="outline">
+            <ion-icon class="modal-icon" name="car-outline" slot="start"></ion-icon>
+          </ion-input>
         </ng-container>
       </div>
 
@@ -94,15 +111,20 @@
             <ion-select-option value="yes">Yes</ion-select-option>
             <ion-select-option value="no">No</ion-select-option>
             <ion-select-option value="other">Other</ion-select-option>
+            <ion-icon class="modal-icon" name="chatbubbles-outline" slot="start"></ion-icon>
           </ion-select>
         </ng-container>
         <ng-container *ngIf="selectedOption4 === 'other'">
-          <ion-input placeholder="Specify..." mode="md" fill="outline"></ion-input>
+          <ion-input placeholder="Specify..." mode="md" fill="outline">
+            <ion-icon class="modal-icon" name="chatbubbles-outline" slot="start"></ion-icon>
+          </ion-input>
         </ng-container>
       </div>
 
       <div class="question">
-        <ion-input label="Material/equipment used (if any)" type = "text" mode="md" label-placement="floating" fill="outline"></ion-input>
+        <ion-input label="Material/equipment used (if any)" type = "text" mode="md" label-placement="floating" fill="outline">
+          <ion-icon class="modal-icon" name="bandage-outline" slot="start"></ion-icon>
+        </ion-input>
       </div>
 
       <div class="question">
@@ -110,16 +132,19 @@
           <ion-select [(ngModel)]="selectedOption5" label = "Any issues encountered by the dispatch team" mode="md" label-placement="floating" fill="outline">
             <ion-select-option value="yes">Yes</ion-select-option>
             <ion-select-option value="no">No</ion-select-option>
+            <ion-icon class="modal-icon" name="warning-outline" slot="start"></ion-icon>
           </ion-select>
         </ng-container>
         <ng-container *ngIf="selectedOption5 === 'other'">
-          <ion-input placeholder="Specify..." mode="md" fill="outline"></ion-input>
+          <ion-input placeholder="Specify..." mode="md" fill="outline">
+            <ion-icon class="modal-icon" name="warning-outline" slot="start"></ion-icon>
+          </ion-input>
         </ng-container>
       </div>       
     </ion-list>
 
     <div class="submit-button-container">
-      <ion-button class="submit-button" (click)="navigateCaseReport()">Submit</ion-button>
+      <ion-button mode="ios" class="submit-button" (click)="navigateCaseReport()">Submit</ion-button>
     </div>
   </div>
 </ion-content>

@@ -3,11 +3,11 @@ import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.page.html',
-  styleUrls: ['./profile.page.scss'],
+  selector: 'app-user-profile',
+  templateUrl: './user-profile.page.html',
+  styleUrls: ['./user-profile.page.scss'],
 })
-export class ProfilePage implements OnInit {
+export class UserProfilePage implements OnInit {
 
   constructor(private router:Router, private alertController: AlertController) { }
 
@@ -73,6 +73,9 @@ export class ProfilePage implements OnInit {
       data: {
         action: 'change-schedule',
       },
+      handler: () => {
+        this.router.navigate(["./change-schedule"])
+      },
     },
     {
       text: 'Change rank',
@@ -106,26 +109,26 @@ export class ProfilePage implements OnInit {
   async rankAlert() {
     const alert = await this.alertController.create({
       header: 'Change rank',
-      subHeader: 'Select which rank to promote/demote this member to.',
+      subHeader: 'Select which rank(s) to promote/demote this member to.',
       cssClass: "alert-dialog",
-
+      mode: 'ios',
       inputs: [
         {
-          name: 'rank',
-          type: 'radio',
+          name: 'boardMember',
+          type: 'checkbox',
           label: 'Board member',
           value: 'board-member',
           checked: true
         },
         {
-          name: 'rank',
-          type: 'radio',
+          name: 'medic',
+          type: 'checkbox',
           label: 'Medic',
           value: 'medic'
         },
         {
-          name: 'rank',
-          type: 'radio',
+          name: 'dispatcher',
+          type: 'checkbox',
           label: 'Dispatcher',
           value: 'dispatcher'
         }
@@ -147,6 +150,7 @@ export class ProfilePage implements OnInit {
     });
     await alert.present();
   }
+  
 
   async removeAlert() {
     const alert = await this.alertController.create({

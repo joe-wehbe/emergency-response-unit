@@ -1,36 +1,40 @@
-<ion-content class="background">
+<ion-content class="background" mode="ios">
     <div class="main-container">
         <div class="logo-block">
             <img class="logo" src="/assets/img/logo.png">
         </div>
-
         <div class="curved-shape">
             <div class = statement-container>
                 <h1>Login with your LAU credentials</h1>
             </div>
             <div class="forms-container">
-                <ion-select placeholder="Please select" [(ngModel)]="selectedOption">
-                    <ion-select-option value="SSF">Student, staff, or faculty</ion-select-option>
-                    <ion-select-option value="ERUM">ERU member</ion-select-option>
-                    <ion-select-option value="ERUB">ERU board member</ion-select-option>
-                </ion-select>
-                
-                <ion-input type="email" placeholder="Email">
-                    <ion-icon name="mail-outline" slot="start"></ion-icon>
-                </ion-input>
-
-                <ion-input placeholder="Password" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password">
-                    <ion-icon name="lock-closed" slot="start"></ion-icon>
-                    <ion-icon [name]="showPassword ? 'eye-off' : 'eye'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
-                </ion-input>    
-
+                <ion-list>
+                    <ion-item lines="none">
+                        <ion-select label="hi" placeholder="Please select" [(ngModel)]="selectedOption" labelPlacement="floating">
+                            <ion-select-option value="SSF">Student, staff, or faculty</ion-select-option>
+                            <ion-select-option value="ERUM">ERU member</ion-select-option>
+                            <ion-select-option value="ERUB">ERU board member</ion-select-option>
+                            <ion-icon name="person-outline" slot="start"></ion-icon>
+                        </ion-select>
+                    </ion-item>
+                    <ion-item lines="none">
+                        <ion-input type="email" placeholder="Email" [(ngModel)]="email" [pattern]="emailPattern" required>
+                            <ion-icon name="mail-outline" slot="start"></ion-icon>
+                        </ion-input>
+                    </ion-item>
+                    <ion-item lines="none">
+                        <ion-input placeholder="Password" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" required>
+                            <ion-icon name="lock-closed" slot="start"></ion-icon>
+                            <ion-icon [name]="showPassword ? 'eye-off' : 'eye'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
+                        </ion-input>   
+                    </ion-item>
+                </ion-list>
                 <ion-checkbox labelPlacement="end">Keep me signed in</ion-checkbox>
-
-                <ion-button (click)="navigateEmergency()">
+                <ion-button [disabled]="!email || !password || !email.match(emailPattern)">
                     <ion-icon slot="start" name="log-in-outline"></ion-icon>
-                    Sign in
-                </ion-button>
-            </div>   
+                    Login
+                </ion-button>                
+            </div>  
         </div>
     </div>
 </ion-content>

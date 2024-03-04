@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-case-report-form',
@@ -15,9 +15,14 @@ export class CaseReportFormPage implements OnInit {
   selectedOption4: string = 'yes';
   selectedOption5: string = 'yes';
 
-  constructor(private router:Router) { }
+  previousRoute: string = '/case-report';
+
+  constructor(private router:Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.previousRoute = params['from']  || '/case-report';
+    });
   }
  
   optionSelected() {
@@ -27,7 +32,7 @@ export class CaseReportFormPage implements OnInit {
   }
 
   back(){
-    this.router.navigate(["./case-report"])
+    this.router.navigate([this.previousRoute]);
   }
 
   navigateCaseReport(){

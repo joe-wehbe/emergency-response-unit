@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ProfilePageRoutingModule } from './profile-routing.module';
+import { ChangeSchedulePageRoutingModule } from './change-schedule-routing.module';
 
-import { ProfilePage } from './profile.page';
+import { ChangeSchedulePage } from './change-schedule.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ProfilePageRoutingModule
+    ChangeSchedulePageRoutingModule
   ],
-  declarations: [ProfilePage]
+  declarations: [ChangeSchedulePage]
 })
-export class ProfilePageModule {}
+export class ChangeSchedulePageModule {}

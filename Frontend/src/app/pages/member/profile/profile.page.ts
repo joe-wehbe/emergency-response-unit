@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 
 export class ProfilePage implements OnInit {
 
-  constructor(private router:Router, private alertController: AlertController) { }
+  constructor(private router:Router, private alertController: AlertController, private toastController:ToastController) { }
 
   ngOnInit() {}
 
@@ -61,7 +62,7 @@ export class ProfilePage implements OnInit {
               cssClass: 'alert-button-ok-red',
               handler: () => {
                 if(shiftsOnDay.length === 1){
-                  this.oneShiftAlert();
+                  this.reason();
                 }else{
                   this.multiShiftsAlert(shiftsOnDay);
                 }
@@ -76,38 +77,11 @@ export class ProfilePage implements OnInit {
     }
   }
 
-  async oneShiftAlert() {
-    const alert = await this.alertController.create({
-      header: 'Request cover?',
-      subHeader: 'Your attendance will be affected if the member accepting your request fails to cover your shift!',
-      cssClass:'alert-dialog',
-      inputs: [
-        {
-          name: 'Reason',
-          type: 'text',
-          placeholder: 'Reason...',
-          cssClass: 'location-input',
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'alert-button-cancel'
-        },
-        {
-          text: 'Request',
-          cssClass: 'alert-button-ok-red',
-        },
-      ],
-    });
-    await alert.present();
-  }
-
   async multiShiftsAlert(shifts: any[]) {
     const alert = await this.alertController.create({
       header: 'Select shift',
       cssClass: 'alert-dialog',
+      mode: 'ios',
       inputs: shifts.map((shift, index) => ({
         name: `shift-${index}`,
         type: 'radio',
@@ -142,22 +116,40 @@ export class ProfilePage implements OnInit {
       cssClass:'alert-dialog',
       inputs: [
         {
-          name: 'Reason',
+          name: 'reason',
           type: 'text',
           placeholder: 'Reason...',
           cssClass: 'location-input',
+          attributes: {
+            required: true,
+          },
         },
       ],
       buttons: [
         {
           text: 'Cancel',
           role: 'cancel',
-          cssClass: 'alert-button-cancel'
+          cssClass: 'alert-button-cancel',
+          handler: () => {
+            return true;
+          },
         },
         {
           text: 'Request',
           cssClass: 'alert-button-ok-red',
-          handler: () => {
+          handler: async (data) => {
+            if (!data.reason) {
+              const message = 'Please specify the reason';
+              const toast = await this.toastController.create({
+                message: message,
+                duration: 2000, 
+                position: 'bottom'
+              });
+              toast.present();
+              return false;
+            } else {
+              return true;
+            }
           },
         },
       ],

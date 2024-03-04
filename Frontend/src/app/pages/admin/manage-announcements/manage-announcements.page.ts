@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-manage-announcements',
@@ -54,4 +55,13 @@ export class ManageAnnouncementsPage implements OnInit {
     await alert.present();
   }
 
+  dismiss(){
+    this.modalController.dismiss();
+  }
+
+  send(announcementForm: NgForm) {
+    if (announcementForm.valid) {
+      this.dismiss();
+    }
+  }
 }

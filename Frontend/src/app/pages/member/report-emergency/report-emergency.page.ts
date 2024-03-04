@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-report-emergency',
@@ -13,7 +14,7 @@ export class ReportEmergencyPage implements OnInit {
   firstH4Content: string = 'Press the button below';
   secondH4Content: string = 'to notify medics';
 
-  constructor(public alertController: AlertController) {}
+  constructor(public alertController: AlertController, private toastController:ToastController) {}
 
   ngOnInit() {}
 
@@ -29,17 +30,23 @@ export class ReportEmergencyPage implements OnInit {
 
       inputs: [
         {
-          name: 'Location',
+          name: 'location',
           type: 'text',
           placeholder: 'Location...',
           cssClass: 'location-input',
+          attributes: {
+            required: true,
+          },
         },
 
         {
-          name: 'Description',
+          name: 'description',
           type: 'text',
           placeholder: 'Description...',
-          cssClass: 'description-input'
+          cssClass: 'description-input',
+          attributes: {
+            required: true,
+          },
         },
       ],
 
@@ -49,17 +56,50 @@ export class ReportEmergencyPage implements OnInit {
           role: 'cancel',
           cssClass: 'alert-button-cancel',
           handler: () => {
-            console.log('Cancelled');
+            return true;
           },
         },
         {
           text: 'Report',
           cssClass: 'alert-button-ok-red',
-          handler: () => {
-            this.sendSOS();
-            this.notifyingStatement = 'Notifying medics...';
-            this.firstH4Content = "We will let you know";
-            this.secondH4Content = "when a medic responds";
+          handler: async(data) => {
+            if(!data.location && !data.description){
+              const message = 'Please specify emergency location and description';
+              const toast = await this.toastController.create({
+                message: message,
+                duration: 2000, 
+                position: 'bottom'
+              });
+              toast.present();
+              return false;
+            }
+            if(!data.location){
+              const message = 'Please specify the emergency location';
+              const toast = await this.toastController.create({
+                message: message,
+                duration: 2000, 
+                position: 'bottom'
+              });
+              toast.present();
+              return false;
+            }
+            if(!data.description){
+              const message = 'Please provide a description';
+              const toast = await this.toastController.create({
+                message: message,
+                duration: 2000, 
+                position: 'bottom'
+              });
+              toast.present();
+              return false;
+            }
+            else{
+              this.sendSOS();
+              this.notifyingStatement = 'Notifying medics...';
+              this.firstH4Content = "We will let you know";
+              this.secondH4Content = "when a medic responds";
+              return true;
+            }
           },
         },
       ],

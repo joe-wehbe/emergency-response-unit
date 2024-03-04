@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,9 +9,32 @@ import { Router } from '@angular/router';
 })
 export class EditProfilePage implements OnInit {
 
-  constructor(private modalController:ModalController, private router:Router) { }
+  constructor(private modalController:ModalController, private router:Router, private alertController:AlertController) { }
 
   ngOnInit() {
+  }
+
+  async back() {
+    const alert = await this.alertController.create({
+      header: 'Discard Changes?',
+      subHeader: 'Are you sure you want to discard any changes you made?',
+      cssClass:'alert-dialog',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'alert-button-cancel'
+        },
+        {
+          text: 'Discard',
+          cssClass: 'alert-button-ok-red',
+          handler: () => {
+            this.router.navigate(["./profile"])
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
 
   shifts = [
@@ -37,8 +60,30 @@ export class EditProfilePage implements OnInit {
     this.modalController.dismiss()
   }
 
-  navigateProfile(){
-    this.router.navigate(['./profile'])
+  async navigateProfile(){
+    const alert = await this.alertController.create({
+      header: 'Save Changes?',
+      subHeader: 'Are you sure you want to save changes you made?',
+      cssClass:'alert-dialog',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'alert-button-cancel'
+        },
+        {
+          text: 'Save',
+          cssClass: 'alert-button-ok-green',
+          handler: () => {
+            this.router.navigate(["./profile"])
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  save(){
   }
 
 }

@@ -16,7 +16,7 @@ export class CoverRequestsPage implements OnInit {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Accept cover request',
-      subHeader: 'Failing to cover this member’s shift will affect their attendance.',
+      subHeader: 'Failing to cover this member’s shift will affect their attendance!',
       cssClass:'alert-dialog',
       buttons: [
         {
@@ -32,6 +32,4 @@ export class CoverRequestsPage implements OnInit {
     });
     await alert.present();
   }
-  
-
 }

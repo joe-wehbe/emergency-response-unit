@@ -21,18 +21,22 @@ ion-menu-button{
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 1em;
+  margin: 1.2em;
 }
 
 ion-searchbar.search-bar {
-  --background: white;
+  padding: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: solid 1px #810808;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.3);
+  --background: transparent;
   --color: black;
   --placeholder-color: gray;
-  --icon-color: gray;
-  --clear-button-color: gray; 
-  --border-radius: 20px;
-  --box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-  width: 80%;
+  --icon-color: #810808;
+  --clear-button-color: #810808; 
+  --box-shadow: none;
 }
 
 .lists-container{
@@ -52,7 +56,7 @@ ion-list-header {
 }
 
 ion-card{
-  background-color: rgb(226, 205, 205);
+  background-color: rgba(255, 255, 255, 0.5);
   margin: 0;
 }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-medical-faq',
@@ -16,7 +17,7 @@ export class MedicalFAQPage implements OnInit {
   }
 
   back(){
-    this.router.navigate(['/admin-panel']);
+    this.router.navigate(['/manage-faq']);
   }
 
   async presentAlert() {
@@ -39,8 +40,13 @@ export class MedicalFAQPage implements OnInit {
     await alert.present();
   }
 
-  add(){
+  dismiss(){
     this.modalController.dismiss();
   }
-  
+
+  add(faqForm: NgForm) {
+    if (faqForm.valid) {
+      this.dismiss();
+    }
+  }
 }

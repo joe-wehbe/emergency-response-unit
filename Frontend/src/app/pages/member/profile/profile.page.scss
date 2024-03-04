@@ -211,6 +211,7 @@ h6{
 ion-badge{
     background: #810808;
     font-weight: normal;
+    margin-right: 2px;
 }
 
 .calendar-container{
@@ -223,6 +224,16 @@ ion-badge{
     background-color: transparent;
     color: black;
     --title-color: black;
+}
+
+ion-content .picker-item,
+ion-content .picker-item-empty {
+    background-color: #ffffff;
+}
+
+ion-datetime{
+    --wheel-highlight-background: white;
+    --wheel-fade-background-rgb: white;
 }
 
 .attendance-button-container{
@@ -240,13 +251,13 @@ ion-badge{
     --background-activated: #d39d9d;
 }
 
-ion-content .picker-item,
-ion-content .picker-item-empty {
-    background-color: #ffffff; /* Solid white */
+ion-datetime::part(calendar-day) {
+    color: black;
 }
-
-
-ion-datetime{
-    --wheel-highlight-background: white;
-    --wheel-fade-background-rgb: white;
+  
+ion-datetime::part(calendar-day):focus {
+    background-color: transparent;
+    box-shadow: none;
+    border-color: #810808;
+    color: #810808;
 }

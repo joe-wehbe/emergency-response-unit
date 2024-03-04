@@ -154,8 +154,7 @@ ion-icon{
 }
 
 ion-img{
-  width: 30px;
-  padding-left: 0.5em;
+  width: 20px;
 }
 
 .heart-rate, .blood-pressure, .spo2, .temperature, 
@@ -173,16 +172,18 @@ ion-img{
   --placeholder-color: #837272;
   --border-radius: 10px;
   color: black;
+  --padding-end: 10px;
+  --padding-start: 2px;
 }
 
 .patient-input {
   width: 100%;
-  background: transparent;
+  background: #FFEDED;
   --placeholder-color: #837272;
   border-radius: 10px;
   --padding-start: 10px;
   --padding-end: 10px;
-  border: 0.5px solid #810808; 
+  // border: 0.5px solid #810808; 
 }
 
 .vitals-container{
@@ -214,7 +215,7 @@ ion-img{
   --border-style: solid;
   --color: black;
   --background-activated: #d39d9d;
-  width: 25%;
+  width: 40%;
   margin-top: 10px;
 }
 
@@ -237,5 +238,6 @@ ion-img{
   --border-style: solid;
   --color: white;
   --background-activated: #d39d9d;
+  width: 50%;
 }
   

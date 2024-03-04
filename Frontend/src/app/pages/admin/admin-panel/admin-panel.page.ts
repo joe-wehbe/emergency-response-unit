@@ -34,4 +34,12 @@ export class AdminPanelPage implements OnInit {
     this.router.navigate(["/manage-members"]);
   }
 
+  goToEmergencyRecords(){
+    this.router.navigate(["/emergency-records"]);
+  }
+
+  goToAttendanceRecords(){
+    this.router.navigate(["/attendance-records"]);
+  }
+
 }

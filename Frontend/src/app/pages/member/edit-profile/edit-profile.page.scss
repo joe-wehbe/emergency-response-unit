@@ -1,20 +1,28 @@
-.toolbar{
+.header-toolbar{
+    height: 60px;
+    --background: #FFEDED;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60px;
-    --background: #FFEDED;
 }
   
-ion-menu-button{
-    color: black;
-    font-weight: normal;
+.toolbar-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
 }
-
+  
+.back-button{
+    font-weight: normal;
+    color: black;
+}
+    
 .title{
     font-size: 22px;
-    color: black;
     font-weight: normal;
+    color: black;
 }
 
 .card-container {
@@ -215,7 +223,7 @@ h6{
     100% {
       transform: scale(1);
     }
-  }
+}
 
 .skills-card{
     background-color:#F2F2F2;
@@ -228,6 +236,7 @@ h6{
 ion-badge{
     background: #810808;
     font-weight: normal;
+    margin-right: 2px;
 }
 
 .calendar-container{
@@ -313,19 +322,29 @@ ion-textarea{
     padding-left: 10px;
 }
   
-.send-button-container{
+.buttons-container{
     display: flex;
     justify-content: center;
     padding: 10px;
     width: 100%;
 }
   
-.send-button{
+.save-button{
     --background: #810808;
+    --background-activated: #d39d9d;
     --border-color: #d39d9d;
     --border-width: 1px;
     --border-style: solid;
     --color: white;
+    width: 50%;
+}
+
+.cancel-button{
+    --background: transparent;
     --background-activated: #d39d9d;
+    --border-color: #d39d9d;
+    --border-width: 1px;
+    --border-style: solid;
+    --color: black;
     width: 50%;
 }

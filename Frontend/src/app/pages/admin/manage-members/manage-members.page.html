@@ -28,7 +28,7 @@
 <ion-content class="background">
 
   <div class="search-bar-container">
-    <ion-searchbar class="search-bar" [debounce]="800" placeholder="Search all members" (ionInput)="handleInput($event)"></ion-searchbar>
+    <ion-searchbar mode="md" class="search-bar" [debounce]="800" placeholder="Search all members" (ionInput)="handleInput($event)"></ion-searchbar>
   </div>
 
   <ng-container *ngFor="let group of filteredGroupedUsers">

@@ -25,7 +25,7 @@
 <ion-content class="background">
 
   <div class="search-bar-container">
-    <ion-searchbar class="search-bar" [debounce]="800" placeholder="Search all members" (ionInput)="handleInput($event)"></ion-searchbar>
+    <ion-searchbar mode="md" class="search-bar" [debounce]="800" placeholder="Search all members" (ionInput)="handleInput($event)"></ion-searchbar>
   </div>
 
   <ng-container *ngFor="let group of filteredGroupedUsers">
@@ -36,7 +36,7 @@
       <ion-grid>
         <ion-row>
           <ion-col size="4" *ngFor="let user of group.users">
-            <ion-card class="card" (click)="openModal(user)">
+            <ion-card class="card" (click)="openModal()">
               <div class="card-content">
                 <ion-avatar class="icon">
                   <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
@@ -52,16 +52,14 @@
     </ion-list>
   </ng-container>
 
-  <ion-modal #modal trigger="view-profile">
+  <ion-modal #modal>
     <ng-template>
       <ion-content class="modal-content">
-
         <ion-toolbar>
           <div class="header">
             <ion-avatar class="modal-profile-pic">
               <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
             </ion-avatar>
-        
             <div class="container">
               <div class="np-container">
                 <h2 class="name">Joe Wehbe</h2>
@@ -69,7 +67,6 @@
               </div>
             </div>
           </div>
-
           <ion-buttons slot="end">
             <ion-button color="light" (click)="modal.dismiss()">Close</ion-button>
           </ion-buttons>

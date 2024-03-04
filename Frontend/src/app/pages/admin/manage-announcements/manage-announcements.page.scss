@@ -136,7 +136,7 @@ ion-fab-button {
 
 // VIEW ANNOUNCEMENT MODAL
 ion-modal#view-announcement-modal {
-  --width: 90%;
+  --width: 96%;
   --min-width: 250px;
   --height: fit-content;
   --border-radius: 6px;
@@ -195,7 +195,7 @@ ion-select, ion-textarea{
   padding-left: 10px;
 }
 
-.send-button-container{
+.buttons-container{
   display: flex;
   justify-content: center;
   padding: 10px;
@@ -209,5 +209,15 @@ ion-select, ion-textarea{
   --border-style: solid;
   --color: white;
   --background-activated: #d39d9d;
+  width: 50%;
+}
+
+.cancel-button{
+  --background: transparent;
+  --background-activated: #d39d9d;
+  --border-color: #d39d9d;
+  --border-width: 1px;
+  --border-style: solid;
+  --color: black;
   width: 50%;
 }

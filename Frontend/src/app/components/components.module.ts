@@ -9,10 +9,10 @@ import { TabsComponent } from './tabs/tabs.component';
     IonicModule,
   ],
   declarations: [
-    TabsComponent
+    TabsComponent,
   ],
   exports: [
-    TabsComponent
+    TabsComponent,
   ]
 
 })

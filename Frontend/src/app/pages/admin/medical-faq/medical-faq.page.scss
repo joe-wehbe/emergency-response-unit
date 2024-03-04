@@ -57,6 +57,22 @@ ion-card{
   margin-bottom: 1em;
 }
 
+ion-card:active{
+  animation: pulse 0.1s ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .question-container{
   background-color: #D9D9D9;
   color: black;
@@ -128,19 +144,29 @@ ion-textarea{
   padding-left: 10px;
 }
 
-.send-button-container{
+.buttons-container{
   display: flex;
   justify-content: center;
   padding: 10px;
   width: 100%;
 }
 
-.send-button{
+.add-button{
   --background: #810808;
   --border-color: #d39d9d;
   --border-width: 1px;
   --border-style: solid;
   --color: white;
   --background-activated: #d39d9d;
+  width: 50%;
+}
+
+.cancel-button{
+  --background: transparent;
+  --background-activated: #d39d9d;
+  --border-color: #d39d9d;
+  --border-width: 1px;
+  --border-style: solid;
+  --color: black;
   width: 50%;
 }

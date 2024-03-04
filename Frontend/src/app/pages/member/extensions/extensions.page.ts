@@ -21,7 +21,7 @@ export class ExtensionsPage implements OnInit {
     { name: 'Alice', extension: '3021' },
     { name: 'Bob', extension: '2102' },
     { name: 'Bob', extension: '2102' },
-    { name: 'Bob', extension: '2102' },
+    { name: 'Braham', extension: '2102' },
     { name: 'Bob', extension: '2102' },
     { name: 'Bob', extension: '2013' },
     { name: 'Joe', extension: '4031' },

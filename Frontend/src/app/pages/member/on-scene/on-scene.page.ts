@@ -27,7 +27,7 @@ export class OnScenePage implements OnInit {
         },
         {
           text: 'Accept',
-          cssClass: 'alert-button-ok-red',
+          cssClass: 'alert-button-ok-green',
           handler: () => {
             this.router.navigate(["./medic-emergency-details"])
           },
@@ -36,5 +36,4 @@ export class OnScenePage implements OnInit {
     });
     await alert.present();
   }
-
 }

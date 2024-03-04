@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+import { NgForm } from '@angular/forms';
+
 
 interface User {
   name: string;
@@ -32,7 +35,7 @@ export class ManageExtensionsPage implements OnInit {
   groupedUsers: { letter: string, users: User[] }[] = [];
   filteredGroupedUsers: { letter: string, users: User[] }[] = [];
 
-  constructor(private router:Router, private modalController:ModalController) {
+  constructor(private router:Router, private modalController:ModalController, private alertController:AlertController) {
     this.groupUsers();
     this.filteredGroupedUsers = [...this.groupedUsers];
   }
@@ -89,7 +92,33 @@ export class ManageExtensionsPage implements OnInit {
     }
   }  
 
-  add(){
+  dismiss(){
     this.modalController.dismiss();
+  }
+
+  add(extensionForm: NgForm) {
+    if (extensionForm.valid) {
+      this.dismiss();
+    }
+  }
+
+  async deleteAlert() {
+    const alert = await this.alertController.create({
+      header: 'Delete Extension',
+      subHeader: 'Are you sure you want to delete this extension?',
+      cssClass:'alert-dialog',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'alert-button-cancel'
+        },
+        {
+          text: 'Delete',
+          cssClass: 'alert-button-ok-red'
+        },
+      ],
+    });
+    await alert.present();
   }
 }

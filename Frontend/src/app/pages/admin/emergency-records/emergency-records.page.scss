@@ -1,0 +1,456 @@
+/***************************** HEADER *****************************/
+.header-toolbar{
+  height: 60px;
+  --background: #FFEDED;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toolbar-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+}
+
+.back-button{
+  font-weight: normal;
+  color: black;
+}
+  
+.title{
+  font-size: 22px;
+  font-weight: normal;
+  color: black;
+}
+
+.calendar-button{
+  color: black;
+  width: 20%;
+  font-size: 25px;
+}
+
+.calendar-button:active{
+  color: gray;
+}
+
+/***************************** SEARCH BAR *****************************/
+.search-bar-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1.2em;
+}
+
+ion-searchbar.search-bar {
+  padding: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: solid 1px #810808;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.3);
+  --background: transparent;
+  --color: black;
+  --placeholder-color: gray;
+  --icon-color: #810808;
+  --clear-button-color: #810808; 
+  --box-shadow: none;
+}
+
+/***************************** EMERGENCY CARD *****************************/
+ion-list{
+  background-color: transparent;
+}
+
+ion-list-header{
+  color: black;
+  font-weight: normal;
+  font-size: 16px;
+  margin: 0;
+}
+
+.date{
+  margin: 0;
+}
+
+.ongoing-card {
+  display: flex;
+  flex-direction: row;
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  height: 7em;
+  margin: 1em;
+}
+
+.ongoing-card:active{
+  display: flex;
+  flex-direction: row;
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  height: 7em;
+  animation: pulse 0.1s ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.first-box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 10%;
+  background-color: #D9D9D9;
+  color: black;
+}
+
+.second-box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 32%;
+  padding-top: 5px;
+}
+
+.location{
+  color: black;
+  font-size: 15px;
+  margin: 0;
+}
+
+.description-container{
+  width: 100%;
+  text-align: center;
+  overflow: auto;
+}
+
+.seperator{
+  width: 1px;
+  height: 100%;
+  background-color: gray;
+}
+
+.third-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 60%;
+  height: 100%;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;}
+
+.medic, .patient {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  height: 22%;
+  color: black;
+  font-size: 15px;
+}
+
+.medic-name{
+  color: green;
+}
+
+.vitals{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  overflow: auto;
+}
+
+ion-img{
+  width: 20px;
+}
+
+.heart-rate, .blood-pressure, .spo2, .temperature, 
+.respiration-rate, .capillary-refill, .pupils-reaction, .hemo-gluco-test{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 3px;
+}
+
+/***************************** TIME MODAL *****************************/
+ion-modal#select-time-modal {
+  --width: 96%;
+  --min-width: 250px;
+  --height: fit-content;
+  --border-radius: 6px;
+  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+}
+
+ion-modal#select-time-modal .wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: black;
+}
+
+.stmt{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+}
+
+ion-radio-group{
+  padding: 10px;
+}
+
+ion-radio{
+  --color: gray;
+  --color-checked: #810808;
+}
+
+.time-frame-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.from, .to{
+  color: black;
+  padding-right: 5px;
+}
+
+.to{
+  padding-left: 5px;
+}
+
+ion-datetime{
+  --wheel-highlight-background: rgba(255, 255, 255, 0.7);
+  --wheel-fade-background-rgb: none;
+  --background: rgb(229, 226, 226);
+  --title-color: black;
+  color: black;
+}
+
+.buttons-container{
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  width: 100%;
+}
+
+.fetch-button{
+  --background: #810808;
+  --border-color: #d39d9d;
+  --border-width: 1px;
+  --border-style: solid;
+  --color: white;
+  --background-activated: #d39d9d;
+  width: 50%;
+}
+
+.cancel-button{
+  --background: transparent;
+  --background-activated: #d39d9d;
+  --border-color: #d39d9d;
+  --border-width: 1px;
+  --border-style: solid;
+  --color: black;
+  width: 50%;
+}
+
+/***************************** FAB *****************************/
+ion-fab-button {
+  --background: #810808;
+  --color: white;
+  --background-activated: #380404;
+  margin: 5px;
+}
+
+/***************************** DETAILS MODAL *****************************/
+
+ion-modal#details-modal {
+  --width: 100%;
+  --height: fit-content;
+  --min-width: 250px;
+  --border-radius: 15px;
+  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+  overflow: auto;
+  padding-top: 1em;
+}
+
+ion-modal#details-modal .wrapper {
+  background-color: white;
+  color: black;
+  overflow: auto;
+}
+
+ion-item{
+  --background: #e9dede;
+  color: black;
+}
+
+.modal-header{
+  --background: white;
+  --color: black;
+}
+
+.close-button{
+  --color: black;
+}
+
+// .first-item{
+//   border-top-left-radius: 15px;
+//   border-top-right-radius: 15px;
+// }
+
+.header{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 2em;
+  padding-top: 2em;
+  padding-bottom: 1em;
+}
+
+.statement {
+  font-size: 17px;
+  color: black;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+  background-color: white;
+  height: 25em;
+  overflow: auto;
+}
+
+.emergency-info, .patient-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  font-size: 16px;
+  background-color: transparent;
+}
+
+ion-list{
+  width: 100%;
+  background-color: transparent;
+}
+
+.info-container{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  // height: 4em;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  background-color: transparent;
+}
+
+.info-type{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  margin: 0;
+}
+
+.modal-icon{
+  padding-right: 5px;
+  font-size: 20px;
+  color: #810808;
+}
+
+.info-answer{
+  color: black;
+  margin: 0;
+  padding-left: 1.5em;
+}
+
+.question{
+  font-weight: bold;
+}
+
+.question, .answer{
+  margin: 0;
+}
+
+.assessments-container{
+  background-color: white;
+  height: 15em;
+  overflow: auto;
+}
+
+.assessment{
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  margin: 0 auto;
+  background-color: white;
+}
+
+.assessment-number{
+  font-size: 17px;
+  color: black;
+}
+
+.assessment-time{
+  font-size: 14px;
+  color: black;
+}
+
+.table {
+  border-collapse: collapse;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.table, .table td {
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.bp{
+  display: flex;
+}
+
+.highlight {
+  background-color: #EAAAAA;
+}
+
+
+ion-img{
+  width: 20px;
+}
+
+.heart-rate, .blood-pressure, .spo2, .temperature, 
+.respiration-rate, .capillary-refill, .pupils-reaction, .hemo-gluco-test{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  color: black
+}

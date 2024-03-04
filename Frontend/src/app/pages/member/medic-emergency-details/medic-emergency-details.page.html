@@ -13,7 +13,7 @@
     <p>Record vitals and patient information</p>
   </div>
 
-  <ion-accordion-group [multiple]="true" [value]="['first', 'second', 'third']">
+  <ion-accordion-group mode="ios" [multiple]="true" [value]="['first', 'second', 'third']">
     <ion-accordion value="first">
       <ion-item slot="header" class="first-item">
         <p class="statement">Emergency Updates</p>
@@ -137,7 +137,7 @@
               </div>
               <div class="info-answer-second">
                 <ng-container *ngIf="selectedOption !== 'other'">
-                  <ion-select class="patient-input" [(ngModel)]="selectedOption">
+                  <ion-select class="patient-input" label-placement="floating" [(ngModel)]="selectedOption">
                     <ion-select-option value="serious">Serious</ion-select-option>
                     <ion-select-option value="not-serious">Not serious</ion-select-option>
                     <ion-select-option value="other">Other</ion-select-option>
@@ -150,7 +150,7 @@
             </div>
           </ion-list> 
         </div>
-        <ion-button class="submit-button">Submit</ion-button>
+        <ion-button mode="ios" class="submit-button">Submit</ion-button>
       </div>
     </ion-accordion>
 
@@ -193,13 +193,13 @@
           </div>  
         </div>
         <div class="second-submit-button">
-          <ion-button class="submit-button">Submit</ion-button>
+          <ion-button mode="ios" class="submit-button">Submit</ion-button>
         </div>
       </div>
     </ion-accordion>
   </ion-accordion-group>
 
   <div class="end-emergency">
-    <ion-button class="end-emergency-button" (click)="presentAlert()">End Emergency</ion-button>
+    <ion-button mode="ios" class="end-emergency-button" (click)="presentAlert()">End Emergency</ion-button>
   </div>
 </ion-content>

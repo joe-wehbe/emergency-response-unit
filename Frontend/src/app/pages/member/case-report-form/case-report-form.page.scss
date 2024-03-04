@@ -60,17 +60,13 @@ ion-input {
     color: black;
 }
 
+ion-icon{
+    font-size: 22px;
+}
+
 ion-select{
     --highlight-color: #810808;
     color: black;
-}
-
-::ng-deep ion-input .label-text{
-    color: gray;
-}
-
-::ng-deep ion-textarea .label-text{
-    color: gray;
 }
 
 ion-textarea {
@@ -83,27 +79,32 @@ ion-textarea, ion-input, ion-select{
     background-color: rgb(247, 240, 240);
 }
 
-/* Style label when input is focused */
 ion-input.has-focus  {
     --highlight-color: #810808;
+
+    ion-icon{
+        color: #810808;
+    }
 }
 
-/* Style select when input is focused */
 ion-select.has-focus  {
     --highlight-color: #810808;
 }
 
-/* Style textarea when input is focused */
 ion-textarea.has-focus  {
     --highlight-color: #810808;
+
+    ion-icon{
+        color: #810808;
+    }
 }
 
 ion-input[type=date]{
-    color-scheme: black; //for calendar icon
+    color-scheme: black; 
 }
 
 ion-input[type=time]{
-    color-scheme: black; //for clock icon
+    color-scheme: black;
 }
 
 .submit-button-container{

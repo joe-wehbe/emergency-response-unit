@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonModal } from '@ionic/angular'; // Import IonModal from @ionic/angular
+import { IonModal } from '@ionic/angular';
 
 interface User {
   firstName: string;
@@ -69,7 +69,7 @@ export class CommunityPage implements OnInit {
     })).filter(filteredGroup => filteredGroup.users.length > 0);
   }
 
-  openModal(user: User) {
+  openModal() {
     this.modal?.present();
   }
 }

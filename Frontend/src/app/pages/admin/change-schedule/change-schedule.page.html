@@ -1,0 +1,87 @@
+<ion-header id="main-content">
+  <ion-toolbar class="header-toolbar">
+    <div class="toolbar-container">
+      <ion-buttons slot="start">
+        <ion-button (click)="back()">
+          <ion-icon class="back-button" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title class="title">Editing Schedule</ion-title>
+    <ion-icon class="save-button" name="checkbox-outline" slot="end" (click)="saveAlert()"></ion-icon>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+
+  <div class="body">
+    <div class="stmt">
+      <p>4 shifts per week</p>
+    </div>
+
+    <div class="day-container">
+      <p class="day">Monday</p>
+        <ion-card class="shifts-card">
+          <div class="shift-container">
+            <div class="shift">
+              <p class="time">8:00 - 9:00</p>
+              <div class="seperator"></div>
+              <p class="covers">3 covers</p>
+              <div class="seperator"></div>
+              <p class="missed">2 misses</p>
+            </div>
+            <ion-icon class="delete-icon" name="close-circle-outline" (click)="deleteAlert()"></ion-icon>
+          </div>
+        </ion-card>
+    </div>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button id="add-shift">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-modal mode="ios" id="add-shift-modal" #modal trigger="add-shift">
+    <ng-template>
+      <div class="wrapper">
+        <div class="stmt">
+          <p class="section">Please select a day and time range</p>
+        </div> 
+        <div class="weekdays-radio">
+          <ion-radio-group mode="md"  [(ngModel)]="selectedOption">
+            <ion-radio value="monday" labelPlacement="stacked">Monday</ion-radio>
+            <ion-radio value="tuesday" labelPlacement="stacked">Tuesday</ion-radio>
+            <ion-radio value="wednesday" labelPlacement="stacked">Wednesday</ion-radio>
+            <ion-radio value="thursday" labelPlacement="stacked">Thursday</ion-radio>
+            <ion-radio value="friday" labelPlacement="stacked">Friday</ion-radio>
+          </ion-radio-group>
+        </div>
+        <div class="time-frame-container">
+          <p class="from">From</p>
+          <ion-datetime-button datetime="from-date"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime [showDefaultTitle]="true" [showDefaultButtons]="true" presentation="time" id="from-date">
+                <span slot="title">Select shift start time</span>
+              </ion-datetime> 
+            </ng-template>
+          </ion-modal>
+          <p class="to">to</p>
+          <ion-datetime-button datetime="to-date"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime [showDefaultTitle]="true" [showDefaultButtons]="true" presentation="time" id="to-date">
+                <span slot="title">Select shift end time</span>
+              </ion-datetime> 
+            </ng-template>
+          </ion-modal>
+        </div>
+        <div class="buttons-container">
+          <ion-button class="cancel-button" (click)="dismiss()">Cancel</ion-button>
+          <ion-button class="fetch-button" (click)="add()">Add shift</ion-button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>

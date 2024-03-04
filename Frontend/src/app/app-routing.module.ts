@@ -125,8 +125,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/admin/manage-members/manage-members.module').then( m => m.ManageMembersPageModule)
   },
   {
-    path: 'profile',
-    loadChildren: () => import('./pages/admin/profile/profile.module').then( m => m.ProfilePageModule)
+    path: 'user-profile',
+    loadChildren: () => import('./pages/admin/user-profile/user-profile.module').then( m => m.UserProfilePageModule)
   },
   {
     path: 'admin-panel',
@@ -137,9 +137,18 @@ const routes: Routes = [
   {
     path: 'report',
     loadChildren: () => import('./pages/ssf/report/report.module').then( m => m.ReportPageModule)
+  },  {
+    path: 'emergency-records',
+    loadChildren: () => import('./pages/admin/emergency-records/emergency-records.module').then( m => m.EmergencyRecordsPageModule)
   },
-
-
+  {
+    path: 'attendance-records',
+    loadChildren: () => import('./pages/admin/attendance-records/attendance-records.module').then( m => m.AttendanceRecordsPageModule)
+  },
+  {
+    path: 'change-schedule',
+    loadChildren: () => import('./pages/admin/change-schedule/change-schedule.module').then( m => m.ChangeSchedulePageModule)
+  },
 
 ];
 
