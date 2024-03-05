@@ -9,6 +9,9 @@ use App\Models\User;
 use App\Models\Medical_faq;
 use App\Models\Extension;
 use App\Models\Login_request;
+use App\Models\Shift;
+use App\Models\User_has_shift;
+use App\Models\Cover_request;
 
 class AdminController extends Controller
 {
@@ -392,5 +395,44 @@ if (!$faq) {
             'message' => 'Request rejected successfully'
         ]);
 
+    }
+
+    function getAttendanceRecords(){
+        $records = Shift::all();
+        if($records->isEmpty()){
+        return response()->json([
+         'message' => 'No shifts in the db yet'
+        ]);
+    }else{
+        $shiftData = [];
+
+        foreach ($records as $shift) {
+            $shiftId = $shift->id;
+
+            $userShifts = User_has_shift::where('shift_id', $shiftId)->select('user_id', 'shift_status', 'checkin_time', 'missed_attendance')->get();
+            $coverRequests = Cover_request::where('shift_id', $shiftId)->select('request_status', 'covered_by', 'reason')->get();
+           
+            foreach ($userShifts as $key => $userShift) {
+                $user = User::where('id', $userShift->user_id)->first(['first_name', 'last_name']);
+                $userShift->user = $user;
+            }
+
+            
+            foreach ($coverRequests as $key => $cover) {
+                $covered_by_user= User::where('id', $cover->covered_by)->first(['first_name', 'last_name']);
+                $cover->covered_by_user = $covered_by_user;
+            }
+            
+            $shiftData[$shiftId] = [
+                'shift' => $shift,
+                'user_shifts' => $userShifts,
+                'cover_requests' => $coverRequests
+            ];
+        
+        }
+
+        return response()->json($shiftData);
+
+    }
     }
 }
