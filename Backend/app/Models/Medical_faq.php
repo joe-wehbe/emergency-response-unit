@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Medical_faq extends Model
 {
     use HasFactory;
+    
+    protected $fillable = [
+        'type',
+        'question', 
+        'answer',
+    ];
 }
