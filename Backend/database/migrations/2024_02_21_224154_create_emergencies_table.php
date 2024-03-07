@@ -15,17 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('location');
             $table->string('reporter_description');
-            $table->string('medic_description');
-            $table->string('history');
-            $table->string('patient_condition');
-            $table->string('treatment_administration');
-            $table->string('transportation');
-            $table->string('equipment');
-            $table->integer('status');
-            $table->integer('medic_id');
-            $table->integer('patient_id');
-            $table->integer('issues');
-            $table->integer('case_report');
+            $table->string('medic_description')->nullable();;
+            $table->string('history')->nullable();
+            $table->string('patient_condition')->nullable();
+            $table->string('treatment_administration')->nullable();
+            $table->string('transportation')->nullable();
+            $table->string('equipment')->nullable();
+            $table->integer('status')->nullable();
+            $table->integer('medic_id')->nullable();
+            $table->integer('patient_id')->nullable();
+            $table->integer('issues')->nullable();
+            $table->integer('case_report')->nullable();
             $table->timestamps();
         });
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmergencyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
@@ -25,26 +26,31 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         });
     
         Route::group(["prefix" => "emergency"], function(){
-           
            //write the route of the apis in the emergency controller here 
+           Route::post("add_emergency", [EmergencyController::class, "addEmergency"]);
+           Route::post('add_emergency_details/{id}', [EmergencyController::class, "addEmergencyDetails"]);
+           Route::post("add_assessment/{emergencyId}", [EmergencyController::class, "addAssessment"]);
+           Route::get('/get_ongoing_emergencies', [EmergencyController::class, 'getOngoingEmergencies']);
+           Route::get('/get_ended_emergencies', [EmergencyController::class, 'getEndedEmergencies']);
+           Route::get('get_emergency/{id}', [EmergencyController::class, 'getEmergency']);
+           Route::post('accept_emergency/{emergencyId}/medic/{medicId}', [EmergencyController::class, 'acceptEmergency']);
+           Route::post('end_emergency/{id}/', [EmergencyController::class, 'endEmergency']);
 
         });
     
         Route::group(["prefix" => "admin"], function(){
-             //write the route of the apis in the admin controller here 
-             Route::get("get_login_requests", [AdminController::class, "getLoginRequests"]);
-             Route::get("get_attendance_records", [AdminController::class, "getAttendanceRecords"]);
-             Route::post("accept_login_request", [AdminController::class, "acceptRequest"]);
-             Route::post("reject_login_request", [AdminController::class, "rejectRequest"]);
-             Route::post("delete_announcement", [AdminController::class, "deleteAnnouncement"]);
-             Route::post("delete_announcement", [AdminController::class, "deleteAnnouncement"]);
-             Route::post("delete_user", [AdminController::class, "deleteUser"]);
-             Route::post("add_faq", [AdminController::class, "addFaq"]);
-             Route::post("delete_faq", [AdminController::class, "deleteFaq"]);
-             Route::post("add_extension", [AdminController::class, "addExtension"]);
-             Route::post("delete_extension", [AdminController::class, "deleteExtension"]);
-             
+            //write the route of the apis in the admin controller here 
+            Route::get("get_login_requests", [AdminController::class, "getLoginRequests"]);
+            Route::get("get_attendance_records", [AdminController::class, "getAttendanceRecords"]);
+            Route::post("accept_login_request", [AdminController::class, "acceptRequest"]);
+            Route::post("reject_login_request", [AdminController::class, "rejectRequest"]);
+            Route::post("delete_announcement", [AdminController::class, "deleteAnnouncement"]);
+            Route::post("delete_announcement", [AdminController::class, "deleteAnnouncement"]);
+            Route::post("delete_user", [AdminController::class, "deleteUser"]);
+            Route::post("add_faq", [AdminController::class, "addFaq"]);
+            Route::post("delete_faq", [AdminController::class, "deleteFaq"]);
+            Route::post("add_extension", [AdminController::class, "addExtension"]);
+            Route::post("delete_extension", [AdminController::class, "deleteExtension"]);     
         });
-
 });
 
