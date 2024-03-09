@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class EmergencyController extends Controller
 {
-    public function addEmergency(Request $request){
+
+    // REPORT EMERGENCY PAGE 
+    public function reportEmergency(Request $request){
         $request-> validate([
             'location' => 'required',
             'reporter_description' => 'required'
@@ -25,6 +27,7 @@ class EmergencyController extends Controller
         return response()->json(['message' => 'Emergency added successfully'], 201);    
     }
 
+    // STANDBY PAGE
     public function getOngoingEmergencies(){
         $emergencies = Emergency::where('status', 1)->get();
         return response()->json(['emergencies' => $emergencies], 200);
@@ -44,6 +47,7 @@ class EmergencyController extends Controller
         }
     }
 
+    // ON SCENE PAGE
     public function acceptEmergency($emergencyId, $medicId)
     {
         try{
@@ -53,17 +57,6 @@ class EmergencyController extends Controller
             return response()->json(['message' => 'Emergency accepted'], 200);
         }
         catch (ModelNotFoundException $exception) {
-            return response()->json(['error' => 'Emergency not found'], 404);
-        }
-    }
-
-    public function endEmergency($id){
-        try{
-            $emergency = Emergency::findOrFail($id);
-            $emergency->status = 0;
-            $emergency->save();
-            return response()->json(['message' => 'Emergency ended']);
-        }catch (ModelNotFoundException $exception){
             return response()->json(['error' => 'Emergency not found'], 404);
         }
     }
@@ -88,6 +81,7 @@ class EmergencyController extends Controller
     
     public function addAssessment(Request $request, $emergencyId){
         $request-> validate([
+
             'heart_rate' => 'required',
             'blood_pressure' => 'required',
             'oxygen_saturation' => 'required',
@@ -100,7 +94,7 @@ class EmergencyController extends Controller
 
         $assessment = new Assessment();
 
-        $assessment->$emergencyId = $emergencyId;
+        $assessment->emergency_id = $emergencyId;
         $assessment->heart_rate = $request->heart_rate;
         $assessment->blood_pressure = $request->blood_pressure;
         $assessment->oxygen_saturation = $request->oxygen_saturation;
@@ -114,4 +108,15 @@ class EmergencyController extends Controller
 
         return response()->json(['message' => 'Assessment added successfully'], 201);
     }
+
+    public function endEmergency($id){
+        try{
+            $emergency = Emergency::findOrFail($id);
+            $emergency->status = 0;
+            $emergency->save();
+            return response()->json(['message' => 'Emergency ended']);
+        }catch (ModelNotFoundException $exception){
+            return response()->json(['error' => 'Emergency not found'], 404);
+        }
+    }    
 }

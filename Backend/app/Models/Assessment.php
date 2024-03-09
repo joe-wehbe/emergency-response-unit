@@ -10,6 +10,7 @@ class Assessment extends Model
     use HasFactory;
 
     protected $fillable = [
+        'emergency_id',
         'heart_rate',
         'blood_pressure',
         'oxygen_saturation',

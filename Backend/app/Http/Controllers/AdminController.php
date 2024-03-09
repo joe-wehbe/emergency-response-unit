@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Announcement;
@@ -443,6 +444,44 @@ class AdminController extends Controller
 
             return response()->json($shiftData);
 
+        }
+    }
+
+    public function changeRank($userId, $rankId){
+        try {
+            $user = User::findOrFail($userId);
+    
+            $user->user_rank = $rankId;    
+            $user->save();
+    
+            return response()->json(['message' => 'Rank updated successfully'], 200);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+    }
+
+    public function removeMember($userId){
+
+        try {
+            $user = User::findOrFail($userId);
+    
+            $user->user_type = 1;    
+            $user->save();
+    
+            return response()->json(['message' => 'User removed successfully'], 200);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+    }
+
+    public function getUserShifts($userId){
+
+        try{
+            User::findOrFail($userId);
+            $shifts = User_has_shift::where('user_id', $userId)->get();
+            return response()->json(['Shifts' => $shifts], 200);
+        }catch (ModelNotFoundException $exception){
+            return response()->json(['error' => 'User not found'], 404);
         }
     }
 }

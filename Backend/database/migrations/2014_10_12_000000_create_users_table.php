@@ -22,10 +22,10 @@ return new class extends Migration
             $table->string('major');
             $table->string('phone_number');
             $table->integer('user_type');
-            $table->string('profile_picture');
-            $table->string('user_rank');
-            $table->string('bio');
-            $table->string('tags');
+            $table->string('profile_picture')->nullable();
+            $table->integer('user_rank')->nullable();
+            $table->string('bio')->nullable();
+            $table->string('tags')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
