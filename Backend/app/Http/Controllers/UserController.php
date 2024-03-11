@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
     // PROFILE PAGE
-    public function getUserInfo($id){
+    public function getUserInfo($id)
+    {
         try {
             $user = User::findOrFail($id);
             return response()->json(['User' => $user], 200);
@@ -42,7 +43,8 @@ class UserController extends Controller
         }
     }
 
-    public function editTags(Request $request, $id){
+    public function editTags(Request $request, $id)
+    {
         $validator = Validator::make($request->all(), [
             'tags' => 'required|string',
         ]);
@@ -61,8 +63,9 @@ class UserController extends Controller
         }
     }
 
-    public function requestCover(Request $request, $userId, $shiftId){
-        $request-> validate([
+    public function requestCover(Request $request, $userId, $shiftId)
+    {
+        $request->validate([
             'reason' => 'required',
         ]);
 
@@ -73,26 +76,27 @@ class UserController extends Controller
         $coverRequest->request_status = 1;
         $coverRequest->save();
 
-        return response()->json(['message' => 'Cover Request added successfully'], 201); 
+        return response()->json(['message' => 'Cover Request added successfully'], 201);
     }
 
-    public function markAttendance($userId){
+    public function markAttendance($userId)
+    {
         try {
             User::findOrFail($userId);
             $userShifts = User_has_shift::where('user_id', $userId)->get();
             $attendanceMarked = false;
-    
+
             foreach ($userShifts as $shift) {
                 if ($shift->shift_status == 1) {
                     $shift->missed_attendance = 0;
                     $shift->checkin_time = Carbon::now();
                     $shift->save();
-                    
+
                     $attendanceMarked = true;
                     break;
                 }
             }
-    
+
             if ($attendanceMarked) {
                 return response()->json(['message' => 'User attendance marked successfully'], 200);
             } else {
@@ -100,6 +104,16 @@ class UserController extends Controller
             }
         } catch (ModelNotFoundException $exception) {
             return response()->json(['error' => 'User not found'], 404);
+        }
+    }
+
+    public function getAllUsers()
+    {
+        try {
+            $users = User::all();
+            return response()->json(['users' => $users], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch users'], 500);
         }
     }
 }
