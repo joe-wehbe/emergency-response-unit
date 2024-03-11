@@ -140,4 +140,13 @@ class UserController extends Controller
         }
     }
 
+    public function getAllCoverRequests()
+    {
+        try {
+            $coverRequests = Cover_request::all();
+            return response()->json(['coverRequests' => $coverRequests], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch cover requests'], 500);
+        }
+    }
 }

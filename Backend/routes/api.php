@@ -31,6 +31,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::get('/get-all-users', [UserController::class, 'getAllUsers']);
             Route::get('/get-all-announcements', [UserController::class, 'getAllAnnouncements']);
             Route::get('{id}/get-announcement', [UserController::class, 'getAnnouncement']);
+            Route::get('/get-all-cover-requests', [UserController::class, 'getAllCoverRequests']);
+
 
         });
 
