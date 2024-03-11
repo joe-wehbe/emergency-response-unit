@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::post('{id}/mark-attendance', [UserController::class, 'markAttendance']);
             Route::get('/get-all-users', [UserController::class, 'getAllUsers']);
             Route::get('/get-all-announcements', [UserController::class, 'getAllAnnouncements']);
+            Route::get('{id}/get-announcement', [UserController::class, 'getAnnouncement']);
 
         });
 

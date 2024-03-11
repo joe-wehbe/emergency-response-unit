@@ -127,4 +127,17 @@ class UserController extends Controller
             return response()->json(['error' => 'Failed to fetch announcements'], 500);
         }
     }
+
+    public function getAnnouncement($id)
+    {
+        try {
+            $announcement = Announcement::findOrFail($id);
+            return response()->json(['announcement' => $announcement], 200);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(['error' => 'Announcement not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch announcement'], 500);
+        }
+    }
+
 }
