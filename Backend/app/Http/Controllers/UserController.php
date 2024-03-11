@@ -149,4 +149,23 @@ class UserController extends Controller
             return response()->json(['error' => 'Failed to fetch cover requests'], 500);
         }
     }
+
+    public function acceptCoverRequest(Request $request)
+    {
+        $request->validate([
+            'id' => 'required', //id of the cover request
+            'covered_by' => 'required',
+        ]);
+        try{
+            $coverRequest = Cover_request::findOrFail($request->id);  
+            $coverRequest->request_status = 1;
+            $coverRequest->covered_by = $request->covered_by;
+            $coverRequest->save();
+
+            return response()->json(['message' => 'Cover request accepted'], 200);
+        }
+        catch (ModelNotFoundException $exception) {
+            return response()->json(['error' => 'Cover request not found'], 404);
+        }
+    }
 }

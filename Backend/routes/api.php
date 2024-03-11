@@ -28,10 +28,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::put('{id}/edit-tags', [UserController::class, 'editTags']);
             Route::post('{userId}/request-cover/{shiftId}', [UserController::class, 'requestCover']);
             Route::post('{id}/mark-attendance', [UserController::class, 'markAttendance']);
-            Route::get('/get-all-users', [UserController::class, 'getAllUsers']);
-            Route::get('/get-all-announcements', [UserController::class, 'getAllAnnouncements']);
+            Route::get('get-all-users', [UserController::class, 'getAllUsers']);
+            Route::get('get-all-announcements', [UserController::class, 'getAllAnnouncements']);
             Route::get('{id}/get-announcement', [UserController::class, 'getAnnouncement']);
-            Route::get('/get-all-cover-requests', [UserController::class, 'getAllCoverRequests']);
+            Route::get('get-all-cover-requests', [UserController::class, 'getAllCoverRequests']);
+            Route::put('accept-cover-request', [UserController::class, 'acceptCoverRequest']);
+
 
 
         });
