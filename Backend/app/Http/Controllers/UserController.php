@@ -6,6 +6,7 @@ use App\Models\Cover_request;
 use App\Models\User;
 use Carbon\Carbon;
 use App\Models\User_has_shift;
+use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Validator;
@@ -114,6 +115,16 @@ class UserController extends Controller
             return response()->json(['users' => $users], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to fetch users'], 500);
+        }
+    }
+
+    public function getAllAnnouncements()
+    {
+        try {
+            $announcements = Announcement::all();
+            return response()->json(['announcements' => $announcements], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch announcements'], 500);
         }
     }
 }

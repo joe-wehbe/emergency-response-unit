@@ -28,7 +28,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::put('{id}/edit-tags', [UserController::class, 'editTags']);
             Route::post('{userId}/request-cover/{shiftId}', [UserController::class, 'requestCover']);
             Route::post('{id}/mark-attendance', [UserController::class, 'markAttendance']);
-            Route::get('', [UserController::class, 'getAllUsers']);
+            Route::get('/get-all-users', [UserController::class, 'getAllUsers']);
+            Route::get('/get-all-announcements', [UserController::class, 'getAllAnnouncements']);
 
         });
 
