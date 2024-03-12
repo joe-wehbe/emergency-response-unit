@@ -158,15 +158,14 @@ class UserController extends Controller
             'id' => 'required', //id of the cover request
             'covered_by' => 'required',
         ]);
-        try{
-            $coverRequest = Cover_request::findOrFail($request->id);  
+        try {
+            $coverRequest = Cover_request::findOrFail($request->id);
             $coverRequest->request_status = 1; //if request accepted becomes 1
             $coverRequest->covered_by = $request->covered_by;
             $coverRequest->save();
 
             return response()->json(['message' => 'Cover request accepted'], 200);
-        }
-        catch (ModelNotFoundException $exception) {
+        } catch (ModelNotFoundException $exception) {
             return response()->json(['error' => 'Cover request not found'], 404);
         }
     }
@@ -182,21 +181,15 @@ class UserController extends Controller
     }
 
     public function getMedicalFaqs($id)
-{
-    try {
-        // Fetch the specific medical FAQ based on the ID
-        $medicalFAQ = Medical_faq::findOrFail($id);
+    {
+        try {
+            $medicalFAQ = Medical_faq::findOrFail($id);
 
-        return response()->json(['medicalFAQ' => $medicalFAQ], 200);
-    } catch (ModelNotFoundException $exception) {
-        return response()->json(['error' => 'Medical FAQ not found'], 404);
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Failed to fetch medical FAQ'], 500);
+            return response()->json(['medicalFAQ' => $medicalFAQ], 200);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(['error' => 'Medical FAQ not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch medical FAQ'], 500);
+        }
     }
-}
-    
-   
-
-
-    
 }

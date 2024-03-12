@@ -581,7 +581,6 @@ class AdminController extends Controller
                     $user_has_shift->shift_id = $request->shift_id;
 
                     $user_has_shift->save();
-                    print("hii");
 
                     return response()->json(['message' => 'Shift added successfully'], 201);
 

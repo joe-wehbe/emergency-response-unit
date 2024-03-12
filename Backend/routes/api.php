@@ -73,6 +73,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::delete("delete-shift", [AdminController::class, "deleteShift"]);   
             Route::post("add-shift", [AdminController::class, "addShift"]);    
 
+            //add type in request
+
+            //remove board member
+
              
         });
 });
