@@ -158,7 +158,7 @@ class UserController extends Controller
         ]);
         try{
             $coverRequest = Cover_request::findOrFail($request->id);  
-            $coverRequest->request_status = 1;
+            $coverRequest->request_status = 1; //if request accepted becomes 1
             $coverRequest->covered_by = $request->covered_by;
             $coverRequest->save();
 
@@ -168,4 +168,6 @@ class UserController extends Controller
             return response()->json(['error' => 'Cover request not found'], 404);
         }
     }
+
+    
 }

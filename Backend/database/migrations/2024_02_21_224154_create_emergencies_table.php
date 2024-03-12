@@ -25,7 +25,7 @@ return new class extends Migration
             $table->integer('medic_id')->nullable();
             $table->integer('patient_id')->nullable();
             $table->integer('issues')->nullable();
-            $table->integer('case_report')->nullable();
+            $table->integer('case_report')->default(0);
             $table->timestamps();
         });
     }

@@ -48,6 +48,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
            Route::get('get-emergency/{id}', [EmergencyController::class, 'getEmergency']);
            Route::post('accept-emergency/{emergencyId}/medic/{medicId}', [EmergencyController::class, 'acceptEmergency']);
            Route::post('end-emergency/{id}/', [EmergencyController::class, 'endEmergency']);
+           Route::get('get-no-report-emergencies', [EmergencyController::class, 'getNoReportEmergencies']);
         });
 
         // ADMIN CONTROLLER APIs

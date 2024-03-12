@@ -118,5 +118,11 @@ class EmergencyController extends Controller
         }catch (ModelNotFoundException $exception){
             return response()->json(['error' => 'Emergency not found'], 404);
         }
-    }    
+    }
+    
+    public function getNoReportEmergencies(){
+        $emergencies = Emergency::where('case_report', 0)->get(); //0 means unfilled case report
+        return response()->json(['emergencies' => $emergencies], 200);  
+    }
+
 }
