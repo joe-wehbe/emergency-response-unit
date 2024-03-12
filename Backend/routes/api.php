@@ -69,7 +69,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::get("get-user-shifts/{id}", [AdminController::class, "getUserShifts"]);
 
             Route::put("add-member", [AdminController::class, "addMember"]);    
-            Route::post("add-announcement", [AdminController::class, "addAnnouncement"]);    
+            Route::post("add-announcement", [AdminController::class, "addAnnouncement"]);   
+            Route::delete("delete-shift", [AdminController::class, "deleteShift"]);   
+            Route::post("add-shift", [AdminController::class, "addShift"]);    
+
+             
         });
 });
 
