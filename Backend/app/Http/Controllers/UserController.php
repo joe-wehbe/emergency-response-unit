@@ -146,4 +146,24 @@ class UserController extends Controller
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }
+
+    public function getAllUsers()
+    {
+        try {
+            $users = User::all();
+            return response()->json(['users' => $users], 200);
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'Failed to fetch users'], 500);
+        }
+    }
+
+    public function getAllAnnouncements()
+    {
+        try {
+            $announcements = Announcement::all();
+            return response()->json(['announcements' => $announcements], 200);
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'Failed to fetch announcements'], 500);
+        }
+    }
 }
