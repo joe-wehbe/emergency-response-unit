@@ -13,7 +13,6 @@ use App\Models\Shift;
 use App\Models\User_has_shift;
 use App\Models\Cover_request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Hash;
 use Exception;
 
 
@@ -502,5 +501,33 @@ if (!$faq) {
         }
     
     }
+
+    public function addAnnouncement(Request $request)
+    {
+        // Validate input data
+        $validator = Validator::make($request->all(), [
+            'admin_id' => 'required|exists:users,id',
+            'importance' => 'required|string',
+            'description' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => $validator->errors()->first()
+            ]);
+        }
+
+        try {
+            $announcement = new Announcement();
+            $announcement->fill($request->all());
+            $announcement->save();
+
+            return response()->json(['message' => 'Announcement added successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to add announcement']);
+        }
+    }
+
     
 }
