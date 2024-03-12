@@ -28,6 +28,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::put('edit-tags', [UserController::class, 'editTags']);
             Route::post('request-cover', [UserController::class, 'requestCover']);
             Route::put('mark-attendance', [UserController::class, 'markAttendance']);
+            Route::get('/get-all-users', [UserController::class, 'getAllUsers']);
+            Route::get('/get-all-announcements', [UserController::class, 'getAllAnnouncements']);
+
         });
 
         // EMERGENCY CONTROLLER APIs
@@ -48,7 +51,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::get("get_attendance_records", [AdminController::class, "getAttendanceRecords"]);
             Route::post("accept_login_request", [AdminController::class, "acceptRequest"]);
             Route::post("reject_login_request", [AdminController::class, "rejectRequest"]);
-            Route::post("delete_announcement", [AdminController::class, "deleteAnnouncement"]);
             Route::post("delete_announcement", [AdminController::class, "deleteAnnouncement"]);
             Route::post("delete_user", [AdminController::class, "deleteUser"]);
             Route::post("add_faq", [AdminController::class, "addFaq"]);

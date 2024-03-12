@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Announcement;
@@ -18,26 +17,25 @@ use Exception;
 
 class AdminController extends Controller
 {
-    function deleteAnnouncement(Request $request)
-    {
+    function deleteAnnouncement(Request $request) {
 
         //validate the params 
-        $request->validate([
-            'announcement_id' => 'required|integer',
-            'admin_id' => 'required|integer'
+       $request->validate([
+           'announcement_id' => 'required|integer',
+           'admin_id' => 'required|integer'
         ]);
 
         $announcement = Announcement::where('id', $request->input('announcement_id'))->first();
 
         $admin = User::where('id', $request->input('admin_id'))->first();
 
-        //check if announcement exists
-        if (!$announcement) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'Announcement not found'
-            ]);
-        }
+//check if announcement exists
+if (!$announcement) {
+    return response()->json([
+        'status' => 'Error',
+        'message' => 'Announcement not found'
+    ]);
+}
 
         //check if admin exists 
         if (!$admin) {
@@ -48,7 +46,7 @@ class AdminController extends Controller
         }
 
         //check if user who initiated request is an admin 
-        if ($admin->user_type != 3) {
+        if (!in_array($admin->user_rank, [3, 4, 5, 7])) {
             return response()->json([
                 'status' => 'Error',
                 'message' => 'User is not an admin'
@@ -63,7 +61,7 @@ class AdminController extends Controller
             ]);
         }
 
-
+        
 
 
         $announcement->delete();
@@ -74,28 +72,27 @@ class AdminController extends Controller
 
     }
 
-    function deleteUser(Request $request)
-    {
+    function deleteUser(Request $request) {
 
         try {
             $user = User::where('id', $request->input('user_id'))->first();
             $admin = User::where('id', $request->input('admin_id'))->first();
 
             //check if admin exists 
-            if (!$admin) {
-                return response()->json([
-                    'status' => 'Error',
-                    'message' => 'Admin not found'
-                ]);
-            }
+        if (!$admin) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Admin not found'
+            ]);
+        }
 
-            //check if user who initiated request is an admin 
-            if ($admin->user_type != 3) {
-                return response()->json([
-                    'status' => 'Error',
-                    'message' => 'User is not an admin'
-                ]);
-            }
+        //check if user who initiated request is an admin 
+        if (!in_array($admin->user_rank, [3, 4, 5, 7])) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'User is not an admin'
+            ]);
+        }
 
             if (!$user) {
                 return response()->json([
@@ -120,8 +117,7 @@ class AdminController extends Controller
 
     }
 
-    function addFaq(Request $request)
-    {
+    function addFaq(Request $request){
         $admin = User::where('id', $request->input('admin_id'))->first();
 
         //checking admin authorities 
@@ -132,20 +128,20 @@ class AdminController extends Controller
             ]);
         }
 
-        if ($admin->user_type != 3) {
+        if (!in_array($admin->user_rank, [3, 4, 5, 7])) {
             return response()->json([
                 'status' => 'Error',
                 'message' => 'User is not an admin'
             ]);
         }
 
-        $validator = Validator::make($request->all(), [
+          $validator = Validator::make($request->all(), [
             'type' => 'required|string',
             'question' => 'required|string',
             'answer' => 'required|string',
-
+            
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'Error',
@@ -154,20 +150,20 @@ class AdminController extends Controller
         }
 
         // Check if the FAQ type is valid 
-        $validTypes = ['Patient Assessment', 'Vital Signs', 'Cardio', 'Respiration', 'Neuro', 'Blsd', 'Trauma', 'Bleeding'];
+        $validTypes = ['Patient Assessment', 'Vital Signs', 'Cardio', 'Respiration', 'Neuro', 'Blsd', 'Trauma', 'Bleeding']; 
         if (!in_array($request->type, $validTypes)) {
             return response()->json([
                 'status' => 'Error',
                 'message' => 'No such FAQ section exists'
             ]);
         }
-
+    
         $faq = Medical_faq::create([
             'type' => $request->input('type'),
             'question' => $request->input('question'),
             'answer' => $request->input('answer'),
         ]);
-
+    
         return response()->json([
             'status' => 'Success',
             'message' => 'FAQ added successfully'
@@ -175,51 +171,49 @@ class AdminController extends Controller
 
     }
 
-    function deleteFaq(Request $request)
-    {
-        $request->validate([
-            'admin_id' => 'required|integer',
-            'faq_id' => 'required|integer'
-        ]);
+    function deleteFaq(Request $request){
+       $request->validate([
+        'admin_id' => 'required|integer',
+        'faq_id' => 'required|integer'
+     ]);
 
-        $faq = Medical_faq::where('id', $request->input('faq_id'))->first();
+     $faq = Medical_faq::where('id', $request->input('faq_id'))->first();
 
-        $admin = User::where('id', $request->input('admin_id'))->first();
-
-
-        if (!$faq) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'FAQ not found'
-            ]);
-        }
-
-        //checking admin authorities 
-        if (!$admin) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'Admin not found'
-            ]);
-        }
+     $admin = User::where('id', $request->input('admin_id'))->first();
 
 
-        if ($admin->user_type != 3) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'User is not an admin'
-            ]);
-        }
+if (!$faq) {
+ return response()->json([
+     'status' => 'Error',
+     'message' => 'FAQ not found'
+ ]);
+}
 
+//checking admin authorities 
+     if (!$admin) {
+         return response()->json([
+             'status' => 'Error',
+             'message' => 'Admin not found'
+         ]);
+     }
 
-        $faq->delete();
-        return response()->json([
-            'status' => 'Success',
-            'message' => 'FAQ deleted successfully'
-        ]);
+   
+     if (!in_array($admin->user_rank, [3, 4, 5, 7])) {
+         return response()->json([
+             'status' => 'Error',
+             'message' => 'User is not an admin'
+         ]);
+     }
+
+     
+     $faq->delete();
+     return response()->json([
+         'status' => 'Success',
+         'message' => 'FAQ deleted successfully'
+     ]);
     }
 
-    function addExtension(Request $request)
-    {
+    function addExtension(Request $request){
         $admin = User::where('id', $request->input('admin_id'))->first();
 
         //checking admin authorities 
@@ -230,19 +224,19 @@ class AdminController extends Controller
             ]);
         }
 
-        if ($admin->user_type != 3) {
+        if (!in_array($admin->user_rank, [3, 4, 5, 7])) {
             return response()->json([
                 'status' => 'Error',
                 'message' => 'User is not an admin'
             ]);
         }
 
-        $validator = Validator::make($request->all(), [
+          $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'number' => 'required|integer',
-
+            
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'Error',
@@ -250,76 +244,73 @@ class AdminController extends Controller
             ]);
         }
 
-
+    
         $extension = Extension::create([
             'name' => $request->input('name'),
             'number' => $request->input('number'),
         ]);
-
+    
         return response()->json([
             'status' => 'Success',
             'message' => 'Extension added successfully'
         ]);
     }
 
-    function deleteExtension(Request $request)
-    {
+    function deleteExtension(Request $request){
         $request->validate([
             'admin_id' => 'required|integer',
             'extension_id' => 'required|integer'
-        ]);
-
-        $extension = Extension::where('id', $request->input('extension_id'))->first();
-
-        $admin = User::where('id', $request->input('admin_id'))->first();
-
-
-        if (!$extension) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'Extension not found'
-            ]);
-        }
-
-        //checking admin authorities 
-        if (!$admin) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'Admin not found'
-            ]);
-        }
-
-
-        if ($admin->user_type != 3) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'User is not an admin'
-            ]);
-        }
-
-
-        $extension->delete();
-        return response()->json([
-            'status' => 'Success',
-            'message' => 'Extension deleted successfully'
-        ]);
+         ]);
+    
+         $extension = Extension::where('id', $request->input('extension_id'))->first();
+    
+         $admin = User::where('id', $request->input('admin_id'))->first();
+    
+    
+    if (!$extension) {
+     return response()->json([
+         'status' => 'Error',
+         'message' => 'Extension not found'
+     ]);
+    }
+    
+    //checking admin authorities 
+         if (!$admin) {
+             return response()->json([
+                 'status' => 'Error',
+                 'message' => 'Admin not found'
+             ]);
+         }
+    
+       
+         if (!in_array($admin->user_rank, [3, 4, 5, 7])) {
+             return response()->json([
+                 'status' => 'Error',
+                 'message' => 'User is not an admin'
+             ]);
+         }
+    
+         
+         $extension->delete();
+         return response()->json([
+             'status' => 'Success',
+             'message' => 'Extension deleted successfully'
+         ]);
     }
 
-    function getLoginRequests()
-    {
+    function getLoginRequests(){
         $requests = Login_request::all();
-        if ($requests->isEmpty()) {
+            if($requests->isEmpty()){
             return response()->json([
-                'message' => 'No login entries in the db yet'
+             'message' => 'No login entries in the db yet'
             ]);
-        } else {
+        }else{
             return response()->json($requests);
         }
     }
 
-    function acceptRequest(Request $request)
-    {
-
+    function acceptRequest(Request $request){
+        
         $request->validate([
             'request_id' => 'required|integer',
             'admin_id' => 'required|integer'
@@ -334,15 +325,15 @@ class AdminController extends Controller
                 'message' => 'Admin not found'
             ]);
         }
-
-
-        if ($admin->user_type != 3) {
+   
+      
+        if (!in_array($admin->user_rank, [3, 4, 5, 7])) {
             return response()->json([
                 'status' => 'Error',
                 'message' => 'User is not an admin'
             ]);
         }
-
+       
         if (!$loginRequest) {
             return response()->json([
                 'status' => 'Error',
@@ -350,7 +341,7 @@ class AdminController extends Controller
             ]);
         }
 
-
+        
         if ($loginRequest->status == 1) {
             return response()->json([
                 'status' => 'Error',
@@ -368,8 +359,7 @@ class AdminController extends Controller
 
     }
 
-    function rejectRequest(Request $request)
-    {
+    function rejectRequest(Request $request){
         $request->validate([
             'request_id' => 'required|integer',
             'admin_id' => 'required|integer'
@@ -384,9 +374,9 @@ class AdminController extends Controller
                 'message' => 'Admin not found'
             ]);
         }
-
-
-        if ($admin->user_type != 3) {
+   
+      
+        if (!in_array($admin->user_rank, [3, 4, 5, 7])) {
             return response()->json([
                 'status' => 'Error',
                 'message' => 'User is not an admin'
@@ -409,44 +399,43 @@ class AdminController extends Controller
 
     }
 
-    function getAttendanceRecords()
-    {
+    function getAttendanceRecords(){
         $records = Shift::all();
-        if ($records->isEmpty()) {
-            return response()->json([
-                'message' => 'No shifts in the db yet'
-            ]);
-        } else {
-            $shiftData = [];
+        if($records->isEmpty()){
+        return response()->json([
+         'message' => 'No shifts in the db yet'
+        ]);
+    }else{
+        $shiftData = [];
 
-            foreach ($records as $shift) {
-                $shiftId = $shift->id;
+        foreach ($records as $shift) {
+            $shiftId = $shift->id;
 
-                $userShifts = User_has_shift::where('shift_id', $shiftId)->select('user_id', 'shift_status', 'checkin_time', 'missed_attendance')->get();
-                $coverRequests = Cover_request::where('shift_id', $shiftId)->select('request_status', 'covered_by', 'reason')->get();
-
-                foreach ($userShifts as $key => $userShift) {
-                    $user = User::where('id', $userShift->user_id)->first(['first_name', 'last_name']);
-                    $userShift->user = $user;
-                }
-
-
-                foreach ($coverRequests as $key => $cover) {
-                    $covered_by_user = User::where('id', $cover->covered_by)->first(['first_name', 'last_name']);
-                    $cover->covered_by_user = $covered_by_user;
-                }
-
-                $shiftData[$shiftId] = [
-                    'shift' => $shift,
-                    'user_shifts' => $userShifts,
-                    'cover_requests' => $coverRequests
-                ];
-
+            $userShifts = User_has_shift::where('shift_id', $shiftId)->select('user_id', 'shift_status', 'checkin_time', 'missed_attendance')->get();
+            $coverRequests = Cover_request::where('shift_id', $shiftId)->select('request_status', 'covered_by', 'reason')->get();
+           
+            foreach ($userShifts as $key => $userShift) {
+                $user = User::where('id', $userShift->user_id)->first(['first_name', 'last_name']);
+                $userShift->user = $user;
             }
 
-            return response()->json($shiftData);
-
+            
+            foreach ($coverRequests as $key => $cover) {
+                $covered_by_user= User::where('id', $cover->covered_by)->first(['first_name', 'last_name']);
+                $cover->covered_by_user = $covered_by_user;
+            }
+            
+            $shiftData[$shiftId] = [
+                'shift' => $shift,
+                'user_shifts' => $userShifts,
+                'cover_requests' => $coverRequests
+            ];
+        
         }
+
+        return response()->json($shiftData);
+
+    }
     }
 
     public function changeRank(Request $request){

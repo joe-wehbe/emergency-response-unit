@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Shift;
 use Carbon\Carbon;
 use App\Models\User_has_shift;
+use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
@@ -14,7 +15,8 @@ use Exception;
 class UserController extends Controller
 {
     // PROFILE PAGE
-    public function getUserInfo($id){
+    public function getUserInfo($id)
+    {
         try {
             $user = User::findOrFail($id);
             return response()->json(['User' => $user], 200);
