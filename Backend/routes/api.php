@@ -67,6 +67,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::put("change-rank/{userId}/{rankId}", [AdminController::class, "changeRank"]);     
             Route::put("remove-member/{id}", [AdminController::class, "removeMember"]);    
             Route::get("get-user-shifts/{id}", [AdminController::class, "getUserShifts"]);
+
+            Route::put("add-member", [AdminController::class, "addMember"]);    
         });
 });
 

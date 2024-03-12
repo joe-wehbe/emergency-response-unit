@@ -12,6 +12,10 @@ use App\Models\Login_request;
 use App\Models\Shift;
 use App\Models\User_has_shift;
 use App\Models\Cover_request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Hash;
+use Exception;
+
 
 class AdminController extends Controller
 {
@@ -473,4 +477,30 @@ if (!$faq) {
             return response()->json(['error' => 'User not found'], 404);
         }
     }
+
+    public function addMember(Request $request){
+
+        $request -> validate([
+            'id'=>'required'
+        ]);
+
+        try{
+            $user = User::find($request->id);
+            
+            if ($user){
+                $user->user_type = 2;
+                $user->save();
+                return response()->json(['message'=>'Member added successfully']);
+
+            }
+            else{
+                return response()->json(['message'=>'User not found']);
+            }
+
+        } catch (Exception $exception) {
+            return response()->json(['error' =>'Failed to add member'], 500);
+        }
+    
+    }
+    
 }
