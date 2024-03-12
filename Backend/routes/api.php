@@ -33,8 +33,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::get('{id}/get-announcement', [UserController::class, 'getAnnouncement']);
             Route::get('get-all-cover-requests', [UserController::class, 'getAllCoverRequests']);
             Route::put('accept-cover-request', [UserController::class, 'acceptCoverRequest']);
-
-
+            Route::get('get-extensions', [UserController::class, 'getExtensions']);
+            Route::get('{id}/get-medical-faqs', [UserController::class, 'getMedicalFaqs']);
 
         });
 

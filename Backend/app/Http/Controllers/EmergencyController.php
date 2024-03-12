@@ -125,4 +125,6 @@ class EmergencyController extends Controller
         return response()->json(['emergencies' => $emergencies], 200);  
     }
 
+    
+
 }

@@ -7,6 +7,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use App\Models\User_has_shift;
 use App\Models\Announcement;
+use App\Models\Extension;
+use App\Models\Medical_faq;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Validator;
@@ -168,6 +170,33 @@ class UserController extends Controller
             return response()->json(['error' => 'Cover request not found'], 404);
         }
     }
+
+    public function getExtensions()
+    {
+        try {
+            $extensions = Extension::all();
+            return response()->json(['extensions' => $extensions], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch extensions'], 500);
+        }
+    }
+
+    public function getMedicalFaqs($id)
+{
+    try {
+        // Fetch the specific medical FAQ based on the ID
+        $medicalFAQ = Medical_faq::findOrFail($id);
+
+        return response()->json(['medicalFAQ' => $medicalFAQ], 200);
+    } catch (ModelNotFoundException $exception) {
+        return response()->json(['error' => 'Medical FAQ not found'], 404);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Failed to fetch medical FAQ'], 500);
+    }
+}
+    
+   
+
 
     
 }
