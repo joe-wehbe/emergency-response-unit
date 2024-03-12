@@ -13,6 +13,8 @@ use App\Models\Login_request;
 use App\Models\Shift;
 use App\Models\User_has_shift;
 use App\Models\Cover_request;
+use App\Models\Rank;
+use Exception;
 
 class AdminController extends Controller
 {
@@ -447,30 +449,53 @@ class AdminController extends Controller
         }
     }
 
-    public function changeRank($userId, $rankId){
+    public function changeRank(Request $request){
+
+        $request->validate([
+            'user_id' => 'required',
+            'rank_id' => 'required',
+        ]);
+
         try {
-            $user = User::findOrFail($userId);
-    
-            $user->user_rank = $rankId;    
-            $user->save();
-    
-            return response()->json(['message' => 'Rank updated successfully'], 200);
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(['error' => 'User not found'], 404);
+            $user = User::find($request->user_id);
+
+            if($user){
+                $rank = Rank::find($request->rank_id);
+
+                if($rank){
+                    $user->user_rank = $request->rank_id;    
+                    $user->save();
+                    return response()->json(['message' => 'Rank updated successfully'], 200);
+                }else{
+                    return response()->json(['error' => 'Rank not found'], 404);
+                }
+            }else{
+                return response()->json(['error' => 'User not found'], 404);
+            }
+        }catch (Exception $exception) {
+            return response()->json(['error' => 'An error occurred'], 500);
         }
     }
 
-    public function removeMember($userId){
+    public function removeMember(Request $request){
+
+        $request->validate([
+            'id' => 'required',
+        ]);
 
         try {
-            $user = User::findOrFail($userId);
-    
-            $user->user_type = 1;    
-            $user->save();
-    
-            return response()->json(['message' => 'User removed successfully'], 200);
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(['error' => 'User not found'], 404);
+            $user = User::find($request->id);
+
+            if($user){
+                $user->user_type = 2;    
+                $user->save();
+                return response()->json(['message' => 'User removed successfully'], 200);
+            }
+            else{
+                return response()->json(['error' => 'User not found'], 404);
+            } 
+        }catch (Exception $exception) {
+            return response()->json(['error' => 'An error occurred'], 500);
         }
     }
 
