@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('treatment_administration')->nullable();
             $table->string('transportation')->nullable();
             $table->string('equipment')->nullable();
-            $table->integer('status')->nullable();
+            $table->integer('status')->default(1);
             $table->integer('medic_id')->nullable();
             $table->integer('patient_id')->nullable();
             $table->integer('issues')->nullable();

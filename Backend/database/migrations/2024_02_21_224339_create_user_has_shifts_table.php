@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('shift_id');
             $table->string('shift_status')->default(0);
             $table->time('checkin_time')->nullable();
-            $table->integer('missed_attendance')->nullable();
+            $table->integer('missed_attendance')->default(1);
             $table->timestamps();
         });
     }

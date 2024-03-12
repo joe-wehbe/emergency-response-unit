@@ -24,10 +24,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         // USER CONTROLLER APIs
         Route::group(["prefix" => "user"], function(){
             Route::get('{id}/get-user-info', [UserController::class, 'getUserInfo']);
-            Route::put('{id}/edit-bio', [UserController::class, 'editBio']);
-            Route::put('{id}/edit-tags', [UserController::class, 'editTags']);
-            Route::post('{userId}/request-cover/{shiftId}', [UserController::class, 'requestCover']);
-            Route::post('{id}/mark-attendance', [UserController::class, 'markAttendance']);
+            Route::put('edit-bio', [UserController::class, 'editBio']);
+            Route::put('edit-tags', [UserController::class, 'editTags']);
+            Route::post('request-cover', [UserController::class, 'requestCover']);
+            Route::put('mark-attendance', [UserController::class, 'markAttendance']);
             Route::get('get-all-users', [UserController::class, 'getAllUsers']);
             Route::get('get-all-announcements', [UserController::class, 'getAllAnnouncements']);
             Route::get('{id}/get-announcement', [UserController::class, 'getAnnouncement']);
@@ -35,20 +35,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::put('accept-cover-request', [UserController::class, 'acceptCoverRequest']);
             Route::get('get-extensions', [UserController::class, 'getExtensions']);
             Route::get('{id}/get-medical-faqs', [UserController::class, 'getMedicalFaqs']);
-
         });
 
         // EMERGENCY CONTROLLER APIs
         Route::group(["prefix" => "emergency"], function(){
            Route::post("report-emergency", [EmergencyController::class, "reportEmergency"]);
-           Route::post('add-emergency-details/{id}', [EmergencyController::class, "addEmergencyDetails"]);
-           Route::post("add-assessment/{emergencyId}", [EmergencyController::class, "addAssessment"]);
            Route::get('get-ongoing-emergencies', [EmergencyController::class, 'getOngoingEmergencies']);
            Route::get('get-ended-emergencies', [EmergencyController::class, 'getEndedEmergencies']);
            Route::get('get-emergency/{id}', [EmergencyController::class, 'getEmergency']);
-           Route::post('accept-emergency/{emergencyId}/medic/{medicId}', [EmergencyController::class, 'acceptEmergency']);
-           Route::post('end-emergency/{id}/', [EmergencyController::class, 'endEmergency']);
-           Route::get('get-no-report-emergencies', [EmergencyController::class, 'getNoReportEmergencies']);
+           Route::put('accept-emergency', [EmergencyController::class, 'acceptEmergency']);
+           Route::put('add-emergency-details', [EmergencyController::class, "addEmergencyDetails"]);
+           Route::post("add-assessment", [EmergencyController::class, "addAssessment"]);
+           Route::put('end-emergency', [EmergencyController::class, 'endEmergency']);
         });
 
         // ADMIN CONTROLLER APIs
@@ -64,8 +62,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::post("add_extension", [AdminController::class, "addExtension"]);
             Route::post("delete_extension", [AdminController::class, "deleteExtension"]);    
 
-            Route::put("change-rank/{userId}/{rankId}", [AdminController::class, "changeRank"]);     
-            Route::put("remove-member/{id}", [AdminController::class, "removeMember"]);    
+            Route::put("change-rank", [AdminController::class, "changeRank"]);     
+            Route::put("remove-member", [AdminController::class, "removeMember"]);    
             Route::get("get-user-shifts/{id}", [AdminController::class, "getUserShifts"]);
 
             Route::put("add-member", [AdminController::class, "addMember"]);    
