@@ -149,8 +149,7 @@ class UserController extends Controller
         }
     }
 
-    public function getAllUsers()
-    {
+    public function getAllUsers(){
         try {
             $users = User::all();
             return response()->json(['users' => $users], 200);
@@ -159,8 +158,7 @@ class UserController extends Controller
         }
     }
 
-    public function getAllAnnouncements()
-    {
+    public function getAllAnnouncements(){
         try {
             $announcements = Announcement::all();
             return response()->json(['announcements' => $announcements], 200);
@@ -169,37 +167,34 @@ class UserController extends Controller
         }
     }
 
-    public function getAnnouncement($id)
-    {
+    public function getAnnouncement($id){
         try {
             $announcement = Announcement::findOrFail($id);
             return response()->json(['announcement' => $announcement], 200);
         } catch (ModelNotFoundException $exception) {
             return response()->json(['error' => 'Announcement not found'], 404);
-        } catch (\Exception $e) {
+        } catch (Exception $exception) {
             return response()->json(['error' => 'Failed to fetch announcement'], 500);
         }
     }
 
-    public function getAllCoverRequests()
-    {
+    public function getAllCoverRequests(){
         try {
             $coverRequests = Cover_request::all();
             return response()->json(['coverRequests' => $coverRequests], 200);
-        } catch (\Exception $e) {
+        } catch (Exception $exception) {
             return response()->json(['error' => 'Failed to fetch cover requests'], 500);
         }
     }
 
-    public function acceptCoverRequest(Request $request)
-    {
+    public function acceptCoverRequest(Request $request){
         $request->validate([
-            'id' => 'required', //id of the cover request
+            'id' => 'required',
             'covered_by' => 'required',
         ]);
         try {
             $coverRequest = Cover_request::findOrFail($request->id);
-            $coverRequest->request_status = 1; //if request accepted becomes 1
+            $coverRequest->request_status = 1;
             $coverRequest->covered_by = $request->covered_by;
             $coverRequest->save();
 
@@ -209,26 +204,63 @@ class UserController extends Controller
         }
     }
 
-    public function getExtensions()
-    {
+    public function getExtensions(){
         try {
             $extensions = Extension::all();
             return response()->json(['extensions' => $extensions], 200);
-        } catch (\Exception $e) {
+        } catch (Exception $exception) {
             return response()->json(['error' => 'Failed to fetch extensions'], 500);
         }
     }
 
-    public function getMedicalFaqs($id)
-    {
+    public function getMedicalFaqs($id){
         try {
             $medicalFAQ = Medical_faq::findOrFail($id);
 
             return response()->json(['medicalFAQ' => $medicalFAQ], 200);
         } catch (ModelNotFoundException $exception) {
             return response()->json(['error' => 'Medical FAQ not found'], 404);
-        } catch (\Exception $e) {
+        } catch (Exception $exception) {
             return response()->json(['error' => 'Failed to fetch medical FAQ'], 500);
         }
+    }
+
+    public function getCurrentShift(){
+        $currentTime = Carbon::now();
+        $currentDay = $currentTime->englishDayOfWeek;
+
+        $currentShift = Shift::where('day', $currentDay)
+                            ->whereTime('time_start', '<=', $currentTime)
+                            ->whereTime('time_end', '>=', $currentTime)
+                            ->first();
+        return $currentShift->id;
+    }
+
+    public function updateShiftStatus(){
+
+        $currentShiftId = $this->getCurrentShift();
+
+        
+
+        // $currentTime = Carbon::now();
+        // $shifts = Shift::all(); // Retrieve all shifts from the shifts table
+    
+        // foreach ($shifts as $shift) {
+        //     // Retrieve users associated with this shift
+        //     $users = $shift->users;
+    
+        //     foreach ($users as $user) {
+        //         // Check if the current time is within the shift time range
+        //         if ($shift->time_start <= $currentTime && $shift->time_end >= $currentTime) {
+        //             // Update the shift status for this user to 1
+        //             $user->pivot->update(['shift_status' => 1]);
+        //         } else {
+        //             // Update the shift status for this user to 0
+        //             $user->pivot->update(['shift_status' => 0]);
+        //         }
+        //     }
+        // }
+    
+        // return response()->json(['message' => 'Shift status updated successfully'], 200);
     }
 }

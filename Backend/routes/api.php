@@ -35,6 +35,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::put('accept-cover-request', [UserController::class, 'acceptCoverRequest']);
             Route::get('get-extensions', [UserController::class, 'getExtensions']);
             Route::get('{id}/get-medical-faqs', [UserController::class, 'getMedicalFaqs']);
+            Route::put('update-shift-status', [UserController::class, 'updateShiftStatus']);
+            Route::get('get-current-shift', [UserController::class, 'getCurrentShift']);
         });
 
         // EMERGENCY CONTROLLER APIs
