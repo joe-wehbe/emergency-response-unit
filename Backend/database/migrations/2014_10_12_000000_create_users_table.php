@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('lau_email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('student_id');
+            $table->integer('student_id');
             $table->string('major');
             $table->string('phone_number');
             $table->integer('user_type');

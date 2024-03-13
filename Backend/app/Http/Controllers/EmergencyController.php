@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 use App\Models\User;
 use App\Models\Assessment;
 use App\Models\Emergency;
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 use Exception;
 
 class EmergencyController extends Controller
@@ -173,12 +175,4 @@ class EmergencyController extends Controller
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }
-    
-    public function getNoReportEmergencies(){
-        $emergencies = Emergency::where('case_report', 0)->get(); //0 means unfilled case report
-        return response()->json(['emergencies' => $emergencies], 200);  
-    }
-
-    
-
 }

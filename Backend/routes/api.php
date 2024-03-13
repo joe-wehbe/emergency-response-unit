@@ -30,13 +30,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::put('mark-attendance', [UserController::class, 'markAttendance']);
             Route::get('get-all-users', [UserController::class, 'getAllUsers']);
             Route::get('get-all-announcements', [UserController::class, 'getAllAnnouncements']);
-            Route::get('{id}/get-announcement', [UserController::class, 'getAnnouncement']);
             Route::get('get-all-cover-requests', [UserController::class, 'getAllCoverRequests']);
             Route::put('accept-cover-request', [UserController::class, 'acceptCoverRequest']);
+            Route::get('get-no-report-emergencies', [UserController::class, 'getNoReportEmergencies']);
             Route::get('get-extensions', [UserController::class, 'getExtensions']);
             Route::get('{id}/get-medical-faqs', [UserController::class, 'getMedicalFaqs']);
-            Route::put('update-shift-status', [UserController::class, 'updateShiftStatus']);
-            Route::get('get-current-shift', [UserController::class, 'getCurrentShift']);
         });
 
         // EMERGENCY CONTROLLER APIs
@@ -53,31 +51,26 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
         // ADMIN CONTROLLER APIs
         Route::group(["prefix" => "admin"], function(){
-            Route::get("get_login_requests", [AdminController::class, "getLoginRequests"]);
-            Route::get("get_attendance_records", [AdminController::class, "getAttendanceRecords"]);
-            Route::post("accept_login_request", [AdminController::class, "acceptRequest"]);
-            Route::post("reject_login_request", [AdminController::class, "rejectRequest"]);
-            Route::post("delete_announcement", [AdminController::class, "deleteAnnouncement"]);
-            Route::post("delete_user", [AdminController::class, "deleteUser"]);
-            Route::post("add_faq", [AdminController::class, "addFaq"]);
-            Route::post("delete_faq", [AdminController::class, "deleteFaq"]);
-            Route::post("add_extension", [AdminController::class, "addExtension"]);
-            Route::post("delete_extension", [AdminController::class, "deleteExtension"]);    
-
-            Route::put("change-rank", [AdminController::class, "changeRank"]);     
-            Route::put("remove-member", [AdminController::class, "removeMember"]);    
-            Route::get("get-user-shifts/{id}", [AdminController::class, "getUserShifts"]);
-
             Route::put("add-member", [AdminController::class, "addMember"]);    
-            Route::post("add-announcement", [AdminController::class, "addAnnouncement"]);   
-            Route::delete("delete-shift", [AdminController::class, "deleteShift"]);   
+            Route::put("remove-member", [AdminController::class, "removeMember"]);    
+            Route::post("delete-user", [AdminController::class, "deleteUser"]);
+            Route::put("change-rank", [AdminController::class, "changeRank"]);     
+            Route::get("get-user-shifts/{id}", [AdminController::class, "getUserShifts"]);
             Route::post("add-shift", [AdminController::class, "addShift"]);    
+            Route::delete("delete-shift", [AdminController::class, "deleteShift"]);   
+            Route::post("add-announcement", [AdminController::class, "addAnnouncement"]);   
+            Route::post("delete-announcement", [AdminController::class, "deleteAnnouncement"]);
+            Route::post("add-faq", [AdminController::class, "addFaq"]);
+            Route::post("delete-faq", [AdminController::class, "deleteFaq"]);
+            Route::post("add-extension", [AdminController::class, "addExtension"]);
+            Route::post("delete-extension", [AdminController::class, "deleteExtension"]);    
+            Route::get("get-attendance-records", [AdminController::class, "getAttendanceRecords"]);
+            Route::get("get-login-requests", [AdminController::class, "getLoginRequests"]);
+            Route::post("accept-login-request", [AdminController::class, "acceptRequest"]);
+            Route::post("reject-login-request", [AdminController::class, "rejectRequest"]);
 
             //add type in request
-
             //remove board member
-
-             
         });
 });
 

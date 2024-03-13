@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 use App\Models\Cover_request;
 use App\Models\User;
 use App\Models\Shift;
-use Carbon\Carbon;
+use App\Models\Emergency;
 use App\Models\User_has_shift;
 use App\Models\Announcement;
 use App\Models\Extension;
 use App\Models\Medical_faq;
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+
+use Carbon\Carbon;
 use Exception;
 
 class UserController extends Controller
 {
     // PROFILE PAGE
-    public function getUserInfo($id)
-    {
+    public function getUserInfo($id){
         try {
             $user = User::findOrFail($id);
             return response()->json(['User' => $user], 200);
@@ -28,7 +30,6 @@ class UserController extends Controller
     }
 
     public function editBio(Request $request){
-
         $request-> validate([
             'id' => 'required',
             'bio' => 'required|string',        
@@ -45,7 +46,6 @@ class UserController extends Controller
             else{
                 return response()->json(['error' => 'User not found'], 404);
             }
-
         }catch (Exception $exception) {
             return response()->json(['error' => 'An error occurred'], 500);
         }
@@ -68,7 +68,6 @@ class UserController extends Controller
             else{
                 return response()->json(['error' => 'User not found'], 404);
             }
-
         }catch (Exception $exception) {
             return response()->json(['error' => 'An error occurred'], 500);
         }
@@ -85,7 +84,6 @@ class UserController extends Controller
             $user = User::find($request->user_id);
 
             if($user){
-
                 $shift = Shift::find($request->shift_id);
 
                 if($shift){
@@ -119,7 +117,6 @@ class UserController extends Controller
             $user = User::find($request->user_id);
 
             if($user){
-
                 $userShifts = User_has_shift::where('user_id', $request->user_id)->get();
                 $attendanceMarked = false;
         
@@ -127,8 +124,7 @@ class UserController extends Controller
                     if ($shift->shift_status == 1) {
                         $shift->missed_attendance = 0;
                         $shift->checkin_time = Carbon::now();
-                        $shift->save();
-                        
+                        $shift->save(); 
                         $attendanceMarked = true;
                         break;
                     }
@@ -143,12 +139,12 @@ class UserController extends Controller
             else{
                 return response()->json(['error' => 'User not found'], 404); 
             }
-
         }catch (Exception $exception) {
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }
 
+    // COMMUNITY PAGE
     public function getAllUsers(){
         try {
             $users = User::all();
@@ -158,6 +154,7 @@ class UserController extends Controller
         }
     }
 
+    // ANNOUNCEMENTS PAGE
     public function getAllAnnouncements(){
         try {
             $announcements = Announcement::all();
@@ -167,17 +164,7 @@ class UserController extends Controller
         }
     }
 
-    public function getAnnouncement($id){
-        try {
-            $announcement = Announcement::findOrFail($id);
-            return response()->json(['announcement' => $announcement], 200);
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(['error' => 'Announcement not found'], 404);
-        } catch (Exception $exception) {
-            return response()->json(['error' => 'Failed to fetch announcement'], 500);
-        }
-    }
-
+    // COVER REQUESTS PAGE
     public function getAllCoverRequests(){
         try {
             $coverRequests = Cover_request::all();
@@ -204,6 +191,13 @@ class UserController extends Controller
         }
     }
 
+    // CASE REPORTS PAGE
+    public function getNoReportEmergencies(){
+        $emergencies = Emergency::where('case_report', 0)->get();
+        return response()->json(['emergencies' => $emergencies], 200);  
+    }
+
+    // EXTENSIONS PAGE
     public function getExtensions(){
         try {
             $extensions = Extension::all();
@@ -213,6 +207,7 @@ class UserController extends Controller
         }
     }
 
+    // MEDICAL FAQs PAGE
     public function getMedicalFaqs($id){
         try {
             $medicalFAQ = Medical_faq::findOrFail($id);
@@ -223,44 +218,5 @@ class UserController extends Controller
         } catch (Exception $exception) {
             return response()->json(['error' => 'Failed to fetch medical FAQ'], 500);
         }
-    }
-
-    public function getCurrentShift(){
-        $currentTime = Carbon::now();
-        $currentDay = $currentTime->englishDayOfWeek;
-
-        $currentShift = Shift::where('day', $currentDay)
-                            ->whereTime('time_start', '<=', $currentTime)
-                            ->whereTime('time_end', '>=', $currentTime)
-                            ->first();
-        return $currentShift->id;
-    }
-
-    public function updateShiftStatus(){
-
-        $currentShiftId = $this->getCurrentShift();
-
-        
-
-        // $currentTime = Carbon::now();
-        // $shifts = Shift::all(); // Retrieve all shifts from the shifts table
-    
-        // foreach ($shifts as $shift) {
-        //     // Retrieve users associated with this shift
-        //     $users = $shift->users;
-    
-        //     foreach ($users as $user) {
-        //         // Check if the current time is within the shift time range
-        //         if ($shift->time_start <= $currentTime && $shift->time_end >= $currentTime) {
-        //             // Update the shift status for this user to 1
-        //             $user->pivot->update(['shift_status' => 1]);
-        //         } else {
-        //             // Update the shift status for this user to 0
-        //             $user->pivot->update(['shift_status' => 0]);
-        //         }
-        //     }
-        // }
-    
-        // return response()->json(['message' => 'Shift status updated successfully'], 200);
     }
 }
