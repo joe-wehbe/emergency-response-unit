@@ -172,5 +172,13 @@ class EmergencyController extends Controller
         }catch (Exception $exception) {
             return response()->json(['error' => 'An error occurred'], 500);
         }
-    }    
+    }
+    
+    public function getNoReportEmergencies(){
+        $emergencies = Emergency::where('case_report', 0)->get(); //0 means unfilled case report
+        return response()->json(['emergencies' => $emergencies], 200);  
+    }
+
+    
+
 }

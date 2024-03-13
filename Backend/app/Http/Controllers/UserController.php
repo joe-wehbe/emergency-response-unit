@@ -8,6 +8,8 @@ use App\Models\Shift;
 use Carbon\Carbon;
 use App\Models\User_has_shift;
 use App\Models\Announcement;
+use App\Models\Extension;
+use App\Models\Medical_faq;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
@@ -164,6 +166,69 @@ class UserController extends Controller
             return response()->json(['announcements' => $announcements], 200);
         } catch (Exception $exception) {
             return response()->json(['error' => 'Failed to fetch announcements'], 500);
+        }
+    }
+
+    public function getAnnouncement($id)
+    {
+        try {
+            $announcement = Announcement::findOrFail($id);
+            return response()->json(['announcement' => $announcement], 200);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(['error' => 'Announcement not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch announcement'], 500);
+        }
+    }
+
+    public function getAllCoverRequests()
+    {
+        try {
+            $coverRequests = Cover_request::all();
+            return response()->json(['coverRequests' => $coverRequests], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch cover requests'], 500);
+        }
+    }
+
+    public function acceptCoverRequest(Request $request)
+    {
+        $request->validate([
+            'id' => 'required', //id of the cover request
+            'covered_by' => 'required',
+        ]);
+        try {
+            $coverRequest = Cover_request::findOrFail($request->id);
+            $coverRequest->request_status = 1; //if request accepted becomes 1
+            $coverRequest->covered_by = $request->covered_by;
+            $coverRequest->save();
+
+            return response()->json(['message' => 'Cover request accepted'], 200);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(['error' => 'Cover request not found'], 404);
+        }
+    }
+
+    public function getExtensions()
+    {
+        try {
+            $extensions = Extension::all();
+            return response()->json(['extensions' => $extensions], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch extensions'], 500);
+        }
+    }
+
+    public function getMedicalFaqs($id)
+    {
+        try {
+            $medicalFAQ = Medical_faq::findOrFail($id);
+
+            return response()->json(['medicalFAQ' => $medicalFAQ], 200);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(['error' => 'Medical FAQ not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch medical FAQ'], 500);
         }
     }
 }

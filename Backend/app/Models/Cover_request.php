@@ -14,5 +14,6 @@ class Cover_request extends Model
         "shift_id",
         'reason',
         'request_status',
+        'covered_by',
     ];
 }

@@ -28,9 +28,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::put('edit-tags', [UserController::class, 'editTags']);
             Route::post('request-cover', [UserController::class, 'requestCover']);
             Route::put('mark-attendance', [UserController::class, 'markAttendance']);
-            Route::get('/get-all-users', [UserController::class, 'getAllUsers']);
-            Route::get('/get-all-announcements', [UserController::class, 'getAllAnnouncements']);
-
+            Route::get('get-all-users', [UserController::class, 'getAllUsers']);
+            Route::get('get-all-announcements', [UserController::class, 'getAllAnnouncements']);
+            Route::get('{id}/get-announcement', [UserController::class, 'getAnnouncement']);
+            Route::get('get-all-cover-requests', [UserController::class, 'getAllCoverRequests']);
+            Route::put('accept-cover-request', [UserController::class, 'acceptCoverRequest']);
+            Route::get('get-extensions', [UserController::class, 'getExtensions']);
+            Route::get('{id}/get-medical-faqs', [UserController::class, 'getMedicalFaqs']);
         });
 
         // EMERGENCY CONTROLLER APIs
@@ -61,6 +65,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::put("change-rank", [AdminController::class, "changeRank"]);     
             Route::put("remove-member", [AdminController::class, "removeMember"]);    
             Route::get("get-user-shifts/{id}", [AdminController::class, "getUserShifts"]);
+
+            Route::put("add-member", [AdminController::class, "addMember"]);    
+            Route::post("add-announcement", [AdminController::class, "addAnnouncement"]);   
+            Route::delete("delete-shift", [AdminController::class, "deleteShift"]);   
+            Route::post("add-shift", [AdminController::class, "addShift"]);    
+
+            //add type in request
+
+            //remove board member
+
+             
         });
 });
 
