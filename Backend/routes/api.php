@@ -23,6 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::group(["prefix" => "v0.1"], function(){
         // USER CONTROLLER APIs
         Route::group(["prefix" => "user"], function(){
+            Route::post("login", [UserController::class, "login"]);
+            Route::post("logout", [UserController::class, "logout"]);
             Route::get('{id}/get-user-info', [UserController::class, 'getUserInfo']);
             Route::put('{id}/edit-bio', [UserController::class, 'editBio']);
             Route::put('{id}/edit-tags', [UserController::class, 'editTags']);

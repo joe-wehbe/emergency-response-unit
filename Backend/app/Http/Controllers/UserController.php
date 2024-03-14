@@ -12,6 +12,86 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+
+    function login(Request $request){
+        $check_user = User::where("lau_email", $request->lau_email)->first();
+    
+        // Checks if the user exists in the database
+        if(!$check_user) {
+            return response()->json([
+                "status" => "Invalid credentials",
+            ]);
+        }
+    
+        // Check if the user has exceeded the maximum number of login attempts
+        if ($this->hasExceededLoginAttempts($credentials->lau_email)) {
+            // Check the last login attempt time
+            $last_attempt = login_attempt::where('lau_email', '=', $request->lau_email)->orderBy('created_at', 'desc')->first();
+            $now = Carbon::now();
+            $last_attempt_time = Carbon::parse($last_attempt->created_at);
+            $diff_in_hours = $last_attempt_time->diffInHours($now);
+    
+            // If the last login attempt was more than 24 hours ago, clear the login attempts and allow the user to log in
+            if ($diff_in_hours >= 24) {
+                $this->resetLoginAttempts($request->lau_email);
+            } else {
+                return response()->json([
+                    "status" => "Too many failed login attempts",
+                ]);
+            }
+
+    }
+
+     // Checks if the password is correct
+     if(Hash::check($request->password, $check_user->password)){
+        $this->resetLoginAttempts($request->lau_email);
+        // Creates a new token for the user
+        $token = $check_user->createToken('authToken')->plainTextToken;
+        $user_id = $check_user->id;
+        return response()->json([
+            "status" => 'Login successful',
+            "token" => $token,
+            "user_id" => $user_id,
+            "user_type" => $check_user->user_type,
+
+        ]);
+    } else {
+        // Adds a failed login attempt to the database if the user has inputted the wrong password
+        $this->addFailedLoginAttempt($request->lau_email);
+        return response()->json([
+            "status" => "Invalid credentials",
+        ]);
+    }
+}
+
+//private functions used for login 
+private function hasExceededLoginAttempts($lau_email) {
+    $total_attempts = login_attempt::where('lau_email', '=', $lau_email)->count();
+    return ($total_attempts >= 5);
+}
+
+private function resetLoginAttempts($lau_email) {
+    login_attempt::where('lau_email', '=', $lau_email)->delete();
+}
+
+private function addFailedLoginAttempt($lau_email) {
+    login_attempt::create([
+        'login_attempt_time' => Carbon::now()->format('H:i:s'),
+        'login_attempt_date' => Carbon::now()->format('Y-m-d'),
+        'lau_email' => $lau_email,
+    ]);
+}
+
+
+
+
+    function logout(Request $request){
+        auth()->user()->tokens()->delete();
+        return response()->json([
+            "status" => "Logged out",
+        ]);
+    }
+
     // PROFILE PAGE
     public function getUserInfo($id){
         try {
