@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('shift_id');
-            $table->integer('request_status');
+            $table->integer('request_status')->default(0);
             $table->integer('covered_by')->nullable();
             $table->string('reason');
             $table->timestamps();

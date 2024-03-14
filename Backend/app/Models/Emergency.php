@@ -13,15 +13,15 @@ class Emergency extends Model
         'location',
         'reporter_description',
         'medic_description',
-        // 'history',
+        'history',
         'patient_condition',
-        // 'treatment_administration',
-        // 'transportation',
-        // 'equipment',
+        'treatment_administration',
+        'transportation',
+        'equipment',
         'status',
         'medic_id',
         'patient_id',
-        // 'issues',
-        // 'case_report'
+        'issues',
+        'case_report'
     ];
 }

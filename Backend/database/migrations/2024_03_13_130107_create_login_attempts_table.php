@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_has_shifts', function (Blueprint $table) {
+        Schema::create('login_attempts', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('shift_id');
-            $table->integer('shift_status')->default(0);
-            $table->time('checkin_time')->nullable();
-            $table->integer('attended')->default(0);
+            $table->string('email');
+            $table->time('attempt_time');
+            $table->date('attempt_date');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_has_shifts');
+        Schema::dropIfExists('login_attempts');
     }
 };

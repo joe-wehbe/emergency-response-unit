@@ -26,40 +26,56 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::post("login", [UserController::class, "login"]);
             Route::post("logout", [UserController::class, "logout"]);
             Route::get('{id}/get-user-info', [UserController::class, 'getUserInfo']);
-            Route::put('{id}/edit-bio', [UserController::class, 'editBio']);
-            Route::put('{id}/edit-tags', [UserController::class, 'editTags']);
-            Route::post('{userId}/request-cover/{shiftId}', [UserController::class, 'requestCover']);
-            Route::post('{id}/mark-attendance', [UserController::class, 'markAttendance']);
+            Route::put('edit-bio', [UserController::class, 'editBio']);
+            Route::put('edit-tags', [UserController::class, 'editTags']);
+            Route::post('request-cover', [UserController::class, 'requestCover']);
+            Route::put('mark-attendance', [UserController::class, 'markAttendance']);
+            Route::get('get-all-users', [UserController::class, 'getAllUsers']);
+            Route::get('get-all-announcements', [UserController::class, 'getAllAnnouncements']);
+            Route::get('get-all-cover-requests', [UserController::class, 'getAllCoverRequests']);
+            Route::put('accept-cover-request', [UserController::class, 'acceptCoverRequest']);
+            Route::get('get-no-report-emergencies', [UserController::class, 'getNoReportEmergencies']);
+            Route::get('get-extensions', [UserController::class, 'getExtensions']);
+            Route::get('{id}/get-medical-faqs', [UserController::class, 'getMedicalFaqs']);
+            Route::put('add-case-report', [UserController::class, 'addCaseReport']);
+            Route::get('get-emergency-records', [UserController::class, 'getEmergencyRecords']);
+            
         });
 
         // EMERGENCY CONTROLLER APIs
         Route::group(["prefix" => "emergency"], function(){
            Route::post("report-emergency", [EmergencyController::class, "reportEmergency"]);
-           Route::post('add-emergency-details/{id}', [EmergencyController::class, "addEmergencyDetails"]);
-           Route::post("add-assessment/{emergencyId}", [EmergencyController::class, "addAssessment"]);
            Route::get('get-ongoing-emergencies', [EmergencyController::class, 'getOngoingEmergencies']);
            Route::get('get-ended-emergencies', [EmergencyController::class, 'getEndedEmergencies']);
            Route::get('get-emergency/{id}', [EmergencyController::class, 'getEmergency']);
-           Route::post('accept-emergency/{emergencyId}/medic/{medicId}', [EmergencyController::class, 'acceptEmergency']);
-           Route::post('end-emergency/{id}/', [EmergencyController::class, 'endEmergency']);
+           Route::put('accept-emergency', [EmergencyController::class, 'acceptEmergency']);
+           Route::put('add-emergency-details', [EmergencyController::class, "addEmergencyDetails"]);
+           Route::post("add-assessment", [EmergencyController::class, "addAssessment"]);
+           Route::put('end-emergency', [EmergencyController::class, 'endEmergency']);
         });
 
         // ADMIN CONTROLLER APIs
         Route::group(["prefix" => "admin"], function(){
-            Route::get("get_login_requests", [AdminController::class, "getLoginRequests"]);
-            Route::get("get_attendance_records", [AdminController::class, "getAttendanceRecords"]);
-            Route::post("accept_login_request", [AdminController::class, "acceptRequest"]);
-            Route::post("reject_login_request", [AdminController::class, "rejectRequest"]);
-            Route::post("delete_announcement", [AdminController::class, "deleteAnnouncement"]);
-            Route::post("delete_user", [AdminController::class, "deleteUser"]);
-            Route::post("add_faq", [AdminController::class, "addFaq"]);
-            Route::post("delete_faq", [AdminController::class, "deleteFaq"]);
-            Route::post("add_extension", [AdminController::class, "addExtension"]);
-            Route::post("delete_extension", [AdminController::class, "deleteExtension"]);    
-
-            Route::put("change-rank/{userId}/{rankId}", [AdminController::class, "changeRank"]);     
-            Route::put("remove-member/{id}", [AdminController::class, "removeMember"]);    
+            Route::put("add-member", [AdminController::class, "addMember"]);    
+            Route::put("remove-member", [AdminController::class, "removeMember"]);    
+            Route::post("delete-user", [AdminController::class, "deleteUser"]);
+            Route::put("change-rank", [AdminController::class, "changeRank"]);     
             Route::get("get-user-shifts/{id}", [AdminController::class, "getUserShifts"]);
+            Route::post("add-shift", [AdminController::class, "addShift"]);    
+            Route::delete("delete-shift", [AdminController::class, "deleteShift"]);   
+            Route::post("add-announcement", [AdminController::class, "addAnnouncement"]);   
+            Route::post("delete-announcement", [AdminController::class, "deleteAnnouncement"]);
+            Route::post("add-faq", [AdminController::class, "addFaq"]);
+            Route::post("delete-faq", [AdminController::class, "deleteFaq"]);
+            Route::post("add-extension", [AdminController::class, "addExtension"]);
+            Route::post("delete-extension", [AdminController::class, "deleteExtension"]);    
+            Route::get("get-attendance-records", [AdminController::class, "getAttendanceRecords"]);
+            Route::get("get-login-requests", [AdminController::class, "getLoginRequests"]);
+            Route::post("accept-login-request", [AdminController::class, "acceptRequest"]);
+            Route::post("reject-login-request", [AdminController::class, "rejectRequest"]);
+
+            //add type in request
+            //remove board member
         });
 });
 
