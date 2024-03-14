@@ -268,4 +268,10 @@ class UserController extends Controller
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }
+    
+    public function getEmergencyRecords(){
+        $emergencies = Emergency::where('case_report', 1)->get();
+        return response()->json(['emergency records' => $emergencies], 200);
+    }
+
 }

@@ -36,7 +36,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::get('get-extensions', [UserController::class, 'getExtensions']);
             Route::get('{id}/get-medical-faqs', [UserController::class, 'getMedicalFaqs']);
             Route::put('add-case-report', [UserController::class, 'addCaseReport']);
-
+            Route::get('get-emergency-records', [UserController::class, 'getEmergencyRecords']);
+            
         });
 
         // EMERGENCY CONTROLLER APIs
