@@ -2,25 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-
 use App\Models\Cover_request;
 use App\Models\User;
 use App\Models\Shift;
-use App\Models\Emergency;
+use Carbon\Carbon;
 use App\Models\User_has_shift;
 use App\Models\Announcement;
 use App\Models\Extension;
 use App\Models\Medical_faq;
-
-use Carbon\Carbon;
+use App\Models\Emergency;
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
 
 class UserController extends Controller
 {
     // PROFILE PAGE
-    public function getUserInfo($id){
+    public function getUserInfo($id)
+    {
         try {
             $user = User::findOrFail($id);
             return response()->json(['User' => $user], 200);
@@ -30,6 +29,7 @@ class UserController extends Controller
     }
 
     public function editBio(Request $request){
+
         $request-> validate([
             'id' => 'required',
             'bio' => 'required|string',        
@@ -46,6 +46,7 @@ class UserController extends Controller
             else{
                 return response()->json(['error' => 'User not found'], 404);
             }
+
         }catch (Exception $exception) {
             return response()->json(['error' => 'An error occurred'], 500);
         }
@@ -68,6 +69,7 @@ class UserController extends Controller
             else{
                 return response()->json(['error' => 'User not found'], 404);
             }
+
         }catch (Exception $exception) {
             return response()->json(['error' => 'An error occurred'], 500);
         }
@@ -84,6 +86,7 @@ class UserController extends Controller
             $user = User::find($request->user_id);
 
             if($user){
+
                 $shift = Shift::find($request->shift_id);
 
                 if($shift){
@@ -117,6 +120,7 @@ class UserController extends Controller
             $user = User::find($request->user_id);
 
             if($user){
+
                 $userShifts = User_has_shift::where('user_id', $request->user_id)->get();
                 $attendanceMarked = false;
         
@@ -124,7 +128,8 @@ class UserController extends Controller
                     if ($shift->shift_status == 1) {
                         $shift->missed_attendance = 0;
                         $shift->checkin_time = Carbon::now();
-                        $shift->save(); 
+                        $shift->save();
+                        
                         $attendanceMarked = true;
                         break;
                     }
@@ -139,13 +144,14 @@ class UserController extends Controller
             else{
                 return response()->json(['error' => 'User not found'], 404); 
             }
+
         }catch (Exception $exception) {
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }
 
-    // COMMUNITY PAGE
-    public function getAllUsers(){
+    public function getAllUsers()
+    {
         try {
             $users = User::all();
             return response()->json(['users' => $users], 200);
@@ -154,8 +160,8 @@ class UserController extends Controller
         }
     }
 
-    // ANNOUNCEMENTS PAGE
-    public function getAllAnnouncements(){
+    public function getAllAnnouncements()
+    {
         try {
             $announcements = Announcement::all();
             return response()->json(['announcements' => $announcements], 200);
@@ -164,24 +170,37 @@ class UserController extends Controller
         }
     }
 
-    // COVER REQUESTS PAGE
-    public function getAllCoverRequests(){
+    public function getAnnouncement($id)
+    {
+        try {
+            $announcement = Announcement::findOrFail($id);
+            return response()->json(['announcement' => $announcement], 200);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(['error' => 'Announcement not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch announcement'], 500);
+        }
+    }
+
+    public function getAllCoverRequests()
+    {
         try {
             $coverRequests = Cover_request::all();
             return response()->json(['coverRequests' => $coverRequests], 200);
-        } catch (Exception $exception) {
+        } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to fetch cover requests'], 500);
         }
     }
 
-    public function acceptCoverRequest(Request $request){
+    public function acceptCoverRequest(Request $request)
+    {
         $request->validate([
-            'id' => 'required',
+            'id' => 'required', //id of the cover request
             'covered_by' => 'required',
         ]);
         try {
             $coverRequest = Cover_request::findOrFail($request->id);
-            $coverRequest->request_status = 1;
+            $coverRequest->request_status = 1; //if request accepted becomes 1
             $coverRequest->covered_by = $request->covered_by;
             $coverRequest->save();
 
@@ -191,32 +210,62 @@ class UserController extends Controller
         }
     }
 
-    // CASE REPORTS PAGE
-    public function getNoReportEmergencies(){
-        $emergencies = Emergency::where('case_report', 0)->get();
-        return response()->json(['emergencies' => $emergencies], 200);  
-    }
-
-    // EXTENSIONS PAGE
-    public function getExtensions(){
+    public function getExtensions()
+    {
         try {
             $extensions = Extension::all();
             return response()->json(['extensions' => $extensions], 200);
-        } catch (Exception $exception) {
+        } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to fetch extensions'], 500);
         }
     }
 
-    // MEDICAL FAQs PAGE
-    public function getMedicalFaqs($id){
+    public function getMedicalFaqs($id)
+    {
         try {
             $medicalFAQ = Medical_faq::findOrFail($id);
 
             return response()->json(['medicalFAQ' => $medicalFAQ], 200);
         } catch (ModelNotFoundException $exception) {
             return response()->json(['error' => 'Medical FAQ not found'], 404);
-        } catch (Exception $exception) {
+        } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to fetch medical FAQ'], 500);
+        }
+    }
+    
+    public function addCaseReport(Request $request){
+        $request-> validate([
+            'id' => 'required|integer',
+            'history' => 'required|string',
+            'treatment_administration' => 'required',
+            'transportation' => 'required',
+            'equipment' => 'required',
+            'status' => 'required|integer',
+            'issues' => 'required|integer',
+            'case_report' => 'required|boolean',
+
+        ]);
+
+        try{
+            $case_form = Emergency::find($request->id);
+
+            if($case_form){
+             
+                $case_form->history = $request->history;
+                $case_form->treatment_administration = $request->treatment_administration;
+                $case_form->transportation = $request->transportation;
+                $case_form->equipment = $request->equipment;
+                $case_form->status = $request->status;
+                $case_form->issues = $request->issues;
+                $case_form->case_report = 1;
+                $case_form->save();
+                return response()->json(['message' => 'Case report for the emergency added successfully'], 201);
+            }
+            else{
+                return response()->json(['error' => 'Emergency not found'], 404);
+            }
+        }catch (Exception $exception) {
+            return response()->json(['error' => 'An error occurred'], 500);
         }
     }
 }
