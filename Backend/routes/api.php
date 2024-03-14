@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         // USER CONTROLLER APIs
         Route::group(["prefix" => "user"], function(){
             Route::post("login", [UserController::class, "login"]);
+            Route::post("register", [UserController::class, "register"]);
             Route::post("logout", [UserController::class, "logout"]);
             Route::get('{id}/get-user-info', [UserController::class, 'getUserInfo']);
             Route::put('edit-bio', [UserController::class, 'editBio']);

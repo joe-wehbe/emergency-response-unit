@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Cover_request;
 use App\Models\User;
+use App\Models\Login_request;
 use App\Models\Shift;
 use Carbon\Carbon;
 use App\Models\User_has_shift;
@@ -11,12 +13,156 @@ use App\Models\Announcement;
 use App\Models\Extension;
 use App\Models\Medical_faq;
 use App\Models\Emergency;
+use App\Models\Login_attempt;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
 
 class UserController extends Controller
 {
+
+    function register(Request $request){
+
+          $validator = Validator::make($request->all(), [
+            'lau_email' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'password' => 'required',
+            'user_type' => 'required',
+        ]);
+    
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+    
+            return response()->json([
+                'status' => 'Invalid input',
+                'errors' => $errors,
+            ]);
+        }
+    
+        // Check if password strong enough
+        $password_errors = $this->validatePassword($request->input('password'));
+    
+        if (!empty($password_errors)) {
+            $status = 'Invalid password';
+            $errors = $password_errors;
+            return response()->json([
+                'status' => $status,
+                'errors' => $errors,
+            ]);
+        }
+    
+        $check_user = User::where('lau_email', '=', $request->input('lau_email'))->first();
+    
+        if ($check_user) {
+            return response()->json([
+                'status' => 'Email already has an account',
+            ]);
+
+        }else{
+
+        if($request->input('user_type') == '2'){
+           
+            $newUser = User::create([
+                'lau_email' => $request->input('lau_email'),
+                'first_name' => $request->input('first_name'),
+                'last_name' => $request->input('last_name'),
+                'password' => Hash::make($request->input('password')),
+                'user_type' => $request->input('user_type'),
+              
+            ]);
+       
+
+        $token = $newUser->createToken('auth_token')->plainTextToken;
+        
+        // Return a JSON response with the appropriate status message and HTTP status code
+        return response()->json([
+            'status' => 'Member registered successfully',
+            'token' => $token,
+        ]);
+
+        }else if ($request->input('user_type') == '1'){
+            $check_user = Login_request::where("email", $request->lau_email)->first();
+            
+            #if the user already tried to login 
+            if($check_user){
+            if($check_user->status == '1'){
+                $newMember = User::create([
+                    'lau_email' => $request->input('lau_email'),
+                    'first_name' => $request->input('first_name'),
+                    'last_name' => $request->input('last_name'),
+                    'password' => Hash::make($request->input('password')),
+                    'user_type' => $request->input('user_type'),
+                    'student_id' => $request->input('student_id'),
+                    'major' => $request->input('major'),
+                    'phone_number' => $request->input('phone_number'),
+
+                ]);
+           
+    
+            $token = $newMember->createToken('auth_token')->plainTextToken;
+            
+            // Return a JSON response with the appropriate status message and HTTP status code
+            return response()->json([
+                'status' => 'Member registered successfully',
+                'token' => $token,
+            ]);
+
+            }else if($check_user->status == '0') {
+                return response()->json([
+                    'status' => 'Request still pending',
+                ]);
+            }
+            else if($check_user->status == '2') {
+                return response()->json([
+                    'status' => 'Request rejected',
+                ]);
+            }
+        }else{
+            $request_login = Login_Request::create([
+                'email' => $request->input('lau_email'),
+                'status' => 0,
+
+            ]);
+
+            return response()->json([
+                'status' => 'Login request sent to admin',
+            ]);
+        }
+           
+
+        }
+
+    }
+    
+    
+    }
+
+    private function validatePassword($password) {
+
+        // Function to validate the password
+
+        $errors = array();
+        
+        if (strlen($password) < 8) {
+            $errors[] = 'Password must be at least 8 characters long.';
+        }
+        
+        if (!preg_match('/[a-z]/', $password)) {
+            $errors[] = 'Password must contain at least one lowercase letter.';
+        }
+        
+        if (!preg_match('/[A-Z]/', $password)) {
+            $errors[] = 'Password must contain at least one uppercase letter.';
+        }
+    
+        if (!preg_match('/\d/', $password)) {
+            $errors[] = 'Password must contain at least one digit.';
+        }
+        
+        return $errors;
+
+    }
 
     function login(Request $request){
         $check_user = User::where("lau_email", $request->lau_email)->first();
@@ -29,9 +175,9 @@ class UserController extends Controller
         }
     
         // Check if the user has exceeded the maximum number of login attempts
-        if ($this->hasExceededLoginAttempts($credentials->lau_email)) {
+        if ($this->hasExceededLoginAttempts($request->lau_email)) {
             // Check the last login attempt time
-            $last_attempt = login_attempt::where('lau_email', '=', $request->lau_email)->orderBy('created_at', 'desc')->first();
+            $last_attempt = Login_attempt::where('email', '=', $request->lau_email)->orderBy('created_at', 'desc')->first();
             $now = Carbon::now();
             $last_attempt_time = Carbon::parse($last_attempt->created_at);
             $diff_in_hours = $last_attempt_time->diffInHours($now);
@@ -71,19 +217,19 @@ class UserController extends Controller
 
 //private functions used for login 
 private function hasExceededLoginAttempts($lau_email) {
-    $total_attempts = login_attempt::where('lau_email', '=', $lau_email)->count();
+    $total_attempts = Login_attempt::where('email', '=', $lau_email)->count();
     return ($total_attempts >= 5);
 }
 
 private function resetLoginAttempts($lau_email) {
-    login_attempt::where('lau_email', '=', $lau_email)->delete();
+    Login_attempt::where('email', '=', $lau_email)->delete();
 }
 
 private function addFailedLoginAttempt($lau_email) {
-    login_attempt::create([
-        'login_attempt_time' => Carbon::now()->format('H:i:s'),
-        'login_attempt_date' => Carbon::now()->format('Y-m-d'),
-        'lau_email' => $lau_email,
+    Login_attempt::create([
+        'attempt_time' => Carbon::now()->format('H:i:s'),
+        'attempt_date' => Carbon::now()->format('Y-m-d'),
+        'email' => $lau_email,
     ]);
 }
 

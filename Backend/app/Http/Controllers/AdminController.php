@@ -569,8 +569,8 @@ class AdminController extends Controller
             ]);
         }
 
-        $loginRequest->delete();
-
+        $loginRequest->status = 2;
+        $loginRequest->save();
         return response()->json([
             'status' => 'Success',
             'message' => 'Request rejected successfully'
