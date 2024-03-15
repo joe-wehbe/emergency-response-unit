@@ -49,7 +49,10 @@ export class RegisterPage implements OnInit {
   }
 
   async register() {
-    if (!this.password || !this.email || !this.fname || !this.lname || !this.id || !this.major || !this.phone) {
+    if (this.emergencyResponseUnit == 'yes' && (!this.password || !this.email || !this.fname || !this.lname || !this.id || !this.major || !this.phone)) {
+      this.presentToast('All fields are required.');
+    
+    }else if (this.emergencyResponseUnit == 'no' && (!this.password || !this.email || !this.fname || !this.lname)){
       this.presentToast('All fields are required.');
 
     } else if (!this.email.match(this.emailPattern)) {

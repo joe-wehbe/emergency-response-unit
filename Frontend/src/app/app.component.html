@@ -1,6 +1,6 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay" class="background">
+    <ion-menu contentId="main-content" type="overlay" class="background" *ngIf="showSideMenu">
       <ion-header>
         <ion-toolbar class="menu-toolbar">
           <div class="container">
@@ -75,7 +75,7 @@
                   <ion-img src="assets/icon/admin-panel.png"></ion-img>
                   Admin panel
                 </div>
-                <div class="tab-container" routerDirection="root" [routerLink]="'/login'" lines="none" detail="false" routerLinkActive="selected">
+                <div class="tab-container" routerDirection="root" (click)="logoutAlert()" lines="none" detail="false" routerLinkActive="selected">
                   <ion-img src="assets/icon/logout.png"></ion-img>
                   Logout
                 </div>

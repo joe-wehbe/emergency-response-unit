@@ -155,7 +155,7 @@ export class UserProfilePage implements OnInit {
   async removeAlert() {
     const alert = await this.alertController.create({
       header: 'Remove member',
-      subHeader: 'Are you sure you want to permanently remove this member?',
+      subHeader: 'Are you sure you want to permanently remove this member from the unit?',
       cssClass: "alert-dialog",
 
       buttons: [

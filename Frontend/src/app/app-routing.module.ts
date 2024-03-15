@@ -4,7 +4,25 @@ import { TabsComponent } from './components/tabs/tabs.component';
 
 const routes: Routes = [
 
-  /* Member Routes*/
+  /* STARTING ROUTES */
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/starting/login/login.module').then( m => m.LoginPageModule), data: { showSideMenu: false } 
+  },
+  {
+    path: 'register',
+    loadChildren: () => import('./pages/starting/register/register.module').then( m => m.RegisterPageModule), data: { showSideMenu: false }
+  },
+  {
+    path: 'pending-request',
+    loadChildren: () => import('./pages/member/pending-request/pending-request.module').then( m => m.PendingRequestPageModule), data: { showSideMenu: false }
+  },
+  {
+    path: 'request-rejected',
+    loadChildren: () => import('./pages/member/request-rejected/request-rejected.module').then( m => m.RequestRejectedPageModule), data: { showSideMenu: false }
+  },
+
+  /* MEMBER ROUTES*/
   {
     path: '',
     redirectTo: '/tabs/report-emergency',
@@ -34,20 +52,8 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'login',
-    loadChildren: () => import('./pages/starting/login/login.module').then( m => m.LoginPageModule)
-  },
-  {
-    path: 'pending-request',
-    loadChildren: () => import('./pages/member/pending-request/pending-request.module').then( m => m.PendingRequestPageModule)
-  },
-  {
-    path: 'request-rejected',
-    loadChildren: () => import('./pages/member/request-rejected/request-rejected.module').then( m => m.RequestRejectedPageModule)
-  },
-  {
     path: 'emergency-details',
-    loadChildren: () => import('./pages/member/emergency-details/emergency-details.module').then( m => m.EmergencyDetailsPageModule)
+    loadChildren: () => import('./pages/member/emergency-details/emergency-details.module').then( m => m.EmergencyDetailsPageModule), data: { showSideMenu: false }
   },
   {
     path: 'medic-emergency-details',
@@ -59,35 +65,31 @@ const routes: Routes = [
   },
   {
     path: 'edit-profile',
-    loadChildren: () => import('./pages/member/edit-profile/edit-profile.module').then( m => m.EditProfilePageModule)
+    loadChildren: () => import('./pages/member/edit-profile/edit-profile.module').then( m => m.EditProfilePageModule), data: { showSideMenu: false }
   },
   {
     path: 'community',
     loadChildren: () => import('./pages/member/community/community.module').then( m => m.CommunityPageModule)
   },
   {
-    path: 'case-report',
-    loadChildren: () => import('./pages/member/case-report/case-report.module').then( m => m.CaseReportPageModule)
-  },
-  {
     path: 'announcement',
     loadChildren: () => import('./pages/member/announcement/announcement.module').then( m => m.AnnouncementPageModule)
-  },
-  {
-    path: 'extensions',
-    loadChildren: () => import('./pages/member/extensions/extensions.module').then( m => m.ExtensionsPageModule)
   },
   {
     path: 'cover-requests',
     loadChildren: () => import('./pages/member/cover-requests/cover-requests.module').then( m => m.CoverRequestsPageModule)
   },
   {
-    path: 'case-report-form',
-    loadChildren: () => import('./pages/member/case-report-form/case-report-form.module').then( m => m.CaseReportFormPageModule)
-  },
-  {
     path: 'case-report',
     loadChildren: () => import('./pages/member/case-report/case-report.module').then( m => m.CaseReportPageModule)
+  },
+  {
+    path: 'case-report-form',
+    loadChildren: () => import('./pages/member/case-report-form/case-report-form.module').then( m => m.CaseReportFormPageModule), data: { showSideMenu: false }
+  },
+  {
+    path: 'extensions',
+    loadChildren: () => import('./pages/member/extensions/extensions.module').then( m => m.ExtensionsPageModule)
   },
   {
     path: 'medical-faqs',
@@ -95,66 +97,60 @@ const routes: Routes = [
   },
   {
     path: 'reading-medical-faq',
-    loadChildren: () => import('./pages/member/reading-medical-faq/reading-medical-faq.module').then( m => m.ReadingMedicalFaqPageModule)
+    loadChildren: () => import('./pages/member/reading-medical-faq/reading-medical-faq.module').then( m => m.ReadingMedicalFaqPageModule), data: { showSideMenu: false }
   },
-
 
   /* Admin Routes */
   {
-    path: 'login-requests',
-    loadChildren: () => import('./pages/admin/login-requests/login-requests.module').then( m => m.LoginRequestsPageModule)
-  },
-  {
-    path: 'medical-faq',
-    loadChildren: () => import('./pages/admin/medical-faq/medical-faq.module').then( m => m.MedicalFAQPageModule)
-  },
-  {
-    path: 'manage-faq',
-    loadChildren: () => import('./pages/admin/manage-faq/manage-faq.module').then( m => m.ManageFAQPageModule)
-  },
-  {
-    path: 'manage-announcements',
-    loadChildren: () => import('./pages/admin/manage-announcements/manage-announcements.module').then( m => m.ManageAnnouncementsPageModule)
-  },
-  {
-    path: 'manage-extensions',
-    loadChildren: () => import('./pages/admin/manage-extensions/manage-extensions.module').then( m => m.ManageExtensionsPageModule)
+    path: 'admin-panel',
+    loadChildren: () => import('./pages/admin/admin-panel/admin-panel.module').then( m => m.AdminPanelPageModule)
   },
   {
     path: 'manage-members',
-    loadChildren: () => import('./pages/admin/manage-members/manage-members.module').then( m => m.ManageMembersPageModule)
+    loadChildren: () => import('./pages/admin/manage-members/manage-members.module').then( m => m.ManageMembersPageModule), data: { showSideMenu: false }
   },
   {
     path: 'user-profile',
-    loadChildren: () => import('./pages/admin/user-profile/user-profile.module').then( m => m.UserProfilePageModule)
+    loadChildren: () => import('./pages/admin/user-profile/user-profile.module').then( m => m.UserProfilePageModule), data: { showSideMenu: false }
   },
   {
-    path: 'admin-panel',
-    loadChildren: () => import('./pages/admin/admin-panel/admin-panel.module').then( m => m.AdminPanelPageModule)
+    path: 'change-schedule',
+    loadChildren: () => import('./pages/admin/change-schedule/change-schedule.module').then( m => m.ChangeSchedulePageModule), data: { showSideMenu: false }
+  },
+  {
+    path: 'manage-announcements',
+    loadChildren: () => import('./pages/admin/manage-announcements/manage-announcements.module').then( m => m.ManageAnnouncementsPageModule), data: { showSideMenu: false }
+  },
+  {
+    path: 'manage-faq',
+    loadChildren: () => import('./pages/admin/manage-faq/manage-faq.module').then( m => m.ManageFAQPageModule), data: { showSideMenu: false }
+  },
+  {
+    path: 'medical-faq',
+    loadChildren: () => import('./pages/admin/medical-faq/medical-faq.module').then( m => m.MedicalFAQPageModule), data: { showSideMenu: false }
+  },
+  {
+    path: 'manage-extensions',
+    loadChildren: () => import('./pages/admin/manage-extensions/manage-extensions.module').then( m => m.ManageExtensionsPageModule), data: { showSideMenu: false }
+  },
+  {
+    path: 'emergency-records',
+    loadChildren: () => import('./pages/admin/emergency-records/emergency-records.module').then( m => m.EmergencyRecordsPageModule), data: { showSideMenu: false }
+  },
+  {
+    path: 'attendance-records',
+    loadChildren: () => import('./pages/admin/attendance-records/attendance-records.module').then( m => m.AttendanceRecordsPageModule), data: { showSideMenu: false }
+  },
+  {
+    path: 'login-requests',
+    loadChildren: () => import('./pages/admin/login-requests/login-requests.module').then( m => m.LoginRequestsPageModule), data: { showSideMenu: false }
   },
 
   /* SSF Routes */
   {
     path: 'report',
-    loadChildren: () => import('./pages/ssf/report/report.module').then( m => m.ReportPageModule)
+    loadChildren: () => import('./pages/ssf/report/report.module').then( m => m.ReportPageModule), data: { showSideMenu: false }
   },
-  {
-    path: 'emergency-records',
-    loadChildren: () => import('./pages/admin/emergency-records/emergency-records.module').then( m => m.EmergencyRecordsPageModule)
-  },
-  {
-    path: 'attendance-records',
-    loadChildren: () => import('./pages/admin/attendance-records/attendance-records.module').then( m => m.AttendanceRecordsPageModule)
-  },
-  {
-    path: 'change-schedule',
-    loadChildren: () => import('./pages/admin/change-schedule/change-schedule.module').then( m => m.ChangeSchedulePageModule)
-  },
-  {
-    path: 'register',
-    loadChildren: () => import('./pages/starting/register/register.module').then( m => m.RegisterPageModule)
-  },
-
 ];
 
 @NgModule({
