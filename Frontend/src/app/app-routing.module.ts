@@ -35,7 +35,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./pages/starting/login/login.module').then( m => m.LoginPageModule)
   },
   {
     path: 'pending-request',
@@ -137,7 +137,8 @@ const routes: Routes = [
   {
     path: 'report',
     loadChildren: () => import('./pages/ssf/report/report.module').then( m => m.ReportPageModule)
-  },  {
+  },
+  {
     path: 'emergency-records',
     loadChildren: () => import('./pages/admin/emergency-records/emergency-records.module').then( m => m.EmergencyRecordsPageModule)
   },
@@ -148,6 +149,10 @@ const routes: Routes = [
   {
     path: 'change-schedule',
     loadChildren: () => import('./pages/admin/change-schedule/change-schedule.module').then( m => m.ChangeSchedulePageModule)
+  },
+  {
+    path: 'register',
+    loadChildren: () => import('./pages/starting/register/register.module').then( m => m.RegisterPageModule)
   },
 
 ];

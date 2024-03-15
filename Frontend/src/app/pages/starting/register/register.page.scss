@@ -1,0 +1,219 @@
+.main-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+  
+.logo-block{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.logo{
+    width: 50%;
+}
+
+.curved-shape {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 50em;
+    bottom: 0;
+    background: linear-gradient(to top, #FFEDED 0%, #810808);
+    clip-path: ellipse(160% 100% at 35% 100%);
+    padding-top: 3em;
+}
+
+.short-curved-shape{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 75%;
+    bottom: 0;
+    background: linear-gradient(to top, #FFEDED 0%, #810808);
+    clip-path: ellipse(140% 100% at 35% 100%);
+    padding-top: 3em;
+}
+
+.shape-content-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: fit-content;
+    width: 100%;
+}
+
+.statement-container {
+    display: flex;
+    flex-direction: row;
+    padding-left: 2em;
+    width: 65%;
+}
+
+.forms-container, .initial-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    animation: fadeInAnimation 0.5s ease forwards;
+    padding-top: 1.5em;
+}
+
+.initial-container{
+    margin-top: 2em;
+}
+
+@keyframes fadeInAnimation {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+ion-label{
+    color: black;
+}
+
+ion-list{
+    background-color: transparent;
+    width: 100%;
+}
+
+ion-item{
+    --background: transparent;
+    margin: 10px;
+}
+
+ion-input{
+    border-radius: 25px;
+    background: #FFEDED;
+    color: black;
+    --placeholder-color: #464141;
+    margin: 5px;
+    --padding-end: 15px;
+}
+
+.radio-item.selected {
+    border:  1px solid #810808;
+    color: #810808;
+}  
+
+ion-icon[name="lock-closed"], ion-icon[name="mail-outline"],
+ion-icon[name="card-outline"], ion-icon[name="call-outline"],
+ion-icon[name="desktop-outline"], ion-icon[name="checkmark-circle-outline"],
+ion-icon[name="person-outline"], ion-icon[name="people-outline"]{
+    padding-left: 0.5em;
+    font-size: 25px;
+    color: #810808;
+}
+
+ion-icon[name="eye"], ion-icon[name="eye-off"] {
+    padding-right: 0.5em;
+    font-size: 25px;
+    color: #810808;
+}
+
+ion-checkbox {
+    --size: 32px;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    --checkbox-background-checked: #810808;
+    --border-color-checked: #810808;
+    --checkbox-background: white;
+    --border-color: gray;
+    color: black
+}
+
+ion-checkbox::part(container) {
+    border-radius: 6px;
+}
+
+.register-button {
+    width: 40%;
+    --background: #FFEDED;
+    --color: black;
+    border-radius: 15px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.35);
+    --background-activated: #810808;
+    --background-activated-opacity: 0.3;
+}
+
+.radio-header-item{
+    padding-left: 1em;
+}
+
+.options-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.radio-item{
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    width: 80%;
+    margin: 5px;
+}
+
+ion-radio{
+    --color-checked: #810808;
+}
+
+ion-item{
+    margin: 0;
+}
+
+.button-container{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.no-account-text{
+    color: black;
+    text-decoration: underline;
+}
+
+.no-account-text:active{
+    color: #810808;
+}
+
+.continue-button{
+    width: 40%;
+    --background: transparent;
+    --color: #810808;
+    --background-activated: none;
+    --background-activated-opacity: 0.3;
+}
+
+.back-button{
+    width: 25%;
+    --background: transparent;
+    --color: #810808;
+    --background-activated: none;
+    --background-activated-opacity: 0.3;
+}
+
+.back-button-container{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.continue-button:active{
+    color: gray;
+} 

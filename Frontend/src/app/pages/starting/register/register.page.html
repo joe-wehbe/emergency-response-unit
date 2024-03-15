@@ -1,0 +1,134 @@
+<ion-content class="background" mode="ios">
+  <div class="logo-block">
+      <img class="logo" src="/assets/img/logo.png">
+  </div>
+
+  <div [ngClass]="{'curved-shape': showContent, 'short-curved-shape': !showContent}">
+    <div class="shape-content-container">
+      <div class="statement-container">
+        <h1>{{ text }}</h1>
+      </div>
+
+      <div class="initial-container" *ngIf="!showContent">
+        <ion-list>
+          <ion-radio-group mode="md" [(ngModel)]="emergencyResponseUnit">
+            <ion-item class="radio-header-item" lines="none">
+              <ion-label>Are you in the Emergency Response Unit?</ion-label>
+            </ion-item>
+            <div class="options-container">
+              <ion-item class="radio-item" lines="none" [ngClass]="{'selected': emergencyResponseUnit === 'no'}">
+                <ion-radio value="no">No</ion-radio>
+              </ion-item>
+              <ion-item class="radio-item" lines="none" [ngClass]="{'selected': emergencyResponseUnit === 'yes'}">
+                <ion-radio value="yes">Yes</ion-radio>
+              </ion-item>
+            </div>
+          </ion-radio-group>
+        </ion-list>
+
+        <div class="button-container">
+          <ion-button class="continue-button" (click)="next()">
+            <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+            Continue
+          </ion-button>
+        </div>
+      </div>
+
+      <div class="forms-container" *ngIf="showContent">
+        <div *ngIf="emergencyResponseUnit === 'yes'">
+          <ion-list>
+            <ion-item lines="none">
+              <ion-input type="text" placeholder="First name" [(ngModel)]="fname" required>
+                <ion-icon name="person-outline" slot="start"></ion-icon>
+              </ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-input type="text" placeholder="Family name" [(ngModel)]="lname" required>
+                <ion-icon name="people-outline" slot="start"></ion-icon>
+              </ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-input type="number" placeholder="LAU ID" [(ngModel)]="id" required>
+                <ion-icon name="card-outline" slot="start"></ion-icon>
+              </ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-input type="number" placeholder="Phone number" [(ngModel)]="phone" required>
+                <ion-icon name="call-outline" slot="start"></ion-icon>
+              </ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-input type="text" placeholder="Major" [(ngModel)]="major" required>
+                <ion-icon name="desktop-outline" slot="start"></ion-icon>
+              </ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-input type="email" placeholder="Email" [(ngModel)]="email" [pattern]="emailPattern" required>
+                <ion-icon name="mail-outline" slot="start"></ion-icon>
+              </ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-input placeholder="Password" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" required>
+                <ion-icon name="lock-closed" slot="start"></ion-icon>
+                <ion-icon [name]="showPassword ? 'eye-off' : 'eye'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
+              </ion-input>   
+            </ion-item>
+            <ion-item lines="none">
+              <ion-input type="password" placeholder="Confirm your password" [(ngModel)]="confirmation" required>
+                <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+              </ion-input>   
+            </ion-item>
+          </ion-list>
+        </div>
+
+        <div *ngIf="emergencyResponseUnit === 'no'">
+          <ion-list>
+            <ion-item lines="none">
+              <ion-input type="text" placeholder="First name" [(ngModel)]="fname" required>
+                <ion-icon name="person-outline" slot="start"></ion-icon>
+              </ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-input type="text" placeholder="Family name" [(ngModel)]="lname" required>
+                <ion-icon name="people-outline" slot="start"></ion-icon>
+              </ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-input type="email" placeholder="Email" [(ngModel)]="email" [pattern]="emailPattern" required>
+                <ion-icon name="mail-outline" slot="start"></ion-icon>
+              </ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-input placeholder="Password" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" required>
+                <ion-icon name="lock-closed" slot="start"></ion-icon>
+                <ion-icon [name]="showPassword ? 'eye-off' : 'eye'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
+              </ion-input>   
+            </ion-item>
+            <ion-item lines="none">
+              <ion-input type="password" placeholder="Confirm your password" [(ngModel)]="confirmation" required>
+                <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+              </ion-input>   
+            </ion-item>
+          </ion-list>
+        </div>
+
+        <ion-checkbox labelPlacement="end">Keep me signed in</ion-checkbox>
+
+        <ion-button class="register-button" (click)="register()">
+          <ion-icon slot="start" name="log-in-outline"></ion-icon>
+          Register
+        </ion-button>
+        
+        <h6 class="no-account-text" (click)="navigateLogin()">Already have an account?</h6>  
+
+        <div class="back-button-container">
+          <ion-button class="back-button" (click)="back()">
+            <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+            Back
+          </ion-button>
+        </div>
+        
+      </div>  
+    </div>
+  </div>
+</ion-content>

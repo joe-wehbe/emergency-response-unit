@@ -13,7 +13,7 @@ export class LoginPage {
   password: string = '';
   showPassword: boolean = false;
   email: string = '';
-  emailPattern: string = '^[^\\s@]+@lau\\.edu(?:\\.lb)?$'; // Regex pattern for LAU email validation
+  emailPattern: string = '^[^\\s@]+@lau\\.edu(?:\\.lb)?$';
 
   constructor(private router: Router, private toastController: ToastController) {}
 
@@ -29,7 +29,6 @@ export class LoginPage {
     } else if (!this.email.match(this.emailPattern)) {
       this.presentToast('Please enter a valid LAU email.');
     } else {
-      // All conditions are met, proceed with login
       this.router.navigate(["./tabs/report-emergency"]);
     }
   }
@@ -43,4 +42,7 @@ export class LoginPage {
     toast.present();
   }
 
+  navigateRegister(){
+    this.router.navigate(["/register"]);
+  }
 }
