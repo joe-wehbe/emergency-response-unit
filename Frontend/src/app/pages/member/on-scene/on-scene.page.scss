@@ -1,6 +1,5 @@
 .toolbar{
   height: 60px;
-  --background: #FFEDED;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,13 +7,11 @@
 
 ion-menu-button{
   font-weight: normal;
-  color: black;
 }
 
 .title{
   font-size: 22px;
   font-weight: normal;
-  color: black;
 }
 
 .stmt{
@@ -25,19 +22,16 @@ ion-menu-button{
   padding-top: 1em;
   font-size: 18px;
   font-weight: bold;
-  color: black;
 }
 
 .second-stmt{
   margin-top: -1em;
-  color: #837272;
   font-size: 14px;
 }
 
 .ongoing-card{
   display: flex;
   flex-direction: row;
-  background-color: rgba(255, 255, 255, 0.6);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
   height: 7em;
 }
@@ -76,7 +70,6 @@ ion-menu-button{
 }
 
 .location{
-  color: black;
   font-size: 15px;
 }
 
@@ -90,7 +83,6 @@ ion-menu-button{
   width: 1px;
   height: 100%;
   background-color: gray;
-
 }
 
 .third-box {
@@ -110,7 +102,6 @@ ion-menu-button{
   align-items: center;
   flex-direction: row;
   height: 22%;
-  color: black;
   font-size: 15px;
 }
 
@@ -120,10 +111,6 @@ ion-menu-button{
 
 .medic-name-red{
   color: #810808;
-}
-
-.request-tool{
-  color: gray;
 }
 
 .vitals{

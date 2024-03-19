@@ -1,6 +1,5 @@
 .header-toolbar{
   height: 60px;
-  --background: #FFEDED;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,17 +15,11 @@
 
 .back-button{
   font-weight: normal;
-  color: black;
 }
   
 .title{
   font-size: 22px;
   font-weight: normal;
-  color: black;
-}
-
-ion-chip{
-  background-color: #e9dede;
 }
 
 .stmt{
@@ -37,7 +30,6 @@ ion-chip{
   padding-top: 20px;
   font-size: 18px;
   font-weight: bold;
-  color: black;
 }
 
 .case-header{
@@ -48,22 +40,10 @@ ion-chip{
   height: 2em;
   padding-bottom: 1em;
   margin: 0 auto;
-  color: black;
-}
-
-.emergency-status{
-  padding: 10px;
-  font-size: 18px;
-  color: #D42B2B;
 }
 
 ion-accordion-group{
-  padding: 10px;
-}
-
-ion-item{
-  --background: #e9dede;
-  color: black;
+  margin: 10px;
 }
 
 .first-item{
@@ -83,7 +63,6 @@ ion-item{
 
 .statement {
   font-size: 17px;
-  color: black;
 }
 
 .container{
@@ -91,7 +70,7 @@ ion-item{
   flex-direction: column;
   width: 100%;
   padding: 10px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .emergency-info, .patient-info{
@@ -123,17 +102,13 @@ ion-list{
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  color: black;
 }
 
-ion-icon{
+ion-icon[name="person-outline"], ion-icon[name="location-outline"], ion-icon[name="card-outline"],
+ion-icon[name="document-text-outline"], ion-icon[name="time-outline"], ion-icon[name="warning-outline"]{
   padding-right: 5px;
   font-size: 20px;
   color: #810808;
-}
-
-.info-answer{
-  color: black;
 }
 
 .assessment{
@@ -144,17 +119,15 @@ ion-icon{
   margin: 0 auto;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .assessment-number{
   font-size: 17px;
-  color: black;
 }
 
 .assessment-time{
   font-size: 14px;
-  color: black;
 }
 
 .table {
@@ -186,5 +159,4 @@ ion-img{
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  color: black
 }

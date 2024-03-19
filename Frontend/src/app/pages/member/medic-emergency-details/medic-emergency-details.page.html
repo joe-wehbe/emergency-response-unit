@@ -1,9 +1,14 @@
 <ion-header id="main-content">
-  <ion-toolbar class="toolbar">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title class="title">Emergency Details</ion-title>
+  <ion-toolbar class="header-toolbar">
+    <div class="toolbar-container">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title class="title">Emergency Details</ion-title>
+      <ion-chip color="danger">
+        <ion-label>Ongoing</ion-label>
+      </ion-chip>
+    </div>
   </ion-toolbar>
 </ion-header>
 
@@ -23,7 +28,7 @@
           <ion-list>
             <div class="info-container-first">
               <div class="info-type">
-                <ion-icon name="person-outline"></ion-icon>
+                <ion-icon name="person"></ion-icon>
                 <p class="type-medic-name">Medic on scene: </p>
               </div>
               <div class="info-answer">
@@ -32,7 +37,7 @@
             </div>
             <div class="info-container-first">
               <div class="info-type">
-                <ion-icon name="location-outline"></ion-icon>
+                <ion-icon name="location"></ion-icon>
                 <p class="type-location">Location: </p>
               </div>
               <div class="info-answer">
@@ -41,7 +46,7 @@
             </div>
             <div class="info-container-first">
               <div class="info-type">
-                <ion-icon name="document-text-outline"></ion-icon>
+                <ion-icon name="document-text"></ion-icon>
                 <p class="type-description">Description: </p>
               </div>
               <div class="info-answer">
@@ -50,7 +55,7 @@
             </div>
             <div class="info-container-first">
               <div class="info-type">
-                <ion-icon name="time-outline"></ion-icon>
+                <ion-icon name="time"></ion-icon>
                 <p class="type-time">Reported at: </p>
               </div>
               <div class="info-answer">
@@ -105,42 +110,45 @@
           <ion-list>
             <div class="info-container-second">
               <div class="info-type">
-                <ion-icon name="person-outline"></ion-icon>
-                <p class="type-patient-name">Patient name: </p>
+                <!-- <p class="type-patient-name">Patient name: </p> -->
               </div>
               <div class="info-answer-second">
-                <ion-input class="patient-input"></ion-input>    
+                <ion-input class="patient-input" placeholder="Patient name...">
+                  <ion-icon name="person" slot="start"></ion-icon>
+                </ion-input>    
               </div>
             </div>
             <div class="info-container-second">
               <div class="info-type">
-                <ion-icon name="card-outline"></ion-icon>
-                <p class="type-patient-id">Patient ID: </p>
+                <!-- <p class="type-patient-id">Patient ID: </p> -->
               </div>
               <div class="info-answer-second">
-                <ion-input type="number" class="patient-input"></ion-input>
+                <ion-input type="number" class="patient-input" placeholder="Patient ID...">
+                  <ion-icon name="card" slot="start"></ion-icon>
+                </ion-input>
               </div>
             </div>    
             <div class="info-container-second">
               <div class="info-type">
-                <ion-icon name="document-text-outline"></ion-icon>
-                <p class="type-case-descritpion">Description: </p>
+                <!-- <p class="type-case-descritpion">Description: </p> -->
               </div>
               <div class="info-answer-second">
-                <ion-input class="patient-input"></ion-input>
+                <ion-input class="patient-input" placeholder="Medic description...">
+                  <ion-icon name="document-text" slot="start"></ion-icon>
+                </ion-input>
               </div>
             </div>
             <div class="info-container-second">
               <div class="info-type">
-                <ion-icon name="warning-outline"></ion-icon>
-                <p class="type-case-severity">Case severity: </p>
+                <!-- <p class="type-case-severity">Case severity: </p> -->
               </div>
               <div class="info-answer-second">
                 <ng-container *ngIf="selectedOption !== 'other'">
-                  <ion-select class="patient-input" label-placement="floating" [(ngModel)]="selectedOption">
+                  <ion-select class="patient-input"  [(ngModel)]="selectedOption">
                     <ion-select-option value="serious">Serious</ion-select-option>
                     <ion-select-option value="not-serious">Not serious</ion-select-option>
                     <ion-select-option value="other">Other</ion-select-option>
+                    <ion-icon name="warning" slot="start"></ion-icon>
                   </ion-select>
                 </ng-container>
                 <ng-container *ngIf="selectedOption === 'other'">

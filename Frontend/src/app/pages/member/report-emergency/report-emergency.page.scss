@@ -1,19 +1,16 @@
 .toolbar{
     height: 60px;
-    --background: #FFEDED;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 ion-menu-button{
-    color: black;
     font-weight: normal;
 }
 
 .title{
     font-size: 22px;
-    color: black;
     font-weight: normal;
 }
 
@@ -33,15 +30,8 @@ ion-menu-button{
     text-align: center;
 }
 
-.stmt h1{
-    font-weight: bold;
-    color: black;
-    font-size: 24px;
-}
-
 .stmt h4{
     font-weight: bold;
-    color: #837272;
     font-size: 18px;
 }
 
@@ -127,30 +117,26 @@ ion-menu-button{
 }
 
 @keyframes sos-pulse {
-0% {
-    transform: scale(1);
-}
-50% {
-    transform: scale(1.06);
-}
-100% {
-    transform: scale(1);
-}
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.06);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
     
 @keyframes sos-wave {
-0% {
-    transform: scale(0);
-    opacity: 0.8;
-}
-100% {
-    transform: scale(1.2);
-    opacity: 0.6;
-}
-}
-
-.notif-stmt{
-    color: black;
+    0% {
+        transform: scale(0);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1.2);
+        opacity: 0.6;
+    }
 }
 
 

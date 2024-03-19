@@ -1,3 +1,7 @@
+.background{
+  --ion-background-color:#FFEDED;
+} 
+
 .welcome{
   margin-top: 3em;
   margin-left: 2.5em;
@@ -126,26 +130,26 @@
 }
 
 @keyframes sos-pulse {
-0% {
-  transform: scale(1);
-}
-50% {
-  transform: scale(1.06);
-}
-100% {
-  transform: scale(1);
-}
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
   
 @keyframes sos-wave {
-0% {
-  transform: scale(0);
-  opacity: 0.8;
-}
-100% {
-  transform: scale(1.2);
-  opacity: 0.6;
-}
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0.6;
+  }
 }
 
 .notif-stmt{

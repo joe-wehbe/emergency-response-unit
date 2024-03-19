@@ -15,7 +15,7 @@ export class AdminPanelPage implements OnInit {
   }
 
   goToRequests(){
-    this.router.navigate(['/login-requests']);
+    this.router.navigate(['/signup-requests']);
   }
 
   goToManageFAQs(){

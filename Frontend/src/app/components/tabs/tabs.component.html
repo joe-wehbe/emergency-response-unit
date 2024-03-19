@@ -1,15 +1,15 @@
 <ion-tabs>
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="standby">
-      <ion-img src="assets/icon/standby.png"></ion-img>
+      <ion-img src="assets/icon/standby.png" class="light-icons" [ngClass]="{'dark-icons': darkMode}"></ion-img>
       <label>Standby</label>
     </ion-tab-button>
     <ion-tab-button tab="report-emergency">
-      <ion-img src="assets/icon/report-emergency.png"></ion-img>
+      <ion-img src="assets/icon/report-emergency.png" class="light-icons" [ngClass]="{'dark-icons': darkMode}"></ion-img>
       Report Emergency
     </ion-tab-button>
     <ion-tab-button tab="on-scene">
-      <ion-img src="assets/icon/on-scene.png"></ion-img>
+      <ion-img src="assets/icon/on-scene.png" class="light-icons" [ngClass]="{'dark-icons': darkMode}"></ion-img>
       On scene
     </ion-tab-button>
   </ion-tab-bar>

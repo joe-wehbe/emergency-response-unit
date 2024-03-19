@@ -1,3 +1,7 @@
+.background{
+    --ion-background-color:#FFEDED;
+} 
+
 .container{
     display: flex;
     flex-direction: column;
@@ -39,5 +43,5 @@
 }
 
 .img-container{
-    width: 230px;
+    width: 200px;
 }

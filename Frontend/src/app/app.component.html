@@ -75,7 +75,12 @@
                   <ion-img src="assets/icon/admin-panel.png"></ion-img>
                   Admin panel
                 </div>
-                <div class="tab-container" routerDirection="root" (click)="logoutAlert()" lines="none" detail="false" routerLinkActive="selected">
+                <div class="darkmode-tab-container" lines="none" detail="false"  (click)="$event.stopPropagation()">
+                  <ion-icon name="moon-outline"></ion-icon>
+                  Dark Mode
+                  <ion-toggle mode="md" (ionChange)="toggleDarkMode()" [checked]="darkMode"></ion-toggle>
+                </div>
+                <div class="tab-container" routerDirection="root" (click)="logoutAlert()" (click)="$event.stopPropagation()" lines="none" detail="false" routerLinkActive="selected">
                   <ion-img src="assets/icon/logout.png"></ion-img>
                   Logout
                 </div>

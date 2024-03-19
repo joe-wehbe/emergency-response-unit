@@ -1,6 +1,5 @@
 .header-toolbar{
   height: 60px;
-  --background: #FFEDED;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,17 +15,14 @@
 
 .back-button{
   font-weight: normal;
-  color: black;
 }
   
 .title{
   font-size: 22px;
   font-weight: normal;
-  color: black;
 }
 
 .filter-button{
-  color: black;
   width: 20%;
   font-size: 30px;
 }
@@ -48,23 +44,14 @@ ion-searchbar.search-bar {
   padding: 0;
   padding-left: 10px;
   padding-right: 10px;
-  border: solid 1px #810808;
+  border: solid 1px;
   border-radius: 20px;
-  background-color: rgba(255, 255, 255, 0.3);
-  --background: transparent;
-  --color: black;
-  --placeholder-color: gray;
-  --icon-color: #810808;
-  --clear-button-color: #810808; 
+  --background: transparent; 
   --box-shadow: none;
 }
 
 ion-list {
   background-color: transparent;
-}
-
-ion-list-header{
-  --color: black;
 }
 
 .card{
@@ -73,18 +60,10 @@ ion-list-header{
   align-items: center;
   justify-content: center;
   margin: 0;
-  background-color: white;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
 }
 
 .card:active{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  background-color: white;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
   animation: pulse 0.1s ease-in-out;
 }
 
@@ -115,7 +94,6 @@ ion-list-header{
 }
 
 .user-name{
-  color: black;
   padding-top: 5px;
 }
 
@@ -125,7 +103,7 @@ ion-list-header{
   align-items: center;
   height: 20px;
   width: 100%;
-  background-color: #D4D4D4;
+  background-color: #838383;
 }
 
 ion-fab-button {
@@ -139,15 +117,6 @@ ion-modal {
   --height: 60%;
   --border-radius: 16px;
   --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-}
-
-.modal-content{
-  --ion-background-color: white;
-}
-
-ion-toolbar {
-  --background: linear-gradient(to top,  white -10%, #DB7575); 
-  --color: white;
 }
 
 .header {
@@ -177,10 +146,6 @@ ion-toolbar {
   justify-content: center;
 }
 
-.name {
-  color: black;
-}
-
 .name, .position {
   margin: 0; 
   font-size: 1.2rem; 
@@ -188,7 +153,6 @@ ion-toolbar {
 
 .position {
   font-size: 0.8rem; 
-  color: #837272; 
   padding-left: 5px;
 }
 
@@ -205,7 +169,6 @@ ion-toolbar {
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: gray
 }
 
 ion-img{
@@ -242,7 +205,6 @@ ion-img{
 .section-name{
   font-size: 16px;
   padding: 5px;
-  color: black;
   font-style: italic;
 }
 
@@ -281,7 +243,6 @@ ion-img{
 
 h6{
   font-size: 0.8rem;
-  color: #837272;
   font-weight: lighter;
   font-style: italic;
   margin: 0;
@@ -289,14 +250,12 @@ h6{
 
 .experience-card{
   padding: 10px;
-  background-color:#F2F2F2;
   margin: 0;
   border-radius: 10px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
 }
 
 .experience-text{
-  color: black;
   font-size: 0.8rem;
   font-weight: lighter;
 }
@@ -309,7 +268,6 @@ h6{
 }
 
 .skills-card{
-  background-color:#F2F2F2;
   padding: 10px;
   margin: 0;
   border-radius: 10px;

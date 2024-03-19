@@ -1,19 +1,25 @@
 ion-tab-bar {
     height: 60px;
-    --background: #FFEDED;
 }
   
 ion-tab-button.tab-selected {
 --color-selected: #810808; 
 }
 
-ion-img {
-    width: 30px;
-    filter: grayscale(90%);
-}
-
 ion-tab-button.tab-selected ion-img {
     filter: brightness(1);
     color: #810808;
 }
+
+.light-icons {
+    width: 30px;
+    filter: grayscale(90%);
+}
+
+.dark-icons {
+    width: 30px;
+    filter: brightness(0) invert(1);
+}
+
+
   

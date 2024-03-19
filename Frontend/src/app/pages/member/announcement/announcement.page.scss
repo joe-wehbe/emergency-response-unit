@@ -1,17 +1,14 @@
 .toolbar{
     height: 60px;
-    --background: #FFEDED;
 }
 
 ion-menu-button{
-    color: black;
     font-weight: normal;
     margin-top: 12px;
 }
 
 .title{
     font-size: 22px;
-    color: black;
     font-weight: normal;
     margin-top: 7px;
 }
@@ -29,11 +26,7 @@ ion-menu-button{
 }
 
 .announcement:active{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border-bottom: 1px solid gray;
-    background-color:  #c3baba;
+    opacity: 0.2;
 }
 
 .first-box {
@@ -64,7 +57,6 @@ ion-menu-button{
   
 .username {
     font-weight: bold;
-    color: black;
     font-size: 18px;
 }
 
@@ -95,7 +87,6 @@ ion-chip{
 }
 
 .time{
-    color: #837272;
     opacity: 0.8;
     font-size: 13px;
     font-weight:lighter;
@@ -104,7 +95,6 @@ ion-chip{
 
 .description{
     margin: 0;
-    color: black;
     opacity: 0.8;
 }
 
@@ -114,8 +104,4 @@ ion-modal#example-modal {
     --height: fit-content;
     --border-radius: 6px;
     --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
-}
-  
-ion-modal#example-modal .wrapper {
-    background-color: white;
 }

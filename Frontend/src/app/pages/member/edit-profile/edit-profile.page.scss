@@ -1,6 +1,5 @@
 .header-toolbar{
     height: 60px;
-    --background: #FFEDED;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,17 +15,11 @@
   
 .back-button{
     font-weight: normal;
-    color: black;
 }
     
 .title{
     font-size: 22px;
     font-weight: normal;
-    color: black;
-}
-
-.card-container {
-    background: white; 
 }
 
 .header {
@@ -34,8 +27,9 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to top,  white -10%, #DB7575); 
+    background: var(--ion-header-background); 
     height: 8em;
+    border-bottom: solid 1px;
 }
 
 .icon{
@@ -57,10 +51,6 @@
     flex-direction: column;
     justify-content: center;
 }
-
-.name {
-    color: black;
-}
   
 .name, .position {
     margin: 0; 
@@ -69,7 +59,6 @@
 
 .position {
     font-size: 0.8rem; 
-    color: #837272; 
     padding-left: 5px;
 }
 
@@ -83,7 +72,6 @@
 
 ion-icon{
     font-size: 30px;
-    color: black;
     opacity: 0.8;
 }
 
@@ -143,7 +131,6 @@ ion-img{
 .section-name{
     font-size: 16px;
     padding: 5px;
-    color: black;
     font-style: italic;
 }
 
@@ -182,7 +169,6 @@ ion-img{
 
 h6{
     font-size: 0.8rem;
-    color: #837272;
     font-weight: lighter;
     font-style: italic;
     margin: 0;
@@ -190,14 +176,12 @@ h6{
 
 .experience-card{
     padding: 10px;
-    background-color:#F2F2F2;
     margin: 0;
     border-radius: 10px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
 }
 
 .experience-text{
-    color: black;
     font-size: 0.8rem;
     font-weight: lighter;
 }
@@ -226,7 +210,6 @@ h6{
 }
 
 .skills-card{
-    background-color:#F2F2F2;
     padding: 10px;
     margin: 0;
     border-radius: 10px;
@@ -237,6 +220,7 @@ ion-badge{
     background: #810808;
     font-weight: normal;
     margin-right: 2px;
+    --color: white;
 }
 
 .calendar-container{
@@ -248,8 +232,6 @@ ion-badge{
 
 .calendar{
     background-color: transparent;
-    color: black;
-    --title-color: black;
 }
 
 .attendance-button-container{
@@ -259,23 +241,10 @@ ion-badge{
 }
 
 .attendance-button{
-    --background: #810808;
-    --border-color: #d39d9d;
-    --border-width: 1px;
-    --border-style: solid;
-    --color: white;
-    --background-activated: #d39d9d;
-    opacity: 0.4;
-}
-
-ion-content .picker-item,
-ion-content .picker-item-empty {
-    background-color: #ffffff;
-}
-
-ion-datetime{
-    --wheel-highlight-background: white;
-    --wheel-fade-background-rgb: white;
+    --border-color: #810808;
+    --background-activated: #4d0606;
+    --color-activated: white;
+    width: 50%;
 }
 
 ion-modal#edit-first-section-modal, ion-modal#edit-second-section-modal {
@@ -291,8 +260,6 @@ ion-modal#edit-first-section-modal .wrapper, ion-modal#edit-second-section-modal
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: white;
-    color: black;
     padding: 10px;
 }
   
@@ -305,13 +272,10 @@ ion-modal#edit-first-section-modal .wrapper, ion-modal#edit-second-section-modal
     padding: 10px;
     width: 100%;
 }
-
-ion-text{
-    color: gray;
-}
   
 ion-textarea{
-    background-color: #F1F1F1;
+    background-color: lightgray;
+    color: black;
     border-radius: 10px;
     --padding-start: 10px;
 }
@@ -330,21 +294,14 @@ ion-textarea{
 }
   
 .save-button{
-    --background: #810808;
-    --background-activated: #d39d9d;
-    --border-color: #d39d9d;
-    --border-width: 1px;
-    --border-style: solid;
-    --color: white;
+    --border-color: #810808;
+    --background-activated: #810808;
+    --color-activated: white;
     width: 50%;
 }
 
 .cancel-button{
-    --background: transparent;
-    --background-activated: #d39d9d;
-    --border-color: #d39d9d;
-    --border-width: 1px;
-    --border-style: solid;
-    --color: black;
+    --background-activated: #810808;
+    --color-activated: white;
     width: 50%;
 }

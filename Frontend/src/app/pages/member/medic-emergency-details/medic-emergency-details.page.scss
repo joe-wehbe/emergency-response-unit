@@ -1,20 +1,25 @@
-.toolbar{
+.header-toolbar{
   height: 60px;
-  --background: #FFEDED;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.toolbar-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+}
+
 ion-menu-button{
   font-weight: normal;
-  color: black;
 }
 
 .title{
   font-size: 22px;
   font-weight: normal;
-  color: black;
 }
 
 .stmt{
@@ -25,16 +30,10 @@ ion-menu-button{
   padding-top: 20px;
   font-size: 18px;
   font-weight: bold;
-  color: black;
 }
 
 ion-accordion-group{
-  padding: 10px;
-}
-
-ion-item{
-  --background: #e9dede;
-  color: black;
+  margin: 10px;
 }
 
 .first-item{
@@ -55,7 +54,6 @@ ion-item{
 
 .statement {
   font-size: 17px;
-  color: black;
 }
 
 .container{
@@ -64,7 +62,7 @@ ion-item{
   align-items: center;
   width: 100%;
   padding: 10px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .emergency-info, .patient-info{
@@ -81,11 +79,20 @@ ion-list{
   background-color: transparent;
 }
 
-.info-container-first, .info-container-second{
+.info-container-first{
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
+  background-color: transparent;
+}
+
+.info-container-second{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   background-color: transparent;
 }
@@ -103,22 +110,15 @@ ion-list{
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  color: black;
 }
 
 ion-icon{
   padding-right: 5px;
   font-size: 20px;
-  color: #810808;
-}
-
-.info-answer{
-  color: black;
 }
 
 .info-answer-second{
-  color: black;
-  width: 60%;
+  width: 90%;
 }
 
 .assessment{
@@ -129,17 +129,15 @@ ion-icon{
   margin: 0 auto;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .assessment-number{
   font-size: 17px;
-  color: black;
 }
 
 .assessment-time{
   font-size: 14px;
-  color: black;
 }
 
 .table {
@@ -162,28 +160,23 @@ ion-img{
   display: flex;
   flex-direction: row;
   justify-content: center;
-  color: black;
   padding-left: 10px;
 }
 
 .vitals-input {
   width: 24%;
-  --background: #FFEDED;
-  --placeholder-color: #837272;
-  --border-radius: 10px;
-  color: black;
+  border-radius: 10px;
+  border: 1px solid;
   --padding-end: 10px;
   --padding-start: 2px;
 }
 
 .patient-input {
   width: 100%;
-  background: #FFEDED;
-  --placeholder-color: #837272;
   border-radius: 10px;
+  border: 1px solid;
   --padding-start: 10px;
   --padding-end: 10px;
-  // border: 0.5px solid #810808; 
 }
 
 .vitals-container{
@@ -209,12 +202,12 @@ ion-img{
 }
 
 .submit-button{
---background: #FFEDED;
-  --border-color: #810808;
+--background: lightgray;
+  --border-color: black;
   --border-width: 1px;
   --border-style: solid;
   --color: black;
-  --background-activated: #d39d9d;
+  --background-activated: gray;
   width: 40%;
   margin-top: 10px;
 }
@@ -233,11 +226,11 @@ ion-img{
 
 .end-emergency-button{
   --background: #810808;
-  --border-color: #d39d9d;
+  --border-color: #810808;
   --border-width: 1px;
   --border-style: solid;
   --color: white;
-  --background-activated: #d39d9d;
+  --background-activated: #4d0606;
   width: 50%;
 }
   

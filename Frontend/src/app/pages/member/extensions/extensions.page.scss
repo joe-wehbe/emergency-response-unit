@@ -3,17 +3,14 @@
   justify-content: center;
   align-items: center;
   height: 60px;
-  --background: #FFEDED;
 }
 
 ion-menu-button{
-  color: black;
   font-weight: normal;
 }
 
 .title{
   font-size: 22px;
-  color: black;
   font-weight: normal;
 }
 
@@ -28,14 +25,9 @@ ion-searchbar.search-bar {
   padding: 0;
   padding-left: 10px;
   padding-right: 10px;
-  border: solid 1px #810808;
+  border: solid 1px;
   border-radius: 20px;
-  background-color: rgba(255, 255, 255, 0.3);
   --background: transparent;
-  --color: black;
-  --placeholder-color: gray;
-  --icon-color: #810808;
-  --clear-button-color: #810808; 
   --box-shadow: none;
 }
 
@@ -51,27 +43,15 @@ ion-list {
 }
 
 ion-list-header {
-  color: black;
   font-weight: bold;
 }
 
 ion-card{
-  background-color: rgba(255, 255, 255, 0.5);
   margin: 0;
 }
 
-ion-item {
-  color: black;
-}
-
-.first-name {
-  font-weight: bold;
-}
-
 ion-note{
-  color: black;
   size: 16px;
-  font-weight: bold;
 }
 
 .vertical-bar {
@@ -92,7 +72,6 @@ ul {
 }
 
 li {
-  color: black;
   font-size: 15px;
   padding-bottom: 4px;
 }

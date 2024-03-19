@@ -1,6 +1,5 @@
 .header-toolbar{
   height: 60px;
-  --background: #FFEDED;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,13 +15,11 @@
 
 .back-button{
   font-weight: normal;
-  color: black;
 }
   
 .title{
   font-size: 22px;
   font-weight: normal;
-  color: black;
 }
 
 .stmt{
@@ -33,12 +30,10 @@
   padding-top: 0.5em;
   font-size: 18px;
   font-weight: bold;
-  color: black;
 }
 
 .second-stmt{
   margin-top: -1em;
-  color: #837272;
   font-size: 14px;
 }
 
@@ -86,8 +81,6 @@ ion-card:active{
 }
 
 .answer-container{
-  background-color: white;
-  color: black;
   padding: 10px;
 }
 
@@ -116,8 +109,6 @@ ion-modal#add-faq-modal .wrapper {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: white;
-  color: black;
   padding: 10px;
 }
 
@@ -132,7 +123,7 @@ ion-modal#add-faq-modal .wrapper {
 }
 
 ion-textarea{
-  background-color: #F1F1F1;
+  border: solid 1px gray;
   border-radius: 10px;
   --padding-end: 10px;
   --padding-start: 10px;
@@ -152,21 +143,14 @@ ion-textarea{
 }
 
 .add-button{
-  --background: #810808;
-  --border-color: #d39d9d;
-  --border-width: 1px;
-  --border-style: solid;
-  --color: white;
-  --background-activated: #d39d9d;
+  --border-color: #810808;
+  --background-activated: #810808;
+  --color-activated: white;
   width: 50%;
 }
 
 .cancel-button{
-  --background: transparent;
-  --background-activated: #d39d9d;
-  --border-color: #d39d9d;
-  --border-width: 1px;
-  --border-style: solid;
-  --color: black;
+  --background-activated: #810808;
+  --color-activated: white;
   width: 50%;
 }

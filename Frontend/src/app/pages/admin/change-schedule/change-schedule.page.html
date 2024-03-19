@@ -21,18 +21,22 @@
 
     <div class="day-container">
       <p class="day">Monday</p>
-        <ion-card class="shifts-card">
-          <div class="shift-container">
-            <div class="shift">
+      <ion-card class="shifts-card">
+        <div class="shift-container">
+          <div class="shift">
               <p class="time">8:00 - 9:00</p>
               <div class="seperator"></div>
-              <p class="covers">3 covers</p>
+              <ion-chip color="warning">
+                <ion-label>3 covers</ion-label>
+              </ion-chip>
               <div class="seperator"></div>
-              <p class="missed">2 misses</p>
-            </div>
-            <ion-icon class="delete-icon" name="close-circle-outline" (click)="deleteAlert()"></ion-icon>
+              <ion-chip color="danger">
+                <ion-label>3 misses</ion-label>
+              </ion-chip>            
           </div>
-        </ion-card>
+          <ion-icon class="delete-icon" name="close-circle-outline" (click)="deleteAlert()"></ion-icon>
+        </div>
+      </ion-card>
     </div>
   </div>
 
@@ -78,8 +82,8 @@
           </ion-modal>
         </div>
         <div class="buttons-container">
-          <ion-button class="cancel-button" (click)="dismiss()">Cancel</ion-button>
-          <ion-button class="fetch-button" (click)="add()">Add shift</ion-button>
+          <ion-button class="cancel-button" fill="outline" (click)="dismiss()">Cancel</ion-button>
+          <ion-button class="fetch-button" fill="outline" (click)="add()">Add shift</ion-button>
         </div>
       </div>
     </ng-template>

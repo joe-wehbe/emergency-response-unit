@@ -15,11 +15,11 @@ const routes: Routes = [
   },
   {
     path: 'pending-request',
-    loadChildren: () => import('./pages/member/pending-request/pending-request.module').then( m => m.PendingRequestPageModule), data: { showSideMenu: false }
+    loadChildren: () => import('./pages/starting/pending-request/pending-request.module').then( m => m.PendingRequestPageModule), data: { showSideMenu: false }
   },
   {
     path: 'request-rejected',
-    loadChildren: () => import('./pages/member/request-rejected/request-rejected.module').then( m => m.RequestRejectedPageModule), data: { showSideMenu: false }
+    loadChildren: () => import('./pages/starting/request-rejected/request-rejected.module').then( m => m.RequestRejectedPageModule), data: { showSideMenu: false }
   },
 
   /* MEMBER ROUTES*/
@@ -142,8 +142,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/admin/attendance-records/attendance-records.module').then( m => m.AttendanceRecordsPageModule), data: { showSideMenu: false }
   },
   {
-    path: 'login-requests',
-    loadChildren: () => import('./pages/admin/login-requests/login-requests.module').then( m => m.LoginRequestsPageModule), data: { showSideMenu: false }
+    path: 'signup-requests',
+    loadChildren: () => import('./pages/admin/signup-requests/signup-requests.module').then( m => m.SignupRequestsPageModule), data: { showSideMenu: false }
   },
 
   /* SSF Routes */

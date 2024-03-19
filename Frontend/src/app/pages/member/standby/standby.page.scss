@@ -3,27 +3,19 @@
   justify-content: center;
   align-items: center;
   height: 60px;
-  --background: #FFEDED;
 }
 
 ion-menu-button{
-  color: black;
   font-weight: normal;
 }
 
 .title{
   font-size: 22px;
-  color: black;
   font-weight: normal;
 }
 
 .segments{
   padding: 10px;
-}
-
-// Android
-ion-segment-button.md::part(native) {// Unchecked color
-  color: #000;
 }
 
 .segment-button-checked.md::part(native) {// checked color
@@ -55,13 +47,11 @@ ion-segment-button.ios::part(indicator-background) {
   align-items: center;
   text-align: center;
   font-size: 16px;
-  color: #837272
 }
 
 .ongoing-card, .ended-card{
   display: flex;
   flex-direction: row;
-  background-color: rgba(255, 255, 255, 0.6);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
   height: 7em;
 }
@@ -100,7 +90,6 @@ ion-segment-button.ios::part(indicator-background) {
 }
 
 .location{
-  color: black;
   font-size: 15px;
   margin: 0;
 }
@@ -133,16 +122,11 @@ ion-segment-button.ios::part(indicator-background) {
   align-items: center;
   flex-direction: row;
   height: 22%;
-  color: black;
   font-size: 15px;
 }
 
 .medic-name{
   color: green;
-}
-
-.request-tool{
-  color: gray;
 }
 
 .vitals{
@@ -177,8 +161,6 @@ ion-img{
   margin-top: 1em;
   height: 2.5em;
   border-radius: 5px;
-  background-color: #D9D9D9;
-  color: black;
   width: 100%;
 }
 
@@ -186,8 +168,6 @@ ion-img{
   margin-top: 1em;
   height: 2.5em;
   border-radius: 5px;
-  background-color: #D9D9D9;
-  color: black;
   width: 100%;
   animation: pulse 0.1s ease-in-out;
 }

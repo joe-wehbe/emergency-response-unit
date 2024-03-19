@@ -24,7 +24,7 @@
           <ion-card>
             <ion-item lines="full" *ngFor="let user of group.users" (click)="deleteAlert()">
               <span class="first-name">{{ user.name }}</span>
-              <ion-note slot="end">{{ user.extension }}</ion-note>
+              <ion-text slot="end">{{ user.extension }}</ion-text>
             </ion-item>
           </ion-card>
         </ion-list>
@@ -62,8 +62,8 @@
           </div>
   
           <div class="buttons-container">
-            <ion-button class="cancel-button" (click)="dismiss()">Cancel</ion-button>
-            <ion-button class="add-button" (click)="add(extensionForm)" [disabled]="extensionForm.invalid">Add</ion-button>
+            <ion-button class="cancel-button" fill="outline" (click)="dismiss()">Cancel</ion-button>
+            <ion-button class="add-button" fill="outline" (click)="add(extensionForm)" [disabled]="extensionForm.invalid">Add</ion-button>
           </div>
         </div>
       </form>

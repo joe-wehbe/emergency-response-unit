@@ -1,17 +1,14 @@
 .toolbar{
   height: 60px;
-  --background: #FFEDED;
 }
 
 ion-menu-button{
-  color: black;
   font-weight: normal;
   margin-top: 12px;
 }
 
 .title{
   font-size: 22px;
-  color: black;
   font-weight: normal;
   margin-top: 7px;
 }
@@ -24,12 +21,10 @@ ion-menu-button{
   padding-top: 1em;
   font-size: 18px;
   font-weight: bold;
-  color: black;
 }
 
 .second-stmt{
   margin-top: -1em;
-  color: #837272;
   font-size: 14px;
 }
 
@@ -43,7 +38,6 @@ ion-card{
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: white;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
   margin: 3px;
 }
@@ -53,7 +47,6 @@ ion-card:active{
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: white;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
   margin: 3px;
   animation: pulse 0.1s ease-in-out;
@@ -83,6 +76,6 @@ ion-img{
   align-items: center;
   height: 30px;
   width: 100%;
-  background-color: #D4D4D4;
-  color: black;
+  background-color: #838383;
+  color: white;
 }

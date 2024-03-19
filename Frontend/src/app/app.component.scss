@@ -6,6 +6,10 @@
     --background: rgba(0, 0, 0, 0.0);
 }
 
+// ion-menu::part(backdrop) {
+//     background-color: rgba(107, 107, 107, 0.8);
+// }
+
 .container{
     display: flex;
     flex-direction: row;
@@ -25,7 +29,7 @@
 }
 
 .name{
-    color: black;
+    // color: black;
     font-size: 22px;
 }
 
@@ -63,7 +67,7 @@ ion-list{
     flex-direction: row;
     align-items: center;
     --background: transparent;
-    color: black;
+    // color: black;
     font-size: 16px;
     padding: 8px;
     height: 47.76px;
@@ -71,6 +75,17 @@ ion-list{
 
 .tab-container:active{
     animation: pulse 0.1s ease-in-out;
+}
+
+.darkmode-tab-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    --background: transparent;
+    // color: black;
+    font-size: 16px;
+    padding: 8px;
+    height: 47.76px;
 }
 
 @keyframes pulse {
@@ -83,14 +98,27 @@ ion-list{
     100% {
       transform: scale(1);
     }
-  }
+}
 
 ion-img{
     width: 42px;
     padding-right: 15px;
 }
 
+ion-icon{
+    font-size: 25px;
+    padding-right: 15px;
+    color: #810808;
+}
+
 .notif{
     margin-left: auto;
-    color: #837272;
+    // color: #837272;
+}
+
+ion-toggle{
+    margin-left: auto;
+    --track-background: lightgray;
+    --track-background-checked: #810808;
+    --handle-background-checked: white;
 }

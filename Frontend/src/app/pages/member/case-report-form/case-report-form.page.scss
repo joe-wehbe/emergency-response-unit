@@ -1,6 +1,5 @@
 .header-toolbar{
     height: 60px;
-    --background: #FFEDED;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,13 +15,11 @@
   
 .back-button{
     font-weight: normal;
-    color: black;
 }
     
 .title{
     font-size: 22px;
     font-weight: normal;
-    color: black;
 }
 
 .mainpage{
@@ -41,7 +38,6 @@
     justify-content: center;
     font-size: 18px;
     font-weight: bold;
-    color: black;
 }
 
 ion-list{
@@ -50,14 +46,11 @@ ion-list{
 }
 
 .question {
-    --background: transparent;
     margin: 1.5em;
 }
 
 ion-input {
-    --background: transparent;
     border: 2px;
-    color: black;
 }
 
 ion-icon{
@@ -66,17 +59,11 @@ ion-icon{
 
 ion-select{
     --highlight-color: #810808;
-    color: black;
 }
 
 ion-textarea {
     --highlight-color: #810808;
     border: 2px;
-    color: black;
-}
-
-ion-textarea, ion-input, ion-select{
-    background-color: rgb(247, 240, 240);
 }
 
 ion-input.has-focus  {
@@ -99,14 +86,6 @@ ion-textarea.has-focus  {
     }
 }
 
-ion-input[type=date]{
-    color-scheme: black; 
-}
-
-ion-input[type=time]{
-    color-scheme: black;
-}
-
 .submit-button-container{
     display: flex;
     align-items: center;
@@ -117,10 +96,7 @@ ion-input[type=time]{
 .submit-button{
     width: 40%;
     padding-bottom: 2em;
-    --background: transparent;
     --border-color: #810808;
-    --border-width: 1px;
-    --border-style: solid;
-    --color: black;
-    --background-activated: #d39d9d;
+    --background-activated: #810808;
+    --color-activated: white;
 }

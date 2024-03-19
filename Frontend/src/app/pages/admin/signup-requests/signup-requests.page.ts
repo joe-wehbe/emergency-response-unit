@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-login-requests',
-  templateUrl: './login-requests.page.html',
-  styleUrls: ['./login-requests.page.scss'],
+  selector: 'app-signup-requests',
+  templateUrl: './signup-requests.page.html',
+  styleUrls: ['./signup-requests.page.scss'],
 })
-export class LoginRequestsPage implements OnInit {
+export class SignupRequestsPage implements OnInit {
 
   constructor( private router:Router, private alertController: AlertController) { }
 
@@ -21,7 +21,7 @@ export class LoginRequestsPage implements OnInit {
   async acceptAlert() {
     const alert = await this.alertController.create({
       header: 'Accept Request',
-      subHeader: 'Are you sure you want to accept this login request?',
+      subHeader: 'Are you sure you want to accept this sign up request?',
       cssClass:'alert-dialog',
       buttons: [
         {
@@ -41,7 +41,7 @@ export class LoginRequestsPage implements OnInit {
   async rejectAlert() {
     const alert = await this.alertController.create({
       header: 'Reject Request',
-      subHeader: 'Are you sure you want to reject this login request?',
+      subHeader: 'Are you sure you want to reject this sign up request?',
       cssClass:'alert-dialog',
       buttons: [
         {

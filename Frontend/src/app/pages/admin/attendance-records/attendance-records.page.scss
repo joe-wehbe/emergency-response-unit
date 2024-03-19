@@ -1,7 +1,6 @@
 /***************************** HEADER *****************************/
 .header-toolbar{
   height: 60px;
-  --background: #FFEDED;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,23 +16,16 @@
   
 .back-button{
   font-weight: normal;
-  color: black;
 }
   
 .title{
   font-size: 22px;
   font-weight: normal;
-  color: black;
 }
 
 .calendar-button{
-  color: black;
   width: 20%;
   font-size: 25px;
-}
-
-.calendar-button:active{
-  color: gray;
 }
   
 /***************************** SEARCH BAR *****************************/
@@ -48,14 +40,9 @@ ion-searchbar.search-bar {
   padding: 0;
   padding-left: 10px;
   padding-right: 10px;
-  border: solid 1px #810808;
+  border: solid 1px;
   border-radius: 20px;
-  background-color: rgba(255, 255, 255, 0.3);
   --background: transparent;
-  --color: black;
-  --placeholder-color: gray;
-  --icon-color: #810808;
-  --clear-button-color: #810808; 
   --box-shadow: none;
 }
   
@@ -73,8 +60,6 @@ ion-modal#select-time-modal .wrapper {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: white;
-  color: black;
 }
 
 .stmt{
@@ -84,13 +69,11 @@ ion-modal#select-time-modal .wrapper {
   justify-content: center;
   font-size: 18px;
   font-weight: bold;
-  color: black;
 }
   
 ion-datetime{
   --wheel-fade-background-rgb: none;
-  --background: white;
-  --wheel-highlight-background: lightgray;
+  --background: transparent;
   margin: 10px;
 
 }
@@ -103,22 +86,15 @@ ion-datetime{
 }
 
 .fetch-button{
-  --background: #810808;
-  --border-color: #d39d9d;
-  --border-width: 1px;
-  --border-style: solid;
-  --color: white;
-  --background-activated: #d39d9d;
+  --border-color: #810808;
+  --background-activated: #810808;
+  --color-activated: white;
   width: 50%;
 }
-  
+
 .cancel-button{
-  --background: transparent;
-  --background-activated: #d39d9d;
-  --border-color: #d39d9d;
-  --border-width: 1px;
-  --border-style: solid;
-  --color: black;
+  --background-activated: #810808;
+  --color-activated: white;
   width: 50%;
 }
 
@@ -132,7 +108,6 @@ ion-datetime{
 }
 
 ion-list-header{
-  color: black;
   font-weight: normal;
   font-size: 16px;
   margin: 0;
@@ -145,7 +120,6 @@ ion-list-header{
 
 ion-card{
   margin: 0;
-  background-color: white;
   margin-left: 1em;
   margin-right: 1em;
 }
@@ -153,7 +127,6 @@ ion-card{
 table {
   border-collapse: collapse;
   width: 100%;
-  color: black;
 }
 
 th, td {

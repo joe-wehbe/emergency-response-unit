@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationEnd, Event as RouterEvent } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { filter } from 'rxjs/operators';
@@ -10,8 +10,14 @@ import { filter } from 'rxjs/operators';
 })
 export class AppComponent {
   showSideMenu = true;
+  darkMode = false;
+  @Output() darkModeToggled = new EventEmitter<boolean>();
 
-  constructor(private router: Router, private alertController:AlertController) {
+  ngOnInit(): void {
+    this.checkDarkModeStatus();
+  }
+
+  constructor(private router: Router, private alertController: AlertController) {
     this.router.events
       .pipe(filter((event: RouterEvent): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -20,11 +26,11 @@ export class AppComponent {
       });
   }
 
-  async logoutAlert(){
+  async logoutAlert() {
     const alert = await this.alertController.create({
       header: 'Logging out',
       subHeader: 'Are you sure you want to logout? You can always log back in.',
-      cssClass:'alert-dialog',
+      cssClass: 'alert-dialog',
       buttons: [
         {
           text: 'Cancel',
@@ -41,5 +47,23 @@ export class AppComponent {
       ],
     });
     await alert.present();
+  }
+
+  checkDarkModeStatus() {
+    const checkIsDarkMode = localStorage.getItem('darkModeActivated');
+    this.darkMode = checkIsDarkMode === 'true';
+    document.body.classList.toggle('dark', this.darkMode);
+  }
+
+  toggleDarkMode() {
+    this.darkMode = !this.darkMode;
+    document.body.classList.toggle('dark', this.darkMode);
+    if (this.darkMode) {
+      localStorage.setItem('darkModeActivated', 'true');
+      this.darkModeToggled.emit(this.darkMode);
+    } else {
+      localStorage.setItem('darkModeActivated', 'false');
+      this.darkModeToggled.emit(this.darkMode);
+    }
   }
 }
