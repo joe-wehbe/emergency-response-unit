@@ -87,7 +87,7 @@
   
           <div class="receiver-container">
             <ion-text>Specify who will see your announcement</ion-text>
-            <ion-select interface="popover" placeholder="Select Receiver" [(ngModel)]="receiverSelectedOption" name="receiver" ngModel required>
+            <ion-select placeholder="Select Receiver" [(ngModel)]="receiverSelectedOption" name="receiver" [multiple]="true" ngModel required>
               <ion-select-option value="all-members">All members</ion-select-option>
               <ion-select-option value="board-members">Board members</ion-select-option>
               <ion-select-option value="medics">Medics</ion-select-option>
@@ -98,7 +98,7 @@
   
           <div class="importance-container">
             <ion-text>Specify its importance level</ion-text>
-            <ion-select interface="popover" placeholder="Select Importance level" [(ngModel)]="importanceSelectedOption" name="importance" ngModel required>
+            <ion-select placeholder="Select Importance level" [(ngModel)]="importanceSelectedOption" name="importance" ngModel required>
               <ion-select-option value="very-important">Very important</ion-select-option>
               <ion-select-option value="important">Important</ion-select-option>
               <ion-select-option value="regular">Regular</ion-select-option>
