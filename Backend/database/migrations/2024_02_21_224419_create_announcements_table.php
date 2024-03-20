@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('admin_id');
             $table->string('importance');
             $table->string('description');
+            $table->integer('visible_to');
             $table->timestamps();
         });
     }

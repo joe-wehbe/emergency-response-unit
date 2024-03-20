@@ -74,9 +74,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::get("get-login-requests", [AdminController::class, "getLoginRequests"]);
             Route::post("accept-login-request", [AdminController::class, "acceptRequest"]);
             Route::post("reject-login-request", [AdminController::class, "rejectRequest"]);
-
-            //add type in request
-            //remove board member
         });
 });
 
