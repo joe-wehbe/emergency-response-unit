@@ -1,10 +1,48 @@
 <ion-header id="main-content">
-  <ion-toolbar class="toolbar">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title class="title">Admin Panel</ion-title>
+  <ion-toolbar class="header-toolbar">
+    <div class="toolbar-container">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title class="title">Admin Panel</ion-title>
+      <ion-icon class="calendar-button" name="calendar-outline" id="select-time"></ion-icon>
+    </div>
   </ion-toolbar>
+
+  <ion-modal mode="ios" id="select-time-modal" #modal trigger="select-time">
+    <ng-template>
+      <div class="wrapper">
+        <div class="stmt">
+          <p class="section">Please select a time frame</p>
+          <p class="second-stmt">This will specify the start and end date of shifts for the semester</p>
+        </div> 
+        <div class="time-frame-container">
+          <p class="from">From</p>
+          <ion-datetime-button datetime="from-date"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime mode="ios"[showDefaultTitle]="true" [showDefaultButtons]="true" presentation="date" id="from-date">
+                <span slot="title">Select starting month</span>
+              </ion-datetime> 
+            </ng-template>
+          </ion-modal>
+          <p class="to">to</p>
+          <ion-datetime-button datetime="to-date"></ion-datetime-button>
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime mode="ios" [showDefaultTitle]="true" [showDefaultButtons]="true" presentation="date" id="to-date">
+                <span slot="title">Select ending month</span>
+              </ion-datetime> 
+            </ng-template>
+          </ion-modal>
+        </div>
+        <div class="buttons-container">
+          <ion-button class="cancel-button" fill="outline" (click)="dismiss()">Cancel</ion-button>
+          <ion-button class="apply-button" fill="outline" (click)="apply()">Apply</ion-button>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
 </ion-header>
 
 <ion-content class="gradient-background">

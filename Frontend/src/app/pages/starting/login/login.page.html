@@ -23,7 +23,7 @@
                     </ion-item>
                 </ion-list>
                 <ion-checkbox labelPlacement="end">Keep me signed in</ion-checkbox>
-                <ion-button [disabled]="!email || !password || !email.match(emailPattern)" (click)="login()">
+                <ion-button (click)="login()">
                     <ion-icon slot="start" name="log-in-outline"></ion-icon>
                     Login
                 </ion-button> 

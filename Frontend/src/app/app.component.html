@@ -1,6 +1,6 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay" class="background" *ngIf="showSideMenu">
+    <ion-menu contentId="main-content" type="overlay" class="background" *ngIf="showSideMenu && !reportPageActive">
       <ion-header>
         <ion-toolbar class="menu-toolbar">
           <div class="container">
@@ -16,7 +16,6 @@
           </div>
         </ion-toolbar>
       </ion-header>
-
       <ion-content>
         <div class="menu-content-container">
           <ion-menu-toggle auto-hide="false">
@@ -36,9 +35,7 @@
                   </div>
               </ion-list>  
             </div>
-      
             <div class="seperator"></div>
-      
             <div class="second-block">
               <ion-list>
                 <div class="tab-container" routerDirection="root" [routerLink]="'/announcement'" lines="none" detail="false" routerLinkActive="selected">
@@ -66,9 +63,7 @@
                 </div>
               </ion-list>  
             </div>
-      
             <div class="seperator"></div>
-      
             <div class="third-block">
               <ion-list>
                 <div class="tab-container" routerDirection="root" [routerLink]="'/admin-panel'" lines="none" detail="false" routerLinkActive="selected">
@@ -88,6 +83,55 @@
             </div>
           </ion-menu-toggle>
         </div>
+      </ion-content>
+    </ion-menu>
+
+    <ion-menu contentId="main-content" type="overlay" class="background" *ngIf="showSideMenu && reportPageActive">
+      <ion-header>
+        <ion-toolbar class="menu-toolbar">
+          <div class="container">
+            <div>
+              <ion-avatar slot="start" class="profile-picture">
+                <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+              </ion-avatar>            
+            </div>
+            <div class="profile-info">
+              <p class="name">Joe Wehbe</p>
+              <p class="email">joe.wehbelau.edu</p>
+            </div>
+          </div>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-menu-toggle auto-hide="false">
+          <div class="menu-content-container">
+            <div class="blocks-container">
+              <div class="upper-block">
+                <div class="logo-block">
+                  <img class="logo" src="/assets/img/logo.png">
+                </div>
+                <div class="statements">
+                  <h1> Want to join our unit?</h1>
+                  <h6> Be part of a vibrant community dedicated to saving lives!</h6>
+                </div>
+                <ion-button mode="ios" fill="outline" (click)="applyAlert()" (click)="$event.stopPropagation()">Apply</ion-button>
+              </div>
+              <div class="lower-block">
+                <ion-list>
+                  <div class="darkmode-tab-container" lines="none" detail="false" (click)="$event.stopPropagation()">
+                    <ion-icon name="moon-outline"></ion-icon>
+                    Dark Mode
+                    <ion-toggle mode="md" (ionChange)="toggleDarkMode()" [checked]="darkMode"></ion-toggle>
+                  </div>
+                  <div class="tab-container" routerDirection="root" (click)="logoutAlert()" (click)="$event.stopPropagation()" lines="none" detail="false" routerLinkActive="selected">
+                    <ion-img src="assets/icon/logout.png"></ion-img>
+                    Logout
+                  </div>
+                </ion-list>  
+              </div>
+            </div>
+          </div>
+        </ion-menu-toggle>
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>

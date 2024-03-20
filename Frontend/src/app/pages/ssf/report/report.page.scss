@@ -1,22 +1,28 @@
-.background{
-  --ion-background-color:#FFEDED;
-} 
+.toolbar{
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-.welcome{
-  margin-top: 3em;
-  margin-left: 2.5em;
+ion-menu-button{
+  font-weight: normal;
+}
+
+.title{
+  font-size: 22px;
+  font-weight: normal;
 }
 
 .welcome h3{
   color: #837272;
   font-size: 20px;
+  margin: 0;
 }
 
 .welcome h5{
-  color: black;
   font-size: 24px;
-  margin-left: 5px;
-  margin-top: -8px;
+  margin: 0;
 }
 
 .body{
@@ -24,7 +30,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 2em;
+  padding-top: 6em;
 }
 
 .stmt {
@@ -37,18 +43,14 @@
 
 .stmt h1{
   font-weight: bold;
-  color: black;
   font-size: 24px;
+  margin-bottom: 1em;
 }
 
 .stmt h4{
   font-weight: bold;
-  color: #837272;
   font-size: 18px;
-}
-
-.second{
-  margin-top: -0.5em;
+  margin: 0;
 }
 
 .circles-container {
@@ -57,7 +59,6 @@
   align-items: center;
   justify-content: center;
   height: 20em;
-
 }
 
 .sos-button {
@@ -154,10 +155,4 @@
 
 .notif-stmt{
   text-align: center;
-  color: black;
 }
-
-
-
-  
-

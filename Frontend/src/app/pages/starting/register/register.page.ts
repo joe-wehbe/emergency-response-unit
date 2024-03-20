@@ -62,11 +62,7 @@ export class RegisterPage implements OnInit {
       this.presentToast('Incorrect password confirmation.');
 
     } else {
-      if (this.emergencyResponseUnit == 'yes') {
-        this.router.navigate(["./pending-request"]);
-      } else {
-        this.router.navigate(["./report"]);
-      }
+      this.router.navigate(["./report"]);
     }
   }  
 

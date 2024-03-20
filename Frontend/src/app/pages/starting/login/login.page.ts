@@ -22,12 +22,10 @@ export class LoginPage {
   }
 
   async login() {
-    if (!this.email) {
-      this.presentToast('Email field is required.');
-    } else if (!this.password) {
-      this.presentToast('Password field is required.');
+    if (!this.email || !this.password) {
+      this.presentToast('Incorrect email or password');
     } else if (!this.email.match(this.emailPattern)) {
-      this.presentToast('Please enter a valid LAU email.');
+      this.presentToast('Invalid email');
     } else {
       this.router.navigate(["./tabs/report-emergency"]);
     }

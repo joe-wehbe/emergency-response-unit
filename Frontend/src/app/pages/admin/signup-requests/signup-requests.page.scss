@@ -49,7 +49,7 @@ ion-card{
   align-items: center;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
   width: 90%;
-  height: 5em;
+  height: 7em;
   margin: 7px;
 }
 
@@ -74,7 +74,7 @@ ion-card{
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  width: 50%;
+  width: 60%;
   padding: 20px;
 }
 
@@ -83,7 +83,12 @@ ion-card{
   font-size: 17px;
 }
 
-.email{
+.email-container, .id-container, .number-container, .major-container{
+  display: flex;
+  align-items: center;
+}
+
+.email, .id, .number, .major{
   margin: 0;
   padding-left: 5px;
 }
@@ -93,7 +98,7 @@ ion-card{
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
-  width: 30%;
+  width: 20%;
   padding-right: 10px;
 }
 

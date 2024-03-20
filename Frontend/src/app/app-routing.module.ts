@@ -13,14 +13,6 @@ const routes: Routes = [
     path: 'register',
     loadChildren: () => import('./pages/starting/register/register.module').then( m => m.RegisterPageModule), data: { showSideMenu: false }
   },
-  {
-    path: 'pending-request',
-    loadChildren: () => import('./pages/starting/pending-request/pending-request.module').then( m => m.PendingRequestPageModule), data: { showSideMenu: false }
-  },
-  {
-    path: 'request-rejected',
-    loadChildren: () => import('./pages/starting/request-rejected/request-rejected.module').then( m => m.RequestRejectedPageModule), data: { showSideMenu: false }
-  },
 
   /* MEMBER ROUTES*/
   {
@@ -149,7 +141,7 @@ const routes: Routes = [
   /* SSF Routes */
   {
     path: 'report',
-    loadChildren: () => import('./pages/ssf/report/report.module').then( m => m.ReportPageModule), data: { showSideMenu: false }
+    loadChildren: () => import('./pages/ssf/report/report.module').then( m => m.ReportPageModule)
   },
 ];
 

@@ -40,6 +40,7 @@
   justify-content: center;
   padding-left: 2em;
   width: 60%;
+  color: white;
 }
 
 .forms-container{
@@ -113,7 +114,8 @@ ion-button {
   border-radius: 15px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.35);
   --background-activated: #810808;
-  --background-activated-opacity: 0.3;
+  --background-activated-opacity: 0.9;
+  --color-activated: white;
 }
 
 .no-account-text{
