@@ -1,49 +1,49 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 use App\Models\Cover_request;
 use App\Models\User;
 use App\Models\Login_request;
 use App\Models\Shift;
-use Carbon\Carbon;
 use App\Models\User_has_shift;
 use App\Models\Announcement;
 use App\Models\Extension;
 use App\Models\Medical_faq;
 use App\Models\Emergency;
 use App\Models\Login_attempt;
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+
+use Carbon\Carbon;
 use Exception;
 
-class UserController extends Controller
-{
+class UserController extends Controller{
 
+    // REGISTER PAGE
     function register(Request $request){
-
-          $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'lau_email' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
             'password' => 'required',
             'user_type' => 'required',
         ]);
-    
+
         if ($validator->fails()) {
             $errors = $validator->errors();
-    
             return response()->json([
                 'status' => 'Invalid input',
                 'errors' => $errors,
             ]);
         }
-    
-        // Check if password strong enough
+
         $password_errors = $this->validatePassword($request->input('password'));
-    
-        if (!empty($password_errors)) {
+
+        if (!empty ($password_errors)) {
             $status = 'Invalid password';
             $errors = $password_errors;
             return response()->json([
@@ -51,138 +51,110 @@ class UserController extends Controller
                 'errors' => $errors,
             ]);
         }
-    
+
         $check_user = User::where('lau_email', '=', $request->input('lau_email'))->first();
-    
+
         if ($check_user) {
             return response()->json([
                 'status' => 'Email already has an account',
             ]);
-
-        }else{
-
-        if($request->input('user_type') == '2'){
-           
-            $newUser = User::create([
-                'lau_email' => $request->input('lau_email'),
-                'first_name' => $request->input('first_name'),
-                'last_name' => $request->input('last_name'),
-                'password' => Hash::make($request->input('password')),
-                'user_type' => $request->input('user_type'),
-              
-            ]);
-       
-
-        $token = $newUser->createToken('auth_token')->plainTextToken;
-        
-        // Return a JSON response with the appropriate status message and HTTP status code
-        return response()->json([
-            'status' => 'Member registered successfully',
-            'token' => $token,
-        ]);
-
-        }else if ($request->input('user_type') == '1'){
-            $check_user = Login_request::where("email", $request->lau_email)->first();
-            
-            #if the user already tried to login 
-            if($check_user){
-            if($check_user->status == '1'){
-                $newMember = User::create([
+        } else {
+            if ($request->input('user_type') == '2') {
+                $newUser = User::create([
                     'lau_email' => $request->input('lau_email'),
                     'first_name' => $request->input('first_name'),
                     'last_name' => $request->input('last_name'),
                     'password' => Hash::make($request->input('password')),
                     'user_type' => $request->input('user_type'),
-                    'student_id' => $request->input('student_id'),
-                    'major' => $request->input('major'),
-                    'phone_number' => $request->input('phone_number'),
-
                 ]);
-           
-    
-            $token = $newMember->createToken('auth_token')->plainTextToken;
-            
-            // Return a JSON response with the appropriate status message and HTTP status code
-            return response()->json([
-                'status' => 'Member registered successfully',
-                'token' => $token,
-            ]);
+                $token = $newUser->createToken('auth_token')->plainTextToken;
 
-            }else if($check_user->status == '0') {
                 return response()->json([
-                    'status' => 'Request still pending',
+                    'status' => 'Member registered successfully',
+                    'token' => $token,
                 ]);
+
+            } else if ($request->input('user_type') == '1') {
+                $check_user = Login_request::where("email", $request->lau_email)->first();
+
+                if ($check_user) {
+                    if ($check_user->status == '1') {
+                        $newMember = User::create([
+                            'lau_email' => $request->input('lau_email'),
+                            'first_name' => $request->input('first_name'),
+                            'last_name' => $request->input('last_name'),
+                            'password' => Hash::make($request->input('password')),
+                            'user_type' => $request->input('user_type'),
+                            'student_id' => $request->input('student_id'),
+                            'major' => $request->input('major'),
+                            'phone_number' => $request->input('phone_number'),
+                        ]);
+
+                        $token = $newMember->createToken('auth_token')->plainTextToken;
+                        return response()->json([
+                            'status' => 'Member registered successfully',
+                            'token' => $token,
+                        ]);
+
+                    } else if ($check_user->status == '0') {
+                        return response()->json([
+                            'status' => 'Request still pending',
+                        ]);
+                    } else if ($check_user->status == '2') {
+                        return response()->json([
+                            'status' => 'Request rejected',
+                        ]);
+                    }
+                } else {
+                    $request_login = Login_Request::create([
+                        'email' => $request->input('lau_email'),
+                        'status' => 0,
+                    ]);
+                    return response()->json([
+                        'status' => 'Login request sent to admin',
+                    ]);
+                }
             }
-            else if($check_user->status == '2') {
-                return response()->json([
-                    'status' => 'Request rejected',
-                ]);
-            }
-        }else{
-            $request_login = Login_Request::create([
-                'email' => $request->input('lau_email'),
-                'status' => 0,
-
-            ]);
-
-            return response()->json([
-                'status' => 'Login request sent to admin',
-            ]);
         }
-           
-
-        }
-
-    }
-    
-    
     }
 
-    private function validatePassword($password) {
-
-        // Function to validate the password
-
+    private function validatePassword($password){
         $errors = array();
-        
+
         if (strlen($password) < 8) {
             $errors[] = 'Password must be at least 8 characters long.';
         }
-        
+
         if (!preg_match('/[a-z]/', $password)) {
             $errors[] = 'Password must contain at least one lowercase letter.';
         }
-        
+
         if (!preg_match('/[A-Z]/', $password)) {
             $errors[] = 'Password must contain at least one uppercase letter.';
         }
-    
+
         if (!preg_match('/\d/', $password)) {
             $errors[] = 'Password must contain at least one digit.';
         }
-        
         return $errors;
-
     }
 
+    // LOGIN PAGE
     function login(Request $request){
         $check_user = User::where("lau_email", $request->lau_email)->first();
-    
-        // Checks if the user exists in the database
-        if(!$check_user) {
+
+        if (!$check_user) {
             return response()->json([
                 "status" => "Invalid credentials",
             ]);
         }
-    
-        // Check if the user has exceeded the maximum number of login attempts
+
         if ($this->hasExceededLoginAttempts($request->lau_email)) {
-            // Check the last login attempt time
             $last_attempt = Login_attempt::where('email', '=', $request->lau_email)->orderBy('created_at', 'desc')->first();
             $now = Carbon::now();
             $last_attempt_time = Carbon::parse($last_attempt->created_at);
             $diff_in_hours = $last_attempt_time->diffInHours($now);
-    
-            // If the last login attempt was more than 24 hours ago, clear the login attempts and allow the user to log in
+
             if ($diff_in_hours >= 24) {
                 $this->resetLoginAttempts($request->lau_email);
             } else {
@@ -190,52 +162,44 @@ class UserController extends Controller
                     "status" => "Too many failed login attempts",
                 ]);
             }
+        }
 
+        if (Hash::check($request->password, $check_user->password)) {
+            $this->resetLoginAttempts($request->lau_email);
+            $token = $check_user->createToken('authToken')->plainTextToken;
+            $user_id = $check_user->id;
+            return response()->json([
+                "status" => 'Login successful',
+                "token" => $token,
+                "user_id" => $user_id,
+                "user_type" => $check_user->user_type,
+            ]);
+        } else {
+            $this->addFailedLoginAttempt($request->lau_email);
+            return response()->json([
+                "status" => "Invalid credentials",
+            ]);
+        }
     }
 
-     // Checks if the password is correct
-     if(Hash::check($request->password, $check_user->password)){
-        $this->resetLoginAttempts($request->lau_email);
-        // Creates a new token for the user
-        $token = $check_user->createToken('authToken')->plainTextToken;
-        $user_id = $check_user->id;
-        return response()->json([
-            "status" => 'Login successful',
-            "token" => $token,
-            "user_id" => $user_id,
-            "user_type" => $check_user->user_type,
+    private function hasExceededLoginAttempts($lau_email){
+        $total_attempts = Login_attempt::where('email', '=', $lau_email)->count();
+        return ($total_attempts >= 5);
+    }
 
-        ]);
-    } else {
-        // Adds a failed login attempt to the database if the user has inputted the wrong password
-        $this->addFailedLoginAttempt($request->lau_email);
-        return response()->json([
-            "status" => "Invalid credentials",
+    private function resetLoginAttempts($lau_email){
+        Login_attempt::where('email', '=', $lau_email)->delete();
+    }
+
+    private function addFailedLoginAttempt($lau_email){
+        Login_attempt::create([
+            'attempt_time' => Carbon::now()->format('H:i:s'),
+            'attempt_date' => Carbon::now()->format('Y-m-d'),
+            'email' => $lau_email,
         ]);
     }
-}
 
-//private functions used for login 
-private function hasExceededLoginAttempts($lau_email) {
-    $total_attempts = Login_attempt::where('email', '=', $lau_email)->count();
-    return ($total_attempts >= 5);
-}
-
-private function resetLoginAttempts($lau_email) {
-    Login_attempt::where('email', '=', $lau_email)->delete();
-}
-
-private function addFailedLoginAttempt($lau_email) {
-    Login_attempt::create([
-        'attempt_time' => Carbon::now()->format('H:i:s'),
-        'attempt_date' => Carbon::now()->format('Y-m-d'),
-        'email' => $lau_email,
-    ]);
-}
-
-
-
-
+    // LOGOUT
     function logout(Request $request){
         auth()->user()->tokens()->delete();
         return response()->json([
@@ -244,8 +208,7 @@ private function addFailedLoginAttempt($lau_email) {
     }
 
     // PROFILE PAGE
-    public function getUserInfo($id)
-    {
+    public function getUserInfo($id){
         try {
             $user = User::findOrFail($id);
             return response()->json(['User' => $user], 200);
@@ -255,129 +218,118 @@ private function addFailedLoginAttempt($lau_email) {
     }
 
     public function editBio(Request $request){
-
-        $request-> validate([
+        $request->validate([
             'id' => 'required',
-            'bio' => 'required|string',        
+            'bio' => 'required|string',
         ]);
 
         try {
             $user = User::find($request->id);
 
-            if($user){
+            if ($user) {
                 $user->bio = $request->bio;
                 $user->save();
                 return response()->json(['message' => 'Bio updated'], 200);
-            }
-            else{
+            } else {
                 return response()->json(['error' => 'User not found'], 404);
             }
 
-        }catch (Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }
 
     public function editTags(Request $request){
-        $request-> validate([
+        $request->validate([
             'id' => 'required',
-            'tags' => 'required|string',        
+            'tags' => 'required|string',
         ]);
 
         try {
             $user = User::find($request->id);
 
-            if($user){
+            if ($user) {
                 $user->tags = $request->tags;
                 $user->save();
                 return response()->json(['message' => 'Tags updated'], 200);
-            }
-            else{
+            } else {
                 return response()->json(['error' => 'User not found'], 404);
             }
 
-        }catch (Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }
 
     public function requestCover(Request $request){
-        $request-> validate([
+        $request->validate([
             'user_id' => 'required',
             'shift_id' => 'required',
             'reason' => 'required',
         ]);
 
-        try{
+        try {
             $user = User::find($request->user_id);
 
-            if($user){
-
+            if ($user) {
                 $shift = Shift::find($request->shift_id);
 
-                if($shift){
+                if ($shift) {
                     $coverRequest = new Cover_request();
                     $coverRequest->user_id = $request->user_id;
                     $coverRequest->shift_id = $request->shift_id;
                     $coverRequest->reason = $request->reason;
                     $coverRequest->request_status = 1;
                     $coverRequest->save();
-            
-                    return response()->json(['message' => 'Cover request added successfully'], 201); 
-                }
-                else{
+
+                    return response()->json(['message' => 'Cover request added successfully'], 201);
+                } else {
                     return response()->json(['error' => 'Shift not found'], 404);
                 }
-            }
-            else{
+            } else {
                 return response()->json(['error' => 'User not found'], 404);
             }
-        }catch (Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }
 
     public function markAttendance(Request $request){
-        $request-> validate([
+        $request->validate([
             'user_id' => 'required',
         ]);
-        
+
         try {
             $user = User::find($request->user_id);
 
-            if($user){
-
+            if ($user) {
                 $userShifts = User_has_shift::where('user_id', $request->user_id)->get();
                 $attendanceMarked = false;
-        
+
                 foreach ($userShifts as $shift) {
                     if ($shift->shift_status == 1) {
                         $shift->missed_attendance = 0;
                         $shift->checkin_time = Carbon::now();
                         $shift->save();
-                        
                         $attendanceMarked = true;
                         break;
                     }
                 }
-        
                 if ($attendanceMarked) {
                     return response()->json(['message' => 'User attendance marked successfully'], 200);
                 } else {
                     return response()->json(['message' => 'No shifts with status 1 found'], 200);
                 }
+            } else {
+                return response()->json(['error' => 'User not found'], 404);
             }
-            else{
-                return response()->json(['error' => 'User not found'], 404); 
-            }
-
-        }catch (Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }
 
-    public function getAllUsers()
-    {
+    // COMMUNITY PAGE
+    public function getAllUsers(){
         try {
             $users = User::all();
             return response()->json(['users' => $users], 200);
@@ -386,8 +338,8 @@ private function addFailedLoginAttempt($lau_email) {
         }
     }
 
-    public function getAllAnnouncements()
-    {
+    // ANNOUNCEMENTS PAGE
+    public function getAllAnnouncements(){
         try {
             $announcements = Announcement::all();
             return response()->json(['announcements' => $announcements], 200);
@@ -396,37 +348,24 @@ private function addFailedLoginAttempt($lau_email) {
         }
     }
 
-    public function getAnnouncement($id)
-    {
-        try {
-            $announcement = Announcement::findOrFail($id);
-            return response()->json(['announcement' => $announcement], 200);
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(['error' => 'Announcement not found'], 404);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to fetch announcement'], 500);
-        }
-    }
-
-    public function getAllCoverRequests()
-    {
+    // COVER REQUESTS PAGE
+    public function getAllCoverRequests(){
         try {
             $coverRequests = Cover_request::all();
             return response()->json(['coverRequests' => $coverRequests], 200);
-        } catch (\Exception $e) {
+        } catch (Exception $exception) {
             return response()->json(['error' => 'Failed to fetch cover requests'], 500);
         }
     }
 
-    public function acceptCoverRequest(Request $request)
-    {
+    public function acceptCoverRequest(Request $request){
         $request->validate([
-            'id' => 'required', //id of the cover request
+            'id' => 'required',
             'covered_by' => 'required',
         ]);
         try {
             $coverRequest = Cover_request::findOrFail($request->id);
-            $coverRequest->request_status = 1; //if request accepted becomes 1
+            $coverRequest->request_status = 1;
             $coverRequest->covered_by = $request->covered_by;
             $coverRequest->save();
 
@@ -436,31 +375,9 @@ private function addFailedLoginAttempt($lau_email) {
         }
     }
 
-    public function getExtensions()
-    {
-        try {
-            $extensions = Extension::all();
-            return response()->json(['extensions' => $extensions], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to fetch extensions'], 500);
-        }
-    }
-
-    public function getMedicalFaqs($id)
-    {
-        try {
-            $medicalFAQ = Medical_faq::findOrFail($id);
-
-            return response()->json(['medicalFAQ' => $medicalFAQ], 200);
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(['error' => 'Medical FAQ not found'], 404);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to fetch medical FAQ'], 500);
-        }
-    }
-    
+    // CASE REPORTS PAGE
     public function addCaseReport(Request $request){
-        $request-> validate([
+        $request->validate([
             'id' => 'required|integer',
             'history' => 'required|string',
             'treatment_administration' => 'required',
@@ -469,14 +386,12 @@ private function addFailedLoginAttempt($lau_email) {
             'status' => 'required|integer',
             'issues' => 'required|integer',
             'case_report' => 'required|boolean',
-
         ]);
 
-        try{
+        try {
             $case_form = Emergency::find($request->id);
 
-            if($case_form){
-             
+            if ($case_form) {
                 $case_form->history = $request->history;
                 $case_form->treatment_administration = $request->treatment_administration;
                 $case_form->transportation = $request->transportation;
@@ -486,18 +401,33 @@ private function addFailedLoginAttempt($lau_email) {
                 $case_form->case_report = 1;
                 $case_form->save();
                 return response()->json(['message' => 'Case report for the emergency added successfully'], 201);
-            }
-            else{
+            } else {
                 return response()->json(['error' => 'Emergency not found'], 404);
             }
-        }catch (Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }
-    
-    public function getEmergencyRecords(){
-        $emergencies = Emergency::where('case_report', 1)->get();
-        return response()->json(['emergency records' => $emergencies], 200);
+
+    // EXTENSIONS PAGE
+    public function getExtensions(){
+        try {
+            $extensions = Extension::all();
+            return response()->json(['extensions' => $extensions], 200);
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'Failed to fetch extensions'], 500);
+        }
     }
 
+    // MEDICAL FAQs PAGE
+    public function getMedicalFaqs($id){
+        try {
+            $medicalFAQ = Medical_faq::findOrFail($id);
+            return response()->json(['medicalFAQ' => $medicalFAQ], 200);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(['error' => 'Medical FAQ not found'], 404);
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'Failed to fetch medical FAQ'], 500);
+        }
+    }
 }

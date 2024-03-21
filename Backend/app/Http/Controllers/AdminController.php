@@ -14,11 +14,12 @@ use App\Models\Shift;
 use App\Models\User_has_shift;
 use App\Models\Cover_request;
 use App\Models\Rank;
+use App\Models\Emergency;
 
 use Exception;
 
-class AdminController extends Controller
-{
+class AdminController extends Controller{
+    
     // MANAGE MEMBERS TAB
     public function addMember(Request $request){
         $request->validate([
@@ -132,7 +133,6 @@ class AdminController extends Controller
     }
 
     public function getUserShifts($userId){
-
         try {
             $user = User::find($userId);
 
@@ -444,6 +444,10 @@ class AdminController extends Controller
     }
 
     // EMERGENY RECORDS TAB
+    public function getEmergencyRecords(){
+        $emergencies = Emergency::where('case_report', 1)->get();
+        return response()->json(['emergency records' => $emergencies], 200);
+    }
 
     // ATTENDANCE RECORDS TAB
     function getAttendanceRecords(){
