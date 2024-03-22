@@ -23,18 +23,19 @@ class AdminController extends Controller{
     // MANAGE MEMBERS TAB
     public function addMember(Request $request){
         $request->validate([
-            'id' => 'required'
+            'lau_email' => 'required'
         ]);
 
         try {
-            $user = User::find($request->id);
+            $user = User::where('lau_email', $request->input('lau_email'))->first();
 
             if ($user) {
-                $user->user_type = 2;
+                $user->user_type = 1;
                 $user->save();
                 return response()->json(['message' => 'Member added successfully']);
+               
             } else {
-                return response()->json(['message' => 'User not found']);
+                return response()->json(['message' => 'User not registered yet']);
             }
         } catch (Exception $exception) {
             return response()->json(['error' => 'Failed to add member'], 500);
@@ -541,6 +542,17 @@ class AdminController extends Controller{
             'status' => 'Success',
             'message' => 'Request accepted successfully'
         ]);
+    }
+
+    function getMembers(){
+        $members = User::where('user_type', 1)->get();
+        if ($members->isEmpty()) {
+            return response()->json([
+                'message' => 'No ERU members in the db yet'
+            ]);
+        } else {
+            return response()->json($members);
+        }
     }
 
     function rejectRequest(Request $request){

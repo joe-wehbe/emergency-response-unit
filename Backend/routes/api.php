@@ -72,6 +72,7 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::post("accept-login-request", [AdminController::class, "acceptRequest"]);
         Route::post("reject-login-request", [AdminController::class, "rejectRequest"]);
         Route::get('get-emergency-records', [AdminController::class, 'getEmergencyRecords']);    
+        Route::get('get-members', [AdminController::class, 'getMembers']);    
     });
 });
 

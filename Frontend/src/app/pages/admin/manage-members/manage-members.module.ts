@@ -8,12 +8,15 @@ import { ManageMembersPageRoutingModule } from './manage-members-routing.module'
 
 import { ManageMembersPage } from './manage-members.page';
 
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ManageMembersPageRoutingModule
+    ManageMembersPageRoutingModule,
+    HttpClientModule
   ],
   declarations: [ManageMembersPage]
 })
