@@ -219,11 +219,15 @@ body.dark {
 */
 
 .md body {
-  --ion-background-color: #fff4f4;
-  --ion-toolbar-background: #fff4f4;
+  --ion-background-color: white;
+  --ion-toolbar-background: #F2F2F2;
   --ion-toolbar-color: #000000;
-  --ion-tab-bar-background: #fff4f4;
-  --ion-card-background: white;
+  --ion-tab-bar-background: #F2F2F2;
+  --ion-card-background: #F2F2F2;
+  --ion-card-color: black;
+  --ion-item-background: lightgray;
+
+  --ion-header-background-light: lightgray;
 }
 
 /*

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
+import { EmergencyService } from 'src/app/services/emergency/emergency.service';
 
 @Component({
   selector: 'app-report-emergency',
@@ -14,11 +15,14 @@ export class ReportEmergencyPage implements OnInit {
   firstH4Content: string = 'Press the button below';
   secondH4Content: string = 'to notify medics';
 
-  constructor(public alertController: AlertController, private toastController:ToastController) {}
+  constructor(
+    public alertController: AlertController, 
+    private toastController:ToastController,
+    private emergencyService:EmergencyService) {}
 
   ngOnInit() {}
 
-  async presentAlert() {
+  async reportEmergencyAlert() {
     if (this.isButtonClicked) {
       return;
     }
@@ -94,10 +98,18 @@ export class ReportEmergencyPage implements OnInit {
               return false;
             }
             else{
-              this.sendSOS();
-              this.notifyingStatement = 'Notifying medics...';
-              this.firstH4Content = "We will let you know";
-              this.secondH4Content = "when a medic responds";
+              this.emergencyService.reportEmergency(data.location, data.description)
+              .subscribe({
+                next: (response) => {
+                  console.log("Emergency reported successfully:", response);
+                  this.sendSOS();
+                },
+                error: (error) => {
+                  console.error("Error reporting emergency:", error);
+                },
+                complete: () => {
+                }
+              });
               return true;
             }
           },
@@ -108,6 +120,9 @@ export class ReportEmergencyPage implements OnInit {
   }
 
   sendSOS() {
+    this.notifyingStatement = 'Notifying medics...';
+    this.firstH4Content = "We will let you know";
+    this.secondH4Content = "when a medic responds";
     this.isButtonClicked = true;
     const sosButton = document.querySelector('.sos-button');
     if (sosButton) {

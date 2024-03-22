@@ -27,6 +27,7 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::post("register", [UserController::class, "register"]);
         Route::post("login", [UserController::class, "login"]);
         Route::post("logout", [UserController::class, "logout"]);
+        Route::put("apply", [UserController::class, "apply"]);
         Route::get('{id}/get-user-info', [UserController::class, 'getUserInfo']);
         Route::put('edit-bio', [UserController::class, 'editBio']);
         Route::put('edit-tags', [UserController::class, 'editTags']);
