@@ -56,21 +56,21 @@ Route::group(["prefix" => "v0.1"], function(){
     Route::group(["prefix" => "admin"], function(){
         Route::put("add-member", [AdminController::class, "addMember"]);    
         Route::put("remove-member", [AdminController::class, "removeMember"]);    
-        Route::post("delete-user", [AdminController::class, "deleteUser"]);
+        Route::delete("delete-user", [AdminController::class, "deleteUser"]);
         Route::put("change-rank", [AdminController::class, "changeRank"]);     
         Route::get("get-user-shifts/{id}", [AdminController::class, "getUserShifts"]);
         Route::post("add-shift", [AdminController::class, "addShift"]);    
         Route::delete("delete-shift", [AdminController::class, "deleteShift"]);   
         Route::post("add-announcement", [AdminController::class, "addAnnouncement"]);   
-        Route::post("delete-announcement", [AdminController::class, "deleteAnnouncement"]);
+        Route::delete("delete-announcement", [AdminController::class, "deleteAnnouncement"]);
         Route::post("add-faq", [AdminController::class, "addFaq"]);
-        Route::post("delete-faq", [AdminController::class, "deleteFaq"]);
+        Route::delete("delete-faq", [AdminController::class, "deleteFaq"]);
         Route::post("add-extension", [AdminController::class, "addExtension"]);
-        Route::post("delete-extension", [AdminController::class, "deleteExtension"]);    
+        Route::delete("delete-extension", [AdminController::class, "deleteExtension"]);    
         Route::get("get-attendance-records", [AdminController::class, "getAttendanceRecords"]);
         Route::get("get-login-requests", [AdminController::class, "getLoginRequests"]);
-        Route::post("accept-login-request", [AdminController::class, "acceptRequest"]);
-        Route::post("reject-login-request", [AdminController::class, "rejectRequest"]);
+        Route::put("accept-login-request", [AdminController::class, "acceptRequest"]);
+        Route::put("reject-login-request", [AdminController::class, "rejectRequest"]);
         Route::get('get-emergency-records', [AdminController::class, 'getEmergencyRecords']);    
         Route::get('get-members', [AdminController::class, 'getMembers']);    
     });
