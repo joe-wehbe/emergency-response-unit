@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-manage-faq',
-  templateUrl: './manage-faq.page.html',
-  styleUrls: ['./manage-faq.page.scss'],
+  selector: 'app-manage-faqs',
+  templateUrl: './manage-faqs.page.html',
+  styleUrls: ['./manage-faqs.page.scss'],
 })
-export class ManageFAQPage implements OnInit {
+export class ManageFAQsPage implements OnInit {
 
   constructor(private router:Router, public alertController: AlertController) { }
 

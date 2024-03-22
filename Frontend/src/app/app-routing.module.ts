@@ -64,16 +64,16 @@ const routes: Routes = [
     loadChildren: () => import('./pages/member/community/community.module').then( m => m.CommunityPageModule)
   },
   {
-    path: 'announcement',
-    loadChildren: () => import('./pages/member/announcement/announcement.module').then( m => m.AnnouncementPageModule)
+    path: 'announcements',
+    loadChildren: () => import('./pages/member/announcements/announcements.module').then( m => m.AnnouncementsPageModule)
   },
   {
     path: 'cover-requests',
     loadChildren: () => import('./pages/member/cover-requests/cover-requests.module').then( m => m.CoverRequestsPageModule)
   },
   {
-    path: 'case-report',
-    loadChildren: () => import('./pages/member/case-report/case-report.module').then( m => m.CaseReportPageModule)
+    path: 'case-reports',
+    loadChildren: () => import('./pages/member/case-reports/case-reports.module').then( m => m.CaseReportsPageModule)
   },
   {
     path: 'case-report-form',
@@ -114,8 +114,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/admin/manage-announcements/manage-announcements.module').then( m => m.ManageAnnouncementsPageModule), data: { showSideMenu: false }
   },
   {
-    path: 'manage-faq',
-    loadChildren: () => import('./pages/admin/manage-faq/manage-faq.module').then( m => m.ManageFAQPageModule), data: { showSideMenu: false }
+    path: 'manage-faqs',
+    loadChildren: () => import('./pages/admin/manage-faqs/manage-faqs.module').then( m => m.ManageFAQsPageModule), data: { showSideMenu: false }
   },
   {
     path: 'medical-faq',

@@ -20,7 +20,7 @@ export class AdminPanelPage implements OnInit {
   }
 
   goToManageFAQs(){
-    this.router.navigate(['/manage-faq']);
+    this.router.navigate(['/manage-faqs']);
   }
 
   goToManageAnnouncements(){

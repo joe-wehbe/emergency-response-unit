@@ -4,19 +4,19 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AnnouncementPageRoutingModule } from './announcement-routing.module';
+import { AnnouncementsPageRoutingModule } from './announcements-routing.module';
 
-import { AnnouncementPage } from './announcement.page';
+import { AnnouncementsPage } from './announcements.page';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [AnnouncementPage],
+  declarations: [AnnouncementsPage],
   imports: [
     CommonModule,
     FormsModule,
     HttpClientModule,
     IonicModule,
-    AnnouncementPageRoutingModule,
+    AnnouncementsPageRoutingModule,
   ]
 })
-export class AnnouncementPageModule {}
+export class AnnouncementsPageModule {}

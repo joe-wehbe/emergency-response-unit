@@ -17,7 +17,7 @@ export class MedicalFAQPage implements OnInit {
   }
 
   back(){
-    this.router.navigate(['/manage-faq']);
+    this.router.navigate(['/manage-faqs']);
   }
 
   async presentAlert() {
