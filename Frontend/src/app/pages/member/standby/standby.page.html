@@ -12,7 +12,7 @@
   <div class="segments" mode="md">
     <ion-segment [(ngModel)]="selectedSegment" value="Ongoing">
       <ion-segment-button value="Ongoing">
-        <ion-label>Ongoing (2)</ion-label>
+        <ion-label>Ongoing ({{ ongoingEmergencies.length }})</ion-label>
         <ion-icon name="hourglass-outline"></ion-icon>
       </ion-segment-button>
       <ion-segment-button value="Ended">
@@ -23,65 +23,104 @@
   </div>
   
   <ng-container *ngIf="selectedSegment === 'Ongoing'">
-    <ion-card class="ongoing-card" (click)="navigateEmergencyDetails()">
-      <div class="first-box-green">
-        9:07
+    <ng-container *ngIf="ongoingEmergencies.length > 0; else noOngoingEmergencies">
+      <ion-card *ngFor="let item of ongoingEmergencies" class="ongoing-card" (click)="navigateEmergencyDetails()">
+        <ng-container *ngIf="item.emergency.medic !== null; else noMedicResponded">
+          <div class="first-box-green">
+            {{ item.emergency.created_at | date: 'h:mm' }}
+          </div>
+        </ng-container>
+        <ng-template #noMedicResponded>
+          <div class="first-box-red">
+            {{ item.emergency.created_at | date: 'h:mm' }}
+          </div>
+        </ng-template>
+  
+        <div class="second-box">
+          <div class="location-container">
+            <p class="location">{{ item.emergency.location }}</p>
+          </div>
+          <div class="description-container">
+            <p class="description">{{ item.emergency.reporter_description }}</p>
+          </div>
+        </div>
+        <div class="seperator"></div>
+  
+        <div class="third-box">
+          <ng-container *ngIf="item.emergency.medic !== null; else noMedicName">
+            <div class="medic">
+              <p>Medic:</p>
+              <p class="medic-name-green">{{ item.emergency.medic.first_name }} {{ item.emergency.medic.last_name }}</p>
+            </div>
+          </ng-container>
+          <ng-template #noMedicName>
+            <div class="medic">
+              <p>Medic:</p>
+              <p class="medic-name-red">N/A</p>
+            </div>
+          </ng-template>
+          <ng-container *ngIf="item.emergency.patient_name !== null; else noPatientName">
+            <div class="patient">
+              <p>Patient:</p>
+              <p class="patient-name-green">{{ item.emergency.patient_name || 'N/A' }}</p>
+            </div>
+          </ng-container>
+          <ng-template #noPatientName>
+            <div class="patient">
+              <p>Patient:</p>
+              <p class="patient-name-red">N/A</p>
+            </div>
+          </ng-template>
+  
+          <div class="vitals">
+            <div class="heart-rate">
+              <ion-img src="assets/icon/hr.png"></ion-img>
+              <p class="hr">{{ item.last_assessment ? item.last_assessment.heart_rate || 'N/A' : 'N/A' }}</p>
+            </div>
+            <div class="blood-pressure">
+              <ion-img src="assets/icon/bp.png"></ion-img>
+              <p class="bp">{{ item.last_assessment ? item.last_assessment.blood_pressure || 'N/A' : 'N/A' }}</p>
+            </div>
+            <div class="spo2">
+              <ion-img src="assets/icon/spo2.png"></ion-img>
+              <p class="sp">{{ item.last_assessment ? item.last_assessment.oxygen_saturation || 'N/A' : 'N/A' }}</p>
+            </div>
+            <div class="temperature">
+              <ion-img src="assets/icon/temp.png"></ion-img>
+              <p class="temp">{{ item.last_assessment ? item.last_assessment.temperature || 'N/A' : 'N/A' }}</p>
+            </div>
+            <div class="respiration-rate">
+              <ion-img src="assets/icon/rr.png"></ion-img>
+              <p class="rr">{{ item.last_assessment ? item.last_assessment.respiration_rate || 'N/A' : 'N/A' }}</p>
+            </div>
+            <div class="capillary-refill">
+              <ion-img src="assets/icon/crt.png"></ion-img>
+              <p class="crt">{{ item.last_assessment ? item.last_assessment.capillary_refill_time || 'N/A' : 'N/A' }}</p>
+            </div>
+            <div class="hemo-gluco-test">
+              <ion-img src="assets/icon/hgt.png"></ion-img>
+              <p class="hgt">{{ item.last_assessment ? item.last_assessment.hemoglucotest || 'N/A' : 'N/A' }}</p>
+            </div>
+            <div class="pupils-reaction">
+              <ion-img src="assets/icon/pr.png"></ion-img>
+              <p class="pr">{{ item.last_assessment ? item.last_assessment.pupils_reaction || 'N/A' : 'N/A' }}</p>
+            </div>
+          </div>
+
+        </div>
+      </ion-card>
+    </ng-container>
+    <ng-template #noOngoingEmergencies>
+      <div class="body">
+        <div class="stmt">
+          <p>No ongoing emergencies</p>
+          <p class="second-stmt">Stay alert! Emergencies can happen anytime!</p>
+          <ion-img class="no-emergencies-img" src="assets/img/no-emergencies-img.png"></ion-img>
+        </div>
       </div>
-      <div class="second-box">
-        <div class="location-container">
-          <p class="location">Zakhem 404</p>
-        </div>
-        <div class="description-container">
-          <p class="description">Difficulty breathing and panick attack</p>
-        </div>
-      </div>
-      <div class="seperator"></div>
-      <div class="third-box">
-        <div class="medic">
-          <p>Medic:</p>
-          <p class="medic-name">Joe Wehbe</p>
-        </div>
-        <div class="patient">
-          <p>Patient:</p>
-          <p class="patient-name">N/A</p>
-        </div>
-        <div class="vitals">
-          <div class="heart-rate">
-            <ion-img src="assets/icon/hr.png"></ion-img>
-            <p class="hr">120</p>
-          </div>        
-          <div class="blood-pressure">
-            <ion-img src="assets/icon/bp.png"></ion-img>
-            <p class="bp">110/92</p>
-          </div>        
-          <div class="spo2">
-            <ion-img src="assets/icon/spo2.png"></ion-img>
-            <p class="sp">96</p>
-          </div>
-          <div class="temperature">
-            <ion-img src="assets/icon/temp.png"></ion-img>
-            <p class="temp">37.6</p>
-          </div>     
-          <div class="respiration-rate">
-            <ion-img src="assets/icon/rr.png"></ion-img>
-            <p class="rr">16</p>
-          </div>
-          <div class="capillary-refill">
-            <ion-img src="assets/icon/crt.png"></ion-img> 
-            <p class="crt">2</p>
-          </div> 
-          <div class="hemo-gluco-test">
-            <ion-img src="assets/icon/hgt.png"></ion-img>
-            <p class="hgt">N/A</p>
-          </div>
-          <div class="pupils-reaction">
-            <ion-img src="assets/icon/pr.png"></ion-img> 
-            <p class="pr">N/A</p>
-          </div>
-        </div>
-      </div>
-    </ion-card>
+    </ng-template>
   </ng-container>
+  
   
   <ng-container *ngIf="selectedSegment === 'Ended'">
     <ion-card class="ended-card">

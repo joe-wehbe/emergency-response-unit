@@ -40,6 +40,7 @@ export class ReportEmergencyPage implements OnInit {
           cssClass: 'location-input',
           attributes: {
             required: true,
+            maxlength: 20,
           },
         },
 

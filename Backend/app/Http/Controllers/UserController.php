@@ -220,7 +220,6 @@ class UserController extends Controller{
             $user = User::find($request->user_id);
 
             if ($user) {
-
                 $user->student_id = $request->student_id;
                 $user->phone_number = $request->phone_number;
                 $user->major = $request->major;
@@ -243,7 +242,7 @@ class UserController extends Controller{
     // PROFILE PAGE
     public function getUserInfo($id){
         try {
-            $user = User::findOrFail($id);
+            $user = User::with('rank')->findOrFail($id);
             return response()->json(['User' => $user], 200);
         } catch (ModelNotFoundException $exception) {
             return response()->json(['error' => 'User not found'], 404);

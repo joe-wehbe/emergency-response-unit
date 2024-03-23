@@ -48,6 +48,8 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::get('get-ongoing-emergencies', [EmergencyController::class, 'getOngoingEmergencies']);
         Route::get('get-ended-emergencies', [EmergencyController::class, 'getEndedEmergencies']);
         Route::get('get-emergency/{id}', [EmergencyController::class, 'getEmergency']);
+        Route::get('get-last-emergency-assessment/{id}', [EmergencyController::class, 'getLastEmergencyAssessment']);
+        Route::get('get-emergency-assessments/{id}', [EmergencyController::class, 'getEmergencyAssessments']);
         Route::put('accept-emergency', [EmergencyController::class, 'acceptEmergency']);
         Route::put('add-emergency-details', [EmergencyController::class, "addEmergencyDetails"]);
         Route::post("add-assessment", [EmergencyController::class, "addAssessment"]);

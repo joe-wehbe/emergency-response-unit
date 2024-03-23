@@ -18,4 +18,19 @@ export class EmergencyService {
     return this.http.post(this.base_url + "report-emergency", body);
   }
   
+  getOngoingEmergencies(){
+    return this.http.get(this.base_url + "get-ongoing-emergencies");
+  }
+
+  getEndedEmergencies(){
+    return this.http.get(this.base_url + "get-ended-emergencies");
+  }
+
+  getLastEmergencyAssessment(id: number){
+    return this.http.get(`${this.base_url}get-last-emergency-assessment/${id}`);
+  }
+
+  getEmergencyAssessments(id: number) {
+    return this.http.get(`${this.base_url}get-emergency-assessments/${id}`);
+  }  
 }

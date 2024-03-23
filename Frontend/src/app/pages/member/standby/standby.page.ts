@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { EmergencyService } from 'src/app/services/emergency/emergency.service';
 
 @Component({
   selector: 'app-standby',
@@ -10,10 +11,53 @@ import { AlertController } from '@ionic/angular';
 export class StandbyPage implements OnInit {
   
   selectedSegment: string = 'Ongoing';
+  ongoingEmergencies: any = [];
+  emergencyAssessments: any = [];
+  lastAssessments: any;
 
-  constructor(private router:Router, public alertController: AlertController) { }
+  constructor(
+    private router:Router, 
+    private alertController:AlertController,
+    private emergencyService:EmergencyService) { }
 
   ngOnInit() {
+    this.getOngoingEmergencies();
+    this.getEndedEmergencies();
+  }
+
+  getOngoingEmergencies() {
+    this.emergencyService.getOngoingEmergencies()
+      .subscribe({
+        next: (response) => {
+          console.log("Fetched Ongoing emergencies: ", response);
+  
+          // Retrieving the data
+          const parsedResponse = JSON.parse(JSON.stringify(response));
+          this.ongoingEmergencies = [].concat.apply([], Object.values(parsedResponse['emergencies']));
+  
+          // Displaying the newest emergencies first
+          this.ongoingEmergencies.sort((a: any, b: any) => {
+            return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+          });
+        },
+        error: (error) => {
+          console.error("Error retrieving ongoing emergencies:", error);
+        }
+      });
+  }
+  
+  getEndedEmergencies(){
+    this.emergencyService.getEndedEmergencies()
+    .subscribe({
+      next: (response) => {
+        console.log("Fetched ended emergencies: ", response);
+      },
+      error: (error) => {
+        console.error("Error retrieving ended emergencies:", error);
+      },
+      complete: () => {
+      }
+    });
   }
 
   public actionSheetButtons = [

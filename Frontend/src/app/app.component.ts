@@ -13,7 +13,7 @@ export class AppComponent {
   showSideMenu = true;
   darkMode = false;
   reportPageActive = false;
-  user: any = null; // Initialize user object as null initially
+  user: any;
   @Output() darkModeToggled = new EventEmitter<boolean>();
 
   constructor(
@@ -26,7 +26,7 @@ export class AppComponent {
     .pipe(filter((event: RouterEvent): event is NavigationEnd => event instanceof NavigationEnd))
     .subscribe((event: NavigationEnd) => {
       const currentUrl = event.url;
-      this.reportPageActive = currentUrl === '/report' || currentUrl.startsWith('/report/'); // Check if current URL is exactly "/report" or starts with "/report/"
+      this.reportPageActive = currentUrl === '/report' || currentUrl.startsWith('/report/');
       const routeData = this.router.routerState.snapshot.root.firstChild?.data as { showSideMenu?: boolean };
       this.showSideMenu = routeData ? routeData['showSideMenu'] !== false : true && !this.reportPageActive;
     });  
@@ -41,7 +41,7 @@ export class AppComponent {
     this.userService.getUserInfo()
     .subscribe({
       next: (response) => {
-        console.log("User information received:", response);
+        console.log("Fetched user data:", response);
         this.user = response['User'];
       },
       error: (error) => {

@@ -20,4 +20,8 @@ class Assessment extends Model
         'hemoglucotest',
         'pupils_reaction',
     ];
+
+    public function emergency(){
+        return $this->belongsTo(Emergency::class);
+    }
 }
