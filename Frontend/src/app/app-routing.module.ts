@@ -44,7 +44,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'emergency-details',
+    path: 'emergency-details/:id',
     loadChildren: () => import('./pages/member/emergency-details/emergency-details.module').then( m => m.EmergencyDetailsPageModule), data: { showSideMenu: false }
   },
   {
@@ -76,7 +76,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/member/case-reports/case-reports.module').then( m => m.CaseReportsPageModule)
   },
   {
-    path: 'case-report-form',
+    path: 'case-report-form/:id',
     loadChildren: () => import('./pages/member/case-report-form/case-report-form.module').then( m => m.CaseReportFormPageModule), data: { showSideMenu: false }
   },
   {

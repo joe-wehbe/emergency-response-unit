@@ -26,8 +26,12 @@ export class EmergencyService {
     return this.http.get(this.base_url + "get-ended-emergencies");
   }
 
-  getLastEmergencyAssessment(id: number){
-    return this.http.get(`${this.base_url}get-last-emergency-assessment/${id}`);
+  deleteEmergency(id:number){
+    return this.http.delete(`${this.base_url}delete-emergency/${id}`);
+  }
+
+  getEmergency(id:number){
+    return this.http.get(`${this.base_url}get-emergency/${id}`);
   }
 
   getEmergencyAssessments(id: number) {

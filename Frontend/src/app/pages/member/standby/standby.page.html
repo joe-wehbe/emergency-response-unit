@@ -16,15 +16,15 @@
         <ion-icon name="hourglass-outline"></ion-icon>
       </ion-segment-button>
       <ion-segment-button value="Ended">
-        <ion-label>Ended (4)</ion-label>
-        <ion-icon name="shield-checkmark-outline"></ion-icon>   
+        <ion-label>Ended ({{ endedEmergencies.length }})</ion-label>
+        <ion-icon name="shield-checkmark-outline">Ongoing</ion-icon>   
       </ion-segment-button>
     </ion-segment>
   </div>
   
   <ng-container *ngIf="selectedSegment === 'Ongoing'">
     <ng-container *ngIf="ongoingEmergencies.length > 0; else noOngoingEmergencies">
-      <ion-card *ngFor="let item of ongoingEmergencies" class="ongoing-card" (click)="navigateEmergencyDetails()">
+      <ion-card *ngFor="let item of ongoingEmergencies" class="ongoing-card" (click)="navigateEmergencyDetails(item.emergency.id)">
         <ng-container *ngIf="item.emergency.medic !== null; else noMedicResponded">
           <div class="first-box-green">
             {{ item.emergency.created_at | date: 'h:mm' }}
@@ -62,7 +62,7 @@
           <ng-container *ngIf="item.emergency.patient_name !== null; else noPatientName">
             <div class="patient">
               <p>Patient:</p>
-              <p class="patient-name-green">{{ item.emergency.patient_name || 'N/A' }}</p>
+              <p class="patient-name-green">{{ item.emergency.patient_name}}</p>
             </div>
           </ng-container>
           <ng-template #noPatientName>
@@ -121,36 +121,55 @@
     </ng-template>
   </ng-container>
   
-  
   <ng-container *ngIf="selectedSegment === 'Ended'">
-    <ion-card class="ended-card">
-      <div class="first-box-green">
-        9:07
+    <ng-container *ngIf="endedEmergencies.length > 0; else noEndedEmergencies">
+      <ion-card *ngFor="let emergency of endedEmergencies" class="ended-card">
+        <div class="first-box-green">
+          {{ emergency.created_at | date: 'h:mm' }}
+        </div>
+        <div class="second-box">
+          <div class="location-container">
+            <div class="location">
+              {{ emergency.location }}
+            </div>
+          </div>
+          <div class="description-container">
+            <p class="description"> {{ emergency.reporter_description }}</p>
+          </div>
+        </div>
+        <div class="seperator"></div>
+        <div class="third-box">
+          <div class="medic">
+            <p>Medic:</p>
+            <p class="medic-name-green">{{ emergency.medic.first_name }} {{ emergency.medic.last_name}}</p>
+          </div>
+          <ng-container *ngIf="emergency.patient_name !== null; else noPatientName">
+            <div class="patient">
+              <p>Patient:</p>
+              <p class="patient-name-green">{{ emergency.patient_name }}</p>
+            </div>
+          </ng-container>
+          <ng-template #noPatientName>
+            <div class="patient">
+              <p>Patient:</p>
+              <p class="patient-name-red">N/A</p>
+            </div>
+          </ng-template>
+          <div class="options">
+            <button id="open-action-sheet" (click)="openActionSheet(emergency.id)">View options</button>
+            <ion-action-sheet class="action-sheet" header="Select"></ion-action-sheet>
+          </div>
+        </div>
+      </ion-card>
+    </ng-container>
+    <ng-template #noEndedEmergencies>
+      <div class="body">
+        <div class="stmt">
+          <p>No ended emergencies</p>
+          <p class="second-stmt">Ended emergencies with no case report will appear here.</p>
+          <ion-img class="no-emergencies-img" src="assets/img/no-emergencies-img.png"></ion-img>
+        </div>
       </div>
-      <div class="second-box">
-        <div class="location">
-          Zakhem 404
-        </div>
-        <div class="description-container">
-          <p class="description">Difficulty breathing and panick attack</p>
-        </div>
-      </div>
-      <div class="seperator"></div>
-      <div class="third-box">
-        <div class="medic">
-          <p>Medic:</p>
-          <p class="medic-name">Joe Wehbe</p>
-        </div>
-        <div class="patient">
-          <p>Patient:</p>
-          <p class="patient-name">N/A</p>
-        </div>
-        <div class="options">
-          <button id="open-action-sheet">View options
-          </button>
-          <ion-action-sheet class="action-sheet" trigger="open-action-sheet" header="Select" [buttons]="actionSheetButtons"></ion-action-sheet>
-        </div>
-      </div>
-    </ion-card>
+    </ng-template>
   </ng-container>  
 </ion-content>
