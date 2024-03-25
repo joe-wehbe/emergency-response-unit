@@ -8,69 +8,79 @@
 </ion-header>
 
 <ion-content class="background">
-
-  <div class="stmt">
-    <p>3 Cases with no response!</p>
-    <p class="second-stmt">Click on a case to accept</p>
-  </div>
-
-  <ion-card class="ongoing-card" (click)="presentAlert()">
-    <div class="first-box-red">
-      9:07
+  <ng-container *ngIf="noResponseEmergencies.length > 0; else noEmergencies">
+    <div class="stmt">
+      <p>{{noResponseEmergencies.length}} emergencies with no medical response</p>
+      <p class="second-stmt">Click on a case to accept</p>
     </div>
-    <div class="second-box">
-      <div class="location">
-        Zakhem 404
+    
+    <ion-card class="ongoing-card" (click)="acceptAlert(emergency.id)" *ngFor="let emergency of noResponseEmergencies">
+      <div class="first-box-red">
+        {{ emergency.created_at | date: 'dd/MM' }}<br>
+        {{ emergency.created_at | date: 'hh:mm' }}
       </div>
-      <div class="description-container">
-        <p class="description">Difficulty breathing and panick attack</p>
+      <div class="second-box">
+        <div class="location">
+          {{ emergency.location }}
+        </div>
+        <div class="description-container">
+          <p class="description">{{ emergency.reporter_description }}</p>
+        </div>
+      </div>
+      <div class="seperator"></div>
+      <div class="third-box">
+        <div class="medic">
+          <p>Medic:</p>
+          <p class="medic-name-red">N/A</p>
+        </div>
+        <div class="patient">
+          <p>Patient:</p>
+          <p class="patient-name-red">N/A</p>
+        </div>
+        <div class="vitals">
+          <div class="heart-rate">
+            <ion-img src="assets/icon/hr.png"></ion-img>
+            <p class="hr">N/A</p>
+          </div>        
+          <div class="blood-pressure">
+            <ion-img src="assets/icon/bp.png"></ion-img>
+            <p class="bp">N/A</p>
+          </div>        
+          <div class="spo2">
+            <ion-img src="assets/icon/spo2.png"></ion-img>
+            <p class="sp">N/A</p>
+          </div>
+          <div class="temperature">
+            <ion-img src="assets/icon/temp.png"></ion-img>
+            <p class="temp">N/A</p>
+          </div>     
+          <div class="respiration-rate">
+            <ion-img src="assets/icon/rr.png"></ion-img>
+            <p class="rr">N/A</p>
+          </div>
+          <div class="capillary-refill">
+            <ion-img src="assets/icon/crt.png"></ion-img> 
+            <p class="crt">N/A</p>
+          </div> 
+          <div class="hemo-gluco-test">
+            <ion-img src="assets/icon/hgt.png"></ion-img>
+            <p class="hgt">N/A</p>
+          </div>
+          <div class="pupils-reaction">
+            <ion-img src="assets/icon/pr.png"></ion-img> 
+            <p class="pr">N/A</p>
+          </div>
+        </div>
+      </div>
+    </ion-card>
+  </ng-container>
+  <ng-template #noEmergencies>
+    <div class="body">
+      <div class="stmt">
+        <p>No ongoing emergencies</p>
+        <p class="second-stmt">Stay alert! Emergencies can happen anytime!</p>
+        <ion-img class="no-emergencies-img" src="assets/img/no-emergencies-img.png"></ion-img>
       </div>
     </div>
-    <div class="seperator"></div>
-    <div class="third-box">
-      <div class="medic">
-        <p>Medic:</p>
-        <p class="medic-name-red">N/A</p>
-      </div>
-      <div class="patient">
-        <p>Patient:</p>
-        <p class="patient-name">N/A</p>
-      </div>
-      <div class="vitals">
-        <div class="heart-rate">
-          <ion-img src="assets/icon/hr.png"></ion-img>
-          <p class="hr">N/A</p>
-        </div>        
-        <div class="blood-pressure">
-          <ion-img src="assets/icon/bp.png"></ion-img>
-          <p class="bp">N/A</p>
-        </div>        
-        <div class="spo2">
-          <ion-img src="assets/icon/spo2.png"></ion-img>
-          <p class="sp">N/A</p>
-        </div>
-        <div class="temperature">
-          <ion-img src="assets/icon/temp.png"></ion-img>
-          <p class="temp">N/A</p>
-        </div>     
-        <div class="respiration-rate">
-          <ion-img src="assets/icon/rr.png"></ion-img>
-          <p class="rr">N/A</p>
-        </div>
-        <div class="capillary-refill">
-          <ion-img src="assets/icon/crt.png"></ion-img> 
-          <p class="crt">N/A</p>
-        </div> 
-        <div class="hemo-gluco-test">
-          <ion-img src="assets/icon/hgt.png"></ion-img>
-          <p class="hgt">N/A</p>
-        </div>
-        <div class="pupils-reaction">
-          <ion-img src="assets/icon/pr.png"></ion-img> 
-          <p class="pr">N/A</p>
-        </div>
-      </div>
-    </div>
-  </ion-card>
-
+  </ng-template>
 </ion-content>

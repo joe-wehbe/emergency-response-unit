@@ -50,6 +50,7 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::delete('delete-emergency/{id}', [EmergencyController::class, 'deleteEmergency']);
         Route::get('get-emergency/{id}', [EmergencyController::class, 'getEmergency']);
         Route::get('get-emergency-assessments/{id}', [EmergencyController::class, 'getEmergencyAssessments']);
+        Route::get('get-no-response-emergencies', [EmergencyController::class, 'getNoResponseEmergencies']);
         Route::put('accept-emergency', [EmergencyController::class, 'acceptEmergency']);
         Route::put('add-emergency-details', [EmergencyController::class, "addEmergencyDetails"]);
         Route::post("add-assessment", [EmergencyController::class, "addAssessment"]);

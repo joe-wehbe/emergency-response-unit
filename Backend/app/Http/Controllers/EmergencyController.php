@@ -73,7 +73,6 @@ class EmergencyController extends Controller
     }
 
     public function deleteEmergency($emergencyId){
-
         try{
             $emergency = Emergency::find($emergencyId);
 
@@ -124,6 +123,22 @@ class EmergencyController extends Controller
     }
 
     // ON SCENE PAGE
+    public function getNoResponseEmergencies(){
+        try{
+            $emergencies = Emergency::whereNull('medic_id')->orderByDesc('created_at')->get();
+    
+            if($emergencies->isEmpty()){
+                return response()->json(['message' => 'No emergencies without response'], 200);
+            }
+            else{
+                return response()->json(['emergencies' => $emergencies], 200);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+    
+
     public function acceptEmergency(Request $request){
         $request-> validate([
             'id' => 'required',

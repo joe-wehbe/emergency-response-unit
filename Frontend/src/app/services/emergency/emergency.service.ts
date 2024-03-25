@@ -37,4 +37,8 @@ export class EmergencyService {
   getEmergencyAssessments(id: number) {
     return this.http.get(`${this.base_url}get-emergency-assessments/${id}`);
   }  
+
+  getNoResponseEmergencies(){
+    return this.http.get(this.base_url + "get-no-response-emergencies");
+  }
 }

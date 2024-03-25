@@ -48,7 +48,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/member/emergency-details/emergency-details.module').then( m => m.EmergencyDetailsPageModule), data: { showSideMenu: false }
   },
   {
-    path: 'medic-emergency-details',
+    path: 'medic-emergency-details/:id',
     loadChildren: () => import('./pages/member/medic-emergency-details/medic-emergency-details.module').then( m => m.MedicEmergencyDetailsPageModule)
   },
   {

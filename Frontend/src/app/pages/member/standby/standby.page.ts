@@ -28,7 +28,6 @@ export class StandbyPage implements OnInit {
     this.emergencyService.getOngoingEmergencies()
       .subscribe({
         next: (response) => {
-  
           if(response && response.hasOwnProperty("emergencies")){
             console.log("Fetched Ongoing emergencies: ", response);
             const parsedResponse = JSON.parse(JSON.stringify(response));
