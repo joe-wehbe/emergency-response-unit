@@ -94,7 +94,7 @@ class EmergencyController extends Controller
     // EMERGENCY DETAILS PAGE
     public function getEmergency($id){
         try {
-            $emergency = Emergency::find($id);
+            $emergency = Emergency::with('medic')->find($id);
             
             if($emergency){
                 return response()->json(['emergency' => $emergency], 200);
@@ -103,7 +103,7 @@ class EmergencyController extends Controller
                 return response()->json(['error' => 'Emergency not found'], 404);
             }
         } catch (Exception $exception) {
-            return response()->json(['error' => 'An error occured'], 404);
+            return response()->json(['error' => 'An error occurred'], 404);
         }
     }
 

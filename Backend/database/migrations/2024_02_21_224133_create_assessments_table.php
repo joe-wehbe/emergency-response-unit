@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('assessments', function (Blueprint $table) {
             $table->id();
             $table->integer('emergency_id');
-            $table->integer('heart_rate');
-            $table->string('blood_pressure');
-            $table->integer('oxygen_saturation');
-            $table->integer('temperature');
-            $table->integer('respiration_rate');
-            $table->integer('capillary_refill_time');
-            $table->integer('hemoglucotest');
-            $table->integer('pupils_reaction');
+            $table->integer('heart_rate')->nullable();
+            $table->string('blood_pressure')->nullable();
+            $table->integer('oxygen_saturation')->nullable();
+            $table->integer('temperature')->nullable();
+            $table->integer('respiration_rate')->nullable();
+            $table->integer('capillary_refill_time')->nullable();
+            $table->integer('hemoglucotest')->nullable();
+            $table->string('pupils_reaction')->nullable();
             $table->timestamps();
         });
     }

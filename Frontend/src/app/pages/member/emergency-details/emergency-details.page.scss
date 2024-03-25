@@ -145,11 +145,6 @@ ion-icon[name="document-text-outline"], ion-icon[name="time-outline"], ion-icon[
   display: flex;
 }
 
-.highlight {
-  background-color: #EAAAAA;
-}
-
-
 ion-img{
   width: 20px;
 }
@@ -159,4 +154,17 @@ ion-img{
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+}
+
+.no-assessments-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+h6{
+  padding-top: 5px;
+  margin: 0;
+  font-style: italic;
 }

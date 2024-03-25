@@ -27,12 +27,14 @@
       <ion-card *ngFor="let item of ongoingEmergencies" class="ongoing-card" (click)="navigateEmergencyDetails(item.emergency.id)">
         <ng-container *ngIf="item.emergency.medic !== null; else noMedicResponded">
           <div class="first-box-green">
-            {{ item.emergency.created_at | date: 'h:mm' }}
+            {{ item.emergency.created_at | date: 'dd/MM' }}<br>
+            {{ item.emergency.created_at | date: 'hh:mm' }}
           </div>
         </ng-container>
         <ng-template #noMedicResponded>
           <div class="first-box-red">
-            {{ item.emergency.created_at | date: 'h:mm' }}
+            {{ item.emergency.created_at | date: 'dd/MM' }}<br>
+            {{ item.emergency.created_at | date: 'hh:mm' }}
           </div>
         </ng-template>
   
@@ -125,7 +127,8 @@
     <ng-container *ngIf="endedEmergencies.length > 0; else noEndedEmergencies">
       <ion-card *ngFor="let emergency of endedEmergencies" class="ended-card">
         <div class="first-box-green">
-          {{ emergency.created_at | date: 'h:mm' }}
+          {{ emergency.created_at | date: 'dd/MM' }}<br>
+          {{ emergency.created_at | date: 'hh:mm' }}
         </div>
         <div class="second-box">
           <div class="location-container">
