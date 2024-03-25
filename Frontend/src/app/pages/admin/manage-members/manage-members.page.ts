@@ -3,6 +3,10 @@ import { IonModal } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
+import { AdminService } from '../../../services/admin/admin.service';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 interface User {
   firstName: string;
@@ -18,28 +22,51 @@ interface User {
 
 export class ManageMembersPage implements OnInit {
 
-  users: User[] = [
-    { firstName: 'Alice', lastName: 'Johnson', role: 'Medic' },
-    { firstName: 'Alice', lastName: 'Johnson', role: 'Medic' },
-    { firstName: 'Alice', lastName: 'Johnson', role: 'Medic' },
-    { firstName: 'Bob', lastName: 'Smith', role: 'Board' },
-    { firstName: 'Bob', lastName: 'Smith', role: 'Board' },
-    { firstName: 'Joe', lastName: 'Smith', role: 'Board' },
-    { firstName: 'Joe', lastName: 'Smith', role: 'Board' },
-    { firstName: 'Joe', lastName: 'Smith', role: 'Board' },
-  ];
+  users: User[] =  [ ];
 
   groupedUsers: { letter: string, users: User[] }[] = [];
   filteredGroupedUsers: { letter: string, users: User[] }[] = [];
 
   @ViewChild('modal') modal: IonModal | undefined;
 
-  constructor(private router:Router, public alertController: AlertController, private toastController:ToastController) {
-    this.groupUsers();
-    this.filteredGroupedUsers = [...this.groupedUsers];
+  constructor(private http:HttpClient, private adminService:AdminService, private router:Router, public alertController: AlertController, private toastController:ToastController) {
+    
   }
 
   ngOnInit() {
+    this.adminService.get_eru_members().subscribe(response => {
+      const usersArray = Object.values(response);
+
+
+    this.users = usersArray.map(user => ({
+      firstName: user.first_name,
+      lastName: user.last_name,
+      role: this.getRole(user.user_rank)
+    }));
+
+    this.groupUsers();
+    this.filteredGroupedUsers = [...this.groupedUsers];
+
+    });
+   
+
+    
+  }
+
+  getRole(roleNumber: number | string): string {
+    switch (Number(roleNumber)) {
+      case 1:case 5: 
+        return 'Dispatcher';
+      case 2:case 4:
+        return 'Medic';
+      case 3:
+        return 'Admin';
+      case 6:
+        return 'Dispatcher & Medic';
+       
+      default:
+        return 'Unknown';
+    }
   }
 
   groupUsers() {
@@ -115,15 +142,37 @@ export class ManageMembersPage implements OnInit {
                 position: 'bottom'
               });
               toast.present();
-              return false;
             } else {
-              return true;
+              this.handleAddMember(data.email);
             }
           },
         },
       ],
     });
     await alert.present();
+  }
+  
+  async handleAddMember(email: string) {
+    try {
+      const response = await this.http.put<any>('http://localhost:8000/api/v0.1/admin/add-member', { lau_email: email }).toPromise();
+      const message = response.message;
+      const toast = await this.toastController.create({
+        message: message,
+        duration: 2000, 
+        position: 'bottom'
+      });
+      toast.present();
+      window.location.reload();
+      
+    } catch (error) {
+      console.error('Error occurred while adding member:', error);
+      const toast = await this.toastController.create({
+        message: 'Failed to add member',
+        duration: 2000, 
+        position: 'bottom'
+      });
+      toast.present();
+    }
   }
 
   isValidEmail(email: string): boolean {
@@ -134,4 +183,6 @@ export class ManageMembersPage implements OnInit {
   goToProfile(){
     this.router.navigate(["./user-profile"])
   }
+
+ 
 }
