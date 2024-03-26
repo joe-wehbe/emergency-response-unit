@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('login_requests', function (Blueprint $table) {
             $table->id();
             $table->string('email');
-            $table->integer('status');
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

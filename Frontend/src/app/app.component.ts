@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationEnd, Event as RouterEvent } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { filter } from 'rxjs/operators';
+import { UserService } from './services/user/user.service';
 
 @Component({
   selector: 'app-root',
@@ -12,44 +13,43 @@ export class AppComponent {
   showSideMenu = true;
   darkMode = false;
   reportPageActive = false;
+  user: any;
   @Output() darkModeToggled = new EventEmitter<boolean>();
 
-  ngOnInit(): void {
-    this.checkDarkModeStatus();
-  }
-
-  constructor(private router: Router, private alertController: AlertController, private toastController:ToastController) {
+  constructor(
+    private router: Router,
+    private alertController: AlertController,
+    private toastController:ToastController,
+    private userService:UserService,
+    ){
     this.router.events
     .pipe(filter((event: RouterEvent): event is NavigationEnd => event instanceof NavigationEnd))
     .subscribe((event: NavigationEnd) => {
       const currentUrl = event.url;
-      this.reportPageActive = currentUrl === '/report' || currentUrl.startsWith('/report/'); // Check if current URL is exactly "/report" or starts with "/report/"
+      this.reportPageActive = currentUrl === '/report' || currentUrl.startsWith('/report/');
       const routeData = this.router.routerState.snapshot.root.firstChild?.data as { showSideMenu?: boolean };
       this.showSideMenu = routeData ? routeData['showSideMenu'] !== false : true && !this.reportPageActive;
     });  
   }
 
-  async logoutAlert() {
-    const alert = await this.alertController.create({
-      header: 'Logging out',
-      subHeader: 'Are you sure you want to logout? You can always log back in.',
-      cssClass: 'alert-dialog',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'alert-button-cancel'
-        },
-        {
-          text: 'Logout',
-          cssClass: 'alert-button-ok-red',
-          handler: () => {
-            this.router.navigate(["./login"])
-          },
-        },
-      ],
+  ngOnInit(): void {
+    this.checkDarkModeStatus();
+    this.getUserInfo();
+  }
+
+  getUserInfo() {
+    this.userService.getUserInfo()
+    .subscribe({
+      next: (response) => {
+        console.log("Fetched user data:", response);
+        this.user = response['User'];
+      },
+      error: (error) => {
+        console.error("Error getting user info:", error);
+      },
+      complete: () => {
+      }
     });
-    await alert.present();
   }
 
   async applyAlert() {
@@ -113,6 +113,17 @@ export class AppComponent {
               return false;
             }
             else{
+              this.userService.apply(data.id, data.number, data.major)
+              .subscribe({
+                next: (response) => {
+                  console.log("User applied successfully:", response);
+                },
+                error: (error) => {
+                  console.error("Error applying:", error);
+                },
+                complete: () => {
+                }
+              });
               return true;
             }
           },
@@ -138,5 +149,28 @@ export class AppComponent {
       localStorage.setItem('darkModeActivated', 'false');
       this.darkModeToggled.emit(this.darkMode);
     }
+  }
+
+  async logoutAlert() {
+    const alert = await this.alertController.create({
+      header: 'Logging out',
+      subHeader: 'Are you sure you want to logout? You can always log back in.',
+      cssClass: 'alert-dialog',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'alert-button-cancel'
+        },
+        {
+          text: 'Logout',
+          cssClass: 'alert-button-ok-red',
+          handler: () => {
+            this.router.navigate(["./login"])
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
 }

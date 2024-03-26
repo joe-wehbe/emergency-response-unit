@@ -24,4 +24,12 @@ class Emergency extends Model
         'issues',
         'case_report'
     ];
+
+    public function medic(){
+        return $this->belongsTo(User::class, 'medic_id');
+    }
+
+    public function assessments(){
+        return $this->hasMany(Assessment::class);
+    }
 }

@@ -207,10 +207,42 @@ class UserController extends Controller{
         ]);
     }
 
+    // REPORT PAGE
+    public function apply(Request $request){
+        $request->validate([
+            'user_id' => 'required',
+            'student_id' => 'required',
+            'phone_number' => 'required',
+            'major' => 'required',
+        ]);
+
+        try {
+            $user = User::find($request->user_id);
+
+            if ($user) {
+                $user->student_id = $request->student_id;
+                $user->phone_number = $request->phone_number;
+                $user->major = $request->major;
+                $user->save();
+
+                $login_request = new Login_request();
+                $login_request->email = $user->lau_email;
+                $login_request->save();
+
+                return response()->json(['message' => 'User applied successfully'], 201);
+
+            } else {
+                return response()->json(['error' => 'User not found'], 404);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'An error occurred'], 500);
+        }
+    }
+
     // PROFILE PAGE
     public function getUserInfo($id){
         try {
-            $user = User::findOrFail($id);
+            $user = User::with('rank')->findOrFail($id);
             return response()->json(['User' => $user], 200);
         } catch (ModelNotFoundException $exception) {
             return response()->json(['error' => 'User not found'], 404);

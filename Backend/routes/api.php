@@ -27,6 +27,7 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::post("register", [UserController::class, "register"]);
         Route::post("login", [UserController::class, "login"]);
         Route::post("logout", [UserController::class, "logout"]);
+        Route::put("apply", [UserController::class, "apply"]);
         Route::get('{id}/get-user-info', [UserController::class, 'getUserInfo']);
         Route::put('edit-bio', [UserController::class, 'editBio']);
         Route::put('edit-tags', [UserController::class, 'editTags']);
@@ -46,7 +47,10 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::post("report-emergency", [EmergencyController::class, "reportEmergency"]);
         Route::get('get-ongoing-emergencies', [EmergencyController::class, 'getOngoingEmergencies']);
         Route::get('get-ended-emergencies', [EmergencyController::class, 'getEndedEmergencies']);
+        Route::delete('delete-emergency/{id}', [EmergencyController::class, 'deleteEmergency']);
         Route::get('get-emergency/{id}', [EmergencyController::class, 'getEmergency']);
+        Route::get('get-emergency-assessments/{id}', [EmergencyController::class, 'getEmergencyAssessments']);
+        Route::get('get-no-response-emergencies', [EmergencyController::class, 'getNoResponseEmergencies']);
         Route::put('accept-emergency', [EmergencyController::class, 'acceptEmergency']);
         Route::put('add-emergency-details', [EmergencyController::class, "addEmergencyDetails"]);
         Route::post("add-assessment", [EmergencyController::class, "addAssessment"]);

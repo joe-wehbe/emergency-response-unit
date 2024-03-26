@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Models\User;
 use App\Models\Assessment;
@@ -31,25 +30,115 @@ class EmergencyController extends Controller
 
     // STANDBY PAGE
     public function getOngoingEmergencies(){
-        $emergencies = Emergency::where('status', 1)->get();
-        return response()->json(['emergencies' => $emergencies], 200);
+        try {
+            $emergencies = Emergency::with('medic')
+                ->where('status', 1)
+                ->orderBy('created_at', 'desc')
+                ->get();
+            
+            if($emergencies->isEmpty()){
+                return response()->json(['message' => 'No ongoing emergencies'], 200);
+            }
+    
+            $emergenciesWithLastAssessments = [];
+            foreach ($emergencies as $emergency) {
+                $lastAssessment = $emergency->assessments()->latest()->first();
+                $emergenciesWithLastAssessments[] = [
+                    'emergency' => $emergency,
+                    'last_assessment' => $lastAssessment
+                ];
+            }
+            return response()->json(['emergencies' => $emergenciesWithLastAssessments], 200);
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'An error occurred'], 500);
+        }
     }
 
     public function getEndedEmergencies(){
-        $emergencies = Emergency::where('status', 0)->get();
-        return response()->json(['emergencies' => $emergencies], 200);
+        try{
+            $emergencies = Emergency::with('medic')
+            ->where('status', 0)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+            if($emergencies->isEmpty()){
+                return response()->json(['message' => 'No ended emergencies'], 200);
+            }
+            else{
+                return response()->json(['emergencies' => $emergencies], 200);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'An error occurred'], 500);
+        }
     }
 
+    public function deleteEmergency($emergencyId){
+        try{
+            $emergency = Emergency::find($emergencyId);
+
+            if($emergency){
+                Assessment::where('emergency_id', $emergencyId)->delete();
+                $emergency->delete();
+                
+                return response()->json(['message' => 'Emergency deleted successfully'], 201);    
+            }
+            else{
+                return response()->json(['error' => 'Emergency not found'], 404);
+            }
+        }catch (Exception $exception) {
+            return response()->json(['error' => 'An error occurred'], 500);
+        }
+    }
+    
+    // EMERGENCY DETAILS PAGE
     public function getEmergency($id){
         try {
-            $emergency = Emergency::findOrFail($id);
-            return response()->json(['emergency' => $emergency], 200);
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(['error' => 'Emergency not found'], 404);
+            $emergency = Emergency::with('medic')->find($id);
+            
+            if($emergency){
+                return response()->json(['emergency' => $emergency], 200);
+            }
+            else{
+                return response()->json(['error' => 'Emergency not found'], 404);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'An error occurred'], 404);
+        }
+    }
+
+    public function getEmergencyAssessments($id){
+        try{
+            $emergency = Emergency::find($id);
+
+            if($emergency){
+                $assessments = Assessment::where('emergency_id', $id)->get();
+                return response()->json(['assessments' => $assessments], 200);
+            }
+            else{
+                return response()->json(['error' => 'Emergency not found'], 404);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'An error occured'], 404);
         }
     }
 
     // ON SCENE PAGE
+    public function getNoResponseEmergencies(){
+        try{
+            $emergencies = Emergency::whereNull('medic_id')->orderByDesc('created_at')->get();
+    
+            if($emergencies->isEmpty()){
+                return response()->json(['message' => 'No emergencies without response'], 200);
+            }
+            else{
+                return response()->json(['emergencies' => $emergencies], 200);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+    
+
     public function acceptEmergency(Request $request){
         $request-> validate([
             'id' => 'required',
@@ -83,6 +172,7 @@ class EmergencyController extends Controller
         }
     }
 
+    // MEDIC EMERGENCY DETAILS PAGE
     public function addEmergencyDetails(Request $request){
         $request->validate([
             'id' => 'required',
@@ -168,7 +258,7 @@ class EmergencyController extends Controller
                 return response()->json(['message' => 'Emergency ended']);
             }
             else{
-                return response()->json(['message' => 'Emergency not found']);
+                return response()->json(['error' => 'Emergency not found'], 404);
             }
 
         }catch (Exception $exception) {
