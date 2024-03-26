@@ -1,17 +1,74 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
-
+import { SharedService } from 'src/app/services/shared.service';
+import { AdminService } from 'src/app/services/admin/admin.service';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.page.html',
   styleUrls: ['./user-profile.page.scss'],
 })
 export class UserProfilePage implements OnInit {
+  selectedUser: any;
+  user:any = [];
+  first_name:string = '';
+  last_name:string = '';
+  full_name:string = '';
+  user_rank:string = '';
+  lau_email:string = '';
+  student_id:string = '';
+  major:string = '';
+  phone_number:string = '';
+  bio:string = '';
+  tags: string[] = [];
+  profile_pic = '';
 
-  constructor(private router:Router, private alertController: AlertController) { }
+  constructor(private adminService:AdminService, private sharedService:SharedService, private router:Router, private alertController: AlertController) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+ this.selectedUser = this.sharedService.getVariableValue();
+ this.adminService.get_user_info(this.selectedUser).subscribe(response => {
+  this.user = response;
+  this.last_name = (this.user['User'].last_name);
+  this.first_name = (this.user['User'].first_name);
+  this.full_name = this.first_name + ' ' + this.last_name;
+  this.user_rank = this.getRole(this.user['User'].user_rank);
+  this.lau_email = (this.user['User'].lau_email);
+  this.student_id = (this.user['User'].student_id);
+  this.major = (this.user['User'].major);
+  this.phone_number = (this.user['User'].phone_number);
+  this.bio = this.checkBio(this.user['User'].bio);
+  this.tags.push(...this.user['User'].tags.split(','));
+});
+ 
+  }
+
+  checkBio(bio: string): string {
+    if (!bio || bio.trim() === '') {
+        return 'No bio yet!';
+    } else {
+        return bio;
+    }
+}
+  getRole(roleNumber: number | string): string {
+    switch (Number(roleNumber)) {
+      case 1: 
+        return 'Dispatcher';
+      case 2:
+        return 'Medic';
+      case 3:
+        return 'Admin';
+      case 4:
+        return 'Medic & Admin';
+      case 5: 
+      return 'Dispatcher & Admin';
+      case 6:
+        return 'Dispatcher & Medic';
+       
+      default:
+        return 'Unknown';
+    }
+  }
 
   back(){
     this.router.navigate(["./manage-members"])

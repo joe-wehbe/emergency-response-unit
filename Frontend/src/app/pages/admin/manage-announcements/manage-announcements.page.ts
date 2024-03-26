@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
+import { AdminService } from 'src/app/services/admin/admin.service';
 
 @Component({
   selector: 'app-manage-announcements',
@@ -10,10 +11,17 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./manage-announcements.page.scss'],
 })
 export class ManageAnnouncementsPage implements OnInit {
+  announcements: any[] = [];
 
-  constructor(private router:Router, public modalController: ModalController, public alertController: AlertController) { }
+  constructor(private adminService:AdminService, private router:Router, public modalController: ModalController, public alertController: AlertController) { 
+   
+  }
 
   ngOnInit() {
+    this.adminService.get_announcements().subscribe(response => {
+      this.announcements =   Object.values(response);
+      console.log(this.announcements);
+    });
   }
 
   receiverSelectedOption: string = 'all-members';

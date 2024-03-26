@@ -7,8 +7,10 @@ import { AdminService } from '../../../services/admin/admin.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { SharedService } from 'src/app/services/shared.service';
 
 interface User {
+  id: number,
   firstName: string;
   lastName: string;
   role: string;
@@ -23,13 +25,18 @@ interface User {
 export class ManageMembersPage implements OnInit {
 
   users: User[] =  [ ];
-
+  users_all : User[] = [];
+  AllUsers : User[] = [];
+  ongoing: User[] = [];
+  admins: User[] = [];
   groupedUsers: { letter: string, users: User[] }[] = [];
   filteredGroupedUsers: { letter: string, users: User[] }[] = [];
 
+  selectedFilter: string = '';
+
   @ViewChild('modal') modal: IonModal | undefined;
 
-  constructor(private http:HttpClient, private adminService:AdminService, private router:Router, public alertController: AlertController, private toastController:ToastController) {
+  constructor(private sharedService:SharedService, private http:HttpClient, private adminService:AdminService, private router:Router, public alertController: AlertController, private toastController:ToastController) {
     
   }
 
@@ -39,17 +46,17 @@ export class ManageMembersPage implements OnInit {
 
 
     this.users = usersArray.map(user => ({
+      id: user.id,
       firstName: user.first_name,
       lastName: user.last_name,
       role: this.getRole(user.user_rank)
     }));
-
+   
+    this.AllUsers = this.users;
     this.groupUsers();
     this.filteredGroupedUsers = [...this.groupedUsers];
 
     });
-   
-
     
   }
 
@@ -180,8 +187,62 @@ export class ManageMembersPage implements OnInit {
     return emailRegex.test(email);
   }
 
-  goToProfile(){
-    this.router.navigate(["./user-profile"])
+  goToProfile(id : number){
+    this.sharedService.setVariableValue(id);
+    this.router.navigate(['/user-profile']);
+  }
+
+  applyFilter(filter: string) {
+    this.selectedFilter = filter;
+    if (filter === 'All members') {
+      this.users = this.AllUsers;
+      this.groupUsers();
+      this.filteredGroupedUsers = [...this.groupedUsers];
+    } else {
+      this.filteredGroupedUsers = this.groupedUsers.map(group => ({
+        letter: group.letter,
+        users: group.users.filter(user => user.role === filter)
+      })).filter(filteredGroup => filteredGroup.users.length > 0);
+    }
+  }
+
+  getOngoing(){
+    this.adminService.get_ongoing_shifts().subscribe(response => {
+      if (response) {
+        const ongoingUsersArray = Object.values(response).reduce((acc: any[], curr: any[]) => acc.concat(curr), []); 
+        this.ongoing = ongoingUsersArray.map((user: { id: number, first_name: string, last_name: string, user_rank: string, profile_picture: any }) => ({ 
+          id : user.id,
+          firstName: user.first_name,
+          lastName: user.last_name,
+          role: this.getRole(user.user_rank)
+        }));
+
+        
+        this.users = this.ongoing; 
+        this.groupUsers(); 
+        this.filteredGroupedUsers = [...this.groupedUsers];
+      }
+    });
+
+  }
+
+  getAdmins(){
+    this.adminService.get_admins().subscribe(response => {
+      if (response) {
+        const adminsArray = Object.values(response).reduce((acc: any[], curr: any[]) => acc.concat(curr), []); 
+        this.admins = adminsArray.map((user: { id: number, first_name: string, last_name: string, user_rank: string, profile_picture: any }) => ({ 
+          id : user.id,
+          firstName: user.first_name,
+          lastName: user.last_name,
+          role: this.getRole(user.user_rank)
+        }));
+
+        this.users = this.admins; 
+        this.groupUsers(); 
+        this.filteredGroupedUsers = [...this.groupedUsers];
+      }
+    });
+
   }
 
  

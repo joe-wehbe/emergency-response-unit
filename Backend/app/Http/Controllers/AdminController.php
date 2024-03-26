@@ -277,6 +277,21 @@ class AdminController extends Controller{
         ]);
     }
 
+    function getAdmins(){
+        $admins = User::whereIn('user_rank', [3, 4, 5]) 
+        ->get();
+
+return response()->json(['admins' => $admins], 200);
+    }
+
+    function getOngoingShifts(){
+    $userDetails = User::join('user_has_shifts', 'users.id', '=', 'user_has_shifts.user_id')
+                        ->where('user_has_shifts.shift_status', '1')
+                        ->get(['users.id', 'users.first_name', 'users.last_name', 'users.user_rank', 'users.profile_picture']); 
+
+    return response()->json(['users_with_ongoing_shifts' => $userDetails], 200);
+    }
+
     // MANAGE FAQs TAB
     function addFaq(Request $request){
         $admin = User::where('id', $request->input('admin_id'))->first();
@@ -370,7 +385,7 @@ class AdminController extends Controller{
     function addExtension(Request $request){
         $admin = User::where('id', $request->input('admin_id'))->first();
 
-        if (!$admin) {
+       /* if (!$admin) {
             return response()->json([
                 'status' => 'Error',
                 'message' => 'Admin not found'
@@ -382,7 +397,7 @@ class AdminController extends Controller{
                 'status' => 'Error',
                 'message' => 'User is not an admin'
             ]);
-        }
+        }*/
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
@@ -407,14 +422,9 @@ class AdminController extends Controller{
         ]);
     }
 
-    function deleteExtension(Request $request){
-        $request->validate([
-            'admin_id' => 'required|integer',
-            'extension_id' => 'required|integer'
-        ]);
+    function deleteExtension($id){
 
-        $extension = Extension::where('id', $request->input('extension_id'))->first();
-        $admin = User::where('id', $request->input('admin_id'))->first();
+        $extension = Extension::where('id', $id)->first();
 
         if (!$extension) {
             return response()->json([
@@ -423,19 +433,6 @@ class AdminController extends Controller{
             ]);
         }
 
-        if (!$admin) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'Admin not found'
-            ]);
-        }
-
-        if (!in_array($admin->user_rank, [3, 4, 5, 7])) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'User is not an admin'
-            ]);
-        }
 
         $extension->delete();
         return response()->json([
