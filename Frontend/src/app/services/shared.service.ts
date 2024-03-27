@@ -16,4 +16,5 @@ export class SharedService {
   getVariableValue() {
     return this.id;
   }
+
 }

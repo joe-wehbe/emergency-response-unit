@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Log;
 use App\Models\Announcement;
 use App\Models\User;
 use App\Models\Medical_faq;
@@ -136,17 +136,24 @@ class AdminController extends Controller{
     public function getUserShifts($userId){
         try {
             $user = User::find($userId);
-
+    
             if($user){
-                $shifts = User_has_shift::where('user_id', $userId)->get();
+                $shifts = User_has_shift::where('user_id', $userId)
+                ->join('shifts', 'user_has_shifts.shift_id', '=', 'shifts.id')
+                ->get();
+            
                 return response()->json(['Shifts' => $shifts], 200);
             }
             else{
                 return response()->json(['error' => 'User not found'], 404);
             }
-
+    
         } catch (Exception $exception) {
-            return response()->json(['error' => 'An error occured'], 404);
+            // Log the exception
+    Log::error($exception);
+
+    // Return the actual exception message
+    return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -294,7 +301,7 @@ return response()->json(['admins' => $admins], 200);
 
     // MANAGE FAQs TAB
     function addFaq(Request $request){
-        $admin = User::where('id', $request->input('admin_id'))->first();
+       /* $admin = User::where('id', $request->input('admin_id'))->first();
 
         if (!$admin) {
             return response()->json([
@@ -308,7 +315,7 @@ return response()->json(['admins' => $admins], 200);
                 'status' => 'Error',
                 'message' => 'User is not an admin'
             ]);
-        }
+        }*/
 
         $validator = Validator::make($request->all(), [
             'type' => 'required|string',
@@ -344,14 +351,10 @@ return response()->json(['admins' => $admins], 200);
         ]);
     }
 
-    function deleteFaq(Request $request){
-        $request->validate([
-            'admin_id' => 'required|integer',
-            'faq_id' => 'required|integer'
-        ]);
+    function deleteFaq($id){
+    
 
-        $faq = Medical_faq::where('id', $request->input('faq_id'))->first();
-        $admin = User::where('id', $request->input('admin_id'))->first();
+        $faq = Medical_faq::where('id', $id)->first();
 
         if (!$faq) {
             return response()->json([
@@ -360,7 +363,7 @@ return response()->json(['admins' => $admins], 200);
             ]);
         }
 
-        if (!$admin) {
+        /*if (!$admin) {
             return response()->json([
                 'status' => 'Error',
                 'message' => 'Admin not found'
@@ -372,7 +375,7 @@ return response()->json(['admins' => $admins], 200);
                 'status' => 'Error',
                 'message' => 'User is not an admin'
             ]);
-        }
+        }*/
 
         $faq->delete();
         return response()->json([

@@ -68,7 +68,7 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::post("add-announcement", [AdminController::class, "addAnnouncement"]);   
         Route::delete("delete-announcement", [AdminController::class, "deleteAnnouncement"]);
         Route::post("add-faq", [AdminController::class, "addFaq"]);
-        Route::delete("delete-faq", [AdminController::class, "deleteFaq"]);
+        Route::delete("delete-faq/{id}", [AdminController::class, "deleteFaq"]);
         Route::post("add-extension", [AdminController::class, "addExtension"]);
         Route::delete("delete-extension/{id}", [AdminController::class, "deleteExtension"]);    
         Route::get("get-attendance-records", [AdminController::class, "getAttendanceRecords"]);

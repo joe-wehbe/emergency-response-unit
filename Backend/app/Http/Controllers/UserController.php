@@ -457,8 +457,8 @@ class UserController extends Controller{
     // MEDICAL FAQs PAGE
     public function getMedicalFaqs($id){
         try {
-            $medicalFAQ = Medical_faq::findOrFail($id);
-            return response()->json(['medicalFAQ' => $medicalFAQ], 200);
+            $faqs = Medical_Faq::where('type', $id)->get();
+            return response()->json(['medicalFAQ' => $faqs], 200);
         } catch (ModelNotFoundException $exception) {
             return response()->json(['error' => 'Medical FAQ not found'], 404);
         } catch (Exception $exception) {
