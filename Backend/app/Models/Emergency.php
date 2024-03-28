@@ -20,7 +20,8 @@ class Emergency extends Model
         'equipment',
         'status',
         'medic_id',
-        'patient_id',
+        'patient_name',
+        'patient_lau_id',
         'issues',
         'case_report'
     ];
