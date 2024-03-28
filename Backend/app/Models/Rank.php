@@ -13,4 +13,5 @@ class Rank extends Model
         'rank_id',
         'rank_name',
     ];
+    
 }

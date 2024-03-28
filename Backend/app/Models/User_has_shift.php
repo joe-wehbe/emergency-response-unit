@@ -14,6 +14,11 @@ class User_has_shift extends Model
         'shift_id',
         'shift_status',
         'checkin_time',
-        'missed_attendance',
-    ];
+        'attended',
+    ];   
+
+    public function coverRequest(){ 
+        return $this->hasMany(Cover_request::class);
+    }
+   
 }

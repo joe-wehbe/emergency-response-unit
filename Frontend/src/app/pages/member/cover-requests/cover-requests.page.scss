@@ -69,8 +69,9 @@ ion-card:active {
   flex-direction: column;
   justify-content: space-evenly;
   height: 100%;
-  width: 100%;
+  // width: 100%;
   padding-right: 10px;
+  margin-right: 0;
 }
 
 .name-time-container{
@@ -78,14 +79,19 @@ ion-card:active {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 
 .name {
   font-size: 17px;
+  align-items: flex-start;
+
 }
 
 .time {
   font-size: 16px;
+  align-items: flex-end;
+  padding-right: 5px;
 }
 
 .date{

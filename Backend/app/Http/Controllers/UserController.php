@@ -373,7 +373,7 @@ class UserController extends Controller{
     // ANNOUNCEMENTS PAGE
     public function getAllAnnouncements(){
         try {
-            $announcements = Announcement::all();
+            $announcements = Announcement::with('admin')->get();
             return response()->json(['announcements' => $announcements], 200);
         } catch (Exception $exception) {
             return response()->json(['error' => 'Failed to fetch announcements'], 500);
@@ -383,12 +383,15 @@ class UserController extends Controller{
     // COVER REQUESTS PAGE
     public function getAllCoverRequests(){
         try {
-            $coverRequests = Cover_request::all();
+            $coverRequests = Cover_request::with(['user' => function ($query) {
+                $query->with('rank');
+            }])->with("shift")->get();
             return response()->json(['coverRequests' => $coverRequests], 200);
         } catch (Exception $exception) {
             return response()->json(['error' => 'Failed to fetch cover requests'], 500);
         }
     }
+    
 
     public function acceptCoverRequest(Request $request){
         $request->validate([

@@ -14,4 +14,8 @@ class Announcement extends Model
         'importance',
         'description',
     ];
+
+    public function admin(){ //to know that an announcement is for A CERTAIN admin
+        return $this->belongsTo(User::class);
+    }
 }

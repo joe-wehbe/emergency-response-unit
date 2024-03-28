@@ -55,4 +55,8 @@ class User extends Authenticatable
     public function rank(){
         return $this->belongsTo(Rank::class, 'user_rank');
     }
+
+    public function announcements(){
+        return $this->hasMany(Announcement::class);
+    }
 }
