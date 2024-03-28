@@ -4,9 +4,14 @@ import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
-
+import { AdminService } from 'src/app/services/admin/admin.service';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { ToastController } from '@ionic/angular';
+import { catchError } from 'rxjs/operators';
 
 interface User {
+  id: number;
   name: string;
   extension: string;
 }
@@ -17,27 +22,33 @@ interface User {
   styleUrls: ['./manage-extensions.page.scss'],
 })
 export class ManageExtensionsPage implements OnInit {
-
+  name: string = '';
+  number: string = '';
   users: User[] = [
-    { name: 'Alice', extension: '2920' },
-    { name: 'Alice', extension: '2301' },
-    { name: 'Alice', extension: '3021' },
-    { name: 'Bob', extension: '2102' },
-    { name: 'Bob', extension: '2102' },
-    { name: 'Bob', extension: '2102' },
-    { name: 'Bob', extension: '2102' },
-    { name: 'Bob', extension: '2013' },
-    { name: 'Joe', extension: '4031' },
-    { name: 'Joe', extension: '2321' },
-    { name: 'Joe', extension: '2341' },
   ];
 
   groupedUsers: { letter: string, users: User[] }[] = [];
   filteredGroupedUsers: { letter: string, users: User[] }[] = [];
 
-  constructor(private router:Router, private modalController:ModalController, private alertController:AlertController) {
+  constructor(private toastController:ToastController, private http:HttpClient, private adminService:AdminService, private router:Router, private modalController:ModalController, private alertController:AlertController) {
+    
+    
+  }
+  ngOnInit() {
+
+    this.adminService.get_extensions().subscribe(response => {
+      const extensions = Object.values(response).reduce((acc: any[], curr: any[]) => acc.concat(curr), []); 
+      this.users = extensions.map((user: { id: number, name: string, number: string }) => ({ 
+        id : user.id,
+        name: user.name,
+        number: user.number,
+      }));
+
     this.groupUsers();
     this.filteredGroupedUsers = [...this.groupedUsers];
+
+    });
+
   }
 
   groupUsers() {
@@ -72,7 +83,7 @@ export class ManageExtensionsPage implements OnInit {
     })).filter(filteredGroup => filteredGroup.users.length > 0);
   }
 
-  ngOnInit() {}
+
 
   back(){
     this.router.navigate(['/admin-panel']);
@@ -96,13 +107,29 @@ export class ManageExtensionsPage implements OnInit {
     this.modalController.dismiss();
   }
 
-  add(extensionForm: NgForm) {
-    if (extensionForm.valid) {
-      this.dismiss();
+   add() {
+    this.adminService.add_extension(this.name, this.number).subscribe(response => {
+      this.handleResponse(response);
+    });
+  }
+  
+  async handleResponse(response: any) {
+    const str = JSON.stringify(response);
+    const result = JSON.parse(str);
+    const status = result['status'];
+    if (status == "Success") {
+      window.location.reload();
+    } else {
+      const toast = await this.toastController.create({
+        message: 'Failed to add extension',
+        duration: 2000, 
+        position: 'bottom'
+      });
+      toast.present();
     }
   }
 
-  async deleteAlert() {
+  async deleteAlert(id: number) {
     const alert = await this.alertController.create({
       header: 'Delete Extension',
       subHeader: 'Are you sure you want to delete this extension?',
@@ -115,10 +142,49 @@ export class ManageExtensionsPage implements OnInit {
         },
         {
           text: 'Delete',
-          cssClass: 'alert-button-ok-red'
+          cssClass: 'alert-button-ok-red',
+          handler: () => {
+            // Call your API here
+            this.deleteExtension(id);
+          }
         },
       ],
     });
     await alert.present();
+  }
+
+
+  async deleteExtension(ext_id: number){
+    try {
+      await this.http.delete<any>(`http://localhost:8000/api/v0.1/admin/delete-extension/${ext_id}`).pipe(
+        catchError(async (error) => {
+          console.error('Error occurred while deleting extension:', error);
+          const toast = await this.toastController.create({
+            message: 'Failed to delete extension',
+            duration: 2000, 
+            position: 'bottom'
+          });
+          toast.present();
+          throw error;
+        })
+      ).toPromise();
+  
+      const toast = await this.toastController.create({
+        message: 'Extension deleted successfully',
+        duration: 2000, 
+        position: 'bottom'
+      });
+      toast.present();
+      window.location.reload();
+      
+    } catch (error) {
+      console.error('Error occurred while deleting extension:', error);
+      const toast = await this.toastController.create({
+        message: 'Failed to delete extension',
+        duration: 2000, 
+        position: 'bottom'
+      });
+      toast.present();
+    }
   }
 }

@@ -68,15 +68,17 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::post("add-announcement", [AdminController::class, "addAnnouncement"]);   
         Route::delete("delete-announcement", [AdminController::class, "deleteAnnouncement"]);
         Route::post("add-faq", [AdminController::class, "addFaq"]);
-        Route::delete("delete-faq", [AdminController::class, "deleteFaq"]);
+        Route::delete("delete-faq/{id}", [AdminController::class, "deleteFaq"]);
         Route::post("add-extension", [AdminController::class, "addExtension"]);
-        Route::delete("delete-extension", [AdminController::class, "deleteExtension"]);    
+        Route::delete("delete-extension/{id}", [AdminController::class, "deleteExtension"]);    
         Route::get("get-attendance-records", [AdminController::class, "getAttendanceRecords"]);
         Route::get("get-login-requests", [AdminController::class, "getLoginRequests"]);
         Route::put("accept-login-request", [AdminController::class, "acceptRequest"]);
         Route::put("reject-login-request", [AdminController::class, "rejectRequest"]);
         Route::get('get-emergency-records', [AdminController::class, 'getEmergencyRecords']);    
         Route::get('get-members', [AdminController::class, 'getMembers']);    
+        Route::get('get-ongoing-shifts', [AdminController::class, 'getOngoingShifts']);
+        Route::get('get-admins', [AdminController::class, 'getAdmins']);
     });
 });
 

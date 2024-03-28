@@ -22,7 +22,7 @@
         <ion-list *ngIf="group.users.length > 0">
           <ion-list-header [id]="'header-' + group.letter">{{ group.letter }}</ion-list-header>
           <ion-card>
-            <ion-item lines="full" *ngFor="let user of group.users" (click)="deleteAlert()">
+            <ion-item lines="full" *ngFor="let user of group.users" (click)="deleteAlert(user.id)">
               <span class="first-name">{{ user.name }}</span>
               <ion-text slot="end">{{ user.extension }}</ion-text>
             </ion-item>
@@ -53,17 +53,17 @@
   
           <div class="modal-name-container">
             <ion-text> Write the name of the extension</ion-text>
-            <ion-input placeholder="Name..." name="extensionName" ngModel required></ion-input>
+            <ion-input placeholder="Name..." name="extensionName" [(ngModel)] ="name" required></ion-input>
           </div>
   
           <div class="modal-number-container">
             <ion-text>Write the extension number</ion-text>
-            <ion-input type="number" placeholder="Number..." name="extensionNumber" ngModel required></ion-input>
+            <ion-input type="number" placeholder="Number..." name="extensionNumber" [(ngModel)] ="number" required></ion-input>
           </div>
   
           <div class="buttons-container">
             <ion-button class="cancel-button" fill="outline" (click)="dismiss()">Cancel</ion-button>
-            <ion-button class="add-button" fill="outline" (click)="add(extensionForm)" [disabled]="extensionForm.invalid">Add</ion-button>
+            <ion-button class="add-button" fill="outline" (click)="add()" [disabled]="extensionForm.invalid">Add</ion-button>
           </div>
         </div>
       </form>

@@ -373,7 +373,10 @@ class UserController extends Controller{
     // ANNOUNCEMENTS PAGE
     public function getAllAnnouncements(){
         try {
-            $announcements = Announcement::with('admin')->get();
+            $announcements = Announcement::join('users', 'announcements.admin_id', '=', 'users.id')
+                ->select('announcements.*', 'users.first_name', 'users.last_name')
+                ->get();
+    
             return response()->json(['announcements' => $announcements], 200);
         } catch (Exception $exception) {
             return response()->json(['error' => 'Failed to fetch announcements'], 500);
@@ -457,8 +460,8 @@ class UserController extends Controller{
     // MEDICAL FAQs PAGE
     public function getMedicalFaqs($id){
         try {
-            $medicalFAQ = Medical_faq::findOrFail($id);
-            return response()->json(['medicalFAQ' => $medicalFAQ], 200);
+            $faqs = Medical_Faq::where('type', $id)->get();
+            return response()->json(['medicalFAQ' => $faqs], 200);
         } catch (ModelNotFoundException $exception) {
             return response()->json(['error' => 'Medical FAQ not found'], 404);
         } catch (Exception $exception) {
