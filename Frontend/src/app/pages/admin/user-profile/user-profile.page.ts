@@ -26,6 +26,9 @@ export class UserProfilePage implements OnInit {
   tags: string[] = [];
   profile_pic = '';
   shifts: any[] = [];
+  boardMemberChecked: boolean = false;
+  medicChecked: boolean = false;
+  dispatcherChecked: boolean = false;
 
   constructor(private toastController:ToastController, private adminService:AdminService, private sharedService:SharedService, private router:Router, private alertController: AlertController) { }
 
@@ -189,21 +192,24 @@ this.adminService.get_user_shifts(this.user_id).subscribe(response => {
           type: 'checkbox',
           label: 'Board member',
           value: 'Board member',
-        checked: false
+          checked: this.boardMemberChecked, // Bind to component property
+          handler: () => { this.boardMemberChecked = !this.boardMemberChecked; }
         },
         {
           name: 'medic',
           type: 'checkbox',
           label: 'Medic',
           value: 'Medic',
-          checked: false
+          checked: this.medicChecked, // Bind to component property
+          handler: () => { this.medicChecked = !this.medicChecked; }
         },
         {
           name: 'dispatcher',
           type: 'checkbox',
           label: 'Dispatcher',
           value: 'Dispatcher',
-          checked: false
+          checked: this.dispatcherChecked, // Bind to component property
+          handler: () => { this.dispatcherChecked = !this.dispatcherChecked; }
         }
       ],
       buttons: [
@@ -217,19 +223,67 @@ this.adminService.get_user_shifts(this.user_id).subscribe(response => {
           cssClass: 'alert-button-ok-red',
           handler: () => {
             const selectedOptions: string[] = [];
-  
-            alert.inputs.forEach(input => {
-              if (input.checked) {
-                selectedOptions.push(input.value);
-              }
-            });
-  
-            console.log('Selected options:', selectedOptions.join(', '));
+
+            if (this.boardMemberChecked) {
+              selectedOptions.push('Board member');
+            }
+            if (this.medicChecked) {
+              selectedOptions.push('Medic');
+            }
+            if (this.dispatcherChecked) {
+              selectedOptions.push('Dispatcher');
+            }
+
+            this.changeRank(selectedOptions);
           }
         },
       ],
     });
+
     await alert.present();
+  }
+
+  changeRank(ranks: string[]){
+    const hasMedic = ranks.includes('Medic');
+    const hasDispatcher = ranks.includes('Dispatcher');
+    const hasBoardMember = ranks.includes('Board member');
+    let rank: number;
+    if (hasMedic && hasDispatcher) {
+      rank = 6;
+    } else if (hasDispatcher && !hasMedic && !hasBoardMember) {
+      rank= 1;
+    } else if (hasMedic && !hasDispatcher && !hasBoardMember) {
+      rank= 2;
+    } else if (hasBoardMember && !hasMedic && !hasDispatcher) {
+      rank= 3;
+    } else if (hasMedic && hasBoardMember && !hasDispatcher) {
+      rank= 4;
+    } else if (hasDispatcher && hasBoardMember && !hasMedic) {
+      rank= 5;
+    } else {
+      rank= 0;
+    }
+    this.adminService.change_rank(this.selectedUser, rank).subscribe(response => {
+      this.handleResponseAdd(response);
+    });
+
+  }
+
+   
+  async handleResponseAdd(response: any) {
+    const str = JSON.stringify(response);
+    const result = JSON.parse(str);
+    const status = result['message'];
+    if (status == "Rank updated successfully") {
+      this.router.navigate(["./manage-members"]);
+    } else {
+      const toast = await this.toastController.create({
+        message: 'Failed to change rank',
+        duration: 2000, 
+        position: 'bottom'
+      });
+      toast.present();
+    }
   }
 
   async removeAlert() {
