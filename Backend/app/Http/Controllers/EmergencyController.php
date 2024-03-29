@@ -250,7 +250,6 @@ class EmergencyController extends Controller
         }
     }
     
-
     public function endEmergency(Request $request){
         $request-> validate([
             'id' => 'required'

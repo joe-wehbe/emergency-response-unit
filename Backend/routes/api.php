@@ -41,6 +41,7 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::get('get-extensions', [UserController::class, 'getExtensions']);
         Route::get('{id}/get-medical-faqs', [UserController::class, 'getMedicalFaqs']);
         Route::put('add-case-report', [UserController::class, 'addCaseReport']);
+        Route::get('get-semester', [UserController::class, 'getSemester']);     
     });
     // EMERGENCY CONTROLLER APIs
     Route::group(["prefix" => "emergency"], function(){
@@ -77,7 +78,7 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::put("accept-login-request", [AdminController::class, "acceptRequest"]);
         Route::put("reject-login-request", [AdminController::class, "rejectRequest"]);
         Route::get('get-emergency-records', [AdminController::class, 'getEmergencyRecords']);    
-        Route::get('get-members', [AdminController::class, 'getMembers']);    
+        Route::get('get-members', [AdminController::class, 'getMembers']);   
     });
 });
 

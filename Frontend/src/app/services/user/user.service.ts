@@ -25,7 +25,22 @@ export class UserService {
     return this.http.put(this.base_url + "apply", body);
   }
 
+  getUserShifts(){
+    return this.http.get("http://localhost:8000/api/v0.1/admin/get-user-shifts/1"); // GET USER ID FROM THE LOCAL STORAGE
+  }
+
   logout(){
     // TO IMPLEMENT WHEN WE HAVE LOGIN
+  }
+
+  getSemester(){
+    return this.http.get(this.base_url + "get-semester");
+  }
+
+  markAttendance(){
+    const body = {
+      "user_id": 1, // GET USER ID FROM THE LOCAL STORAGE
+    }
+    return this.http.put(this.base_url + "mark-attendance", body);
   }
 }

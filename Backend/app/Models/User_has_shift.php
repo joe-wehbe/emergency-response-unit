@@ -16,4 +16,12 @@ class User_has_shift extends Model
         'checkin_time',
         'missed_attendance',
     ];
+
+    public function shift(){
+        return $this->belongsTo(Shift::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

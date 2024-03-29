@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content class="gradient-background">
-  <ion-card class="card-container">
+  <ion-card class="card-container" *ngIf="user">
       
     <div class="header">
       <ion-avatar class="icon">
@@ -17,8 +17,8 @@
   
       <div class="container">
         <div class="np-container">
-          <h2 class="name">Joe Wehbe</h2>
-          <p class="position">Board Member & Medic</p>
+          <h2 class="name">{{ user.first_name }} {{ user.last_name }}</h2>
+          <p class="position">{{user.rank.rank_name}}</p>
         </div>
 
         <div class="edit-button">
@@ -31,21 +31,21 @@
       <ion-row>
         <ion-col size="6" size-md="4" size-lg="2">
           <ion-img src="assets/icon/email.png"></ion-img>
-          <p>Joe Wehbe</p>
+          <p>{{ user.first_name }} {{ user.last_name }}</p>
         </ion-col>
         <ion-col size="6" size-md="4" size-lg="2">
           <ion-img src="assets/icon/phone.png"></ion-img>
-          <p>81955654</p>
+          <p>{{ user.phone_number }}</p>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col size="6" size-md="4" size-lg="2">
           <ion-img src="assets/icon/id.png"></ion-img>
-          <p>202000908</p>
+          <p>{{ user.student_id }}</p>
         </ion-col>
         <ion-col size="6" size-md="4" size-lg="2">
           <ion-img src="assets/icon/major.png"></ion-img>
-          <p>Computer Science</p>
+          <p>{{ user.major }}</p>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -60,24 +60,18 @@
       <div class="first-experience-section">
         <h6>Talk about your accomplishments</h6>
         <ion-card class="experience-card">
-          <ion-text class="experience-text">Nursing student with 6 years in emergency response.
-            Member of the red cross since 2017. Obtained several certifications such as CPR, A-EMT and more.</ion-text>
+          <ion-text class="experience-text">{{ user.bio }}</ion-text>
         </ion-card>
       </div>
   
       <div class="second-experience-section">
         <h6>Show your skills in the medical field</h6>
         <ion-card class="skills-card">
-          <ion-badge>First Aid</ion-badge>
-          <ion-badge>EMT-B</ion-badge>
-          <ion-badge>Red Cross</ion-badge>
-          <ion-badge>CPR</ion-badge>
-          <ion-badge>Medical Protocols</ion-badge>
-          <ion-badge>A-EMT</ion-badge>
-          <ion-badge>Medication</ion-badge>
-          <ion-badge>EMT-I</ion-badge>
-          <ion-badge>Emergency Unit</ion-badge>
-          <ion-badge>Ventilation</ion-badge>
+          <ng-container *ngIf="user && user.tags">
+            <ng-container *ngFor="let tag of user.tags.split(',')">
+              <ion-badge>{{ tag.trim() }}</ion-badge>
+            </ng-container>
+          </ng-container>
         </ion-card>
       </div>
     </div>
@@ -100,7 +94,7 @@
     </div>
 
     <div class="attendance-button-container">
-      <ion-button mode="ios" class="attendance-button" fill="outline">Mark attendance</ion-button>
+      <ion-button mode="ios" class="attendance-button" fill="outline" (click)="markAttendance()">Mark attendance</ion-button>
     </div>
   </ion-card>
 </ion-content>

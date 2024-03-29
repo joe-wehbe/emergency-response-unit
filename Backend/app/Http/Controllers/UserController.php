@@ -17,6 +17,7 @@ use App\Models\Extension;
 use App\Models\Medical_faq;
 use App\Models\Emergency;
 use App\Models\Login_attempt;
+use App\Models\Semester;
 
 use Carbon\Carbon;
 use Exception;
@@ -234,8 +235,8 @@ class UserController extends Controller{
             } else {
                 return response()->json(['error' => 'User not found'], 404);
             }
-        } catch (Exception $exception) {
-            return response()->json(['error' => 'An error occurred'], 500);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -244,8 +245,8 @@ class UserController extends Controller{
         try {
             $user = User::with('rank')->findOrFail($id);
             return response()->json(['User' => $user], 200);
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(['error' => 'User not found'], 404);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -266,8 +267,8 @@ class UserController extends Controller{
                 return response()->json(['error' => 'User not found'], 404);
             }
 
-        } catch (Exception $exception) {
-            return response()->json(['error' => 'An error occurred'], 500);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -288,8 +289,8 @@ class UserController extends Controller{
                 return response()->json(['error' => 'User not found'], 404);
             }
 
-        } catch (Exception $exception) {
-            return response()->json(['error' => 'An error occurred'], 500);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -321,8 +322,23 @@ class UserController extends Controller{
             } else {
                 return response()->json(['error' => 'User not found'], 404);
             }
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
+    public function getSemester(){
+        try {
+            $semester = Semester::get();
+
+            if($semester){
+                return response()->json(['Semester' => $semester], 200);
+            }
+            else{
+                return response()->json(['message' => 'No semesters found'], 200);
+            }
         } catch (Exception $exception) {
-            return response()->json(['error' => 'An error occurred'], 500);
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -340,7 +356,7 @@ class UserController extends Controller{
 
                 foreach ($userShifts as $shift) {
                     if ($shift->shift_status == 1) {
-                        $shift->missed_attendance = 0;
+                        $shift->attended = 1;
                         $shift->checkin_time = Carbon::now();
                         $shift->save();
                         $attendanceMarked = true;
@@ -355,8 +371,8 @@ class UserController extends Controller{
             } else {
                 return response()->json(['error' => 'User not found'], 404);
             }
-        } catch (Exception $exception) {
-            return response()->json(['error' => 'An error occurred'], 500);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -365,8 +381,8 @@ class UserController extends Controller{
         try {
             $users = User::all();
             return response()->json(['users' => $users], 200);
-        } catch (Exception $exception) {
-            return response()->json(['error' => 'Failed to fetch users'], 500);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -375,8 +391,8 @@ class UserController extends Controller{
         try {
             $announcements = Announcement::all();
             return response()->json(['announcements' => $announcements], 200);
-        } catch (Exception $exception) {
-            return response()->json(['error' => 'Failed to fetch announcements'], 500);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -385,8 +401,8 @@ class UserController extends Controller{
         try {
             $coverRequests = Cover_request::all();
             return response()->json(['coverRequests' => $coverRequests], 200);
-        } catch (Exception $exception) {
-            return response()->json(['error' => 'Failed to fetch cover requests'], 500);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -402,8 +418,8 @@ class UserController extends Controller{
             $coverRequest->save();
 
             return response()->json(['message' => 'Cover request accepted'], 200);
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(['error' => 'Cover request not found'], 404);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -436,8 +452,8 @@ class UserController extends Controller{
             } else {
                 return response()->json(['error' => 'Emergency not found'], 404);
             }
-        } catch (Exception $exception) {
-            return response()->json(['error' => 'An error occurred'], 500);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -446,8 +462,8 @@ class UserController extends Controller{
         try {
             $extensions = Extension::all();
             return response()->json(['extensions' => $extensions], 200);
-        } catch (Exception $exception) {
-            return response()->json(['error' => 'Failed to fetch extensions'], 500);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 

@@ -38,7 +38,7 @@ class AdminController extends Controller{
                 return response()->json(['message' => 'User not registered yet']);
             }
         } catch (Exception $exception) {
-            return response()->json(['error' => 'Failed to add member'], 500);
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -58,8 +58,8 @@ class AdminController extends Controller{
             else{
                 return response()->json(['error' => 'User not found'], 404);
             } 
-        }catch (Exception $exception) {
-            return response()->json(['error' => 'An error occurred'], 500);
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -128,8 +128,8 @@ class AdminController extends Controller{
             }else{
                 return response()->json(['error' => 'User not found'], 404);
             }
-        }catch (Exception $exception) {
-            return response()->json(['error' => 'An error occurred'], 500);
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -138,7 +138,7 @@ class AdminController extends Controller{
             $user = User::find($userId);
 
             if($user){
-                $shifts = User_has_shift::where('user_id', $userId)->get();
+                $shifts = User_has_shift::with("shift")->where('user_id', $userId)->get();
                 return response()->json(['Shifts' => $shifts], 200);
             }
             else{
@@ -146,7 +146,7 @@ class AdminController extends Controller{
             }
 
         } catch (Exception $exception) {
-            return response()->json(['error' => 'An error occured'], 404);
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -176,8 +176,8 @@ class AdminController extends Controller{
             } else {
                 return response()->json(['error' => 'User not found'], 404);
             }
-        } catch (Exception $exception) {
-            return response()->json(['error' => 'An error occurred'], 500);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -202,8 +202,8 @@ class AdminController extends Controller{
             } else {
                 return response()->json(['error' => 'User not found']);
             }
-        } catch (Exception $exception) {
-            return response()->json(['error' => 'Failed to delete shift']);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -228,8 +228,8 @@ class AdminController extends Controller{
             $announcement->save();
 
             return response()->json(['message' => 'Announcement added successfully']);
-        } catch (Exception $exception) {
-            return response()->json(['error' => 'Failed to add announcement']);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
