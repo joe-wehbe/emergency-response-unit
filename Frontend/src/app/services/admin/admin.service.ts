@@ -50,6 +50,11 @@ export class AdminService {
     return response;
   }
 
+  get_attendance_shifts(){
+    const response = this.http.get(this.base_url + "get-attendance-records");
+    return response;
+  }
+
   remove_member(id: number){
     const headers: HttpHeaders = new HttpHeaders({'Content-Type' : 'application/json'});
     const options= { 

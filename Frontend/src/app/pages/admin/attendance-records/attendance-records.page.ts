@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-
+import { AdminService } from 'src/app/services/admin/admin.service';
 interface Shift {
   name: string;
   coveredBy: string;
@@ -21,52 +21,37 @@ export class AttendanceRecordsPage implements OnInit {
   groupedShifts: { [date: string]: Shift[] } = {};
   selectedMonth: string = '';
 
-  constructor(private router:Router, private modalController:ModalController) {
+  constructor(private adminService:AdminService, private router:Router, private modalController:ModalController) {
     this.selectedMonth = this.getCurrentMonth();
-    this.shifts = [
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '22/01/2024', timeRange: "9:00 - 10:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Gholib', date: '22/01/2024', timeRange: "8:00 - 9:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '22/01/2024', timeRange: "10:00 - 11:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '22/01/2024', timeRange: "11:00 - 12:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '22/01/2024', timeRange: "12:00 - 13:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '22/01/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '22/02/2024', timeRange: "8:00 - 9:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '22/02/2024', timeRange: "9:00 - 10:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '22/02/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '22/02/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '23/02/2024', timeRange: "8:00 - 9:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '23/02/2024', timeRange: "9:00 - 10:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '23/02/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '23/02/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-
-
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '02/03/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '02/03/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '02/03/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '02/03/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '02/03/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '03/03/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '03/03/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '03/03/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '03/03/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '03/03/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '04/03/2024', timeRange: "10:00 - 12:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '04/03/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '04/03/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '04/03/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '04/03/2024', timeRange: "15:00 - 16:00", isAttended: 'yes'},
-
-
-    ];
-    this.groupedShifts = this.groupShiftsByDate(this.shifts);
+    this.shifts = [];
+   
   }
+  
+ 
 
   ngOnInit() {
+   
+    this.adminService.get_attendance_shifts().subscribe((response: Record<string, any>) => {
+      const shifts = Object.values(response).map((item: any) => {
+        const userShift = item.user_shifts[0] || {};
+        const coverRequest = item.cover_requests[0] || {};
+    
+        const shift = {
+          name: userShift.user_name || 'Unknown',
+          coveredBy: coverRequest.covered_by_user_name || '-',
+          date: item.date || 'Unknown',
+          timeRange: `${item.time_start || 'Unknown'} - ${item.time_end || 'Unknown'}`,
+          isAttended: userShift.missed_attendance === 0 ? 'yes' : 'no'
+        };
+        this.shifts.push(shift);
+        this.groupedShifts = this.groupShiftsByDate(this.shifts);
+        
+      });
+   
+     
+    });
     this.fetch();
+    
   }
 
   back() {
