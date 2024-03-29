@@ -43,4 +43,19 @@ export class UserService {
     }
     return this.http.put(this.base_url + "mark-attendance", body);
   }
-}
+
+  editBio($bio: string){
+    const body = {
+      "id": 1, // GET USER ID FROM THE LOCAL STORAGE
+      "bio": $bio
+    }
+    return this.http.put(this.base_url + "edit-bio", body); 
+  }
+
+  editTags($tags: string){
+    const body = {
+      "id": 1, // GET USER ID FROM THE LOCAL STORAGE
+      "tags": $tags
+    }
+    return this.http.put(this.base_url + "edit-tags", body); 
+  }}
