@@ -18,7 +18,7 @@ export class ManageFAQsPage implements OnInit {
     this.router.navigate(['/admin-panel']);
   }
 
-  navigateMedicalFAQ(){
-    this.router.navigate(["./medical-faq"])
+  navigateMedicalFAQ(id: string){
+   this.router.navigate(['./medical-faq', { id: id }]);
   }
 }

@@ -8,15 +8,17 @@ import { AnnouncementsPageRoutingModule } from './announcements-routing.module';
 
 import { AnnouncementsPage } from './announcements.page';
 import { HttpClientModule } from '@angular/common/http';
-
+import { DatePipe } from '@angular/common'; 
 @NgModule({
   declarations: [AnnouncementsPage],
+  providers: [DatePipe],
   imports: [
     CommonModule,
     FormsModule,
     HttpClientModule,
     IonicModule,
     AnnouncementsPageRoutingModule,
+    
   ]
 })
 export class AnnouncementsPageModule {}

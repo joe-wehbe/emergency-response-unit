@@ -16,4 +16,12 @@ class Cover_request extends Model
         'request_status',
         'covered_by',
     ];
+
+    public function shift() {  
+        return $this->belongsTo(Shift::class, 'shift_id');
+    }
+    
+    public function user(){ 
+        return $this->belongsTo(User::class);
+    }
 }

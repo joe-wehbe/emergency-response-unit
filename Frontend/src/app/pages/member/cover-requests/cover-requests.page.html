@@ -25,25 +25,25 @@
         <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-avatar>
     </div>
-
-    <div class="third-box">
-
+    <div *ngFor ="let cover_request of coverRequests" class="cover_requests" id="cover_requests">
+      <div class="third-box">
         <div class="upper-container">
           <div class="name-time-container">
-            <p class="name">Roula Wehbe</p>
-            <p class="time">11:00-12:00</p>
+            <p class="name">{{cover_request.user.first_name}} {{cover_request.user.last_name}}</p>
+            <p class="time">{{cover_request.shift.time_start}} {{cover_request.shift.time_end}}</p>
           </div>
+
           <div class="role-container">
-            <p class="role">Dispatcher</p>
-            <p class="date">20/02/2024</p>
+            <p class="role">{{cover_request.user.rank.rank_name}}</p>
+            <p class="date">{{cover_request.shift.day}}</p>
           </div>
         </div>
 
         <div class="description-container">
           <ion-icon class="icon" name="chatbubble-ellipses-outline"></ion-icon>
-          <p class="description">I have an exam</p>
+          <p class="description">{{cover_request.reason}}</p>
         </div>
+      </div>
     </div>
   </ion-card>
 </ion-content>
-

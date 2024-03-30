@@ -19,20 +19,12 @@
   </div>
 
   <div class="cards-container">
-    <ion-card (click)="presentAlert()">
+    <ion-card *ngFor = "let faq of medical_faqs" (click)="presentAlert(faq.id)">
       <div class="question-container">
-        <p class="question">What is the first responsibility of the EMT-B on the scene 
-          of an emergency before starting to assess the patient?</p>
+        <p class="question">{{faq.question}}</p>
       </div>
       <div class="answer-container">
-        <p class="answer">SCENE SIZE-UP
-          1. Dispatch information
-          2. Body Substance Isolation
-          3. Scene Safety/Scene hazards
-          4. Mechanism of injury/ Nature of illness
-          5. Number of patients
-          6. Additional resources needed
-          7. C-Spine Immobilization
+        <p class="answer">{{faq.answer}}
         </p>
       </div>
     </ion-card>
@@ -53,21 +45,21 @@
   
           <div class="modal-question-container">
             <ion-text>Write a frequently asked question</ion-text>
-            <ion-textarea [autoGrow]="true" placeholder="Question..." name="faqQuestion" ngModel required>
+            <ion-textarea [autoGrow]="true" placeholder="Question..." name="faqQuestion"  [(ngModel)] ="question" required>
               <ion-icon class="modal-icon" name="help-circle-outline" slot="start"></ion-icon>
             </ion-textarea>
           </div>
   
           <div class="modal-answer-container">
             <ion-text>Write a detailed answer</ion-text>
-            <ion-textarea [autoGrow]="true" placeholder="Answer..." name="faqAnswer" ngModel required>
+            <ion-textarea [autoGrow]="true" placeholder="Answer..." name="faqAnswer"  [(ngModel)] ="answer" required>
               <ion-icon class="modal-icon" name="information-circle-outline" slot="start"></ion-icon>
             </ion-textarea>
           </div>
   
           <div class="buttons-container">
             <ion-button class="cancel-button" fill="outline" (click)="dismiss()">Cancel</ion-button>
-            <ion-button class="add-button" fill="outline" (click)="add(faqForm)" [disabled]="faqForm.invalid">Add</ion-button>
+            <ion-button class="add-button" fill="outline" (click)="add()" [disabled]="faqForm.invalid">Add</ion-button>
           </div>
         </div>
       </form>

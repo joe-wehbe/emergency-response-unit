@@ -389,7 +389,10 @@ class UserController extends Controller{
     // ANNOUNCEMENTS PAGE
     public function getAllAnnouncements(){
         try {
-            $announcements = Announcement::all();
+            $announcements = Announcement::join('users', 'announcements.admin_id', '=', 'users.id')
+                ->select('announcements.*', 'users.first_name', 'users.last_name')
+                ->get();
+    
             return response()->json(['announcements' => $announcements], 200);
         }  catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
@@ -399,12 +402,15 @@ class UserController extends Controller{
     // COVER REQUESTS PAGE
     public function getAllCoverRequests(){
         try {
-            $coverRequests = Cover_request::all();
+            $coverRequests = Cover_request::with(['user' => function ($query) {
+                $query->with('rank');
+            }])->with("shift")->get();
             return response()->json(['coverRequests' => $coverRequests], 200);
         }  catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
+    
 
     public function acceptCoverRequest(Request $request){
         $request->validate([
@@ -470,8 +476,8 @@ class UserController extends Controller{
     // MEDICAL FAQs PAGE
     public function getMedicalFaqs($id){
         try {
-            $medicalFAQ = Medical_faq::findOrFail($id);
-            return response()->json(['medicalFAQ' => $medicalFAQ], 200);
+            $faqs = Medical_Faq::where('type', $id)->get();
+            return response()->json(['medicalFAQ' => $faqs], 200);
         } catch (ModelNotFoundException $exception) {
             return response()->json(['error' => 'Medical FAQ not found'], 404);
         } catch (Exception $exception) {

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Log;
 use App\Models\Announcement;
 use App\Models\User;
 use App\Models\Medical_faq;
@@ -15,7 +15,7 @@ use App\Models\User_has_shift;
 use App\Models\Cover_request;
 use App\Models\Rank;
 use App\Models\Emergency;
-
+use Illuminate\Support\Facades\DB;
 use Exception;
 
 class AdminController extends Controller{
@@ -136,15 +136,19 @@ class AdminController extends Controller{
     public function getUserShifts($userId){
         try {
             $user = User::find($userId);
-
+    
             if($user){
                 $shifts = User_has_shift::with("shift")->where('user_id', $userId)->get();
+                $shifts = User_has_shift::where('user_id', $userId)
+                ->join('shifts', 'user_has_shifts.shift_id', '=', 'shifts.id')
+                ->get();
+            
                 return response()->json(['Shifts' => $shifts], 200);
             }
             else{
                 return response()->json(['error' => 'User not found'], 404);
             }
-
+    
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
@@ -277,9 +281,24 @@ class AdminController extends Controller{
         ]);
     }
 
+    function getAdmins(){
+        $admins = User::whereIn('user_rank', [3, 4, 5]) 
+        ->get();
+
+return response()->json(['admins' => $admins], 200);
+    }
+
+    function getOngoingShifts(){
+    $userDetails = User::join('user_has_shifts', 'users.id', '=', 'user_has_shifts.user_id')
+                        ->where('user_has_shifts.shift_status', '1')
+                        ->get(['users.id', 'users.first_name', 'users.last_name', 'users.user_rank', 'users.profile_picture']); 
+
+    return response()->json(['users_with_ongoing_shifts' => $userDetails], 200);
+    }
+
     // MANAGE FAQs TAB
     function addFaq(Request $request){
-        $admin = User::where('id', $request->input('admin_id'))->first();
+       /* $admin = User::where('id', $request->input('admin_id'))->first();
 
         if (!$admin) {
             return response()->json([
@@ -293,7 +312,7 @@ class AdminController extends Controller{
                 'status' => 'Error',
                 'message' => 'User is not an admin'
             ]);
-        }
+        }*/
 
         $validator = Validator::make($request->all(), [
             'type' => 'required|string',
@@ -329,14 +348,10 @@ class AdminController extends Controller{
         ]);
     }
 
-    function deleteFaq(Request $request){
-        $request->validate([
-            'admin_id' => 'required|integer',
-            'faq_id' => 'required|integer'
-        ]);
+    function deleteFaq($id){
+    
 
-        $faq = Medical_faq::where('id', $request->input('faq_id'))->first();
-        $admin = User::where('id', $request->input('admin_id'))->first();
+        $faq = Medical_faq::where('id', $id)->first();
 
         if (!$faq) {
             return response()->json([
@@ -345,7 +360,7 @@ class AdminController extends Controller{
             ]);
         }
 
-        if (!$admin) {
+        /*if (!$admin) {
             return response()->json([
                 'status' => 'Error',
                 'message' => 'Admin not found'
@@ -357,7 +372,7 @@ class AdminController extends Controller{
                 'status' => 'Error',
                 'message' => 'User is not an admin'
             ]);
-        }
+        }*/
 
         $faq->delete();
         return response()->json([
@@ -370,7 +385,7 @@ class AdminController extends Controller{
     function addExtension(Request $request){
         $admin = User::where('id', $request->input('admin_id'))->first();
 
-        if (!$admin) {
+       /* if (!$admin) {
             return response()->json([
                 'status' => 'Error',
                 'message' => 'Admin not found'
@@ -382,7 +397,7 @@ class AdminController extends Controller{
                 'status' => 'Error',
                 'message' => 'User is not an admin'
             ]);
-        }
+        }*/
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
@@ -407,14 +422,9 @@ class AdminController extends Controller{
         ]);
     }
 
-    function deleteExtension(Request $request){
-        $request->validate([
-            'admin_id' => 'required|integer',
-            'extension_id' => 'required|integer'
-        ]);
+    function deleteExtension($id){
 
-        $extension = Extension::where('id', $request->input('extension_id'))->first();
-        $admin = User::where('id', $request->input('admin_id'))->first();
+        $extension = Extension::where('id', $id)->first();
 
         if (!$extension) {
             return response()->json([
@@ -423,19 +433,6 @@ class AdminController extends Controller{
             ]);
         }
 
-        if (!$admin) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'Admin not found'
-            ]);
-        }
-
-        if (!in_array($admin->user_rank, [3, 4, 5, 7])) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'User is not an admin'
-            ]);
-        }
 
         $extension->delete();
         return response()->json([
@@ -450,42 +447,55 @@ class AdminController extends Controller{
         return response()->json(['emergency records' => $emergencies], 200);
     }
 
-    // ATTENDANCE RECORDS TAB
-    function getAttendanceRecords(){
-        $records = Shift::all();
-        if ($records->isEmpty()) {
+    function getAttendanceRecords()
+    {
+        $shifts = Shift::all();
+    
+        if ($shifts->isEmpty()) {
             return response()->json([
-                'message' => 'No shifts in the db yet'
+                'message' => 'No shifts in the database yet'
             ]);
         } else {
             $shiftData = [];
-
-            foreach ($records as $shift) {
+    
+            foreach ($shifts as $shift) {
                 $shiftId = $shift->id;
-
-                $userShifts = User_has_shift::where('shift_id', $shiftId)->select('user_id', 'shift_status', 'checkin_time', 'missed_attendance')->get();
-                $coverRequests = Cover_request::where('shift_id', $shiftId)->select('request_status', 'covered_by', 'reason')->get();
-
-                foreach ($userShifts as $key => $userShift) {
-                    $user = User::where('id', $userShift->user_id)->first(['first_name', 'last_name']);
-                    $userShift->user = $user;
+    
+                $userShifts = DB::table('user_has_shifts')
+                    ->where('shift_id', $shiftId)
+                    ->select('user_id',  'missed_attendance')
+                    ->get();
+    
+                $coverRequests = DB::table('cover_requests')
+                    ->where('shift_id', $shiftId)
+                    ->select('user_id', 'shift_id', 'covered_by')
+                    ->get();
+    
+                foreach ($userShifts as $userShift) {
+                    $userShift->missed_attendance = $userShift->missed_attendance;
+                    $userShift->user_name = DB::table('users')
+                        ->where('id', $userShift->user_id)
+                        ->value(DB::raw('CONCAT(first_name, " ", last_name)'));
                 }
-
-                foreach ($coverRequests as $key => $cover) {
-                    $covered_by_user = User::where('id', $cover->covered_by)->first(['first_name', 'last_name']);
-                    $cover->covered_by_user = $covered_by_user;
+    
+                foreach ($coverRequests as $coverRequest) {
+                    $coverRequest->covered_by_user_name = DB::table('users')
+                        ->where('id', $coverRequest->covered_by)
+                        ->value(DB::raw('CONCAT(first_name, " ", last_name)'));
                 }
-
+    
                 $shiftData[$shiftId] = [
-                    'shift' => $shift,
+                    'time_start' => $shift->time_start,
+                    'time_end' => $shift->time_end,
+                    'date' => $shift->date,
                     'user_shifts' => $userShifts,
                     'cover_requests' => $coverRequests
                 ];
             }
+    
             return response()->json($shiftData);
         }
     }
-
     // LOGIN REQUESTS TAB
     function getLoginRequests(){
         $requests = Login_request::all();

@@ -69,3 +69,19 @@ export class UserService {
     return this.http.post(this.base_url + "request-cover", body);
   }
 }
+
+  
+  getAllUsers(){
+    return this.http.get(this.base_url + "get-all-users"); 
+  }
+
+  getAllAnnouncements(){
+    return this.http.get(this.base_url + "get-all-announcements"); 
+  }
+
+  getAllCoverRequests(){
+    return this.http.get(this.base_url + "get-all-cover-requests")
+  }
+}
+
+

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonModal } from '@ionic/angular';
+import { UserService } from 'src/app/services/user/user.service';
 
 interface User {
   firstName: string;
@@ -29,12 +30,31 @@ export class CommunityPage implements OnInit {
 
   @ViewChild('modal') modal: IonModal | undefined;
 
-  constructor() {
+  constructor(private userService:UserService) {
     this.groupUsers();
     this.filteredGroupedUsers = [...this.groupedUsers];
   }
 
   ngOnInit() {
+  }
+
+  getAllUsers(){
+    this.userService.getAllUsers()
+      .subscribe({
+        next: (response) => {
+          if(response && response.hasOwnProperty("users")){
+            console.log("Fetched all users: ", response);
+            const parsedResponse = JSON.parse(JSON.stringify(response));
+            // this.ongoingEmergencies = [].concat.apply([], Object.values(parsedResponse['emergencies']));
+          }
+          else{
+            console.log("No ongoing emergencies");
+          }
+        },
+        error: (error) => {
+          console.error("Error retrieving ongoing emergencies:", error);
+        }
+      });
   }
 
   groupUsers() {

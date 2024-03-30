@@ -47,12 +47,15 @@ ion-menu-button{
     display: flex;
     flex-direction: column;
     padding-right: 10px;
+    width: 100%;
+
 }
 
 .name{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    
 }
   
 .username {
@@ -64,6 +67,9 @@ ion-chip{
     font-size: 14px;
     height: 50%;
     text-align: center;
+    justify-content: space-between; /* Align items to the space between */
+    align-items: flex-end; /* Align items to the end (right) */
+    padding-right: 10px;
 }
 
 .ion-chip-critical {
@@ -98,7 +104,7 @@ ion-chip{
     opacity: 0.8;
 }
 
-ion-modal#example-modal {
+ion-modal#modal {
     --width: 96%;
     --min-width: 250px;
     --height: fit-content;

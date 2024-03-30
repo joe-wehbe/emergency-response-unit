@@ -13,7 +13,7 @@
 
 <ion-content class="background">
   <div class="mainpage">
-    <div class="announcement" id="view-announcement">
+    <div class="announcement" (click)="openModal(announcement.id)" [attr.id]="'announcement_' + announcement.id"  *ngFor = "let announcement of announcements" id="announcement.id">
       <div class="first-box">
         <ion-avatar slot="start" class="profile-picture">
           <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
@@ -21,16 +21,24 @@
       </div>
       <div class="second-box">
         <div class="name">
-          <h2 class="username">Roula Ghaleb</h2>
-          <ion-chip color="danger">Very important</ion-chip>
+          <h2 class="username">{{announcement.first_name}} {{announcement.last_name}}</h2>
+          <ng-container *ngIf= "announcement.importance == 'Very important'">
+            <ion-chip color="danger">{{announcement.importance}}</ion-chip>
+          </ng-container>
+          <ng-container *ngIf= "announcement.importance == 'Important'">
+            <ion-chip color="warning">{{announcement.importance}}</ion-chip>
+          </ng-container>
+          <ng-container *ngIf= "announcement.importance == 'Regular'">
+            <ion-chip color="success">{{announcement.importance}}</ion-chip>
+          </ng-container>
         </div>
         <div class="description-container">
           <p class="description">
-            {{ truncateDescription('Tomorrow meeting in the lounge to discuss shifts and schedules at 5pm, be on time', 65) }}
+            {{ truncateDescription(announcement.description, 65) }}
           </p>
         </div>
         <div class="time-posted">
-          <h3 class="time">1 day ago</h3>
+          <h3 class="time">{{ formatDate(announcement.created_at) }}</h3>
         </div>
       </div>
     </div>
@@ -42,10 +50,10 @@
     </ion-fab-button>
   </ion-fab>
 
-  <ion-modal id="view-announcement-modal" #modal trigger="view-announcement">
+  <ion-modal *ngFor="let announcement of announcements" [id]="'modal_' + announcement.id" #modal trigger="announcement.id">
     <ng-template>
       <div class="wrapper">
-        <div class="modal-announcement" id="view-announcement">
+        <div class="modal-announcement" id="announcement.id">
           <div class="first-box">
             <ion-avatar slot="start" class="profile-picture">
               <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
