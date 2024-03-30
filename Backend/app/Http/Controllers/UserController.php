@@ -270,7 +270,6 @@ class UserController extends Controller{
     public function editBio(Request $request){
         $request->validate([
             'id' => 'required',
-            'bio' => 'required|string',
         ]);
 
         try {
@@ -292,7 +291,6 @@ class UserController extends Controller{
     public function editTags(Request $request){
         $request->validate([
             'id' => 'required',
-            'tags' => 'required|string',
         ]);
 
         try {

@@ -192,7 +192,13 @@ export class EditProfilePage implements OnInit {
     this.modalController.dismiss()
   }
 
-  dismiss(){
+  dismissBio(){
+    this.bio = this.user.bio;
+    this.modalController.dismiss()
+  }
+
+  dismissTags(){
+    this.tags = this.user.tags;
     this.modalController.dismiss()
   }
 

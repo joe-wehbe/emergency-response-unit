@@ -60,7 +60,8 @@
       <div class="first-experience-section">
         <h6>Talk about your accomplishments</h6>
         <ion-card class="experience-card">
-          <ion-text class="experience-text">{{ user.bio }}</ion-text>
+          <ion-text class="experience-text" *ngIf="user && user.bio">{{ user.bio }}</ion-text>
+          <ion-text class="no-experience-text" *ngIf="!(user && user.bio)">Nothing to show here</ion-text>
         </ion-card>
       </div>
   
@@ -72,6 +73,7 @@
               <ion-badge>{{ tag.trim() }}</ion-badge>
             </ng-container>
           </ng-container>
+          <ion-text class="no-tags-text" *ngIf="!(user && user.tags)">Nothing to show here</ion-text>
         </ion-card>
       </div>
     </div>

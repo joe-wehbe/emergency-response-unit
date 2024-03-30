@@ -122,7 +122,6 @@ ion-img{
 .section-name{
     font-size: 16px;
     padding: 5px;
-    font-style: italic;
 }
 
 .second-line {
@@ -162,7 +161,6 @@ ion-img{
 h6{
     font-size: 0.8rem;
     font-weight: lighter;
-    font-style: italic;
     margin: 0;
 }
 
@@ -191,6 +189,10 @@ h6{
     margin: 0;
     border-radius: 10px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.no-experience-text, .no-tags-text{
+    font-style: italic;
 }
 
 ion-badge{
