@@ -21,17 +21,17 @@
           <ion-datetime-button datetime="from-date"></ion-datetime-button>
           <ion-modal [keepContentsMounted]="true">
             <ng-template>
-              <ion-datetime mode="ios"[showDefaultTitle]="true" [showDefaultButtons]="true" presentation="date" id="from-date">
-                <span slot="title">Select starting month</span>
-              </ion-datetime> 
+              <ion-datetime mode="ios" [showDefaultTitle]="true" [showDefaultButtons]="true" presentation="date" id="from-date" [(ngModel)]="fromDate">
+                <span slot="title">Select start date</span>
+              </ion-datetime>              
             </ng-template>
           </ion-modal>
           <p class="to">to</p>
           <ion-datetime-button datetime="to-date"></ion-datetime-button>
           <ion-modal [keepContentsMounted]="true">
             <ng-template>
-              <ion-datetime mode="ios" [showDefaultTitle]="true" [showDefaultButtons]="true" presentation="date" id="to-date">
-                <span slot="title">Select ending month</span>
+              <ion-datetime mode="ios" [showDefaultTitle]="true" [showDefaultButtons]="true" presentation="date" id="to-date" [(ngModel)]="toDate">
+                <span slot="title">Select end date</span>
               </ion-datetime> 
             </ng-template>
           </ion-modal>

@@ -29,6 +29,7 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::post("logout", [UserController::class, "logout"]);
         Route::put("apply", [UserController::class, "apply"]);
         Route::get('{id}/get-user-info', [UserController::class, 'getUserInfo']);
+        Route::get("get-user-shifts/{id}", [UserController::class, "getUserShifts"]);
         Route::put('edit-bio', [UserController::class, 'editBio']);
         Route::put('edit-tags', [UserController::class, 'editTags']);
         Route::post('request-cover', [UserController::class, 'requestCover']);
@@ -60,6 +61,7 @@ Route::group(["prefix" => "v0.1"], function(){
     });
     // ADMIN CONTROLLER APIs
     Route::group(["prefix" => "admin"], function(){
+        Route::put("update-semester-dates", [AdminController::class, "updateSemesterDates"]);    
         Route::put("add-member", [AdminController::class, "addMember"]);    
         Route::put("remove-member", [AdminController::class, "removeMember"]);    
         Route::delete("delete-user", [AdminController::class, "deleteUser"]);

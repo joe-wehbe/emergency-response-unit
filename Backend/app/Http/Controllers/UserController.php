@@ -250,6 +250,23 @@ class UserController extends Controller{
         }
     }
 
+    public function getUserShifts($userId){
+        try {
+            $user = User::find($userId);
+    
+            if($user){
+                $shifts = User_has_shift::with("shift")->where('user_id', $userId)->get();            
+                return response()->json(['Shifts' => $shifts], 200);
+            }
+            else{
+                return response()->json(['error' => 'User not found'], 404);
+            }
+    
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
     public function editBio(Request $request){
         $request->validate([
             'id' => 'required',

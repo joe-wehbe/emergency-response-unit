@@ -26,7 +26,7 @@ export class UserService {
   }
 
   getUserShifts(){
-    return this.http.get("http://localhost:8000/api/v0.1/admin/get-user-shifts/1"); // GET USER ID FROM THE LOCAL STORAGE
+    return this.http.get(this.base_url + "get-user-shifts/1"); // GET USER ID FROM THE LOCAL STORAGE
   }
 
   logout(){
@@ -68,9 +68,7 @@ export class UserService {
     }
     return this.http.post(this.base_url + "request-cover", body);
   }
-}
 
-  
   getAllUsers(){
     return this.http.get(this.base_url + "get-all-users"); 
   }
@@ -83,5 +81,9 @@ export class UserService {
     return this.http.get(this.base_url + "get-all-cover-requests")
   }
 }
+
+  
+
+
 
 

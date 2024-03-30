@@ -16,9 +16,39 @@ use App\Models\Cover_request;
 use App\Models\Rank;
 use App\Models\Emergency;
 use Illuminate\Support\Facades\DB;
+use App\Models\Semester;
 use Exception;
 
 class AdminController extends Controller{
+
+    public function updateSemesterDates(Request $request){
+
+        $request-> validate([
+            'id' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        try{
+            $semester = Semester::find($request->id);
+
+            if($semester){
+                $semester->start_date = $request->start_date;
+                $semester->end_date = $request->end_date;
+                $semester->save();
+                return response()->json(['message' => 'Semester dates updated successfully'], 201);    
+            }
+            else{
+                $semester = new Semester();
+                $semester->start_date = $request->start_date;
+                $semester->end_date = $request->end_date;
+                $semester->save();
+                return response()->json(['message' => 'Semster not found, created a new one'], 201);    
+            }
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
     
     // MANAGE MEMBERS TAB
     public function addMember(Request $request){
@@ -138,7 +168,6 @@ class AdminController extends Controller{
             $user = User::find($userId);
     
             if($user){
-                $shifts = User_has_shift::with("shift")->where('user_id', $userId)->get();
                 $shifts = User_has_shift::where('user_id', $userId)
                 ->join('shifts', 'user_has_shifts.shift_id', '=', 'shifts.id')
                 ->get();
@@ -463,7 +492,7 @@ return response()->json(['admins' => $admins], 200);
     
                 $userShifts = DB::table('user_has_shifts')
                     ->where('shift_id', $shiftId)
-                    ->select('user_id',  'missed_attendance')
+                    ->select('user_id',  'attended')
                     ->get();
     
                 $coverRequests = DB::table('cover_requests')
@@ -472,7 +501,7 @@ return response()->json(['admins' => $admins], 200);
                     ->get();
     
                 foreach ($userShifts as $userShift) {
-                    $userShift->missed_attendance = $userShift->missed_attendance;
+                    $userShift->attended = $userShift->attended;
                     $userShift->user_name = DB::table('users')
                         ->where('id', $userShift->user_id)
                         ->value(DB::raw('CONCAT(first_name, " ", last_name)'));

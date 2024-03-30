@@ -137,4 +137,13 @@ export class AdminService {
       return response;
 
   }
+
+  updateSemesterDates($startDate:String, $endDate:String){
+    const body = {
+      "id": 1,
+      "start_date": $startDate,
+      "end_date": $endDate,
+    }
+    return this.http.put(this.base_url + "update-semester-dates", body); 
+  }
 }
