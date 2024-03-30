@@ -58,4 +58,14 @@ export class UserService {
       "tags": $tags
     }
     return this.http.put(this.base_url + "edit-tags", body); 
-  }}
+  }
+
+  requestCover($shift_id:number, $reason:string){
+    const body = {
+      "user_id": 1, // GET USER ID FROM THE LOCAL STORAGE
+      "shift_id": $shift_id,
+      "reason": $reason
+    }
+    return this.http.post(this.base_url + "request-cover", body);
+  }
+}

@@ -53,7 +53,7 @@ export class ProfilePage implements OnInit {
         this.userShifts = [].concat.apply([], Object.values(parsedResponse['Shifts']));
 
         this.userShifts.forEach(shiftRecord => {
-          this.shifts.push({ day: shiftRecord.shift.day, start_time: shiftRecord.shift.time_start, end_time: shiftRecord.shift.time_end})
+          this.shifts.push({ id: shiftRecord.id, day: shiftRecord.shift.day, start_time: shiftRecord.shift.time_start, end_time: shiftRecord.shift.time_end})
         });
       },
       error: (error) => {
@@ -123,7 +123,7 @@ export class ProfilePage implements OnInit {
               cssClass: 'alert-button-ok-red',
               handler: () => {
                 if (shiftsOnDay.length === 1) {
-                  this.reason();
+                  this.reason(shiftsOnDay[0].id);
                 } else {
                   this.multiShiftsAlert(shiftsOnDay);
                 }
@@ -143,7 +143,7 @@ export class ProfilePage implements OnInit {
       cssClass: 'alert-dialog',
       mode: 'ios',
       inputs: shifts.map((shift, index) => ({
-        name: `shift-${index}`,
+        name: `${index}`,
         type: 'radio',
         label: `from ${shift.start_time} to ${shift.end_time}`,
         value: shift,
@@ -159,17 +159,16 @@ export class ProfilePage implements OnInit {
         {
           text: 'Select',
           cssClass: 'alert-button-ok-red',
-          handler: () => {
-            this.reason();
+          handler: (selectedShift) => { 
+            this.reason(selectedShift.id)
           },
-
         },
       ],
     });
     await alert.present();
   }
 
-  async reason() {
+  async reason($shiftId:any) {
     const alert = await this.alertController.create({
       header: 'Request cover?',
       subHeader: 'Your attendance will be affected if the member accepting your request fails to cover your shift!',
@@ -199,15 +198,18 @@ export class ProfilePage implements OnInit {
           cssClass: 'alert-button-ok-red',
           handler: async (data) => {
             if (!data.reason) {
-              const message = 'Please specify the reason';
-              const toast = await this.toastController.create({
-                message: message,
-                duration: 2000, 
-                position: 'bottom'
-              });
-              toast.present();
+              this.presentToast("Please speficy the reason");
               return false;
             } else {
+              this.userService.requestCover($shiftId, data.reason)
+              .subscribe({
+                next: (response) => {
+                  console.log("Cover request sent successfully:", response);
+                },
+                error: (error) => {
+                  console.error("Error requesting cover:", error);
+                },
+              });
               return true;
             }
           },
@@ -233,5 +235,14 @@ export class ProfilePage implements OnInit {
       complete: () => {
       }
     });
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom'
+    });
+    toast.present();
   }
 }
