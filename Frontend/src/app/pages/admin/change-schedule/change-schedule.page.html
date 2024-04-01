@@ -16,22 +16,23 @@
 
   <div class="body">
     <div class="stmt">
-      <p>4 shifts per week</p>
+      <p *ngIf="shiftsPastWeek === 1">{{ shiftsPastWeek }} shift per week</p>
+      <p *ngIf="shiftsPastWeek > 1">{{ shiftsPastWeek }}  shifts per week</p>
     </div>
 
-    <div class="day-container">
-      <p class="day">Monday</p>
+    <div class="day-container" *ngFor = "let shift of shifts">
+      <p class="day">{{getDayName(shift.date)}}</p>
       <ion-card class="shifts-card">
         <div class="shift-container">
           <div class="shift">
-              <p class="time">8:00 - 9:00</p>
+              <p class="time">{{shift.time_start}} - {{shift.time_end}}</p>
               <div class="seperator"></div>
               <ion-chip color="warning">
-                <ion-label>3 covers</ion-label>
+                <ion-label>{{shift.coverCount.coverRequestsCount}} covers</ion-label>
               </ion-chip>
               <div class="seperator"></div>
               <ion-chip color="danger">
-                <ion-label>3 misses</ion-label>
+                <ion-label>{{shift.missed_attendance}} misses</ion-label>
               </ion-chip>            
           </div>
           <ion-icon class="delete-icon" name="close-circle-outline" (click)="deleteAlert()"></ion-icon>

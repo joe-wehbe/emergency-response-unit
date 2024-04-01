@@ -15,7 +15,7 @@ import { ViewChild } from '@angular/core';
 export class ManageAnnouncementsPage implements OnInit {
   @ViewChild('modal') modal: IonModal | undefined;
   announcements: any[] = [];
-  
+  isModalOpen: { [key: string]: boolean } = {};
 
   constructor(private adminService:AdminService, private router:Router, public modalController: ModalController, public alertController: AlertController) { 
    
@@ -126,4 +126,6 @@ export class ManageAnnouncementsPage implements OnInit {
   openModal(id: number){
     this.modal?.present();
   }
+
+  
 }

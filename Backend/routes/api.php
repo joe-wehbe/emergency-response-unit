@@ -37,6 +37,7 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::get('get-all-users', [UserController::class, 'getAllUsers']);
         Route::get('get-all-announcements', [UserController::class, 'getAllAnnouncements']);
         Route::get('get-all-cover-requests', [UserController::class, 'getAllCoverRequests']);
+        Route::get('get-shift-cover-requests/{id}', [UserController::class, 'getShiftCoverRequests']);
         Route::put('accept-cover-request', [UserController::class, 'acceptCoverRequest']);
         Route::get('get-no-report-emergencies', [UserController::class, 'getNoReportEmergencies']);
         Route::get('get-extensions', [UserController::class, 'getExtensions']);
