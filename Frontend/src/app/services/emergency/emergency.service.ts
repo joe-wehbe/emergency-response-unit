@@ -89,4 +89,8 @@ export class EmergencyService {
     }
     return this.http.put(this.base_url + "end-emergency", body);
   }
+
+  getAllEmergenciesWithLastAssessment(){
+    return this.http.get(`${this.base_url}get-all-emergencies-with-last-assessment`);
+  }
 }

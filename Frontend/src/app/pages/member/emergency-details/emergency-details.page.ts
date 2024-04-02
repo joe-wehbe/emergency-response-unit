@@ -45,7 +45,7 @@ export class EmergencyDetailsPage implements OnInit {
       this.emergencyService.getEmergencyAssessments(this.emergencyId)
         .subscribe({
           next: (response) => {
-            console.log("Fetched Ongoing emergencies: ", response);
+            console.log("Fetched emergency assessments: ", response);
             const parsedResponse = JSON.parse(JSON.stringify(response));
             this.assessments = [].concat.apply([], Object.values(parsedResponse['assessments']));
           },

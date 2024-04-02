@@ -58,6 +58,8 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::put('add-emergency-details', [EmergencyController::class, "addEmergencyDetails"]);
         Route::post("add-assessment", [EmergencyController::class, "addAssessment"]);
         Route::put('end-emergency', [EmergencyController::class, 'endEmergency']);
+        Route::get('get-all-emergencies-with-last-assessment', [EmergencyController::class, 'getAllEmergenciesWithLastAssessment']);
+
     });
     // ADMIN CONTROLLER APIs
     Route::group(["prefix" => "admin"], function(){

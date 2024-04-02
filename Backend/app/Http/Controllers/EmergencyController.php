@@ -58,6 +58,7 @@ class EmergencyController extends Controller
         try{
             $emergencies = Emergency::with('medic')
             ->where('status', 0)
+            ->where('case_report', 0)
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -265,6 +266,32 @@ class EmergencyController extends Controller
             else{
                 return response()->json(['error' => 'Emergency not found'], 404);
             }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
+    public function getAllEmergenciesWithLastAssessment(){
+        try {
+            $emergencies = Emergency::with('medic')
+            ->where('status', 0)
+            ->where('case_report', 1)
+            ->orderBy('created_at', 'desc')
+            ->get();
+            
+            if($emergencies->isEmpty()){
+                return response()->json(['message' => 'No emergency records'], 200);
+            }
+    
+            $emergenciesWithLastAssessments = [];
+            foreach ($emergencies as $emergency) {
+                $lastAssessment = $emergency->assessments()->latest()->first();
+                $emergenciesWithLastAssessments[] = [
+                    'emergency' => $emergency,
+                    'last_assessment' => $lastAssessment
+                ];
+            }
+            return response()->json(['emergencies' => $emergenciesWithLastAssessments], 200);
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
