@@ -425,6 +425,16 @@ class UserController extends Controller{
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
+
+    public function getShiftCoverRequests($shiftId){
+        try {
+            $coverRequestsCount = Cover_request::where('shift_id', $shiftId)->count();
+            
+            return response()->json(['coverRequestsCount' => $coverRequestsCount], 200);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
     
 
     public function acceptCoverRequest(Request $request){

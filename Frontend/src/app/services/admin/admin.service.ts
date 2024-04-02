@@ -55,6 +55,13 @@ export class AdminService {
     return response;
   }
 
+  get_shift_covers(shift_id: number){
+    const response = this.http.get(this.base_url_user + "get-shift-cover-requests/" + shift_id);
+    return response;
+  }
+
+
+
   remove_member(id: number){
     const headers: HttpHeaders = new HttpHeaders({'Content-Type' : 'application/json'});
     const options= { 
