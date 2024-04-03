@@ -13,15 +13,26 @@ import { ViewChild } from '@angular/core';
   styleUrls: ['./manage-announcements.page.scss'],
 })
 export class ManageAnnouncementsPage implements OnInit {
+
   @ViewChild('modal') modal: IonModal | undefined;
   announcements: any[] = [];
   isModalOpen: { [key: string]: boolean } = {};
+  selectedAnnouncement: any;
+  receiverSelectedOption: string = 'all-members';
+  importanceSelectedOption: string = 'very-important';
 
-  constructor(private adminService:AdminService, private router:Router, public modalController: ModalController, public alertController: AlertController) { 
-   
+  constructor(
+    private adminService:AdminService, 
+    private router:Router, 
+    public modalController: ModalController, 
+    public alertController: AlertController) { 
   }
 
   ngOnInit() {
+    this.getAnnouncements();
+  }
+
+  getAnnouncements(){
     this.adminService.get_announcements().subscribe({
       next: (response) => {
         if(response && response.hasOwnProperty("announcements")){
@@ -34,9 +45,6 @@ export class ManageAnnouncementsPage implements OnInit {
       }
     });
   }
-
-  receiverSelectedOption: string = 'all-members';
-  importanceSelectedOption: string = 'very-important';
 
   truncateDescription(description: string, limit: number): string {
     if (description.length > limit) {
@@ -123,9 +131,8 @@ export class ManageAnnouncementsPage implements OnInit {
     }
   }
 
-  openModal(id: number){
+  openModal(announcement: any){
+    this.selectedAnnouncement = announcement;
     this.modal?.present();
   }
-
-  
 }

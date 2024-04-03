@@ -116,7 +116,7 @@ export class EmergencyRecordsPage {
 
   openModal(emergency: any) {
     this.selectedEmergency = emergency;
-    console.log(this.selectedEmergency)
+    console.log(this.selectedEmergency);
 
     this.emergencyService.getEmergencyAssessments(this.selectedEmergency.id)
     .subscribe({

@@ -13,7 +13,7 @@
 
 <ion-content class="background">
   <div class="mainpage">
-    <div class="announcement" *ngFor = "let announcement of announcements"  id="announcement.id" (click)="openModal(announcement.id)">
+    <div class="announcement" *ngFor = "let announcement of announcements"  id="announcement.id" (click)="openModal(announcement)">
       <div class="first-box">
         <ion-avatar slot="start" class="profile-picture">
           <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
@@ -50,10 +50,10 @@
     </ion-fab-button>
   </ion-fab>
 
-  <ion-modal id="modal" #modal trigger="announcement.id">
+  <ion-modal id="view-announcement-modal" #modal>
     <ng-template>
       <div class="wrapper">
-        <div class="modal-announcement" id="announcement.id">
+        <div class="modal-announcement" id="announcement">
           <div class="first-box">
             <ion-avatar slot="start" class="profile-picture">
               <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
@@ -61,16 +61,23 @@
           </div>
           <div class="second-box">
             <div class="name">
-              <h2 class="username">hihi</h2>
-              <ion-chip color="danger">Very important</ion-chip>
-            </div>
+              <h2 class="username">{{selectedAnnouncement.first_name}} {{selectedAnnouncement.last_name}}</h2>
+              <ng-container *ngIf= "selectedAnnouncement.importance == 'Very important'">
+                <ion-chip color="danger">{{selectedAnnouncement.importance}}</ion-chip>
+              </ng-container>
+              <ng-container *ngIf= "selectedAnnouncement.importance == 'Important'">
+                <ion-chip color="warning">{{selectedAnnouncement.importance}}</ion-chip>
+              </ng-container>
+              <ng-container *ngIf= "selectedAnnouncement.importance == 'Regular'">
+                <ion-chip color="success">{{selectedAnnouncement.importance}}</ion-chip>
+              </ng-container>            </div>
             <div class="description-container">
               <p class="description">
-               bla la
+                {{ selectedAnnouncement.description }}
               </p>
             </div>
             <div class="time-posted">
-              <h3 class="time">1 day ago</h3>
+              <h3 class="time">{{ formatDate(selectedAnnouncement.created_at) }}</h3>
               <ion-icon class="delete-icon" name="trash-outline" (click)="presentAlert()"></ion-icon>
             </div>
           </div>
