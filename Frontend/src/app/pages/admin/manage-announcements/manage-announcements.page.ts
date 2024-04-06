@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { IonModal, ModalController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
 import { AdminService } from 'src/app/services/admin/admin.service';
@@ -12,6 +12,9 @@ import { AdminService } from 'src/app/services/admin/admin.service';
 })
 export class ManageAnnouncementsPage implements OnInit {
   announcements: any[] = [];
+  modalElements!: QueryList<ElementRef>;
+  modals: IonModal[] = [];
+
 
   constructor(private adminService:AdminService, private router:Router, public modalController: ModalController, public alertController: AlertController) { 
    
@@ -23,6 +26,8 @@ export class ManageAnnouncementsPage implements OnInit {
       console.log(this.announcements);
     });
   }
+
+  
 
   receiverSelectedOption: string = 'all-members';
   importanceSelectedOption: string = 'very-important';
@@ -71,5 +76,35 @@ export class ManageAnnouncementsPage implements OnInit {
     if (announcementForm.valid) {
       this.dismiss();
     }
+  }
+
+  formatDate(created_at: string): string {
+    const currentDate = new Date();
+    const postDate = new Date(created_at);
+
+    const difference = currentDate.getTime() - postDate.getTime();
+    const minutesDifference = Math.round(difference / (1000 * 60));
+    const secondsDifference = Math.round(difference / 1000);
+
+    if (secondsDifference < 60) {
+      return secondsDifference === 1 ? '1 second ago' : `${secondsDifference} seconds ago`;
+    }
+
+    if (minutesDifference < 60) {
+      return minutesDifference === 1 ? '1 minute ago' : `${minutesDifference} minutes ago`;
+    }
+
+    const hoursDifference = Math.round(minutesDifference / 60);
+
+    if (hoursDifference < 24) {
+      return hoursDifference === 1 ? '1 hour ago' : `${hoursDifference} hours ago`;
+    }
+
+    const daysDifference = Math.round(hoursDifference / 24);
+    return daysDifference === 1 ? '1 day ago' : `${daysDifference} days ago`;
+  }
+
+  openModal(modal: IonModal){
+    modal.present();
   }
 }

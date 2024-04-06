@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
 import { DatePipe } from '@angular/common'; 
 import { IonModal } from '@ionic/angular';
-
 
 @Component({
   selector: 'app-announcements',
@@ -10,13 +9,17 @@ import { IonModal } from '@ionic/angular';
   styleUrls: ['./announcements.page.scss'],
 })
 export class AnnouncementsPage implements OnInit {
-@ViewChild('modal') modal: IonModal | undefined;
+  @ViewChildren(IonModal, { read: ElementRef })
+  modalElements!: QueryList<ElementRef>;
+
   announcements: any[] = [];
+  modals: IonModal[] = [];
 
   constructor(
     private userService: UserService,
     private datePipe: DatePipe 
   ) {}
+
   ngOnInit() {
     this.getAllAnnouncements();
   }
@@ -29,6 +32,8 @@ export class AnnouncementsPage implements OnInit {
             console.log("Fetched all announcements: ", response);
             const parsedResponse = JSON.parse(JSON.stringify(response));
             this.announcements = [].concat.apply([], Object.values(parsedResponse['announcements']));
+            // Initialize modals array with null values
+            this.modals = new Array(this.announcements.length).fill(null);
           }
           else{
             console.log("No announcements");
@@ -39,6 +44,7 @@ export class AnnouncementsPage implements OnInit {
         }
       });
   }
+
 
   truncateDescription(description: string, limit: number): string {
     if (description.length > limit) {
@@ -74,8 +80,7 @@ export class AnnouncementsPage implements OnInit {
     return daysDifference === 1 ? '1 day ago' : `${daysDifference} days ago`;
   }
 
-  openModal(id: number){
-    this.modal?.present();
+  openModal(modal: IonModal){
+    modal.present();
   }
-
 }

@@ -373,8 +373,8 @@ class UserController extends Controller{
     // ANNOUNCEMENTS PAGE
     public function getAllAnnouncements(){
         try {
-            $announcements = Announcement::join('users', 'announcements.admin_id', '=', 'users.id')
-                ->select('announcements.*', 'users.first_name', 'users.last_name')
+            $announcements = Announcement::with('admin')->join('users', 'announcements.admin_id', '=', 'users.id')
+                ->select('announcements.*', 'users.first_name as admin_first_name', 'users.last_name as admin_last_name')
                 ->get();
     
             return response()->json(['announcements' => $announcements], 200);
@@ -382,6 +382,7 @@ class UserController extends Controller{
             return response()->json(['error' => 'Failed to fetch announcements'], 500);
         }
     }
+    
 
     // COVER REQUESTS PAGE
     public function getAllCoverRequests(){
