@@ -93,4 +93,9 @@ export class EmergencyService {
   getAllEmergenciesWithLastAssessment(){
     return this.http.get(`${this.base_url}get-all-emergencies-with-last-assessment`);
   }
+
+  getAllCaseReports(){
+    return this.http.get(this.base_url + "get-all-case-reports"); 
+  }
+
 }

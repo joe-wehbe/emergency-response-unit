@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { EmergencyService } from 'src/app/services/emergency/emergency.service';
+
 
 @Component({
   selector: 'app-case-reports',
@@ -9,13 +11,34 @@ import { Router } from '@angular/router';
 export class CaseReportsPage implements OnInit {
 
   selectedSegment: string = 'Ongoing';
+  caseReports: any[] = [];
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private emergencyService: EmergencyService) { }
 
   ngOnInit() {
+    this.getAllCaseReports();
   }
 
-  navigateCaseReportForm(){
-    this.router.navigate(['/case-report-form'], { queryParams: { from: 'case-reports' } });
+  navigateCaseReportForm(emergencyId: number){
+    this.router.navigate(['/case-report-form', emergencyId], { queryParams: { from: 'case-reports' } });
+  }
+
+  getAllCaseReports() {
+    this.emergencyService.getAllCaseReports().subscribe({
+      next: (response) => {
+        if (response && response.hasOwnProperty('emergencies')) {
+          console.log('Fetched all case reports: ', response);
+          const parsedResponse = JSON.parse(JSON.stringify(response));
+          this.caseReports = [].concat.apply([], Object.values(parsedResponse['emergencies'])
+          );
+          // Convert time format for display
+        } else {
+          console.log('No case reports to be filled');
+        }
+      },
+      error: (error) => {
+        console.error('Error retrieving case reports to be filled:', error);
+      },
+    });
   }
 }

@@ -10,64 +10,65 @@
 <ion-content class="background">
 
   <div class="stmt">
-    <p>3 Cases with no report submitted</p>
+    <p>{{ caseReports.length }} {{ caseReports.length === 1 ? 'Case Report' : 'Case Reports' }} with no report submitted</p>
     <p class="second-stmt">Click on a case to fill its report form</p>
   </div>
 
-  <ion-card class="ongoing-card"  (click)="navigateCaseReportForm()"> 
+  <ion-card class="ongoing-card" *ngFor ="let case_report of caseReports" (click)="navigateCaseReportForm(case_report.emergency.id)"> 
     <div class="first-box">
-      9:07
+      {{ case_report.emergency.created_at | date: 'dd/MM'}}<br>
+      {{ case_report.emergency.created_at | date: 'h:mm'}} 
     </div>
     <div class="second-box">
       <div class="location">
-        Zakhem 404
+        {{ case_report.emergency.location }}
       </div>
       <div class="description-container">
-        <p class="description">Difficulty breathing and panick attack</p>
+        <p class="description">{{ case_report.emergency.reporter_description}}</p>
       </div>
     </div>
     <div class="seperator"></div>
     <div class="third-box">
       <div class="medic">
         <p>Medic on scene:</p>
-        <p class="medic-name-green">Ghadi</p>
+        <p class="medic-name-green">{{ case_report.emergency.medic.first_name }} {{ case_report.emergency.medic.last_name }}</p>
       </div>
       <div class="patient">
         <p>Patient:</p>
-        <p class="patient-name">N/A</p>
+        <p class="patient-name">{{ case_report.emergency.patient_name}}</p>
       </div>
       <div class="vitals">
         <div class="heart-rate">
           <ion-img src="assets/icon/hr.png"></ion-img>
-          <p class="hr">N/A</p>
+          <p class="hr">{{ case_report.last_assessment ? case_report.last_assessment.heart_rate || 'N/A' : 'N/A' }}</p>
         </div>
         <div class="blood-pressure">
           <ion-img src="assets/icon/bp.png"></ion-img>
-          <p class="bp">N/A</p>
+          <p class="bp">{{ case_report.last_assessment ? case_report.last_assessment.blood_pressure || 'N/A' : 'N/A' }}</p>
         </div>
         <div class="spo2">
           <ion-img src="assets/icon/spo2.png"></ion-img>
-          <p class="sp">N/A</p>
+          <p class="sp">{{ case_report.last_assessment ? case_report.last_assessment.oxygen_saturation || 'N/A' : 'N/A' }}</p>
         </div>
         <div class="temperature">
           <ion-img src="assets/icon/temp.png"></ion-img>
-          <p class="temp">N/A</p>
+          <p class="temp">{{ case_report.last_assessment ? case_report.last_assessment.temperature || 'N/A' : 'N/A' }}</p>
         </div>
         <div class="respiration-rate">
           <ion-img src="assets/icon/rr.png"></ion-img>
-          <p class="rr">N/A</p>
+          <p class="rr">{{ case_report.last_assessment ? case_report.last_assessment.respiration_rate || 'N/A' : 'N/A' }}</p>
         </div>
         <div class="capillary-refill">
           <ion-img src="assets/icon/crt.png"></ion-img>
-          <p class="crt">N/A</p>
+          <p class="crt">{{ case_report.last_assessment ? case_report.last_assessment.capillary_refill_time || 'N/A' : 'N/A' }}</p>
         </div>
         <div class="hemo-gluco-test">
           <ion-img src="assets/icon/hgt.png"></ion-img>
-          <p class="hgt">N/A</p>
+          <p class="hgt">{{ case_report.last_assessment ? case_report.last_assessment.hemoglucotest|| 'N/A' : 'N/A' }}</p>
         </div>
         <div class="pupils-reaction">
           <ion-img src="assets/icon/pr.png"></ion-img>
-          <p class="pr">N/A</p>
+          <p class="pr">{{ case_report.last_assessment ? case_report.last_assessment.pupils_reaction || 'N/A' : 'N/A' }}</p>
         </div>
 
       </div>

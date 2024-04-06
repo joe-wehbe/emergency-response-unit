@@ -489,6 +489,10 @@ class UserController extends Controller{
         }
     }
 
+    
+    
+
+
     // EXTENSIONS PAGE
     public function getExtensions(){
         try {
@@ -498,6 +502,7 @@ class UserController extends Controller{
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
+    
 
     // MEDICAL FAQs PAGE
     public function getMedicalFaqs($id){

@@ -88,6 +88,8 @@ export class UserService {
     }
     return this.http.put(this.base_url + "accept-cover-request", body);
   }
+
+ 
 }
 
   
