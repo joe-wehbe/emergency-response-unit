@@ -81,6 +81,10 @@ export class UserService {
     return this.http.get(this.base_url + "get-all-cover-requests")
   }
 
+  getExtensions(){
+    return this.http.get(this.base_url + "get-extensions")
+  }
+
   acceptCoverRequests($id:number){ 
     const body = {
       "id": $id, // id of cover request
