@@ -30,8 +30,15 @@ export class AdminPanelPage implements OnInit {
       next: (response) => {
         console.log("Fetched semester data", response);
         this.semesterData = (response as any)['Semester'];
-        this.fromDate = this.semesterData[0].start_date;
-        this.toDate = this.semesterData[0].end_date;
+
+        if(this.semesterData[0]){
+          this.fromDate = this.semesterData[0].start_date;
+          this.toDate = this.semesterData[0].end_date;
+        }
+        else{
+          console.log("Semester dates not specified");
+        }
+
       },
       error: (error) => {
         console.error("Error getting semester data:", error);

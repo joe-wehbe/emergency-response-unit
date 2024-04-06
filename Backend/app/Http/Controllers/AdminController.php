@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Log;
 use App\Models\Announcement;
 use App\Models\User;
 use App\Models\Medical_faq;
@@ -12,46 +11,47 @@ use App\Models\Extension;
 use App\Models\Login_request;
 use App\Models\Shift;
 use App\Models\User_has_shift;
-use App\Models\Cover_request;
 use App\Models\Rank;
 use App\Models\Emergency;
 use Illuminate\Support\Facades\DB;
 use App\Models\Semester;
 use Exception;
 
-class AdminController extends Controller{
+class AdminController extends Controller
+{
 
-    public function updateSemesterDates(Request $request){
+    public function updateSemesterDates(Request $request)
+    {
 
-        $request-> validate([
+        $request->validate([
             'id' => 'required',
             'start_date' => 'required',
             'end_date' => 'required'
         ]);
 
-        try{
+        try {
             $semester = Semester::find($request->id);
 
-            if($semester){
+            if ($semester) {
                 $semester->start_date = $request->start_date;
                 $semester->end_date = $request->end_date;
                 $semester->save();
-                return response()->json(['message' => 'Semester dates updated successfully'], 201);    
-            }
-            else{
+                return response()->json(['message' => 'Semester dates updated successfully'], 201);
+            } else {
                 $semester = new Semester();
                 $semester->start_date = $request->start_date;
                 $semester->end_date = $request->end_date;
                 $semester->save();
-                return response()->json(['message' => 'Semster not found, created a new one'], 201);    
+                return response()->json(['message' => 'Semster not found, created a new one'], 201);
             }
-        }  catch (Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
-    
+
     // MANAGE MEMBERS TAB
-    public function addMember(Request $request){
+    public function addMember(Request $request)
+    {
         $request->validate([
             'lau_email' => 'required'
         ]);
@@ -63,7 +63,7 @@ class AdminController extends Controller{
                 $user->user_type = 1;
                 $user->save();
                 return response()->json(['message' => 'Member added successfully']);
-               
+
             } else {
                 return response()->json(['message' => 'User not registered yet']);
             }
@@ -72,7 +72,8 @@ class AdminController extends Controller{
         }
     }
 
-    public function removeMember(Request $request){
+    public function removeMember(Request $request)
+    {
         $request->validate([
             'id' => 'required',
         ]);
@@ -80,20 +81,20 @@ class AdminController extends Controller{
         try {
             $user = User::find($request->id);
 
-            if($user){
-                $user->user_type = 2;    
+            if ($user) {
+                $user->user_type = 2;
                 $user->save();
                 return response()->json(['message' => 'User removed successfully'], 200);
-            }
-            else{
+            } else {
                 return response()->json(['error' => 'User not found'], 404);
-            } 
+            }
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
-    function deleteUser(Request $request){
+    function deleteUser(Request $request)
+    {
 
         try {
             $user = User::where('id', $request->input('user_id'))->first();
@@ -126,8 +127,7 @@ class AdminController extends Controller{
                 'status' => 'success',
                 'message' => 'User deleted successfully'
             ]);
-        } 
-        catch (Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json([
                 'status' => 'Error',
                 'message' => 'An error occurred while deleting the user',
@@ -136,7 +136,8 @@ class AdminController extends Controller{
         }
     }
 
-    public function changeRank(Request $request){
+    public function changeRank(Request $request)
+    {
         $request->validate([
             'user_id' => 'required',
             'rank_id' => 'required',
@@ -145,17 +146,17 @@ class AdminController extends Controller{
         try {
             $user = User::find($request->user_id);
 
-            if($user){
+            if ($user) {
                 $rank = Rank::find($request->rank_id);
 
-                if($rank){
-                    $user->user_rank = $request->rank_id;    
+                if ($rank) {
+                    $user->user_rank = $request->rank_id;
                     $user->save();
                     return response()->json(['message' => 'Rank updated successfully'], 200);
-                }else{
+                } else {
                     return response()->json(['error' => 'Rank not found'], 404);
                 }
-            }else{
+            } else {
                 return response()->json(['error' => 'User not found'], 404);
             }
         } catch (Exception $exception) {
@@ -163,27 +164,28 @@ class AdminController extends Controller{
         }
     }
 
-    public function getUserShifts($userId){
+    public function getUserShifts($userId)
+    {
         try {
             $user = User::find($userId);
-    
-            if($user){
+
+            if ($user) {
                 $shifts = User_has_shift::where('user_id', $userId)
-                ->join('shifts', 'user_has_shifts.shift_id', '=', 'shifts.id')
-                ->get();
-            
+                    ->join('shifts', 'user_has_shifts.shift_id', '=', 'shifts.id')
+                    ->get();
+
                 return response()->json(['Shifts' => $shifts], 200);
-            }
-            else{
+            } else {
                 return response()->json(['error' => 'User not found'], 404);
             }
-    
+
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
-    public function addShift(Request $request){
+    public function addShift(Request $request)
+    {
         $request->validate([
             'user_id' => 'required',
             'shift_id' => 'required',
@@ -209,12 +211,13 @@ class AdminController extends Controller{
             } else {
                 return response()->json(['error' => 'User not found'], 404);
             }
-        }  catch (Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
-    public function deleteShift(Request $request){
+    public function deleteShift(Request $request)
+    {
         $request->validate([
             'shift_id' => 'required|integer',
             'user_id' => 'required|integer'
@@ -235,13 +238,14 @@ class AdminController extends Controller{
             } else {
                 return response()->json(['error' => 'User not found']);
             }
-        }  catch (Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
     // MANAGE ANNOUNCEMENTS TAB
-    public function addAnnouncement(Request $request){
+    public function addAnnouncement(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'admin_id' => 'required|exists:users,id',
             'importance' => 'required|string',
@@ -261,12 +265,13 @@ class AdminController extends Controller{
             $announcement->save();
 
             return response()->json(['message' => 'Announcement added successfully']);
-        }  catch (Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
-    function deleteAnnouncement(Request $request){
+    function deleteAnnouncement(Request $request)
+    {
         $request->validate([
             'announcement_id' => 'required|integer',
             'admin_id' => 'required|integer'
@@ -310,38 +315,41 @@ class AdminController extends Controller{
         ]);
     }
 
-    function getAdmins(){
-        $admins = User::whereIn('user_rank', [3, 4, 5]) 
-        ->get();
+    function getAdmins()
+    {
+        $admins = User::whereIn('user_rank', [3, 4, 5])
+            ->get();
 
-return response()->json(['admins' => $admins], 200);
+        return response()->json(['admins' => $admins], 200);
     }
 
-    function getOngoingShifts(){
-    $userDetails = User::join('user_has_shifts', 'users.id', '=', 'user_has_shifts.user_id')
-                        ->where('user_has_shifts.shift_status', '1')
-                        ->get(['users.id', 'users.first_name', 'users.last_name', 'users.user_rank', 'users.profile_picture']); 
+    function getOngoingShifts()
+    {
+        $userDetails = User::join('user_has_shifts', 'users.id', '=', 'user_has_shifts.user_id')
+            ->where('user_has_shifts.shift_status', '1')
+            ->get(['users.id', 'users.first_name', 'users.last_name', 'users.user_rank', 'users.profile_picture']);
 
-    return response()->json(['users_with_ongoing_shifts' => $userDetails], 200);
+        return response()->json(['users_with_ongoing_shifts' => $userDetails], 200);
     }
 
     // MANAGE FAQs TAB
-    function addFaq(Request $request){
-       /* $admin = User::where('id', $request->input('admin_id'))->first();
+    function addFaq(Request $request)
+    {
+        /* $admin = User::where('id', $request->input('admin_id'))->first();
 
-        if (!$admin) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'Admin not found'
-            ]);
-        }
+         if (!$admin) {
+             return response()->json([
+                 'status' => 'Error',
+                 'message' => 'Admin not found'
+             ]);
+         }
 
-        if (!in_array($admin->user_rank, [3, 4, 5, 7])) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'User is not an admin'
-            ]);
-        }*/
+         if (!in_array($admin->user_rank, [3, 4, 5, 7])) {
+             return response()->json([
+                 'status' => 'Error',
+                 'message' => 'User is not an admin'
+             ]);
+         }*/
 
         $validator = Validator::make($request->all(), [
             'type' => 'required|string',
@@ -377,8 +385,9 @@ return response()->json(['admins' => $admins], 200);
         ]);
     }
 
-    function deleteFaq($id){
-    
+    function deleteFaq($id)
+    {
+
 
         $faq = Medical_faq::where('id', $id)->first();
 
@@ -411,22 +420,23 @@ return response()->json(['admins' => $admins], 200);
     }
 
     // MANAGE EXTENSIONS TAB
-    function addExtension(Request $request){
+    function addExtension(Request $request)
+    {
         $admin = User::where('id', $request->input('admin_id'))->first();
 
-       /* if (!$admin) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'Admin not found'
-            ]);
-        }
+        /* if (!$admin) {
+             return response()->json([
+                 'status' => 'Error',
+                 'message' => 'Admin not found'
+             ]);
+         }
 
-        if (!in_array($admin->user_rank, [3, 4, 5, 7])) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'User is not an admin'
-            ]);
-        }*/
+         if (!in_array($admin->user_rank, [3, 4, 5, 7])) {
+             return response()->json([
+                 'status' => 'Error',
+                 'message' => 'User is not an admin'
+             ]);
+         }*/
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
@@ -451,7 +461,8 @@ return response()->json(['admins' => $admins], 200);
         ]);
     }
 
-    function deleteExtension($id){
+    function deleteExtension($id)
+    {
 
         $extension = Extension::where('id', $id)->first();
 
@@ -471,7 +482,8 @@ return response()->json(['admins' => $admins], 200);
     }
 
     // EMERGENY RECORDS TAB
-    public function getEmergencyRecords(){
+    public function getEmergencyRecords()
+    {
         $emergencies = Emergency::where('case_report', 1)->get();
         return response()->json(['emergency records' => $emergencies], 200);
     }
@@ -479,40 +491,40 @@ return response()->json(['admins' => $admins], 200);
     function getAttendanceRecords()
     {
         $shifts = Shift::all();
-    
+
         if ($shifts->isEmpty()) {
             return response()->json([
                 'message' => 'No shifts in the database yet'
             ]);
         } else {
             $shiftData = [];
-    
+
             foreach ($shifts as $shift) {
                 $shiftId = $shift->id;
-    
+
                 $userShifts = DB::table('user_has_shifts')
                     ->where('shift_id', $shiftId)
-                    ->select('user_id',  'attended')
+                    ->select('user_id', 'attended')
                     ->get();
-    
+
                 $coverRequests = DB::table('cover_requests')
                     ->where('shift_id', $shiftId)
                     ->select('user_id', 'shift_id', 'covered_by')
                     ->get();
-    
+
                 foreach ($userShifts as $userShift) {
                     $userShift->attended = $userShift->attended;
                     $userShift->user_name = DB::table('users')
                         ->where('id', $userShift->user_id)
                         ->value(DB::raw('CONCAT(first_name, " ", last_name)'));
                 }
-    
+
                 foreach ($coverRequests as $coverRequest) {
                     $coverRequest->covered_by_user_name = DB::table('users')
                         ->where('id', $coverRequest->covered_by)
                         ->value(DB::raw('CONCAT(first_name, " ", last_name)'));
                 }
-    
+
                 $shiftData[$shiftId] = [
                     'time_start' => $shift->time_start,
                     'time_end' => $shift->time_end,
@@ -521,12 +533,13 @@ return response()->json(['admins' => $admins], 200);
                     'cover_requests' => $coverRequests
                 ];
             }
-    
-            return response()->json($shiftData);
+
+            return response()->json(['shifts' => $shiftData], 200);
         }
     }
     // LOGIN REQUESTS TAB
-    function getLoginRequests(){
+    function getLoginRequests()
+    {
         $requests = Login_request::all();
         if ($requests->isEmpty()) {
             return response()->json([
@@ -537,7 +550,8 @@ return response()->json(['admins' => $admins], 200);
         }
     }
 
-    function acceptRequest(Request $request){
+    function acceptRequest(Request $request)
+    {
 
         $request->validate([
             'request_id' => 'required|integer',
@@ -583,7 +597,8 @@ return response()->json(['admins' => $admins], 200);
         ]);
     }
 
-    function getMembers(){
+    function getMembers()
+    {
         $members = User::where('user_type', 1)->get();
         if ($members->isEmpty()) {
             return response()->json([
@@ -594,7 +609,8 @@ return response()->json(['admins' => $admins], 200);
         }
     }
 
-    function rejectRequest(Request $request){
+    function rejectRequest(Request $request)
+    {
         $request->validate([
             'request_id' => 'required|integer',
             'admin_id' => 'required|integer'

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { AdminService } from 'src/app/services/admin/admin.service';
+
 interface Shift {
   name: string;
   coveredBy: string;
@@ -17,41 +18,44 @@ interface Shift {
 })
 export class AttendanceRecordsPage implements OnInit {
 
+  allShifts: any[] = [];
   shifts: Shift[] = [];
   groupedShifts: { [date: string]: Shift[] } = {};
   selectedMonth: string = '';
 
-  constructor(private adminService:AdminService, private router:Router, private modalController:ModalController) {
+  constructor(private router:Router, private modalController:ModalController, private adminService:AdminService) {
     this.selectedMonth = this.getCurrentMonth();
-    this.shifts = [];
-   
+
+    this.adminService.get_attendance_shifts()
+    .subscribe({
+      next: (response) => {
+        console.log("Fetched shifts:", response);
+        const parsedResponse = JSON.parse(JSON.stringify(response));
+        this.allShifts = [].concat.apply([], Object.values(parsedResponse['shifts']));
+
+        this.allShifts.forEach(shift => {
+
+          // this.shifts.push({
+          //   name: shift.shifts.user_shifs.user_name,
+          //   // coveredBy: shift.shifts
+          //   isAttended: shift.shifts
+      
+          // })
+        });
+      },
+      error: (error) => {
+        console.error("Error applying:", error);
+      },
+    });
+    
+    this.shifts = [
+      {name: 'Joe Wehbe',  coveredBy: 'Roula Ghaleb', date: '22/04/2024', timeRange: "9:00 - 10:00", isAttended: 'yes'},
+    ];
+    this.groupedShifts = this.groupShiftsByDate(this.shifts);
   }
-  
- 
 
   ngOnInit() {
-   
-    this.adminService.get_attendance_shifts().subscribe((response: Record<string, any>) => {
-      const shifts = Object.values(response).map((item: any) => {
-        const userShift = item.user_shifts[0] || {};
-        const coverRequest = item.cover_requests[0] || {};
-    
-        const shift = {
-          name: userShift.user_name || 'Unknown',
-          coveredBy: coverRequest.covered_by_user_name || '-',
-          date: item.date || 'Unknown',
-          timeRange: `${item.time_start || 'Unknown'} - ${item.time_end || 'Unknown'}`,
-          isAttended: userShift.missed_attendance === 0 ? 'yes' : 'no'
-        };
-        this.shifts.push(shift);
-        this.groupedShifts = this.groupShiftsByDate(this.shifts);
-        
-      });
-   
-     
-    });
     this.fetch();
-    
   }
 
   back() {

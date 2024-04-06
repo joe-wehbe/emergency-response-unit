@@ -25,8 +25,8 @@
         <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-avatar>
     </div>
-    <div *ngFor ="let cover_request of coverRequests" class="cover_requests" id="cover_requests">
-      <div class="third-box">
+    <div class="third-box">
+      <div *ngFor ="let cover_request of coverRequests" class="cover_requests" id="cover_requests">
         <div class="upper-container">
           <div class="name-time-container">
             <p class="name">{{cover_request.user.first_name}} {{cover_request.user.last_name}}</p>

@@ -457,18 +457,16 @@ class UserController extends Controller{
     // CASE REPORTS PAGE
     public function addCaseReport(Request $request){
         $request->validate([
-            'id' => 'required|integer',
+            'emergency_id' => 'required|integer',
             'history' => 'required|string',
             'treatment_administration' => 'required',
             'transportation' => 'required',
             'equipment' => 'required',
-            'status' => 'required|integer',
             'issues' => 'required|integer',
-            'case_report' => 'required|boolean',
         ]);
 
         try {
-            $case_form = Emergency::find($request->id);
+            $case_form = Emergency::find($request->emergency_id);
 
             if ($case_form) {
                 $case_form->history = $request->history;
