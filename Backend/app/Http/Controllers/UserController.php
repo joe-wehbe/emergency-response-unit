@@ -459,26 +459,33 @@ class UserController extends Controller{
     public function addCaseReport(Request $request){
         $request->validate([
             'id' => 'required|integer',
+            'patient_name' => 'required',
+            'location' => 'required',
+            'patient_condition' => 'required',
             'history' => 'required|string',
             'treatment_administration' => 'required',
             'transportation' => 'required',
             'equipment' => 'required',
-            'status' => 'required|integer',
-            'issues' => 'required|integer',
-            'case_report' => 'required|boolean',
+            'consultation' => 'required',
+            'issues' => 'required',
         ]);
 
         try {
             $case_form = Emergency::find($request->id);
 
             if ($case_form) {
+                $case_form->id = $request->id;
+                $case_form->patient_name = $request->patient_name;
+                $case_form->location = $request->location;
+                $case_form->patient_condition = $request->patient_condition;
                 $case_form->history = $request->history;
                 $case_form->treatment_administration = $request->treatment_administration;
                 $case_form->transportation = $request->transportation;
                 $case_form->equipment = $request->equipment;
-                $case_form->status = $request->status;
+                $case_form->consultation = $request->consultation;
                 $case_form->issues = $request->issues;
                 $case_form->case_report = 1;
+
                 $case_form->save();
                 return response()->json(['message' => 'Case report for the emergency added successfully'], 201);
             } else {
@@ -488,10 +495,6 @@ class UserController extends Controller{
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
-
-    
-    
-
 
     // EXTENSIONS PAGE
     public function getExtensions(){
