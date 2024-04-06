@@ -394,7 +394,7 @@ class UserController extends Controller{
     // COMMUNITY PAGE
     public function getAllUsers(){
         try {
-            $users = User::all();
+            $users = User::with("rank")->get();
             return response()->json(['users' => $users], 200);
         }  catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
@@ -420,7 +420,7 @@ class UserController extends Controller{
         try {
             $coverRequests = Cover_request::with(['user' => function ($query) {
                 $query->with('rank');
-            }])->with("shift")->get();
+            }])->with("shift")->where('request_status', 0)->get();
             return response()->json(['coverRequests' => $coverRequests], 200);
         }  catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);

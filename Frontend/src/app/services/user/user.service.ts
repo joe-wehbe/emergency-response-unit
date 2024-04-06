@@ -80,6 +80,14 @@ export class UserService {
   getAllCoverRequests(){
     return this.http.get(this.base_url + "get-all-cover-requests")
   }
+
+  acceptCoverRequests($id:number){ 
+    const body = {
+      "id": $id, // id of cover request
+      "covered_by": 1, //change this 
+    }
+    return this.http.put(this.base_url + "accept-cover-request", body);
+  }
 }
 
   

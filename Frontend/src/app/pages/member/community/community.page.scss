@@ -93,8 +93,14 @@ ion-list {
 }
 
 .user-name{
-    padding-top: 5px;    
+    padding-top: 5px; 
+    font-weight: bold;   
 }
+
+.user-role{
+    opacity: 0.8;
+}
+
 
 .gray-bottom{
     display: flex;
@@ -231,6 +237,7 @@ ion-img{
     padding-left: 10px;
     padding-right: 10px;
     margin-bottom: 10px;
+    width: 100%;
 }
 
 h6{
@@ -257,6 +264,7 @@ h6{
     flex-direction: column;
     padding-left: 10px;
     padding-right: 10px;
+    width: 100%;
 }
 
 .skills-card{
@@ -271,5 +279,9 @@ ion-badge{
     font-weight: normal;
     margin-right: 2px;
     --color: white;
+}
+
+.no-tags-text, .no-tags-text{
+    font-style: italic;
 }
   

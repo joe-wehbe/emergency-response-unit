@@ -4,7 +4,6 @@ import { IonModal, ModalController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
 import { AdminService } from 'src/app/services/admin/admin.service';
-import { IonModal } from '@ionic/angular';
 import { ViewChild } from '@angular/core';
 
 @Component({
