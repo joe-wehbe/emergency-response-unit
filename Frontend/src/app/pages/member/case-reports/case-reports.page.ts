@@ -31,7 +31,6 @@ export class CaseReportsPage implements OnInit {
           const parsedResponse = JSON.parse(JSON.stringify(response));
           this.caseReports = [].concat.apply([], Object.values(parsedResponse['emergencies'])
           );
-          // Convert time format for display
         } else {
           console.log('No case reports to be filled');
         }

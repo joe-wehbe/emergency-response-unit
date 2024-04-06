@@ -85,6 +85,10 @@ export class UserService {
     return this.http.get(this.base_url + "get-extensions")
   }
 
+  getMedicalFAQs(){
+    return this.http.get(this.base_url + "get-medical-faqs")
+  }
+
   acceptCoverRequests($id:number){ 
     const body = {
       "id": $id, // id of cover request
