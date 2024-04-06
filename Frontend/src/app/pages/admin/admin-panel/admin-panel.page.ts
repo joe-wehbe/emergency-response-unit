@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { AdminService } from 'src/app/services/admin/admin.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-admin-panel',
@@ -9,10 +11,46 @@ import { ModalController } from '@ionic/angular';
 })
 export class AdminPanelPage implements OnInit {
 
+  semesterData: any[] = [];
+  fromDate: string = '2024-03-30';
+  toDate: String = '2024-03-30';
 
-  constructor(private router:Router, private modalController:ModalController) {}
+  constructor(private router:Router, 
+    private modalController:ModalController,
+    private adminService:AdminService,
+    private userService:UserService) {}
 
   ngOnInit() {
+    this.getSemester();
+  }
+
+  getSemester() {
+    this.userService.getSemester()
+    .subscribe({
+      next: (response) => {
+        console.log("Fetched semester data", response);
+        this.semesterData = (response as any)['Semester'];
+        this.fromDate = this.semesterData[0].start_date;
+        this.toDate = this.semesterData[0].end_date;
+      },
+      error: (error) => {
+        console.error("Error getting semester data:", error);
+      },
+      complete: () => {
+      }
+    });
+  }
+
+  updateSemesterDates(){
+    this.adminService.updateSemesterDates(this.fromDate, this.toDate)
+    .subscribe({
+      next: (response) => {
+        console.log("Semester dates updated successfully:", response);
+      },
+      error: (error) => {
+        console.error("Error updating semester dates:", error);
+      },
+    });
   }
 
   goToRequests(){
@@ -44,6 +82,7 @@ export class AdminPanelPage implements OnInit {
   }
 
   apply(){
+    this.updateSemesterDates();
     this.modalController.dismiss();
   }
 

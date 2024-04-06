@@ -13,12 +13,11 @@
 </ion-header>
 
 <ion-content class="background">
-
   <div class="stmt">
     <p>Record vitals and patient information</p>
   </div>
 
-  <ion-accordion-group mode="ios" [multiple]="true" [value]="['first', 'second', 'third']">
+  <ion-accordion-group *ngIf="emergency" mode="ios" [multiple]="true" [value]="['first', 'second', 'third']">
     <ion-accordion value="first">
       <ion-item slot="header" class="first-item">
         <p class="statement">Emergency Updates</p>
@@ -28,72 +27,72 @@
           <ion-list>
             <div class="info-container-first">
               <div class="info-type">
-                <ion-icon name="person"></ion-icon>
+                <ion-icon name="person-outline"></ion-icon>
                 <p class="type-medic-name">Medic on scene: </p>
               </div>
               <div class="info-answer">
-                <p class="medic-name">Joe Wehbe</p>
+                <p class="medic-name">{{ emergency.medic.first_name }} {{ emergency.medic.last_name }}</p>
               </div>
             </div>
             <div class="info-container-first">
               <div class="info-type">
-                <ion-icon name="location"></ion-icon>
+                <ion-icon name="location-outline"></ion-icon>
                 <p class="type-location">Location: </p>
               </div>
               <div class="info-answer">
-                <p class="location">Zakhem 404</p>
+                <p class="location">{{ emergency.location }}</p>
               </div>
             </div>
             <div class="info-container-first">
               <div class="info-type">
-                <ion-icon name="document-text"></ion-icon>
+                <ion-icon name="document-text-outline"></ion-icon>
                 <p class="type-description">Description: </p>
               </div>
               <div class="info-answer">
-                <p class="description">Panick attack</p>
+                <p class="description">{{ emergency.reporter_description}}</p>
               </div>
             </div>
             <div class="info-container-first">
               <div class="info-type">
-                <ion-icon name="time"></ion-icon>
+                <ion-icon name="time-outline"></ion-icon>
                 <p class="type-time">Reported at: </p>
               </div>
               <div class="info-answer">
-                <p class="description">9:10</p>
+                <p class="description">{{ emergency.created_at | date: 'hh:mm dd/MM/yyy' }}</p>
               </div>
             </div>
-            <div class="vitals">
+            <div class="vitals" *ngIf="assessment">
               <div class="heart-rate">
                 <ion-img src="assets/icon/hr.png"></ion-img>
-                <p class="hr">120</p>
+                <p class="hr">{{ assessment.heart_rate ? assessment.heart_rate || 'N/A' : 'N/A' }}</p>
               </div>        
               <div class="blood-pressure">
                 <ion-img src="assets/icon/bp.png"></ion-img>
-                <p class="bp">110/92</p>
+                <p class="bp">{{ assessment.blood_pressure ? assessment.blood_pressure || 'N/A' : 'N/A' }}</p>
               </div>        
               <div class="spo2">
                 <ion-img src="assets/icon/spo2.png"></ion-img>
-                <p class="sp">96</p>
+                <p class="sp">{{ assessment.oxygen_saturation ? assessment.oxygen_saturation || 'N/A' : 'N/A' }}</p>
               </div>
               <div class="temperature">
                 <ion-img src="assets/icon/temp.png"></ion-img>
-                <p class="temp">37.6</p>
+                <p class="temp">{{ assessment.temperature ? assessment.temperature || 'N/A' : 'N/A' }}</p>
               </div>     
               <div class="respiration-rate">
                 <ion-img src="assets/icon/rr.png"></ion-img>
-                <p class="rr">16</p>
+                <p class="rr">{{ assessment.respiration_rate ? assessment.respiration_rate || 'N/A' : 'N/A' }}</p>
               </div>
               <div class="capillary-refill">
                 <ion-img src="assets/icon/crt.png"></ion-img> 
-                <p class="crt">2</p>
+                <p class="crt">{{ assessment.capillary_refill_time ? assessment.capillary_refill_time || 'N/A' : 'N/A' }}</p>
               </div> 
               <div class="hemo-gluco-test">
                 <ion-img src="assets/icon/hgt.png"></ion-img>
-                <p class="hgt">N/A</p>
+                <p class="hgt">{{ assessment.hemoglucotest ? assessment.hemoglucotest || 'N/A' : 'N/A' }}</p>
               </div>
               <div class="pupils-reaction">
                 <ion-img src="assets/icon/pr.png"></ion-img> 
-                <p class="pr">N/A</p>
+                <p class="pr">{{ assessment.pupils_reaction ? assessment.pupils_reaction || 'N/A' : 'N/A' }}</p>
               </div>
             </div>
           </ion-list> 
@@ -101,7 +100,7 @@
       </div>
     </ion-accordion>
 
-    <ion-accordion value="second" expanded="true">
+    <ion-accordion value="second">
       <ion-item slot="header">
         <p class="statement">Patient Information</p>
       </ion-item>
@@ -109,56 +108,47 @@
         <div class="patient-info">
           <ion-list>
             <div class="info-container-second">
-              <div class="info-type">
-                <!-- <p class="type-patient-name">Patient name: </p> -->
-              </div>
               <div class="info-answer-second">
-                <ion-input class="patient-input" placeholder="Patient name...">
-                  <ion-icon name="person" slot="start"></ion-icon>
+                <ion-input [(ngModel)]="patientName" class="patient-input" placeholder="Patient name...">
+                  <ion-icon name="person-outline" slot="start"></ion-icon>
                 </ion-input>    
               </div>
             </div>
             <div class="info-container-second">
-              <div class="info-type">
-                <!-- <p class="type-patient-id">Patient ID: </p> -->
-              </div>
               <div class="info-answer-second">
-                <ion-input type="number" class="patient-input" placeholder="Patient ID...">
-                  <ion-icon name="card" slot="start"></ion-icon>
+                <ion-input [(ngModel)]="patientId" type="number" class="patient-input" placeholder="Patient ID...">
+                  <ion-icon name="card-outline" slot="start"></ion-icon>
                 </ion-input>
               </div>
             </div>    
             <div class="info-container-second">
-              <div class="info-type">
-                <!-- <p class="type-case-descritpion">Description: </p> -->
-              </div>
               <div class="info-answer-second">
-                <ion-input class="patient-input" placeholder="Medic description...">
-                  <ion-icon name="document-text" slot="start"></ion-icon>
+                <ion-input [(ngModel)]="medicDescription" class="patient-input" placeholder="Medic description...">
+                  <ion-icon name="document-text-outline" slot="start"></ion-icon>
                 </ion-input>
               </div>
             </div>
             <div class="info-container-second">
-              <div class="info-type">
-                <!-- <p class="type-case-severity">Case severity: </p> -->
-              </div>
               <div class="info-answer-second">
-                <ng-container *ngIf="selectedOption !== 'other'">
-                  <ion-select class="patient-input"  [(ngModel)]="selectedOption">
-                    <ion-select-option value="serious">Serious</ion-select-option>
-                    <ion-select-option value="not-serious">Not serious</ion-select-option>
+                <ng-container *ngIf="patientCondition !== 'other'">
+                  <ion-select [(ngModel)]="patientCondition" placeholder="Patient condition" class="patient-input">
+                    <ion-select-option value="Serious">Serious</ion-select-option>
+                    <ion-select-option value="Not serious">Not serious</ion-select-option>
                     <ion-select-option value="other">Other</ion-select-option>
-                    <ion-icon name="warning" slot="start"></ion-icon>
+                    <ion-icon name="warning-outline" slot="start"></ion-icon>
                   </ion-select>
                 </ng-container>
-                <ng-container *ngIf="selectedOption === 'other'">
-                  <ion-input placeholder="Specify..." class="patient-input"></ion-input>
+                <ng-container *ngIf="patientCondition === 'other'">
+                  <ion-input [(ngModel)]="otherPatientCondition" placeholder="Specify..." class="patient-input">
+                    <ion-icon name="warning-outline" slot="start"></ion-icon>
+                    <ion-icon class="backToSelect" name="backspace-outline" slot="end" (click)="enableSelection()"></ion-icon>
+                  </ion-input>
                 </ng-container>
               </div>
             </div>
           </ion-list> 
         </div>
-        <ion-button mode="ios" class="submit-button">Submit</ion-button>
+        <ion-button mode="ios" class="submit-button" (click)="addEmergencyDetails()">Save</ion-button>
       </div>
     </ion-accordion>
 
@@ -168,46 +158,46 @@
       </ion-item>   
       <div class="assessment" slot="content">
         <div class="header">
-          <p class="assessment-number">Assessment 1</p>
+          <p class="assessment-number">Assessment {{assessmentsCount}}</p>
         </div>
         <div class="vitals-container">
           <div class="line">
-            <ion-input type="number" placeholder="HR" class="vitals-input">
+            <ion-input [(ngModel)]="heart_rate" type="number" placeholder="HR" class="vitals-input">
               <ion-img src="assets/icon/hr.png" slot="start"></ion-img>
             </ion-input>
-            <ion-input placeholder="BP" class="vitals-input">
+            <ion-input [(ngModel)]="blood_pressure" placeholder="BP" class="vitals-input">
               <ion-img src="assets/icon/bp.png" slot="start"></ion-img>
             </ion-input>
-            <ion-input type="number" placeholder="SpO2" class="vitals-input">
+            <ion-input [(ngModel)]="oxygen_saturation" type="number" placeholder="SpO2" class="vitals-input">
               <ion-img src="assets/icon/spo2.png" slot="start"></ion-img>
             </ion-input>
-            <ion-input type="number" placeholder="Temp" class="vitals-input">
+            <ion-input [(ngModel)]="temperature" type="number" placeholder="Temp" class="vitals-input">
               <ion-img src="assets/icon/temp.png" slot="start"></ion-img>
             </ion-input>
           </div>  
           <div class="line">
-            <ion-input type="number" placeholder="RR" class="vitals-input">
+            <ion-input [(ngModel)]="respiration_rate" type="number" placeholder="RR" class="vitals-input">
               <ion-img src="assets/icon/rr.png" slot="start"></ion-img>
             </ion-input>
-            <ion-input type="number" placeholder="CRT" class="vitals-input">
+            <ion-input [(ngModel)]="capillary_refill_time" type="number" placeholder="CRT" class="vitals-input">
               <ion-img src="assets/icon/crt.png" slot="start"></ion-img> 
             </ion-input>
-            <ion-input type="number" placeholder="HGT" class="vitals-input">
+            <ion-input [(ngModel)]="hemoglucotest" type="number" placeholder="HGT" class="vitals-input">
               <ion-img src="assets/icon/hgt.png" slot="start"></ion-img>
             </ion-input>
-            <ion-input type="number" placeholder="PR" class="vitals-input">
+            <ion-input [(ngModel)]="pupils_reaction" type="number" placeholder="PR" class="vitals-input">
               <ion-img src="assets/icon/pr.png" slot="start"></ion-img> 
             </ion-input>
           </div>  
         </div>
         <div class="second-submit-button">
-          <ion-button mode="ios" class="submit-button">Submit</ion-button>
+          <ion-button mode="ios" class="submit-button" (click)="addAssessment()">Save</ion-button>
         </div>
       </div>
     </ion-accordion>
   </ion-accordion-group>
 
   <div class="end-emergency">
-    <ion-button mode="ios" class="end-emergency-button" (click)="presentAlert()">End Emergency</ion-button>
+    <ion-button mode="ios" class="end-emergency-button" (click)="endEmergencyAlert()">End Emergency</ion-button>
   </div>
 </ion-content>

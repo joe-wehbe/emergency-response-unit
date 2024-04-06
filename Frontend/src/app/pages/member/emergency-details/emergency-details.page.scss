@@ -93,22 +93,33 @@ ion-list{
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: 2em;
-  background-color: transparent;
 }
 
 .info-type{
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  width: 50%;
+}
+
+.type{
+  margin: 8px;
+}
+
+.info-answer{
+  width: 50%;
+}
+
+.answer{
+  margin: 8px;
 }
 
 ion-icon[name="person-outline"], ion-icon[name="location-outline"], ion-icon[name="card-outline"],
 ion-icon[name="document-text-outline"], ion-icon[name="time-outline"], ion-icon[name="warning-outline"]{
   padding-right: 5px;
   font-size: 20px;
-  color: #810808;
+  // color: #810808;
 }
 
 .assessment{

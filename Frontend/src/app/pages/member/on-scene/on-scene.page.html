@@ -10,14 +10,14 @@
 <ion-content class="background">
   <ng-container *ngIf="noResponseEmergencies.length > 0; else noEmergencies">
     <div class="stmt">
-      <p>{{noResponseEmergencies.length}} emergencies with no medical response</p>
+      <p>{{noResponseEmergencies.length}} emergencies with no medical response!</p>
       <p class="second-stmt">Click on a case to accept</p>
     </div>
     
     <ion-card class="ongoing-card" (click)="acceptAlert(emergency.id)" *ngFor="let emergency of noResponseEmergencies">
       <div class="first-box-red">
         {{ emergency.created_at | date: 'dd/MM' }}<br>
-        {{ emergency.created_at | date: 'hh:mm' }}
+        {{ emergency.created_at | date: 'h:mm' }}
       </div>
       <div class="second-box">
         <div class="location">

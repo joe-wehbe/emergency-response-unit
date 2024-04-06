@@ -61,68 +61,94 @@
     <ion-searchbar mode="md" #searchBar class="search-bar" [debounce]="800" placeholder="Search name, date, location..." (ionInput)="search($event)"></ion-searchbar>
   </div>
 
-  <div *ngFor="let date of Object.keys(groupedItems)">
+  <div *ngFor="let date of Object.keys(groupedEmergencies)">
     <ion-list-header lines="inset">
       <p class="date">{{ date }}</p>
     </ion-list-header>
-    <ion-card *ngFor="let item of groupedItems[date]" class="ongoing-card" (click)="openModal()">
+    <ion-card *ngFor="let emergency of groupedEmergencies[date]" class="ongoing-card" (click)="openModal(emergency)">
       <div class="first-box">
-        9:07
+        {{ emergency.time }}
       </div>
       <div class="second-box">
         <div class="location-container">
-          <p class="location">{{ item.location }}</p>
+          <p class="location">{{ emergency.location }}</p>
         </div>
         <div class="description-container">
-          <p class="description">Difficulty breathing and panic attack</p>
+          <p class="description">{{ emergency.reporterDescription }}</p>
         </div>
       </div>
       <div class="seperator"></div>
       <div class="third-box">
         <div class="medic">
           <p>Medic:</p>
-          <p class="medic-name">{{ item.medicName }}</p>
+          <p class="medic-name-green">{{ emergency.medicName || 'N/A' }}</p>
         </div>
-        <div class="patient">
-          <p>Patient:</p>
-          <p class="patient-name">{{ item.patientName }}</p>
-        </div>
+        <ng-container *ngIf="emergency.patientName !== null; else noPatientName">
+          <div class="patient">
+            <p>Patient:</p>
+            <p class="patient-name-green">{{ emergency.patientName }}</p>
+          </div>
+        </ng-container>
+        <ng-template #noPatientName>
+          <div class="patient">
+            <p>Patient:</p>
+            <p class="patient-name-red">N/A</p>
+          </div>
+        </ng-template>
         <div class="vitals">
           <div class="heart-rate">
             <ion-img src="assets/icon/hr.png"></ion-img>
-            <p class="hr">120</p>
+            <p class="hr">{{ emergency.heartRate || 'N/A'}}</p>
           </div>        
           <div class="blood-pressure">
             <ion-img src="assets/icon/bp.png"></ion-img>
-            <p class="bp">110/92</p>
+            <p class="bp">{{ emergency.bloodPressure  || 'N/A' }}</p>
           </div>        
           <div class="spo2">
             <ion-img src="assets/icon/spo2.png"></ion-img>
-            <p class="sp">96</p>
+            <p class="sp">{{ emergency.oxygenSaturation || 'N/A' }}</p>
           </div>
           <div class="temperature">
             <ion-img src="assets/icon/temp.png"></ion-img>
-            <p class="temp">37.6</p>
+            <p class="temp">{{ emergency.temperature || 'N/A' }}</p>
           </div>     
           <div class="respiration-rate">
             <ion-img src="assets/icon/rr.png"></ion-img>
-            <p class="rr">16</p>
+            <p class="rr">{{ emergency.respirationRate || 'N/A' }}</p>
           </div>
           <div class="capillary-refill">
             <ion-img src="assets/icon/crt.png"></ion-img> 
-            <p class="crt">2</p>
+            <p class="crt">{{ emergency.capillaryRefill || 'N/A' }}</p>
           </div> 
           <div class="hemo-gluco-test">
             <ion-img src="assets/icon/hgt.png"></ion-img>
-            <p class="hgt">N/A</p>
+            <p class="hgt">{{ emergency.hemoglucotest || 'N/A' }}</p>
           </div>
           <div class="pupils-reaction">
             <ion-img src="assets/icon/pr.png"></ion-img> 
-            <p class="pr">N/A</p>
+            <p class="pr">{{ emergency.pupilsReaction || 'N/A' }}</p>
           </div>
         </div>
       </div>
     </ion-card>
+  </div>
+
+  <div *ngIf="Object.keys(groupedEmergencies).length === 0 && !searchBar.value">
+    <div class="body">
+      <div class="stmt">
+        <p>No records at the moment</p>
+        <p class="second-stmt">Emergencies history will appear here</p>
+        <ion-img class="no-emergencies-img" src="assets/img/no-emergencies-img.png"></ion-img>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="Object.keys(groupedEmergencies).length === 0 && searchBar.value">
+    <div class="body">
+      <div class="stmt">
+        <p>No emergencies found</p>
+      </div>
+    </div>
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
@@ -136,6 +162,9 @@
       <div class="wrapper">
         <ion-header>
           <ion-toolbar class="modal-header">
+            <ion-buttons slot="start">
+              <ion-button color="danger" class="delete-button" (click)="deleteEmergency()">Delete</ion-button>
+            </ion-buttons>
             <ion-title>Emergency Details</ion-title>
             <ion-buttons slot="end">
               <ion-button class="close-button" (click)="detailsModal.dismiss()">Close</ion-button>
@@ -144,7 +173,7 @@
         </ion-header>
 
         <ion-accordion-group mode="ios" [multiple]="true" [value]="['first', 'second']">
-          <ion-accordion value="first">
+          <ion-accordion value="first" >
             <ion-item slot="header" class="first-item">
               <p class="statement">Case Report</p>
             </ion-item>
@@ -154,10 +183,10 @@
                   <div class="info-container">
                     <div class="info-type">
                       <ion-icon class="modal-icon" name="calendar-number-outline"></ion-icon>
-                      <p class="question">Date of incident </p>
+                      <p class="question">Date of incident</p>
                     </div>
                     <div class="info-answer">
-                      <p class="answer">Joe Wehbe</p>
+                      <p class="answer">{{ selectedEmergency.date || 'N/A' }}</p>
                     </div>
                   </div>
                   <div class="info-container">
@@ -166,16 +195,16 @@
                       <p class="question">Time  of incident </p>
                     </div>
                     <div class="info-answer">
-                      <p class="answer">Zakhem 404</p>
+                      <p class="answer">{{ selectedEmergency.time }}</p>
                     </div>
                   </div>
                   <div class="info-container">
                     <div class="info-type">
                       <ion-icon class="modal-icon" name="people-outline"></ion-icon>
-                      <p class="question">First responder team on site </p>
+                      <p class="question">Medic on site </p>
                     </div>
                     <div class="info-answer">
-                      <p class="answer">Passed out</p>
+                      <p class="answer">{{ selectedEmergency.medicName || 'N/A' }}</p>
                     </div>
                   </div>
                   <div class="info-container">
@@ -184,7 +213,7 @@
                       <p class="question">Patient's name </p>
                     </div>
                     <div class="info-answer">
-                      <p class="answer">9:10</p>
+                      <p class="answer">{{ selectedEmergency.patientName || 'N/A'}}</p>
                     </div>
                   </div>
                   <div class="info-container">
@@ -193,7 +222,7 @@
                       <p class="question">Location of incident </p>
                     </div>
                     <div class="info-answer">
-                      <p class="answer">9:10</p>
+                      <p class="answer">{{ selectedEmergency.location || 'N/A' }}</p>
                     </div>
                   </div>
                   <div class="info-container">
@@ -202,16 +231,16 @@
                       <p class="question">Patient's condition </p>
                     </div>
                     <div class="info-answer">
-                      <p class="answer">9:10</p>
+                      <p class="answer">{{ selectedEmergency.patientCondition || 'N/A' }}</p>
                     </div>
                   </div>
                   <div class="info-container">
                     <div class="info-type">
                       <ion-icon class="modal-icon" name="document-text-outline"></ion-icon>
-                      <p class="question">History </p>
+                      <p class="question">History</p>
                     </div>
                     <div class="info-answer">
-                      <p class="answer">9:10</p>
+                      <p class="answer">{{ selectedEmergency.history || 'N/A' }}</p>
                     </div>
                   </div>
                   <div class="info-container">
@@ -220,7 +249,7 @@
                       <p class="question">Medication/Treatment administered by </p>
                     </div>
                     <div class="info-answer">
-                      <p class="answer">9:10</p>
+                      <p class="answer">{{ selectedEmergency.treatmentAdministration || 'N/A' }}</p>
                     </div>
                   </div>
                   <div class="info-container">
@@ -229,7 +258,7 @@
                       <p class="question">Transportation requested to </p>
                     </div>
                     <div class="info-answer">
-                      <p class="answer">9:10</p>
+                      <p class="answer">{{ selectedEmergency.transportation || 'N/A' }}</p>
                     </div>
                   </div>
                   <div class="info-container">
@@ -238,7 +267,7 @@
                       <p class="question">Consultation done with nurse </p>
                     </div>
                     <div class="info-answer">
-                      <p class="answer">9:10</p>
+                      <p class="answer">{{ selectedEmergency.consultation || 'N/A'}}</p>
                     </div>
                   </div>
                   <div class="info-container">
@@ -247,7 +276,7 @@
                       <p class="question">Material/Equipment used (if any) </p>
                     </div>
                     <div class="info-answer">
-                      <p class="answer">9:10</p>
+                      <p class="answer">{{ selectedEmergency.equipment || 'N/A' }}</p>
                     </div>
                   </div>
                   <div class="info-container">
@@ -256,7 +285,7 @@
                       <p class="question">Issues encountered by the dispatch team </p>
                     </div>
                     <div class="info-answer">
-                      <p class="answer">9:10</p>
+                      <p class="answer">{{ selectedEmergency.issues || 'N/A' }}</p>
                     </div>
                   </div>
                 </ion-list> 
@@ -270,70 +299,79 @@
             </ion-item>
             <div class="assessments-container" slot="content">
               <div class="assessment">
-                <div class="header">
-                  <p class="assessment-number">Assessment 1</p>
-                  <p class="assessment-time">9:15</p>
-                </div>
-                <table class="table">
-                  <tbody>
-                    <tr>
-                      <td [ngClass]="{'highlight': HeartRate > 100 || HeartRate < 60}">
-                        <div class="heart-rate">
-                          <ion-img src="assets/icon/hr.png"></ion-img>
-                          <p class="hr">{{ HeartRate }}</p>
-                        </div>
-                      </td>              
-                      <td [ngClass]="{'highlight': Systolic > 150 || Systolic < 90 || Diastolic > 90 || Diastolic < 60}">
-                        <div class="blood-pressure">
-                          <ion-img src="assets/icon/bp.png"></ion-img>
-                          <div class="bp">
-                            <p class="systolic"> {{ Systolic }}</p>
-                            <p class="systolic">/</p>
-                            <p class="diastolic">{{ Diastolic }}</p>
-                          </div>
-                        </div>    
-                      </td>
-                      <td [ngClass]="{'highlight': BloodSaturation < 95}">
-                        <div class="spo2">
-                          <ion-img src="assets/icon/spo2.png"></ion-img>
-                          <p class="sp">{{ BloodSaturation }}</p>
-                        </div>
-                      </td>                    
-                      <td [ngClass]="{'highlight': Temperature < 36.6 || Temperature > 38.3}">
-                        <div class="temperature">
-                          <ion-img src="assets/icon/temp.png"></ion-img>
-                          <p class="temp">{{ Temperature }}</p>
-                        </div>      
-                      </td>
-                    </tr>
-                    <tr>
-                      <td [ngClass]="{'highlight': RespirationRate > 20 || RespirationRate < 12}">
-                        <div class="respiration-rate">
-                          <ion-img src="assets/icon/rr.png"></ion-img>
-                          <p class="rr"> {{ RespirationRate }} </p>
-                        </div>  
-                      </td>
-                      <td [ngClass]="{'highlight': CapillaryRefill > 2}">
-                        <div class="capillary-refill">
-                          <ion-img src="assets/icon/crt.png"></ion-img> 
-                          <p class="crt">{{ CapillaryRefill }}</p>
-                        </div> 
-                      </td>                
-                      <td [ngClass]="{'highlight': HemoGlucoTest < 60 || HemoGlucoTest > 120}">
-                        <div class="hemo-gluco-test">
-                          <ion-img src="assets/icon/hgt.png"></ion-img>
-                          <p class="hgt">{{ HemoGlucoTest }}</p>
-                        </div>
-                      </td>
-                      <td>    
-                        <div class="pupils-reaction">
-                          <ion-img src="assets/icon/pr.png"></ion-img> 
-                          <p class="pr">N/A</p>
-                        </div> 
-                      </td> 
-                    </tr>
-                  </tbody>
-                </table>
+                <ng-container *ngIf="assessments.length > 0">
+                  <div *ngFor="let assessment of assessments; let i = index">
+                    <div class="header">
+                      <p class="assessment-number">Assessment {{i + 1}}</p>
+                      <p class="assessment-time">{{ assessment.created_at | date: 'hh:mm'}}</p>
+                    </div>
+                    <table class="table">
+                      <tbody>
+                        <tr>
+                          <td>
+                            <div class="heart-rate">
+                              <ion-img src="assets/icon/hr.png"></ion-img>
+                              <p class="hr">{{ assessment.heart_rate ? assessment.heart_rate || 'N/A' : 'N/A' }}</p>
+                            </div>
+                          </td>              
+                          <td>
+                            <div class="blood-pressure">
+                              <ion-img src="assets/icon/bp.png"></ion-img>
+                              <div class="bp">
+                                <p class="blood-press">{{ assessment.blood_pressure ? assessment.blood_pressure || 'N/A' : 'N/A' }}</p>
+                              </div>
+                            </div>    
+                          </td>
+                          <td>
+                            <div class="spo2">
+                              <ion-img src="assets/icon/spo2.png"></ion-img>
+                              <p class="sp">{{ assessment.oxygen_saturation ? assessment.oxygen_saturation || 'N/A' : 'N/A' }}</p>
+                            </div>
+                          </td>                    
+                          <td>
+                            <div class="temperature">
+                              <ion-img src="assets/icon/temp.png"></ion-img>
+                              <p class="temp">{{ assessment.temperature ? assessment.temperature || 'N/A' : 'N/A' }}</p>
+                            </div>      
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="respiration-rate">
+                              <ion-img src="assets/icon/rr.png"></ion-img>
+                              <p class="rr">{{ assessment.respiration_rate ? assessment.respiration_rate || 'N/A' : 'N/A' }}</p>
+                            </div>  
+                          </td>
+                          <td>
+                            <div class="capillary-refill">
+                              <ion-img src="assets/icon/crt.png"></ion-img> 
+                              <p class="crt">{{ assessment.capillary_refill_time ? assessment.capillary_refill_time || 'N/A' : 'N/A' }}</p>
+                            </div> 
+                          </td>                
+                          <td>
+                            <div class="hemo-gluco-test">
+                              <ion-img src="assets/icon/hgt.png"></ion-img>
+                              <p class="hgt">{{ assessment.hemoglucotest ? assessment.hemoglucotest || 'N/A' : 'N/A' }}</p>
+                            </div>
+                          </td>
+                          <td>    
+                            <div class="pupils-reaction">
+                              <ion-img src="assets/icon/pr.png"></ion-img> 
+                              <p class="pr">{{ assessment.pupils_reaction ? assessment.pupils_reaction || 'N/A' : 'N/A' }}</p>
+                            </div> 
+                          </td> 
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="assessments.length === 0">
+                  <div class="no-assessments-container">
+                    <h6>
+                      No vital records available for this emergency
+                    </h6>
+                  </div>
+                </ng-container>
               </div>
             </div>
           </ion-accordion>

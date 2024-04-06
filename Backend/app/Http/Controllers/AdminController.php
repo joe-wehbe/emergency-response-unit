@@ -15,10 +15,40 @@ use App\Models\User_has_shift;
 use App\Models\Cover_request;
 use App\Models\Rank;
 use App\Models\Emergency;
-
+use Illuminate\Support\Facades\DB;
+use App\Models\Semester;
 use Exception;
 
 class AdminController extends Controller{
+
+    public function updateSemesterDates(Request $request){
+
+        $request-> validate([
+            'id' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        try{
+            $semester = Semester::find($request->id);
+
+            if($semester){
+                $semester->start_date = $request->start_date;
+                $semester->end_date = $request->end_date;
+                $semester->save();
+                return response()->json(['message' => 'Semester dates updated successfully'], 201);    
+            }
+            else{
+                $semester = new Semester();
+                $semester->start_date = $request->start_date;
+                $semester->end_date = $request->end_date;
+                $semester->save();
+                return response()->json(['message' => 'Semster not found, created a new one'], 201);    
+            }
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
     
     // MANAGE MEMBERS TAB
     public function addMember(Request $request){
@@ -38,7 +68,7 @@ class AdminController extends Controller{
                 return response()->json(['message' => 'User not registered yet']);
             }
         } catch (Exception $exception) {
-            return response()->json(['error' => 'Failed to add member'], 500);
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -58,8 +88,8 @@ class AdminController extends Controller{
             else{
                 return response()->json(['error' => 'User not found'], 404);
             } 
-        }catch (Exception $exception) {
-            return response()->json(['error' => 'An error occurred'], 500);
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -128,8 +158,8 @@ class AdminController extends Controller{
             }else{
                 return response()->json(['error' => 'User not found'], 404);
             }
-        }catch (Exception $exception) {
-            return response()->json(['error' => 'An error occurred'], 500);
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -149,11 +179,7 @@ class AdminController extends Controller{
             }
     
         } catch (Exception $exception) {
-            // Log the exception
-    Log::error($exception);
-
-    // Return the actual exception message
-    return response()->json(['error' => $exception->getMessage()], 500);
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -183,8 +209,8 @@ class AdminController extends Controller{
             } else {
                 return response()->json(['error' => 'User not found'], 404);
             }
-        } catch (Exception $exception) {
-            return response()->json(['error' => 'An error occurred'], 500);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -209,8 +235,8 @@ class AdminController extends Controller{
             } else {
                 return response()->json(['error' => 'User not found']);
             }
-        } catch (Exception $exception) {
-            return response()->json(['error' => 'Failed to delete shift']);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -235,8 +261,8 @@ class AdminController extends Controller{
             $announcement->save();
 
             return response()->json(['message' => 'Announcement added successfully']);
-        } catch (Exception $exception) {
-            return response()->json(['error' => 'Failed to add announcement']);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
@@ -450,42 +476,55 @@ return response()->json(['admins' => $admins], 200);
         return response()->json(['emergency records' => $emergencies], 200);
     }
 
-    // ATTENDANCE RECORDS TAB
-    function getAttendanceRecords(){
-        $records = Shift::all();
-        if ($records->isEmpty()) {
+    function getAttendanceRecords()
+    {
+        $shifts = Shift::all();
+    
+        if ($shifts->isEmpty()) {
             return response()->json([
-                'message' => 'No shifts in the db yet'
+                'message' => 'No shifts in the database yet'
             ]);
         } else {
             $shiftData = [];
-
-            foreach ($records as $shift) {
+    
+            foreach ($shifts as $shift) {
                 $shiftId = $shift->id;
-
-                $userShifts = User_has_shift::where('shift_id', $shiftId)->select('user_id', 'shift_status', 'checkin_time', 'missed_attendance')->get();
-                $coverRequests = Cover_request::where('shift_id', $shiftId)->select('request_status', 'covered_by', 'reason')->get();
-
-                foreach ($userShifts as $key => $userShift) {
-                    $user = User::where('id', $userShift->user_id)->first(['first_name', 'last_name']);
-                    $userShift->user = $user;
+    
+                $userShifts = DB::table('user_has_shifts')
+                    ->where('shift_id', $shiftId)
+                    ->select('user_id',  'attended')
+                    ->get();
+    
+                $coverRequests = DB::table('cover_requests')
+                    ->where('shift_id', $shiftId)
+                    ->select('user_id', 'shift_id', 'covered_by')
+                    ->get();
+    
+                foreach ($userShifts as $userShift) {
+                    $userShift->attended = $userShift->attended;
+                    $userShift->user_name = DB::table('users')
+                        ->where('id', $userShift->user_id)
+                        ->value(DB::raw('CONCAT(first_name, " ", last_name)'));
                 }
-
-                foreach ($coverRequests as $key => $cover) {
-                    $covered_by_user = User::where('id', $cover->covered_by)->first(['first_name', 'last_name']);
-                    $cover->covered_by_user = $covered_by_user;
+    
+                foreach ($coverRequests as $coverRequest) {
+                    $coverRequest->covered_by_user_name = DB::table('users')
+                        ->where('id', $coverRequest->covered_by)
+                        ->value(DB::raw('CONCAT(first_name, " ", last_name)'));
                 }
-
+    
                 $shiftData[$shiftId] = [
-                    'shift' => $shift,
+                    'time_start' => $shift->time_start,
+                    'time_end' => $shift->time_end,
+                    'date' => $shift->date,
                     'user_shifts' => $userShifts,
                     'cover_requests' => $coverRequests
                 ];
             }
+    
             return response()->json($shiftData);
         }
     }
-
     // LOGIN REQUESTS TAB
     function getLoginRequests(){
         $requests = Login_request::all();

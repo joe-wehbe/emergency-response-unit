@@ -115,6 +115,15 @@ ion-list{
 ion-icon{
   padding-right: 5px;
   font-size: 20px;
+  // color: #810808;
+}
+
+.backToSelect{
+  font-size: 25px;
+}
+
+.backToSelect:active{
+  opacity: 0.2;
 }
 
 .info-answer-second{

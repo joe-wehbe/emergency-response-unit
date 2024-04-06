@@ -122,7 +122,6 @@ ion-img{
 .section-name{
     font-size: 16px;
     padding: 5px;
-    font-style: italic;
 }
 
 .second-line {
@@ -156,12 +155,12 @@ ion-img{
     padding-left: 10px;
     padding-right: 10px;
     margin-bottom: 10px;
+    width: 100%;
 }
 
 h6{
     font-size: 0.8rem;
     font-weight: lighter;
-    font-style: italic;
     margin: 0;
 }
 
@@ -182,6 +181,7 @@ h6{
     flex-direction: column;
     padding-left: 10px;
     padding-right: 10px;
+    width: 100%;
 }
 
 .skills-card{
@@ -189,6 +189,10 @@ h6{
     margin: 0;
     border-radius: 10px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.no-experience-text, .no-tags-text{
+    font-style: italic;
 }
 
 ion-badge{

@@ -55,7 +55,19 @@ export class OnScenePage implements OnInit {
           text: 'Accept',
           cssClass: 'alert-button-ok-green',
           handler: () => {
-            this.router.navigate(["./medic-emergency-details", emergencyId])
+            this.emergencyService.acceptEmergency(emergencyId)
+            .subscribe({
+              next: (response) => {
+                console.log("Emergency accepted:", response);
+                this.router.navigate(["./medic-emergency-details", emergencyId])
+              },
+              error: (error) => {
+                console.error("Error accepting emergency:", error);
+              },
+              complete: () => {
+              }
+            });
+            return true;            
           },
         },
       ],

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -11,43 +12,103 @@ import { ToastController } from '@ionic/angular';
 
 export class ProfilePage implements OnInit {
 
-  constructor(private router:Router, private alertController: AlertController, private toastController:ToastController) { }
+  user: any;
+  userShifts: any[] = [];
+  shifts: any[] = [];
+  semesterData: any[] = [];
 
-  ngOnInit() {}
+  constructor(
+    private router:Router, 
+    private alertController: AlertController, 
+    private toastController:ToastController,
+    private userService:UserService) { }
 
-  shifts = [
-    { date: '2024-02-13T08:00:00', startTime: '08:00 AM', endTime: '12:00 PM' },
-    { date: '2024-02-13T15:30:00', startTime: '03:30 PM', endTime: '07:00 PM' },
-    { date: '2024-02-14T15:30:00', startTime: '03:30 PM', endTime: '07:00 PM' },
-  ];
+  ngOnInit() {
+    this.getUserInfo()
+    this.getUserShifts()
+    this.getSemester();
+  }
 
-  highlightedDates = (isoString: any) => {
-    const date = new Date(isoString).toISOString().split('T')[0];
-    const shiftsOnDay = this.shifts.filter(shift => {
-      const shiftDate = new Date(shift.date).toISOString().split('T')[0];
-      return shiftDate === date;
+  getUserInfo() {
+    this.userService.getUserInfo()
+    .subscribe({
+      next: (response) => {
+        console.log("Fetched user data:", response);
+        this.user = response['User'];
+      },
+      error: (error) => {
+        console.error("Error getting user info:", error);
+      },
+      complete: () => {
+      }
     });
+  }
 
-    return shiftsOnDay.length > 0 ? {
-      textColor: '#800080',
-      backgroundColor: '#ffc0cb',
-    } : undefined;
-  };
+  getUserShifts(){
+    this.userService.getUserShifts()
+    .subscribe({
+      next: (response) => {
+        console.log("Fetched user shifts:", response);
+        const parsedResponse = JSON.parse(JSON.stringify(response));
+        this.userShifts = [].concat.apply([], Object.values(parsedResponse['Shifts']));
 
+        this.userShifts.forEach(shiftRecord => {
+          this.shifts.push({ id: shiftRecord.id, day: shiftRecord.shift.day, start_time: shiftRecord.shift.time_start, end_time: shiftRecord.shift.time_end})
+        });
+      },
+      error: (error) => {
+        console.error("Error getting user info:", error);
+      },
+      complete: () => {
+      }
+    });
+  }
+
+  getSemester() {
+    this.userService.getSemester()
+    .subscribe({
+      next: (response) => {
+        console.log("Fetched semester data", response);
+        this.semesterData = (response as any)['Semester'];
+      },
+      error: (error) => {
+        console.error("Error getting semester data:", error);
+      },
+      complete: () => {
+      }
+    });
+  }
+  
+  highlightedDates = (isoString: string) => {
+    const date = new Date(isoString);
+
+    if (this.semesterData.length > 0) {
+      const startDate = new Date(this.semesterData[0].start_date);
+      const endDate = new Date(this.semesterData[0].end_date);
+
+      if (date >= startDate && date <= endDate) {
+        const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'long' });
+        const shiftsOnDay = this.shifts.filter(shift => shift.day === dayOfWeek);
+
+        return shiftsOnDay.length > 0 ? {
+          textColor: '#800080',
+          backgroundColor: '#ffc0cb',
+        } : undefined;
+      }
+    }
+    return undefined;
+  }
+  
   async showShiftTime(event: any) {
     const selectedDate = event.detail.value;
-    
     const highlighted = this.highlightedDates(selectedDate);
     
     if (highlighted) {
-      const selectedDateISO = new Date(selectedDate).toISOString().split('T')[0];
-      const shiftsOnDay = this.shifts.filter(shift => {
-        const shiftDate = new Date(shift.date).toISOString().split('T')[0];
-        return shiftDate === selectedDateISO;
-      });
-
+      const dayOfWeek = new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long' }); 
+      const shiftsOnDay = this.shifts.filter(shift => shift.day === dayOfWeek);
+  
       if (shiftsOnDay.length > 0) {
-        const shiftTimes = shiftsOnDay.map(shift => `from ${shift.startTime} to ${shift.endTime}`).join(', ');
+        const shiftTimes = shiftsOnDay.map(shift => `from ${shift.start_time} to ${shift.end_time}`).join(', ');
         const alert = await this.alertController.create({
           header: 'Your shifts',
           subHeader: `${shiftTimes}`,
@@ -58,34 +119,33 @@ export class ProfilePage implements OnInit {
               cssClass: 'alert-button-cancel'
             },
             {
-              text: 'request cover',
+              text: 'Request cover',
               cssClass: 'alert-button-ok-red',
               handler: () => {
-                if(shiftsOnDay.length === 1){
-                  this.reason();
-                }else{
+                if (shiftsOnDay.length === 1) {
+                  this.reason(shiftsOnDay[0].id);
+                } else {
                   this.multiShiftsAlert(shiftsOnDay);
                 }
-
               },
             },
           ],
-          cssClass:'alert-dialog'
+          cssClass: 'alert-dialog'
         });
         await alert.present();
       } 
     }
   }
-
+  
   async multiShiftsAlert(shifts: any[]) {
     const alert = await this.alertController.create({
       header: 'Select shift',
       cssClass: 'alert-dialog',
       mode: 'ios',
       inputs: shifts.map((shift, index) => ({
-        name: `shift-${index}`,
+        name: `${index}`,
         type: 'radio',
-        label: `from ${shift.startTime} to ${shift.endTime}`,
+        label: `from ${shift.start_time} to ${shift.end_time}`,
         value: shift,
         checked: index === 0,
       })),
@@ -99,17 +159,16 @@ export class ProfilePage implements OnInit {
         {
           text: 'Select',
           cssClass: 'alert-button-ok-red',
-          handler: () => {
-            this.reason();
+          handler: (selectedShift) => { 
+            this.reason(selectedShift.id)
           },
-
         },
       ],
     });
     await alert.present();
   }
 
-  async reason() {
+  async reason($shiftId:any) {
     const alert = await this.alertController.create({
       header: 'Request cover?',
       subHeader: 'Your attendance will be affected if the member accepting your request fails to cover your shift!',
@@ -139,15 +198,18 @@ export class ProfilePage implements OnInit {
           cssClass: 'alert-button-ok-red',
           handler: async (data) => {
             if (!data.reason) {
-              const message = 'Please specify the reason';
-              const toast = await this.toastController.create({
-                message: message,
-                duration: 2000, 
-                position: 'bottom'
-              });
-              toast.present();
+              this.presentToast("Please speficy the reason");
               return false;
             } else {
+              this.userService.requestCover($shiftId, data.reason)
+              .subscribe({
+                next: (response) => {
+                  console.log("Cover request sent successfully:", response);
+                },
+                error: (error) => {
+                  console.error("Error requesting cover:", error);
+                },
+              });
               return true;
             }
           },
@@ -159,5 +221,28 @@ export class ProfilePage implements OnInit {
 
   navigateEditProfile(){
     this.router.navigate(["./edit-profile"]);
+  }
+
+  markAttendance(){
+    this.userService.markAttendance()
+    .subscribe({
+      next: (response) => {
+        console.log("Marked attendance successfully:", response);
+      },
+      error: (error) => {
+        console.error("Error marking attendance:", error);
+      },
+      complete: () => {
+      }
+    });
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom'
+    });
+    toast.present();
   }
 }

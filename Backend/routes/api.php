@@ -29,6 +29,7 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::post("logout", [UserController::class, "logout"]);
         Route::put("apply", [UserController::class, "apply"]);
         Route::get('{id}/get-user-info', [UserController::class, 'getUserInfo']);
+        Route::get("get-user-shifts/{id}", [UserController::class, "getUserShifts"]);
         Route::put('edit-bio', [UserController::class, 'editBio']);
         Route::put('edit-tags', [UserController::class, 'editTags']);
         Route::post('request-cover', [UserController::class, 'requestCover']);
@@ -36,11 +37,13 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::get('get-all-users', [UserController::class, 'getAllUsers']);
         Route::get('get-all-announcements', [UserController::class, 'getAllAnnouncements']);
         Route::get('get-all-cover-requests', [UserController::class, 'getAllCoverRequests']);
+        Route::get('get-shift-cover-requests/{id}', [UserController::class, 'getShiftCoverRequests']);
         Route::put('accept-cover-request', [UserController::class, 'acceptCoverRequest']);
         Route::get('get-no-report-emergencies', [UserController::class, 'getNoReportEmergencies']);
         Route::get('get-extensions', [UserController::class, 'getExtensions']);
         Route::get('{id}/get-medical-faqs', [UserController::class, 'getMedicalFaqs']);
         Route::put('add-case-report', [UserController::class, 'addCaseReport']);
+        Route::get('get-semester', [UserController::class, 'getSemester']);     
     });
     // EMERGENCY CONTROLLER APIs
     Route::group(["prefix" => "emergency"], function(){
@@ -52,12 +55,16 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::get('get-emergency-assessments/{id}', [EmergencyController::class, 'getEmergencyAssessments']);
         Route::get('get-no-response-emergencies', [EmergencyController::class, 'getNoResponseEmergencies']);
         Route::put('accept-emergency', [EmergencyController::class, 'acceptEmergency']);
+        Route::get('get-emergency-with-last-assessment/{id}', [EmergencyController::class, 'getEmergencyWithLastAssessment']);
         Route::put('add-emergency-details', [EmergencyController::class, "addEmergencyDetails"]);
         Route::post("add-assessment", [EmergencyController::class, "addAssessment"]);
         Route::put('end-emergency', [EmergencyController::class, 'endEmergency']);
+        Route::get('get-all-emergencies-with-last-assessment', [EmergencyController::class, 'getAllEmergenciesWithLastAssessment']);
+
     });
     // ADMIN CONTROLLER APIs
     Route::group(["prefix" => "admin"], function(){
+        Route::put("update-semester-dates", [AdminController::class, "updateSemesterDates"]);    
         Route::put("add-member", [AdminController::class, "addMember"]);    
         Route::put("remove-member", [AdminController::class, "removeMember"]);    
         Route::delete("delete-user", [AdminController::class, "deleteUser"]);

@@ -25,11 +25,50 @@ export class UserService {
     return this.http.put(this.base_url + "apply", body);
   }
 
+  getUserShifts(){
+    return this.http.get(this.base_url + "get-user-shifts/1"); // GET USER ID FROM THE LOCAL STORAGE
+  }
+
   logout(){
     // TO IMPLEMENT WHEN WE HAVE LOGIN
   }
 
-  
+  getSemester(){
+    return this.http.get(this.base_url + "get-semester");
+  }
+
+  markAttendance(){
+    const body = {
+      "user_id": 1, // GET USER ID FROM THE LOCAL STORAGE
+    }
+    return this.http.put(this.base_url + "mark-attendance", body);
+  }
+
+  editBio($bio: string){
+    const body = {
+      "id": 1, // GET USER ID FROM THE LOCAL STORAGE
+      "bio": $bio
+    }
+    return this.http.put(this.base_url + "edit-bio", body); 
+  }
+
+  editTags($tags: string){
+    const body = {
+      "id": 1, // GET USER ID FROM THE LOCAL STORAGE
+      "tags": $tags
+    }
+    return this.http.put(this.base_url + "edit-tags", body); 
+  }
+
+  requestCover($shift_id:number, $reason:string){
+    const body = {
+      "user_id": 1, // GET USER ID FROM THE LOCAL STORAGE
+      "shift_id": $shift_id,
+      "reason": $reason
+    }
+    return this.http.post(this.base_url + "request-cover", body);
+  }
+
   getAllUsers(){
     return this.http.get(this.base_url + "get-all-users"); 
   }
@@ -42,5 +81,9 @@ export class UserService {
     return this.http.get(this.base_url + "get-all-cover-requests")
   }
 }
+
+  
+
+
 
 

@@ -121,8 +121,6 @@ export class AppComponent {
                 error: (error) => {
                   console.error("Error applying:", error);
                 },
-                complete: () => {
-                }
               });
               return true;
             }

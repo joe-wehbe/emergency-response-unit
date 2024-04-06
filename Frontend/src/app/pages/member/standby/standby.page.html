@@ -28,13 +28,13 @@
         <ng-container *ngIf="item.emergency.medic !== null; else noMedicResponded">
           <div class="first-box-green">
             {{ item.emergency.created_at | date: 'dd/MM' }}<br>
-            {{ item.emergency.created_at | date: 'hh:mm' }}
+            {{ item.emergency.created_at | date: 'h:mm' }}
           </div>
         </ng-container>
         <ng-template #noMedicResponded>
           <div class="first-box-red">
             {{ item.emergency.created_at | date: 'dd/MM' }}<br>
-            {{ item.emergency.created_at | date: 'hh:mm' }}
+            {{ item.emergency.created_at | date: 'h:mm' }}
           </div>
         </ng-template>
   

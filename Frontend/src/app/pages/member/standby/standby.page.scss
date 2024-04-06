@@ -74,7 +74,8 @@ ion-segment-button.ios::part(indicator-background) {
   width: fit-content;
   padding: 3px;
   background-color: #08811B;
-  color: white
+  color: white;
+  text-align: center;
 }
 
 .first-box-red{
@@ -85,7 +86,8 @@ ion-segment-button.ios::part(indicator-background) {
   width: fit-content;
   padding: 3px;
   background-color: #810808;
-  color: white
+  color: white;
+  text-align: center;
 }
 
 .second-box{
