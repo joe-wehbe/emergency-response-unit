@@ -296,4 +296,34 @@ class EmergencyController extends Controller
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
+
+    public function getAllCaseReports(){
+        //Function that gets and displays ended emergencies that do not have their Case Report Form filled yet
+        try {
+            $emergencies = Emergency::with('medic')
+            ->where('status', 0) //ended
+            ->where('case_report', 0) //unfilled
+            ->orderBy('created_at', 'desc')
+            ->get();
+            
+            if($emergencies->isEmpty()){
+                return response()->json(['message' => 'No case reports to be filled'], 200);
+            }
+
+            $emergenciesWithLastAssessments = [];
+            foreach ($emergencies as $emergency) {
+                $lastAssessment = $emergency->assessments()->latest()->first();
+                $emergenciesWithLastAssessments[] = [
+                    'emergency' => $emergency,
+                    'last_assessment' => $lastAssessment
+                ];
+            }
+            return response()->json(['emergencies' => $emergenciesWithLastAssessments], 200);
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
+
+    
 }

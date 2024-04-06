@@ -6,6 +6,11 @@ interface User {
   firstName: string;
   lastName: string;
   role: string;
+  phoneNumber: string;
+  studentId: string;
+  major: string;
+  bio: string;
+  tags: string;
 }
 
 @Component({
@@ -13,29 +18,24 @@ interface User {
   templateUrl: './community.page.html',
   styleUrls: ['./community.page.scss'],
 })
+
 export class CommunityPage implements OnInit {
-  users: User[] = [
-    { firstName: 'Alice', lastName: 'Johnson', role: 'Medic' },
-    { firstName: 'Alice', lastName: 'Johnson', role: 'Medic' },
-    { firstName: 'Alice', lastName: 'Johnson', role: 'Medic' },
-    { firstName: 'Bob', lastName: 'Smith', role: 'Board' },
-    { firstName: 'Bob', lastName: 'Smith', role: 'Board' },
-    { firstName: 'Joe', lastName: 'Smith', role: 'Board' },
-    { firstName: 'Joe', lastName: 'Smith', role: 'Board' },
-    { firstName: 'Joe', lastName: 'Smith', role: 'Board' },
-  ];
 
   groupedUsers: { letter: string, users: User[] }[] = [];
   filteredGroupedUsers: { letter: string, users: User[] }[] = [];
 
   @ViewChild('modal') modal: IonModal | undefined;
 
+  allUsers: any[] = [];
+  users: User[] = [];
+
+  selectedUser: any;
   constructor(private userService:UserService) {
-    this.groupUsers();
-    this.filteredGroupedUsers = [...this.groupedUsers];
+
   }
 
   ngOnInit() {
+    this.getAllUsers();
   }
 
   getAllUsers(){
@@ -45,14 +45,30 @@ export class CommunityPage implements OnInit {
           if(response && response.hasOwnProperty("users")){
             console.log("Fetched all users: ", response);
             const parsedResponse = JSON.parse(JSON.stringify(response));
-            // this.ongoingEmergencies = [].concat.apply([], Object.values(parsedResponse['emergencies']));
+            this.allUsers = [].concat.apply([], Object.values(parsedResponse['users']));
+
+            //looping through allUsers and our goal is to move everything from allUsers to fill the info in interface
+            this.allUsers.forEach(user =>{
+              this.users.push({
+                firstName: user.first_name, 
+                lastName: user.last_name, 
+                role: user.rank.rank_name,
+                phoneNumber: user.phone_number,
+                studentId: user.student_id,
+                major: user.major,
+                bio: user.bio,
+                tags: user.tags,
+              })
+            })
+            this.groupUsers();
+            this.filteredGroupedUsers = [...this.groupedUsers];
           }
           else{
-            console.log("No ongoing emergencies");
+            console.log("No users");
           }
         },
         error: (error) => {
-          console.error("Error retrieving ongoing emergencies:", error);
+          console.error("Error retrieving users:", error);
         }
       });
   }
@@ -89,7 +105,8 @@ export class CommunityPage implements OnInit {
     })).filter(filteredGroup => filteredGroup.users.length > 0);
   }
 
-  openModal() {
+  openModal(user: any) {
+    this.selectedUser = user;
     this.modal?.present();
   }
 }

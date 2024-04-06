@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('transportation')->nullable();
             $table->string('consultation')->nullable();
             $table->string('equipment')->nullable();
-            $table->integer('issues')->nullable();
+            $table->string('issues')->nullable();
             $table->integer('status')->default(1);
             $table->integer('medic_id')->nullable();
             $table->integer('case_report')->default(0);

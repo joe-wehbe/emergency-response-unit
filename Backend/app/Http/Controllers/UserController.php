@@ -394,7 +394,7 @@ class UserController extends Controller{
     // COMMUNITY PAGE
     public function getAllUsers(){
         try {
-            $users = User::all();
+            $users = User::with("rank")->get();
             return response()->json(['users' => $users], 200);
         }  catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
@@ -404,8 +404,8 @@ class UserController extends Controller{
     // ANNOUNCEMENTS PAGE
     public function getAllAnnouncements(){
         try {
-            $announcements = Announcement::join('users', 'announcements.admin_id', '=', 'users.id')
-                ->select('announcements.*', 'users.first_name', 'users.last_name')
+            $announcements = Announcement::with('admin')->join('users', 'announcements.admin_id', '=', 'users.id')
+                ->select('announcements.*', 'users.first_name as admin_first_name', 'users.last_name as admin_last_name')
                 ->get();
     
             return response()->json(['announcements' => $announcements], 200);
@@ -413,13 +413,14 @@ class UserController extends Controller{
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
+    
 
     // COVER REQUESTS PAGE
     public function getAllCoverRequests(){
         try {
             $coverRequests = Cover_request::with(['user' => function ($query) {
                 $query->with('rank');
-            }])->with("shift")->get();
+            }])->with("shift")->where('request_status', 0)->get();
             return response()->json(['coverRequests' => $coverRequests], 200);
         }  catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
@@ -457,25 +458,34 @@ class UserController extends Controller{
     // CASE REPORTS PAGE
     public function addCaseReport(Request $request){
         $request->validate([
-            'emergency_id' => 'required|integer',
+            'id' => 'required|integer',
+            'patient_name' => 'required',
+            'location' => 'required',
+            'patient_condition' => 'required',
             'history' => 'required|string',
             'treatment_administration' => 'required',
             'transportation' => 'required',
             'equipment' => 'required',
-            'issues' => 'required|integer',
+            'consultation' => 'required',
+            'issues' => 'required',
         ]);
 
         try {
             $case_form = Emergency::find($request->emergency_id);
 
             if ($case_form) {
+                $case_form->id = $request->id;
+                $case_form->patient_name = $request->patient_name;
+                $case_form->location = $request->location;
+                $case_form->patient_condition = $request->patient_condition;
                 $case_form->history = $request->history;
                 $case_form->treatment_administration = $request->treatment_administration;
                 $case_form->transportation = $request->transportation;
                 $case_form->equipment = $request->equipment;
-                $case_form->status = $request->status;
+                $case_form->consultation = $request->consultation;
                 $case_form->issues = $request->issues;
                 $case_form->case_report = 1;
+
                 $case_form->save();
                 return response()->json(['message' => 'Case report for the emergency added successfully'], 201);
             } else {
@@ -495,6 +505,7 @@ class UserController extends Controller{
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
+    
 
     // MEDICAL FAQs PAGE
     public function getMedicalFaqs($id){

@@ -18,20 +18,12 @@
   </div>
 
   <div class="cards-container">
-    <ion-card>
+    <ion-card *ngFor ="let medicalfaq of allMedicalFaqs">
       <div class="question-container">
-        <p class="question">What is the first responsibility of the EMT-B on the scene 
-          of an emergency before starting to assess the patient?</p>
+        <p class="question">{{ medicalfaq.question }}</p>
       </div>
       <div class="answer-container">
-        <p class="answer">SCENE SIZE-UP
-          1. Dispatch information
-          2. Body Substance Isolation
-          3. Scene Safety/Scene hazards
-          4. Mechanism of injury/ Nature of illness
-          5. Number of patients
-          6. Additional resources needed
-          7. C-Spine Immobilization</p>
+        <p class="answer">{{ medicalfaq.answer }}</p>
       </div>
     </ion-card>
   </div>
