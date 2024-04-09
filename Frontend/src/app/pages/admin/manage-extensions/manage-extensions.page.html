@@ -31,14 +31,6 @@
     </ng-container>
   </div>
 
-  <div class="vertical-bar">
-    <ul>
-      <ng-container *ngFor="let letter of alphabet">
-        <li (click)="scrollTo(letter)">{{ letter }}</li>
-      </ng-container>
-    </ul>
-  </div>
-
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button id="add-extension">
       <ion-icon name="add"></ion-icon>

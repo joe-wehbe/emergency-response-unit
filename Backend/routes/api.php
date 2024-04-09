@@ -40,7 +40,7 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::get('get-shift-cover-requests/{id}', [UserController::class, 'getShiftCoverRequests']);
         Route::put('accept-cover-request', [UserController::class, 'acceptCoverRequest']);
         Route::get('get-extensions', [UserController::class, 'getExtensions']);
-        Route::get('{id}/get-medical-faqs', [UserController::class, 'getMedicalFaqs']);
+        Route::get('get-medical-faqs/{type}', [UserController::class, 'getMedicalFaqs']);
         Route::put('add-case-report', [UserController::class, 'addCaseReport']);
         Route::get('get-semester', [UserController::class, 'getSemester']);     
     });
@@ -79,9 +79,9 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::post("add-extension", [AdminController::class, "addExtension"]);
         Route::delete("delete-extension/{id}", [AdminController::class, "deleteExtension"]);    
         Route::get("get-attendance-records", [AdminController::class, "getAttendanceRecords"]);
-        Route::get("get-login-requests", [AdminController::class, "getLoginRequests"]);
-        Route::put("accept-login-request", [AdminController::class, "acceptRequest"]);
-        Route::put("reject-login-request", [AdminController::class, "rejectRequest"]);
+        Route::get("get-signup-requests", [AdminController::class, "getSignupRequests"]);
+        Route::put("accept-signup-request/{id}", [AdminController::class, "acceptSignupRequest"]);
+        Route::put("reject-signup-request/{id}", [AdminController::class, "rejectSignupRequest"]);
         Route::get('get-emergency-records', [AdminController::class, 'getEmergencyRecords']);    
         Route::get('get-members', [AdminController::class, 'getMembers']);    
         Route::get('get-ongoing-shifts', [AdminController::class, 'getOngoingShifts']);

@@ -52,9 +52,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function rank(){ //this is letting the code know that this is a foreign key
+    public function rank(){
         return $this->belongsTo(Rank::class, 'user_rank');
     }
+
     public function hasShift(){
         return $this->hasMany(User_has_shift::class);
     }

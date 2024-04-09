@@ -14,11 +14,11 @@
 <ion-content class="background">
 
   <div class="stmt">
-    <p class="section">Patient Assessment</p>
+    <p class="section">{{ type }}</p>
   </div>
 
   <div class="cards-container">
-    <ion-card *ngFor ="let medicalfaq of allMedicalFaqs">
+    <ion-card *ngFor ="let medicalfaq of allFAQs">
       <div class="question-container">
         <p class="question">{{ medicalfaq.question }}</p>
       </div>

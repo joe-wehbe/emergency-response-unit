@@ -26,7 +26,7 @@ interface Extension {
 
 export class MedicalFAQPage implements OnInit {
   medical_faqs: Extension[] = [];
-id: string = "";
+type: string = "";
 answer: string = "";
 question: string = "";
 
@@ -36,8 +36,8 @@ question: string = "";
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-       this.id = params['id']; 
-      this.adminService.get_medical_faqs(this.id).subscribe(response => {
+       this.type = params['type']; 
+      this.adminService.get_medical_faqs(this.type).subscribe(response => {
         const faqs = Object.values(response).reduce((acc: any[], curr: any[]) => acc.concat(curr), []); 
         this.medical_faqs = faqs.map((faq: { id: number, type: string, question: string, answer: string}) => ({ 
           id : faq.id,
@@ -123,7 +123,7 @@ question: string = "";
   }
 
   add() {
-    this.adminService.add_faq(this.id, this.question, this.answer).subscribe(response => {
+    this.adminService.add_faq(this.type, this.question, this.answer).subscribe(response => {
       this.handleResponse(response);
     });
   }

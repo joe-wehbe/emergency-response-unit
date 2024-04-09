@@ -36,9 +36,10 @@ export class AttendanceRecordsPage implements OnInit {
         this.allShifts.forEach(shift => {
 
           // this.shifts.push({
-          //   name: shift.shifts.user_shifs.user_name,
-          //   // coveredBy: shift.shifts
-          //   isAttended: shift.shifts
+          //   name: shift.user_shifts.user_name,
+          //   coveredBy: shift.cover_requests.covered_by_user_name,
+          //   isAttended: shift.user_shifts.attended,
+          //   da
       
           // })
         });

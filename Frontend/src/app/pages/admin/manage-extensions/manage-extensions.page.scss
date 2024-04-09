@@ -47,9 +47,7 @@ ion-searchbar.search-bar {
 }
 
 .lists-container{
-  margin-left: 10px;
-  margin-right: 2em;  
-  margin-bottom: 5em;
+  margin: 1em;
 }
 
 ion-list {
@@ -67,28 +65,6 @@ ion-card{
 
 ion-item:active {
   opacity: 0.2;
-}
-
-.vertical-bar {
-  position: fixed;
-  top: 53%;
-  right: 0;
-  transform: translateY(-50%);
-  flex-direction: column;
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  margin: 0.5em;
-  width: 50px;
-}
-
-ul {
-  list-style-type: none;
-}
-
-li {
-  font-size: 15px;
-  padding-bottom: 4px;
 }
 
 ion-fab-button {

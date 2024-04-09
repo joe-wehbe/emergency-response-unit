@@ -39,8 +39,8 @@ export class AdminService {
     return response;
   }
 
-  get_medical_faqs(id: string){
-    const response = this.http.get(this.base_url_user + id + "/get-medical-faqs");
+  get_medical_faqs(type: string){
+    const response = this.http.get(this.base_url_user + "get-medical-faqs/" + type);
     return response;
   }
 
@@ -167,5 +167,24 @@ export class AdminService {
       "end_date": $endDate,
     }
     return this.http.put(this.base_url + "update-semester-dates", body); 
+  }
+
+  getSignupRequests(){
+    const response = this.http.get(this.base_url + "get-signup-requests");
+    return response;
+  }
+
+  acceptSignupRequest(request_id:number){
+    const body = {
+      "request_id": request_id,
+    }
+    return this.http.put(this.base_url + "accept-signup-request/" + request_id, body); 
+  }
+
+  rejectSignupRequest(request_id:number){
+    const body = {
+      "request_id": request_id,
+    }
+    return this.http.put(this.base_url + "reject-signup-request/" + request_id, body); 
   }
 }

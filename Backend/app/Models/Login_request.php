@@ -13,4 +13,9 @@ class Login_request extends Model
         'email',
         'status',
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class, 'email', 'lau_email');
+    }
+    
 }

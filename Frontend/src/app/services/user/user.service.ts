@@ -85,14 +85,15 @@ export class UserService {
     return this.http.get(this.base_url + "get-extensions")
   }
 
-  getMedicalFAQs(){
-    return this.http.get(this.base_url + "get-medical-faqs")
+  getMedicalFAQs(type: string){
+    const response = this.http.get(this.base_url + "get-medical-faqs/" + type );
+    return response;
   }
 
   acceptCoverRequests($id:number){ 
     const body = {
-      "id": $id, // id of cover request
-      "covered_by": 1, //change this 
+      "id": $id,
+      "covered_by": 1, // GET USER ID FROM THE LOCAL STORAGE
     }
     return this.http.put(this.base_url + "accept-cover-request", body);
   }

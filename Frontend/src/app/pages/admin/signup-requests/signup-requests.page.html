@@ -13,38 +13,39 @@
 
 <ion-content class="background">
   <div class="stmt">
-    <p>1 registration request</p>
+    <p>{{ requests.length }} registration request</p>
     <p class="second-stmt">Check if the user trying to register is an ERU member</p>
   </div>
 
   <div class="cards">
-    <ion-card>
+    <ion-card *ngFor="let request of requests">
       <div class="first-block">
-        <p class="date">05/02/2024</p>
-        <p class="time">9:07</p>
+        <p class="date">{{ request.created_at | date: 'dd/MM/yyyy' }}</p>
+        <p class="time">{{ request.created_at | date: 'h:mm' }}</p>
+
       </div>
       <div class="second-block">
-        <p class="name">John Smith</p>
+        <p class="name">{{ request.user.first_name }} {{ request.user.last_name }}</p>
         <div class="email-container">
           <ion-icon name="mail-outline"></ion-icon>
-          <p class="email">john.smithlau.edu</p>
+          <p class="email">{{ request.email }}</p>
         </div>
         <div class="id-container">
           <ion-icon name="card-outline"></ion-icon>
-          <p class="id">202000908</p>
+          <p class="id">{{ request.user.student_id}}</p>
         </div>
         <div class="number-container">
           <ion-icon name="call-outline"></ion-icon>
-          <p class="number">81955654</p>
+          <p class="number">{{ request.user.phone_number}}</p>
         </div>
         <div class="major-container">
           <ion-icon name="desktop-outline"></ion-icon>
-          <p class="major">Computer Science</p>
+          <p class="major">{{ request.user.major }}</p>
         </div>
       </div>
       <div class="third-block">
-        <ion-icon class="accept-icon" name="checkmark-circle-outline" (click)="acceptAlert()"></ion-icon>
-        <ion-icon class="reject-icon" name="close-circle-outline" (click)="rejectAlert()"></ion-icon>
+        <ion-icon class="accept-icon" name="checkmark-circle-outline" (click)="acceptAlert(request.id)"></ion-icon>
+        <ion-icon class="reject-icon" name="close-circle-outline" (click)="rejectAlert(request.id)"></ion-icon>
       </div>
     </ion-card>
   </div>

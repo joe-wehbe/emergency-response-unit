@@ -14,24 +14,16 @@
   </div>
 
   <div class="lists-container">
-    <ng-container *ngFor="let group of filteredGroupedUsers">
-        <ion-list *ngIf="group.users.length > 0">
+    <ng-container *ngFor="let group of filteredGroupedExtensions">
+        <ion-list *ngIf="group.extensions.length > 0">
           <ion-list-header [id]="'header-' + group.letter">{{ group.letter }}</ion-list-header>
           <ion-card>
-            <ion-item lines="full" *ngFor="let user of group.users">
-              <span class="first-name">{{ user.name }}</span>
-              <ion-text slot="end">{{ user.extension }}</ion-text>
+            <ion-item lines="full" *ngFor="let extension of group.extensions">
+              <span class="first-name">{{ extension.name }}</span>
+              <ion-text slot="end">{{ extension.number }}</ion-text>
             </ion-item>
           </ion-card>
         </ion-list>
     </ng-container>
-  </div>
-
-  <div class="vertical-bar">
-    <ul>
-      <ng-container *ngFor="let letter of alphabet">
-        <li (click)="scrollTo(letter)">{{ letter }}</li>
-      </ng-container>
-    </ul>
-  </div>    
+  </div> 
 </ion-content>

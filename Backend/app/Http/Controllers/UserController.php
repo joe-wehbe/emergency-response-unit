@@ -471,7 +471,7 @@ class UserController extends Controller{
         ]);
 
         try {
-            $case_form = Emergency::find($request->emergency_id);
+            $case_form = Emergency::find($request->id);
 
             if ($case_form) {
                 $case_form->id = $request->id;
@@ -508,9 +508,9 @@ class UserController extends Controller{
     
 
     // MEDICAL FAQs PAGE
-    public function getMedicalFaqs($id){
+    public function getMedicalFaqs($type){
         try {
-            $faqs = Medical_Faq::where('type', $id)->get();
+            $faqs = Medical_Faq::where('type', $type)->get();
             return response()->json(['medicalFAQ' => $faqs], 200);
         } catch (ModelNotFoundException $exception) {
             return response()->json(['error' => 'Medical FAQ not found'], 404);

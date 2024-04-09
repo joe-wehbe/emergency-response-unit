@@ -528,7 +528,7 @@ class AdminController extends Controller
                 $shiftData[$shiftId] = [
                     'time_start' => $shift->time_start,
                     'time_end' => $shift->time_end,
-                    'date' => $shift->date,
+                    'day' => $shift->day,
                     'user_shifts' => $userShifts,
                     'cover_requests' => $coverRequests
                 ];
@@ -537,65 +537,76 @@ class AdminController extends Controller
             return response()->json(['shifts' => $shiftData], 200);
         }
     }
+    
     // LOGIN REQUESTS TAB
-    function getLoginRequests()
+    function getSignupRequests()
     {
-        $requests = Login_request::all();
+        $requests = Login_request::with('user')->where('status', 0)->get();
         if ($requests->isEmpty()) {
-            return response()->json([
-                'message' => 'No login entries in the db yet'
-            ]);
+            return response()->json(['message' => 'No signup requests']);
         } else {
-            return response()->json($requests);
+            return response()->json(['requests' => $requests], 200);
         }
     }
 
-    function acceptRequest(Request $request)
-    {
-
+    public function acceptSignupRequest(Request $request){
         $request->validate([
             'request_id' => 'required|integer',
-            'admin_id' => 'required|integer'
         ]);
 
-        $loginRequest = Login_Request::where('id', $request->input('request_id'))->first();
-        $admin = User::where('id', $request->input('admin_id'))->first();
+        try{
+            $loginRequest = Login_request::where('id', $request->request_id)->first();
 
-        if (!$admin) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'Admin not found'
-            ]);
+            if($loginRequest){
+                $user = User::where('lau_email', $loginRequest->email)->first();
+
+                if($user){
+                    $loginRequest->status = 1;
+                    $user->user_type = 1;
+                    $user->user_rank = 1;
+                    $loginRequest->save();
+                    $user->save();
+                }
+                else{
+                    return response()->json(['error' => 'User not found'], 404);
+                }
+            }
+            else{
+                return response()->json(['error' => 'Signup request not found'], 404);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
-
-        if (!in_array($admin->user_rank, [3, 4, 5, 7])) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'User is not an admin'
-            ]);
-        }
-
-        if (!$loginRequest) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'Login Request not found'
-            ]);
-        }
-
-        if ($loginRequest->status == 1) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'Request has already been accepted'
-            ]);
-        }
-
-        $loginRequest->status = 1;
-        $loginRequest->save();
-        return response()->json([
-            'status' => 'Success',
-            'message' => 'Request accepted successfully'
-        ]);
     }
+
+    public function rejectSignupRequest(Request $request){
+        $request->validate([
+            'request_id' => 'required|integer',
+        ]);
+
+        try{
+            $loginRequest = Login_request::where('id', $request->request_id)->first();
+
+            if($loginRequest){
+                $user = User::where('lau_email', $loginRequest->email)->first();
+
+                if($user){
+                    $loginRequest->status = 2;
+                    $loginRequest->save();
+                    $user->save();
+                }
+                else{
+                    return response()->json(['error' => 'User not found'], 404);
+                }
+            }
+            else{
+                return response()->json(['error' => 'Signup request not found'], 404);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
 
     function getMembers()
     {
@@ -607,44 +618,5 @@ class AdminController extends Controller
         } else {
             return response()->json($members);
         }
-    }
-
-    function rejectRequest(Request $request)
-    {
-        $request->validate([
-            'request_id' => 'required|integer',
-            'admin_id' => 'required|integer'
-        ]);
-
-        $loginRequest = Login_request::where('id', $request->input('request_id'))->first();
-        $admin = User::where('id', $request->input('admin_id'))->first();
-
-        if (!$admin) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'Admin not found'
-            ]);
-        }
-
-        if (!in_array($admin->user_rank, [3, 4, 5, 7])) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'User is not an admin'
-            ]);
-        }
-
-        if (!$loginRequest) {
-            return response()->json([
-                'status' => 'Error',
-                'message' => 'Request not found'
-            ]);
-        }
-
-        $loginRequest->status = 2;
-        $loginRequest->save();
-        return response()->json([
-            'status' => 'Success',
-            'message' => 'Request rejected successfully'
-        ]);
     }
 }

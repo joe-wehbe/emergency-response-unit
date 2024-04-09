@@ -1,12 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonContent } from '@ionic/angular';
+import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
-import { NgForm } from '@angular/forms';
 import { AdminService } from 'src/app/services/admin/admin.service';
-import { HttpClientModule } from '@angular/common/http';
-import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { ToastController } from '@ionic/angular';
 import { catchError } from 'rxjs/operators';
 
@@ -89,19 +86,7 @@ export class ManageExtensionsPage implements OnInit {
     this.router.navigate(['/admin-panel']);
   }
 
-  alphabet: string[] = Array.from({length: 26}, (_, i) => String.fromCharCode(65 + i));
 
-  @ViewChild(IonContent, { static: true })
-  content!: IonContent;
-  scrollTo(letter: string) {
-    const element = document.getElementById('header-' + letter);
-    if (element) {
-      const rect = element.getBoundingClientRect();
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const offsetTop = rect.top + scrollTop;
-      this.content.scrollToPoint(0, offsetTop, 500);
-    }
-  }  
 
   dismiss(){
     this.modalController.dismiss();

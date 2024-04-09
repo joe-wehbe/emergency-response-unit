@@ -1,13 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonContent } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
 import { UserService } from 'src/app/services/user/user.service';
 
-
-interface User {
+interface Extension {
   name: string;
-  extension: string;
+  number: string;
 }
 
 @Component({
@@ -17,42 +14,28 @@ interface User {
 })
 export class ExtensionsPage implements OnInit {
 
-  // users: User[] = [
-  //   { name: 'Alice', extension: '2920' },
-  //   { name: 'Alice', extension: '2301' },
-  //   { name: 'Alice', extension: '3021' },
-  //   { name: 'Bob', extension: '2102' },
-  //   { name: 'Bob', extension: '2102' },
-  //   { name: 'Braham', extension: '2102' },
-  //   { name: 'Bob', extension: '2102' },
-  //   { name: 'Bob', extension: '2013' },
-  //   { name: 'Joe', extension: '4031' },
-  //   { name: 'Joe', extension: '2321' },
-  //   { name: 'Joe', extension: '2341' },
-  // ];
-
-  users: User[] = [];
+  extensions: Extension[] = [];
   allExtensions: any[] = [];
 
-  groupedUsers: { letter: string, users: User[] }[] = [];
-  filteredGroupedUsers: { letter: string, users: User[] }[] = [];
+  groupedExtensions: { letter: string, extensions: Extension[] }[] = [];
+  filteredGroupedExtensions: { letter: string, extensions: Extension[] }[] = [];
 
-  constructor(private router:Router, private modalController:ModalController, private userService: UserService) {
+  constructor(private router:Router, private userService: UserService) {
   }
 
-  groupUsers() {
-    this.users.sort((a, b) => a.name.localeCompare(b.name));
+  groupExtensions() {
+    this.extensions.sort((a, b) => a.name.localeCompare(b.name));
   
     const groups: any = {};
-    this.users.forEach(user => {
-      const firstLetter = user.name.charAt(0).toUpperCase();
+    this.extensions.forEach(extension => {
+      const firstLetter = extension.name.charAt(0).toUpperCase();
       groups[firstLetter] = groups[firstLetter] || [];
-      groups[firstLetter].push(user);
+      groups[firstLetter].push(extension);
     });
   
-    this.groupedUsers = Object.keys(groups).map(letter => ({
+    this.groupedExtensions = Object.keys(groups).map(letter => ({
       letter,
-      users: groups[letter]
+      extensions: groups[letter]
     }));
   }
 
@@ -60,16 +43,16 @@ export class ExtensionsPage implements OnInit {
     const query = event.target.value.trim().toLowerCase();
 
     if (query === '') {
-      this.filteredGroupedUsers = [...this.groupedUsers];
+      this.filteredGroupedExtensions = [...this.groupedExtensions];
       return;
     }
 
-    this.filteredGroupedUsers = this.groupedUsers.map(group => ({
+    this.filteredGroupedExtensions = this.groupedExtensions.map(group => ({
       letter: group.letter,
-      users: group.users.filter(user =>
-        (user.name.toLowerCase()).includes(query)
+      extensions: group.extensions.filter(extension =>
+        (extension.name.toLowerCase()).includes(query)
       )
-    })).filter(filteredGroup => filteredGroup.users.length > 0);
+    })).filter(filteredGroup => filteredGroup.extensions.length > 0);
   }
 
   ngOnInit() {
@@ -86,20 +69,20 @@ export class ExtensionsPage implements OnInit {
             this.allExtensions = [].concat.apply([], Object.values(parsedResponse['extensions']));
 
             this.allExtensions.forEach(extension =>{
-              this.users.push({
+              this.extensions.push({
                 name: extension.name, 
-                extension: extension.number, 
+                number: extension.number, 
               })
             })
-            this.groupUsers();
-            this.filteredGroupedUsers = [...this.groupedUsers];
+            this.groupExtensions();
+            this.filteredGroupedExtensions = [...this.groupedExtensions];
           }
           else{
-            console.log("No users");
+            console.log("No extensions");
           }
         },
         error: (error) => {
-          console.error("Error retrieving users:", error);
+          console.error("Error retrieving extensions:", error);
         }
       });
   }
@@ -107,18 +90,4 @@ export class ExtensionsPage implements OnInit {
   back(){
     this.router.navigate(['/admin-panel']);
   }
-
-  alphabet: string[] = Array.from({length: 26}, (_, i) => String.fromCharCode(65 + i));
-
-  @ViewChild(IonContent, { static: true })
-  content!: IonContent;
-  scrollTo(letter: string) {
-    const element = document.getElementById('header-' + letter);
-    if (element) {
-      const rect = element.getBoundingClientRect();
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const offsetTop = rect.top + scrollTop;
-      this.content.scrollToPoint(0, offsetTop, 500);
-    }
-  }  
 }
