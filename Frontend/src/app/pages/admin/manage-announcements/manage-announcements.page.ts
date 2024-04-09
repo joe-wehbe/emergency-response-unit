@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { IonModal, ModalController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
 import { AdminService } from 'src/app/services/admin/admin.service';
-import { IonModal } from '@ionic/angular';
 import { ViewChild } from '@angular/core';
 
 @Component({
@@ -34,6 +33,8 @@ export class ManageAnnouncementsPage implements OnInit {
       }
     });
   }
+
+  
 
   receiverSelectedOption: string = 'all-members';
   importanceSelectedOption: string = 'very-important';

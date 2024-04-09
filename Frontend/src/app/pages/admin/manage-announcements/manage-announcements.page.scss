@@ -56,6 +56,8 @@
   display: flex;
   flex-direction: column;
   padding-right: 10px;
+  width: 100%;
+
 }
 
 .name{
@@ -73,6 +75,9 @@ ion-chip{
   font-size: 14px;
   height: 50%;
   text-align: center;
+  justify-content: space-between; 
+  align-items: flex-end; 
+  padding-right: 10px;
 }
 
 .ion-chip-critical {
@@ -90,8 +95,6 @@ ion-chip{
 .time-posted{
   margin: 0;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .time{
@@ -121,12 +124,12 @@ ion-fab-button {
 }
 
 // VIEW ANNOUNCEMENT MODAL
-ion-modal#view-announcement-modal {
-  --width: 96%;
+ion-modal[id^='modal_'] {
+  --width: 96%; 
   --min-width: 250px;
-  --height: fit-content;
-  --border-radius: 6px;
-  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+  --height: auto; 
+  --border-radius: 6px; 
+  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4); 
 }
 
 .description{
@@ -143,13 +146,13 @@ ion-modal#add-announcement-modal {
   --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
 }
 
-ion-modal#add-announcement-modal .wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-}
+// ion-modal#add-announcement-modal .wrapper {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   padding: 10px;
+// }
 
 .statement{
   font-weight: bold;

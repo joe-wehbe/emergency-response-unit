@@ -94,9 +94,10 @@ ion-list-header{
   justify-content: center;
   align-items: center;
   height: 100%;
-  width: 10%;
+  width: fit-content;
   background-color: #838383;
   color: white;
+  text-align: center;
 }
 
 .second-box{
@@ -145,8 +146,12 @@ ion-list-header{
   font-size: 15px;
 }
 
-.medic-name{
-  color: green;
+.medic-name-green, .patient-name-green{
+  color: #08811B;
+}
+
+.medic-name-red, .patient-name-red{
+  color: #810808;
 }
 
 .vitals{
@@ -258,6 +263,10 @@ ion-modal#details-modal {
 
 ion-modal#details-modal .wrapper {
   overflow: auto;
+}
+
+.delete-button{
+  --color: red;
 }
 
 .header{
@@ -384,4 +393,45 @@ ion-img{
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+}
+
+.no-assessments-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+h6{
+  padding-top: 5px;
+  margin: 0;
+  font-style: italic;
+}
+
+.body{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 5em;
+  padding: 10px;
+}
+
+.stmt{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1em;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.second-stmt{
+  margin-top: -1em;
+  font-size: 14px;
+}
+
+.no-emergencies-img{
+  width: 80%;
 }

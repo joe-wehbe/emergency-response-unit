@@ -97,4 +97,13 @@ export class EmergencyService {
     }
     return this.http.put(this.base_url + "end-emergency", body, { headers: this.getAuthHeaders() });
   }
+
+  getAllEmergenciesWithLastAssessment(){
+    return this.http.get(`${this.base_url}get-all-emergencies-with-last-assessment`);
+  }
+
+  getAllCaseReports(){
+    return this.http.get(this.base_url + "get-all-case-reports"); 
+  }
+
 }

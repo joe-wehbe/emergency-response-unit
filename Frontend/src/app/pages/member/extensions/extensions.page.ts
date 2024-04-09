@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { UserService } from 'src/app/services/user/user.service';
+
 
 interface User {
   name: string;
@@ -15,27 +17,27 @@ interface User {
 })
 export class ExtensionsPage implements OnInit {
 
-  users: User[] = [
-    { name: 'Alice', extension: '2920' },
-    { name: 'Alice', extension: '2301' },
-    { name: 'Alice', extension: '3021' },
-    { name: 'Bob', extension: '2102' },
-    { name: 'Bob', extension: '2102' },
-    { name: 'Braham', extension: '2102' },
-    { name: 'Bob', extension: '2102' },
-    { name: 'Bob', extension: '2013' },
-    { name: 'Joe', extension: '4031' },
-    { name: 'Joe', extension: '2321' },
-    { name: 'Joe', extension: '2341' },
-  ];
+  // users: User[] = [
+  //   { name: 'Alice', extension: '2920' },
+  //   { name: 'Alice', extension: '2301' },
+  //   { name: 'Alice', extension: '3021' },
+  //   { name: 'Bob', extension: '2102' },
+  //   { name: 'Bob', extension: '2102' },
+  //   { name: 'Braham', extension: '2102' },
+  //   { name: 'Bob', extension: '2102' },
+  //   { name: 'Bob', extension: '2013' },
+  //   { name: 'Joe', extension: '4031' },
+  //   { name: 'Joe', extension: '2321' },
+  //   { name: 'Joe', extension: '2341' },
+  // ];
 
+  users: User[] = [];
+  allExtensions: any[] = [];
 
   groupedUsers: { letter: string, users: User[] }[] = [];
   filteredGroupedUsers: { letter: string, users: User[] }[] = [];
 
-  constructor(private router:Router, private modalController:ModalController) {
-    this.groupUsers();
-    this.filteredGroupedUsers = [...this.groupedUsers];
+  constructor(private router:Router, private modalController:ModalController, private userService: UserService) {
   }
 
   groupUsers() {
@@ -70,7 +72,37 @@ export class ExtensionsPage implements OnInit {
     })).filter(filteredGroup => filteredGroup.users.length > 0);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getExtensions();
+  }
+
+  getExtensions(){
+    this.userService.getExtensions()
+      .subscribe({
+        next: (response) => {
+          if(response && response.hasOwnProperty("extensions")){
+            console.log("Fetched all extensions: ", response);
+            const parsedResponse = JSON.parse(JSON.stringify(response));
+            this.allExtensions = [].concat.apply([], Object.values(parsedResponse['extensions']));
+
+            this.allExtensions.forEach(extension =>{
+              this.users.push({
+                name: extension.name, 
+                extension: extension.number, 
+              })
+            })
+            this.groupUsers();
+            this.filteredGroupedUsers = [...this.groupedUsers];
+          }
+          else{
+            console.log("No users");
+          }
+        },
+        error: (error) => {
+          console.error("Error retrieving users:", error);
+        }
+      });
+  }
 
   back(){
     this.router.navigate(['/admin-panel']);

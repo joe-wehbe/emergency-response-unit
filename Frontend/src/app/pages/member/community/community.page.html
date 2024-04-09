@@ -36,7 +36,7 @@
       <ion-grid>
         <ion-row>
           <ion-col size="4" *ngFor="let user of group.users">
-            <ion-card class="card" (click)="openModal()">
+            <ion-card class="card" (click)="openModal(user)">
               <div class="card-content">
                 <ion-avatar class="icon">
                   <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
@@ -62,8 +62,8 @@
             </ion-avatar>
             <div class="container">
               <div class="np-container">
-                <h2 class="name">Joe Wehbe</h2>
-                <p class="position">Board Member & Medic</p>
+                <h2 class="name">{{ selectedUser.firstName }} {{ selectedUser.lastName }}</h2>
+                <p class="position">{{ selectedUser.role }}</p>
               </div>
             </div>
           </div>
@@ -76,21 +76,22 @@
           <ion-row class="modal-row">
             <ion-col class="modal-col" size="6" size-md="4" size-lg="2">
               <ion-img src="assets/icon/email.png"></ion-img>
-              <p>Joe Wehbe</p>
+              <p>{{ selectedUser.firstName }} {{ selectedUser.lastName }}</p>
             </ion-col>
             <ion-col class="modal-col" size="6" size-md="4" size-lg="2">
               <ion-img src="assets/icon/phone.png"></ion-img>
-              <p>81955654</p>
+              
+              <p>{{ selectedUser.phoneNumber }}</p>
             </ion-col>
           </ion-row>
           <ion-row class="modal-row">
             <ion-col class="modal-col" size="6" size-md="4" size-lg="2">
               <ion-img src="assets/icon/id.png"></ion-img>
-              <p>202000908</p>
+              <p>{{ selectedUser.studentId }}</p>
             </ion-col>
             <ion-col class="modal-col" size="6" size-md="4" size-lg="2">
               <ion-img src="assets/icon/major.png"></ion-img>
-              <p>Computer Science</p>
+              <p>{{ selectedUser.major }}</p>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -105,24 +106,21 @@
           <div class="first-experience-section">
             <h6>Accomplishments</h6>
             <ion-card class="experience-card">
-              <ion-text class="experience-text">Nursing student with 6 years in emergency response.
-                Member of the red cross since 2017. Obtained several certifications such as CPR, A-EMT and more.</ion-text>
+              <ion-text class="experience-text" *ngIf ="selectedUser && selectedUser.bio">{{selectedUser.bio}}</ion-text>
+              <ion-text class = "no-experience-text" *ngIf="!(selectedUser && selectedUser.bio)">Nothing to show here</ion-text>
             </ion-card>
+
           </div>
       
           <div class="second-experience-section">
             <h6>Medical Skills</h6>
             <ion-card class="skills-card">
-              <ion-badge>First Aid</ion-badge>
-              <ion-badge>EMT-B</ion-badge>
-              <ion-badge>Red Cross</ion-badge>
-              <ion-badge>CPR</ion-badge>
-              <ion-badge>Medical Protocols</ion-badge>
-              <ion-badge>A-EMT</ion-badge>
-              <ion-badge>Medication</ion-badge>
-              <ion-badge>EMT-I</ion-badge>
-              <ion-badge>Emergency Unit</ion-badge>
-              <ion-badge>Ventilation</ion-badge>
+              <ng-container *ngIf = "selectedUser && selectedUser.tags">
+                <ng-container *ngFor="let tag of selectedUser.tags.split(',')">
+                  <ion-badge>{{ tag.trim() }}</ion-badge>
+                </ng-container>
+              </ng-container>
+              <ion-text class="no-tags-text" *ngIf = "!(selectedUser && selectedUser.tags)">Nothing to show here</ion-text>
             </ion-card>
           </div>
         </div>

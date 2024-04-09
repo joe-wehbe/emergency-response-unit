@@ -83,19 +83,20 @@
     <ng-template>
       <form #announcementForm="ngForm">
         <div class="wrapper">
-  
+
           <p class="statement"> Share what you want to say </p>
-  
+
           <div class="announcement-container">
             <ion-text>Write your announcement</ion-text>
             <ion-textarea [autoGrow]="true" placeholder="Announcement..." name="announcement" ngModel required>
               <ion-icon class="modal-icon" name="megaphone" slot="start"></ion-icon>
             </ion-textarea>
           </div>
-  
+
           <div class="receiver-container">
             <ion-text>Specify who will see your announcement</ion-text>
-            <ion-select placeholder="Select Receiver" [(ngModel)]="receiverSelectedOption" name="receiver" [multiple]="true" ngModel required>
+            <ion-select placeholder="Select Receiver" [(ngModel)]="receiverSelectedOption" name="receiver"
+              [multiple]="true" ngModel required>
               <ion-select-option value="all-members">All members</ion-select-option>
               <ion-select-option value="board-members">Board members</ion-select-option>
               <ion-select-option value="medics">Medics</ion-select-option>
@@ -103,20 +104,22 @@
               <ion-icon class="modal-icon" slot="start" name="people"></ion-icon>
             </ion-select>
           </div>
-  
+
           <div class="importance-container">
             <ion-text>Specify its importance level</ion-text>
-            <ion-select placeholder="Select Importance level" [(ngModel)]="importanceSelectedOption" name="importance" ngModel required>
+            <ion-select placeholder="Select Importance level" [(ngModel)]="importanceSelectedOption" name="importance"
+              ngModel required>
               <ion-select-option value="very-important">Very important</ion-select-option>
               <ion-select-option value="important">Important</ion-select-option>
               <ion-select-option value="regular">Regular</ion-select-option>
               <ion-icon class="modal-icon" slot="start" name="alert-circle-sharp"></ion-icon>
             </ion-select>
           </div>
-  
+
           <div class="buttons-container">
             <ion-button class="cancel-button" fill="outline" (click)="dismiss()">Cancel</ion-button>
-            <ion-button class="send-button" fill="outline" (click)="send(announcementForm)" [disabled]="announcementForm.invalid">Send</ion-button>
+            <ion-button class="send-button" fill="outline" (click)="send(announcementForm)"
+              [disabled]="announcementForm.invalid">Send</ion-button>
           </div>
         </div>
       </form>

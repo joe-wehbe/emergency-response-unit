@@ -11,11 +11,11 @@
 <ion-content class="background">
 
   <div class="stmt">
-    <p>4 Cover Requests</p>
+    <p>{{ coverRequests.length }} {{ coverRequests.length === 1 ? 'Cover Request' : 'Cover Requests' }}</p>
     <p class="second-stmt">The member you cover for will be notified of your acceptance</p>
   </div>
 
-  <ion-card (click)="presentAlert()">
+  <ion-card *ngFor ="let cover_request of coverRequests" (click)="presentAlert(cover_request.id)">
 
     <div class="first-box">
     </div>
@@ -25,12 +25,12 @@
         <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-avatar>
     </div>
-    <div *ngFor ="let cover_request of coverRequests" class="cover_requests" id="cover_requests">
-      <div class="third-box">
+    <div class="third-box">
+      <div class="cover_requests" id="cover_requests">
         <div class="upper-container">
           <div class="name-time-container">
             <p class="name">{{cover_request.user.first_name}} {{cover_request.user.last_name}}</p>
-            <p class="time">{{cover_request.shift.time_start}} {{cover_request.shift.time_end}}</p>
+            <p class="time">{{cover_request.shift.time_start}}-{{cover_request.shift.time_end}}</p>
           </div>
 
           <div class="role-container">

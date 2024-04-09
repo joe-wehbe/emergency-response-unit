@@ -160,6 +160,40 @@ export class UserService {
   getAllCoverRequests(){
     return this.http.get(this.base_url + "get-all-cover-requests", { headers: this.getAuthHeaders() })
   }
+
+  getExtensions(){
+    return this.http.get(this.base_url + "get-extensions")
+  }
+
+  getMedicalFAQs(){
+    return this.http.get(this.base_url + "get-medical-faqs")
+  }
+
+  acceptCoverRequests($id:number){ 
+    const body = {
+      "id": $id, // id of cover request
+      "covered_by": 1, //change this 
+    }
+    return this.http.put(this.base_url + "accept-cover-request", body);
+  }
+
+  addCaseReport(emergency_id: number, patient_name: string, location: string, patient_condition: string, history: string, 
+    treatment_administration: string, transportation: string, equipment: string, consultation: string, issues: string){
+    const body = {
+      "id": emergency_id,
+      "patient_name": patient_name,
+      "location": location,
+      "patient_condition": patient_condition,
+      "history": history,
+      "treatment_administration": treatment_administration,
+      "transportation": transportation,
+      "equipment": equipment,
+      "consultation": consultation,
+      "issues": issues,
+    }
+    return this.http.put(this.base_url + "add-case-report", body);
+  }
+ 
 }
 
   

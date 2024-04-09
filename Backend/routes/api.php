@@ -43,7 +43,6 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::get('get-all-cover-requests', [UserController::class, 'getAllCoverRequests']);
         Route::get('get-shift-cover-requests/{id}', [UserController::class, 'getShiftCoverRequests']);
         Route::put('accept-cover-request', [UserController::class, 'acceptCoverRequest']);
-        Route::get('get-no-report-emergencies', [UserController::class, 'getNoReportEmergencies']);
         Route::get('get-extensions', [UserController::class, 'getExtensions']);
         Route::get('{id}/get-medical-faqs', [UserController::class, 'getMedicalFaqs']);
         Route::put('add-case-report', [UserController::class, 'addCaseReport']);
@@ -65,6 +64,9 @@ Route::group(["prefix" => "v0.1"], function(){
         Route::put('add-emergency-details', [EmergencyController::class, "addEmergencyDetails"]);
         Route::post("add-assessment", [EmergencyController::class, "addAssessment"]);
         Route::put('end-emergency', [EmergencyController::class, 'endEmergency']);
+        Route::get('get-all-emergencies-with-last-assessment', [EmergencyController::class, 'getAllEmergenciesWithLastAssessment']);
+        Route::get('get-all-case-reports', [EmergencyController::class, 'getAllCaseReports']);
+
     });
 });
     // ADMIN CONTROLLER APIs

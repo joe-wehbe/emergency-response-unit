@@ -1,5 +1,6 @@
 .toolbar{
     height: 60px;
+    
 }
 
 ion-menu-button{
@@ -67,8 +68,8 @@ ion-chip{
     font-size: 14px;
     height: 50%;
     text-align: center;
-    justify-content: space-between; /* Align items to the space between */
-    align-items: flex-end; /* Align items to the end (right) */
+    justify-content: space-between; 
+    align-items: flex-end; 
     padding-right: 10px;
 }
 
@@ -104,10 +105,10 @@ ion-chip{
     opacity: 0.8;
 }
 
-ion-modal#modal {
-    --width: 96%;
+ion-modal[id^='modal_'] {
+    --width: 96%; 
     --min-width: 250px;
-    --height: fit-content;
-    --border-radius: 6px;
-    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
-}
+    --height: auto; 
+    --border-radius: 6px; 
+    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4); 
+  }
