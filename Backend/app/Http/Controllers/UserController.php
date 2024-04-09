@@ -89,6 +89,7 @@ class UserController extends Controller{
                             'student_id' => $request->input('student_id'),
                             'major' => $request->input('major'),
                             'phone_number' => $request->input('phone_number'),
+                            'user_rank' => '0'
                         ]);
 
                         $token = $newMember->createToken('auth_token')->plainTextToken;
@@ -97,16 +98,20 @@ class UserController extends Controller{
                             'token' => $token,
                         ]);
 
-                    } else if ($check_user->status == '0') {
-                        return response()->json([
-                            'status' => 'Request still pending',
-                        ]);
-                    } else if ($check_user->status == '2') {
-                        return response()->json([
-                            'status' => 'Request rejected',
-                        ]);
-                    }
+                    } 
                 } else {
+                    $newMember = User::create([
+                            'lau_email' => $request->input('lau_email'),
+                            'first_name' => $request->input('first_name'),
+                            'last_name' => $request->input('last_name'),
+                            'password' => Hash::make($request->input('password')),
+                            'user_type' => $request->input('user_type'),
+                            'student_id' => $request->input('student_id'),
+                            'major' => $request->input('major'),
+                            'phone_number' => $request->input('phone_number'),
+                        ]);
+
+                        $token = $newMember->createToken('auth_token')->plainTextToken;
                     $request_login = Login_Request::create([
                         'email' => $request->input('lau_email'),
                         'status' => 0,
@@ -142,8 +147,9 @@ class UserController extends Controller{
 
     // LOGIN PAGE
     function login(Request $request){
+      
         $check_user = User::where("lau_email", $request->lau_email)->first();
-
+   
         if (!$check_user) {
             return response()->json([
                 "status" => "Invalid credentials",
@@ -164,23 +170,58 @@ class UserController extends Controller{
                 ]);
             }
         }
-
-        if (Hash::check($request->password, $check_user->password)) {
-            $this->resetLoginAttempts($request->lau_email);
-            $token = $check_user->createToken('authToken')->plainTextToken;
-            $user_id = $check_user->id;
-            return response()->json([
-                "status" => 'Login successful',
-                "token" => $token,
-                "user_id" => $user_id,
-                "user_type" => $check_user->user_type,
-            ]);
-        } else {
-            $this->addFailedLoginAttempt($request->lau_email);
-            return response()->json([
-                "status" => "Invalid credentials",
-            ]);
+        
+        if($check_user->user_type == 1) {
+            $check_request = Login_request::where("email", $request->lau_email)->first();
+            
+            if ( Hash::check($request->password, $check_user->password)) {
+                $this->resetLoginAttempts($request->lau_email);
+                $token = $check_user->createToken('authToken')->plainTextToken;
+                $user_id = $check_user->id;
+                return response()->json([
+                    "status" => 'Login successful member',
+                    "token" => $token,
+                    "user_id" => $user_id,
+                    "user_type" => $check_user->user_type,
+                    "first_name" => $check_user->first_name,
+                    "last_name" =>$check_user->last_name,
+                    "profile" =>$check_user->profile_picture,
+                    "request" => $check_request->status,
+                    "remember_token" => $check_user->remember_token
+                ]);
+            } else {
+                $this->addFailedLoginAttempt($request->lau_email);
+                return response()->json([
+                    "status" => "Invalid credentials",
+                ]);
+            }
+        }else if($check_user->user_type == 2){
+            if ( Hash::check($request->password, $check_user->password)) {
+                $this->resetLoginAttempts($request->lau_email);
+                $token = $check_user->createToken('authToken')->plainTextToken;
+                $user_id = $check_user->id;
+                return response()->json([
+                    "status" => 'Login successful ssf',
+                    "token" => $token,
+                    "user_id" => $user_id,
+                    "first_name" => $check_user->first_name,
+                    "last_name" =>$check_user->last_name,
+                    "profile" =>$check_user->profile_picture,
+                    "user_type" => $check_user->user_type,
+                    "remember_token" => $check_user->remember_token
+                ]);
+            } else {
+                $this->addFailedLoginAttempt($request->lau_email);
+                return response()->json([
+                    "status" => "Invalid credentials",
+                ]);
+            }
         }
+        
+
+       
+
+        
     }
 
     private function hasExceededLoginAttempts($lau_email){
@@ -240,6 +281,28 @@ class UserController extends Controller{
         }
     }
 
+    public function getRequestStatus($email){
+        try {
+            $request = Login_request::where('email', '=', $email)->first();
+    
+            if ($request) {
+                $status = $request->status;
+                if ($status == 0) {
+                    return response()->json(['status' => 'pending'], 200);
+                } elseif ($status == 1) {
+                    return response()->json(['status' => 'accepted'], 200);
+                } elseif ($status == 2) {
+                    return response()->json(['status' => 'rejected'], 200);
+                } else {
+                    return response()->json(['status' => 'unknown'], 200); // Handle other statuses if necessary
+                }
+            } else {
+                return response()->json(['error' => 'Request not found'], 404);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
     // PROFILE PAGE
     public function getUserInfo($id){
         try {

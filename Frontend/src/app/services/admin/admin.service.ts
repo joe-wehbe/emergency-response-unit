@@ -10,53 +10,63 @@ export class AdminService {
   private base_url_user:string = "http://localhost:8000/api/v0.1/user/";
   constructor(private http:HttpClient) {}
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('auth_token');
+  
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  
+    return headers;
+  }
+
   get_eru_members(){
-    const response = this.http.get(this.base_url + "get-members");
+    const response = this.http.get(this.base_url + "get-members", { headers: this.getAuthHeaders() });
     return response;
   }
 
   get_announcements(){
-    const response = this.http.get(this.base_url_user + "get-all-announcements");
+    const response = this.http.get(this.base_url_user + "get-all-announcements", { headers: this.getAuthHeaders() });
     return response;
   }
 
   get_ongoing_shifts(){
-    const response = this.http.get(this.base_url + "get-ongoing-shifts");
+    const response = this.http.get(this.base_url + "get-ongoing-shifts", { headers: this.getAuthHeaders() });
     return response;
   }
 
   get_extensions(){
-    const response = this.http.get(this.base_url_user + "get-extensions");
+    const response = this.http.get(this.base_url_user + "get-extensions", { headers: this.getAuthHeaders() });
     return response;
   }
 
   get_user_info(id: number){
-    const response = this.http.get(this.base_url_user + id + "/get-user-info");
+    const response = this.http.get(this.base_url_user + id + "/get-user-info", { headers: this.getAuthHeaders() });
     return response;
   }
 
   get_admins(){
-    const response = this.http.get(this.base_url + "get-admins");
+    const response = this.http.get(this.base_url + "get-admins", { headers: this.getAuthHeaders() });
     return response;
   }
 
   get_medical_faqs(id: string){
-    const response = this.http.get(this.base_url_user + id + "/get-medical-faqs");
+    const response = this.http.get(this.base_url_user + id + "/get-medical-faqs", { headers: this.getAuthHeaders() });
     return response;
   }
 
   get_user_shifts(id: number){
-    const response = this.http.get(this.base_url + "get-user-shifts/" + id);
+    const response = this.http.get(this.base_url + "get-user-shifts/" + id, { headers: this.getAuthHeaders() });
     return response;
   }
 
   get_attendance_shifts(){
-    const response = this.http.get(this.base_url + "get-attendance-records");
+    const response = this.http.get(this.base_url + "get-attendance-records", { headers: this.getAuthHeaders() });
     return response;
   }
 
   get_shift_covers(shift_id: number){
-    const response = this.http.get(this.base_url_user + "get-shift-cover-requests/" + shift_id);
+    const response = this.http.get(this.base_url_user + "get-shift-cover-requests/" + shift_id, { headers: this.getAuthHeaders() });
     return response;
   }
 
@@ -65,7 +75,7 @@ export class AdminService {
   remove_member(id: number){
     const headers: HttpHeaders = new HttpHeaders({'Content-Type' : 'application/json'});
     const options= { 
-      headers: headers
+      headers: this.getAuthHeaders()
     }
 
     const body = {
@@ -80,7 +90,7 @@ export class AdminService {
   change_rank(user_id: number, rank_id: number){
     const headers: HttpHeaders = new HttpHeaders({'Content-Type' : 'application/json'});
     const options= { 
-      headers: headers
+      headers: this.getAuthHeaders()
     }
 
     const body = {
@@ -96,7 +106,7 @@ export class AdminService {
   add_member(lau_email: string){
     const headers: HttpHeaders = new HttpHeaders({'Content-Type' : 'application/json'});
     const options= { 
-      headers: headers
+      headers: this.getAuthHeaders()
     }
 
     const body = {
@@ -112,7 +122,7 @@ export class AdminService {
   add_extension(name: string, ext: string){
     const headers: HttpHeaders = new HttpHeaders({'Content-Type' : 'application/json'});
     const options= { 
-      headers: headers
+      headers: this.getAuthHeaders()
     }
 
     const body = {
@@ -130,7 +140,7 @@ export class AdminService {
   add_faq(type: string, question: string, answer: string){
     const headers: HttpHeaders = new HttpHeaders({'Content-Type' : 'application/json'});
     const options= { 
-      headers: headers
+      headers: this.getAuthHeaders()
     }
 
     const body = {
@@ -151,6 +161,6 @@ export class AdminService {
       "start_date": $startDate,
       "end_date": $endDate,
     }
-    return this.http.put(this.base_url + "update-semester-dates", body); 
+    return this.http.put(this.base_url + "update-semester-dates", body, { headers: this.getAuthHeaders() }); 
   }
 }

@@ -4,7 +4,9 @@ import { AlertController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { AdminService } from 'src/app/services/admin/admin.service';
 import { SharedService } from 'src/app/services/shared.service';
-import { forkJoin } from 'rxjs';
+import { catchError, forkJoin } from 'rxjs';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { ToastController } from '@ionic/angular';
 interface Shift {
   id :number;
   date: string;
@@ -26,7 +28,7 @@ export class ChangeSchedulePage implements OnInit {
   selectedOption: string = 'monday';
   shifts: any[] = [];
   shiftsPastWeek: number = 0;
-  constructor(private sharedService:SharedService, private adminService:AdminService, private alertController:AlertController, private router:Router, private modalController:ModalController) { }
+  constructor(private toastController:ToastController, private http:HttpClient, private sharedService:SharedService, private adminService:AdminService, private alertController:AlertController, private router:Router, private modalController:ModalController) { }
 
   ngOnInit() {
     this.selectedUser = this.sharedService.getVariableValue();
@@ -37,7 +39,7 @@ export class ChangeSchedulePage implements OnInit {
 
        const requests = this.shifts.map(shift => this.getShiftCoverCount(shift.id));
       forkJoin(requests).subscribe((responses) => {
-        // Set the cover count for each shift in the 'shifts' array
+        
         responses.forEach((coverCount, index) => {
           this.shifts[index].coverCount = coverCount;
         });
@@ -51,7 +53,7 @@ export class ChangeSchedulePage implements OnInit {
   }
 
   getShiftCoverCount(shiftId: number) {
-    // Make the HTTP request to get the cover count for the specific shift ID
+   
     return this.adminService.get_shift_covers(shiftId);
   }
  
@@ -93,7 +95,7 @@ export class ChangeSchedulePage implements OnInit {
   add(){
   }
 
-  async deleteAlert() {
+  async deleteAlert(shift_id: number) {
     const alert = await this.alertController.create({
       header: 'Delete Shift?',
       subHeader: 'Are you sure you want to permanently delete this shift?',
@@ -107,10 +109,47 @@ export class ChangeSchedulePage implements OnInit {
         {
           text: 'Delete',
           cssClass: 'alert-button-ok-red',
+          handler: () => {
+            this.deleteShift(this.selectedUser, shift_id);
+          }
         },
       ],
     });
     await alert.present();
+  }
+
+  async deleteShift(user_id: number, shift_id: number){
+    try {
+      await this.http.delete<any>(`http://localhost:8000/api/v0.1/admin/delete-shift/${shift_id}/${user_id}`).pipe(
+        catchError(async (error) => {
+          console.error('Error occurred while deleting shift:', error);
+          const toast = await this.toastController.create({
+            message: 'Failed to delete shift',
+            duration: 2000, 
+            position: 'bottom'
+          });
+          toast.present();
+          throw error;
+        })
+      ).toPromise();
+  
+      const toast = await this.toastController.create({
+        message: 'Shift deleted successfully',
+        duration: 2000, 
+        position: 'bottom'
+      });
+      toast.present();
+    
+      
+    } catch (error) {
+      console.error('Error occurred while deleting shift:', error);
+      const toast = await this.toastController.create({
+        message: 'Failed to delete shift',
+        duration: 2000, 
+        position: 'bottom'
+      });
+      toast.present();
+    }
   }
 
   async saveAlert() {

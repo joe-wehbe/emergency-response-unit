@@ -214,17 +214,13 @@ class AdminController extends Controller{
         }
     }
 
-    public function deleteShift(Request $request){
-        $request->validate([
-            'shift_id' => 'required|integer',
-            'user_id' => 'required|integer'
-        ]);
-
+    public function deleteShift($shift_id, $user_id){
+      
         try {
-            $user = User::find($request->user_id);
+            $user = User::find($user_id);
 
             if ($user) {
-                $shift = User_has_shift::find($request->shift_id);
+                $shift = User_has_shift::find($shift_id);
 
                 if ($shift) {
                     $shift->delete();

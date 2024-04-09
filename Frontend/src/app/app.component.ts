@@ -14,8 +14,15 @@ export class AppComponent {
   darkMode = false;
   reportPageActive = false;
   user: any;
+  first_name: string = "";
+  last_name: string = "";
+  email: string = "";
+  id: string = "";
+  rejected: boolean = false;
+  user_rank: string = "";
+  profile_picture: string = "";
   @Output() darkModeToggled = new EventEmitter<boolean>();
-
+  request_status:string = "";
   constructor(
     private router: Router,
     private alertController: AlertController,
@@ -33,16 +40,73 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
+    
     this.checkDarkModeStatus();
-    this.getUserInfo();
+    
+    const storedRequestStatus = localStorage.getItem('request_status');
+   
+    if (storedRequestStatus !== null) {
+        this.request_status = storedRequestStatus;
+    } else {
+        this.request_status = "default_value";
+    }
+
+    const user_id = localStorage.getItem('user_id');
+    if (user_id !== null) {
+      this.id = user_id;
+  } else {
+      this.request_status = "default_value";
   }
 
-  getUserInfo() {
-    this.userService.getUserInfo()
+  if(user_id){
+  this.getUserInfo(this.id);
+  
+  }
+
+  
+  }
+
+  
+  
+
+  checkRequestStatus(){
+    this.userService.getRequestStatus(this.user.lau_email).subscribe(async (response) => {
+    
+      const parsedResponse = JSON.parse(JSON.stringify(response));
+        const status = parsedResponse.status;
+        if(status == "pending"){
+          const toast = await this.toastController.create({
+            message: "Your request is still pending",
+            duration: 2000,
+            position: 'bottom'
+          });
+          toast.present();
+
+        }else if(status == "rejected"){
+          this.rejected = true;
+          const toast = await this.toastController.create({
+            message: "Your request was rejected",
+            duration: 2000,
+            position: 'bottom'
+          });
+          toast.present();
+
+        }else if(status == "accepted"){
+ this.router.navigate(["./tabs/report-emergency"])
+        }
+    });
+  }
+
+  getUserInfo(id: string) {
+    
+    this.userService.getUserInfo(id)
     .subscribe({
       next: (response) => {
         console.log("Fetched user data:", response);
         this.user = response['User'];
+        this.user_rank = this.getUserRankName(this.user.user_rank);
+      
+        this.profile_picture = this.user.profile_picture;
       },
       error: (error) => {
         console.error("Error getting user info:", error);
@@ -50,6 +114,26 @@ export class AppComponent {
       complete: () => {
       }
     });
+  }
+
+
+  getUserRankName(rankNumber: string): string {
+    switch (rankNumber) {
+      case '1':
+        return 'Dispatcher';
+      case '2':
+        return 'Medic';
+      case '3':
+        return 'Admin';
+      case '4':
+        return 'Medic & Admin';
+      case '5':
+        return 'Dispatcher & Admin';
+      case '6':
+        return 'Dispatcher & Medic';
+      default:
+        return 'Unknown'; 
+    }
   }
 
   async applyAlert() {
@@ -163,9 +247,22 @@ export class AppComponent {
         {
           text: 'Logout',
           cssClass: 'alert-button-ok-red',
-          handler: () => {
-            this.router.navigate(["./login"])
-          },
+          handler: () => { 
+             this.userService.logout().subscribe((data: any) => {
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('user_id');
+            localStorage.removeItem('first_name');
+            localStorage.removeItem('last_name');
+            localStorage.removeItem('profile_picture'); 
+            localStorage.removeItem('lau_email');
+            localStorage.removeItem('user_type');
+            localStorage.removeItem('request_status');
+            
+          });
+          this.router.navigate(["./login"])
+          
+        }
+           
         },
       ],
     });

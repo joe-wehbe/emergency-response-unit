@@ -6,12 +6,12 @@
           <div class="container">
             <div>
               <ion-avatar slot="start" class="profile-picture">
-                <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                <img *ngIf="profile_picture === null" alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
               </ion-avatar>            
             </div>
             <div *ngIf="user" class="profile-info">
               <p class="name">{{ user.first_name }} {{ user.last_name }}</p>
-            <p class="role">{{ user.rank.rank_name }}</p>
+            <p   *ngIf="getUserRankName(user.user_rank) !== 'Unknown'" class="role">{{user_rank}}</p>
             </div>
           </div>
         </ion-toolbar>
@@ -66,7 +66,7 @@
             <div class="seperator"></div>
             <div class="third-block">
               <ion-list>
-                <div class="tab-container" routerDirection="root" [routerLink]="'/admin-panel'" lines="none" detail="false" routerLinkActive="selected">
+                <div *ngIf="user_rank === 'Admin' || user_rank === 'Medic & Admin' || user_rank === 'Dispatcher & Medic'"  class="tab-container" routerDirection="root" [routerLink]="'/admin-panel'" lines="none" detail="false" routerLinkActive="selected">
                   <ion-img src="assets/icon/admin-panel.png"></ion-img>
                   Admin panel
                 </div>
@@ -86,7 +86,7 @@
       </ion-content>
     </ion-menu>
 
-    <ion-menu contentId="main-content" type="overlay" class="background" *ngIf="showSideMenu && reportPageActive">
+    <ion-menu  contentId="main-content" type="overlay" class="background" *ngIf="showSideMenu && reportPageActive">
       <ion-header>
         <ion-toolbar class="menu-toolbar">
           <div class="container">
@@ -110,11 +110,14 @@
                 <div class="logo-block">
                   <img class="logo" src="/assets/img/logo.png">
                 </div>
-                <div class="statements">
+                <div *ngIf="request_status === 'ssf'"  class="statements">
                   <h1> Want to join our unit?</h1>
                   <h6> Be part of a vibrant community dedicated to saving lives!</h6>
                 </div>
-                <ion-button mode="ios" fill="outline" (click)="applyAlert()" (click)="$event.stopPropagation()">Apply</ion-button>
+
+                <ion-button fill="outline" *ngIf="(request_status === '0' || request_status === '2' || request_status === '1') && !rejected"
+                mode="ios"  (click)="checkRequestStatus()" (click)="$event.stopPropagation()">Check Request</ion-button>
+                <ion-button *ngIf="request_status === 'ssf'" mode="ios" fill="outline" (click)="applyAlert()" (click)="$event.stopPropagation()">Apply</ion-button>
               </div>
               <div class="lower-block">
                 <ion-list>

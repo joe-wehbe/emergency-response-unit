@@ -35,7 +35,7 @@
                 <ion-label>{{shift.missed_attendance}} misses</ion-label>
               </ion-chip>            
           </div>
-          <ion-icon class="delete-icon" name="close-circle-outline" (click)="deleteAlert()"></ion-icon>
+          <ion-icon class="delete-icon" name="close-circle-outline" (click)="deleteAlert(shift.id)"></ion-icon>
         </div>
       </ion-card>
     </div>
