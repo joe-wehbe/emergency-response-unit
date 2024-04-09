@@ -10,7 +10,7 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./admin-panel.page.scss'],
 })
 export class AdminPanelPage implements OnInit {
-
+  user: string = "";
   semesterData: any[] = [];
   fromDate: string = '2024-03-30';
   toDate: String = '2024-03-30';
@@ -22,6 +22,13 @@ export class AdminPanelPage implements OnInit {
 
   ngOnInit() {
     this.getSemester();
+    const name = localStorage.getItem('first_name');
+   console.log(name);
+    if (name !== null) {
+        this.user = name;
+    } else {
+        this.user = "";
+    }
   }
 
   getSemester() {

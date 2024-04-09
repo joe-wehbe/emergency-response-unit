@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-
+import { UserService } from 'src/app/services/user/user.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -25,9 +25,10 @@ export class RegisterPage implements OnInit {
   emergencyResponseUnit: string = 'no';
   showContent: boolean = false;
 
-  constructor(private router: Router, private toastController: ToastController) {}
+  constructor(private userService:UserService, private router: Router, private toastController: ToastController) {}
 
   ngOnInit() {
+ 
   }
   
   next() {
@@ -48,12 +49,68 @@ export class RegisterPage implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  async register() {
+  async register(fname: string, lname:string, email:string, password:string, id:string, phone:string, major:string) {
+   
     if (this.emergencyResponseUnit == 'yes' && (!this.password || !this.email || !this.fname || !this.lname || !this.id || !this.major || !this.phone)) {
       this.presentToast('All fields are required.');
     
     }else if (this.emergencyResponseUnit == 'no' && (!this.password || !this.email || !this.fname || !this.lname)){
       this.presentToast('All fields are required.');
+
+    } else if (this.emergencyResponseUnit == 'no' && (this.password && this.email && this.fname && this.lname)){
+      
+      this.userService.register_user(fname, lname, email, password, 2).subscribe((response) => {
+       
+        const parsedResponse = JSON.parse(JSON.stringify(response));
+        const status = parsedResponse.status;
+        if(status === 'Email already has an account') {
+          this.toastController.create({
+            header: 'Error',
+            message: status,
+            buttons: ['OK']
+          }).then((alert) => alert.present())
+          .catch((err) => console.log(err));
+        }else if(status === "Invalid password"){
+        const message = parsedResponse.errors.join('\n');
+
+          this.toastController.create({
+            header: 'Error',
+            message: message,
+            buttons: ['OK']
+          }).then((alert) => alert.present())
+          .catch((err) => console.log(err));
+        }else if (status === "Member registered successfully"){
+          
+          localStorage.setItem('auth_token', parsedResponse.token);
+          this.router.navigate(['/login']);
+
+        }      
+      });
+
+    } else if (this.emergencyResponseUnit == 'yes' && (this.password && this.email && this.fname && this.lname && this.id && this.major && this.phone)){
+      
+      this.userService.register_member(fname, lname, email, password, 1, id, phone, major).subscribe((response) => {
+       
+        const parsedResponse = JSON.parse(JSON.stringify(response));
+        const status = parsedResponse.status;
+        if(status === 'Login request sent to admin') {
+          this.router.navigate(['/login']);
+        }else if(status === "Invalid password"){
+        const message = parsedResponse.errors.join('\n');
+
+          this.toastController.create({
+            header: 'Error',
+            message: message,
+            buttons: ['OK']
+          }).then((alert) => alert.present())
+          .catch((err) => console.log(err));
+        }else if (status === "Member registered successfully"){
+          
+          localStorage.setItem('auth_token', parsedResponse.token);
+          this.router.navigate(['/login']);
+
+        }      
+      });
 
     } else if (!this.email.match(this.emailPattern)) {
       this.presentToast('Please enter a valid LAU email.');
@@ -61,9 +118,7 @@ export class RegisterPage implements OnInit {
     } else if (this.password !== this.confirmation) {
       this.presentToast('Incorrect password confirmation.');
 
-    } else {
-      this.router.navigate(["./report"]);
-    }
+    } 
   }  
 
   async presentToast(message: string) {

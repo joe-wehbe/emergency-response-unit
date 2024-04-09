@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -9,37 +9,45 @@ export class EmergencyService {
   private base_url:string = "http://localhost:8000/api/v0.1/emergency/";
 
   constructor(private http:HttpClient) { }
-
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('auth_token');
+  
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  
+    return headers;
+  }
   reportEmergency(location:string, reporter_description:string){
     const body = {
       "location": location,
       "reporter_description": reporter_description
     }
-    return this.http.post(this.base_url + "report-emergency", body);
+    return this.http.post(this.base_url + "report-emergency", body, { headers: this.getAuthHeaders() });
   }
   
   getOngoingEmergencies(){
-    return this.http.get(this.base_url + "get-ongoing-emergencies");
+    return this.http.get(this.base_url + "get-ongoing-emergencies", { headers: this.getAuthHeaders() });
   }
 
   getEndedEmergencies(){
-    return this.http.get(this.base_url + "get-ended-emergencies");
+    return this.http.get(this.base_url + "get-ended-emergencies", { headers: this.getAuthHeaders() });
   }
 
   deleteEmergency(id:number){
-    return this.http.delete(`${this.base_url}delete-emergency/${id}`);
+    return this.http.delete(`${this.base_url}delete-emergency/${id}`, { headers: this.getAuthHeaders() });
   }
 
   getEmergency(id:number){
-    return this.http.get(`${this.base_url}get-emergency/${id}`);
+    return this.http.get(`${this.base_url}get-emergency/${id}`, { headers: this.getAuthHeaders() });
   }
 
   getEmergencyAssessments(id: number) {
-    return this.http.get(`${this.base_url}get-emergency-assessments/${id}`);
+    return this.http.get(`${this.base_url}get-emergency-assessments/${id}`, { headers: this.getAuthHeaders() });
   }  
 
   getNoResponseEmergencies(){
-    return this.http.get(this.base_url + "get-no-response-emergencies");
+    return this.http.get(this.base_url + "get-no-response-emergencies", { headers: this.getAuthHeaders() });
   }
 
   acceptEmergency(id:number){
@@ -47,11 +55,11 @@ export class EmergencyService {
       "id": id,
       "medic_id": 1 // GET USER ID FROM THE LOCAL STORAGE
     }
-    return this.http.put(this.base_url + "accept-emergency", body);
+    return this.http.put(this.base_url + "accept-emergency", body, { headers: this.getAuthHeaders() });
   }
 
   getEmergencyWithLastAssessment(id:number){
-    return this.http.get(`${this.base_url}get-emergency-with-last-assessment/${id}`);
+    return this.http.get(`${this.base_url}get-emergency-with-last-assessment/${id}`, { headers: this.getAuthHeaders() });
   }
 
   addEmergencyDetails(id:number, patient_name:string, patient_lau_id:number, medic_description:string, patient_condition:string){
@@ -62,7 +70,7 @@ export class EmergencyService {
       'medic_description': medic_description,
       'patient_condition': patient_condition
     }
-    return this.http.put(this.base_url + "add-emergency-details", body);
+    return this.http.put(this.base_url + "add-emergency-details", body, { headers: this.getAuthHeaders() });
   }
 
   addAssessment(
@@ -80,14 +88,14 @@ export class EmergencyService {
         'hemoglucotest' : hemoglucotest,
         'pupils_reaction' : pupils_reaction,
       }
-      return this.http.post(this.base_url + "add-assessment", body);
+      return this.http.post(this.base_url + "add-assessment", body, { headers: this.getAuthHeaders() });
   }
 
   endEmergency(id:number){
     const body = {
       "id": id,
     }
-    return this.http.put(this.base_url + "end-emergency", body);
+    return this.http.put(this.base_url + "end-emergency", body, { headers: this.getAuthHeaders() });
   }
 
   getAllEmergenciesWithLastAssessment(){

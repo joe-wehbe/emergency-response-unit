@@ -30,7 +30,7 @@ export class ProfilePage implements OnInit {
   }
 
   getUserInfo() {
-    this.userService.getUserInfo()
+    this.userService.getUserInfo("1")
     .subscribe({
       next: (response) => {
         console.log("Fetched user data:", response);

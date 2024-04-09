@@ -14,8 +14,10 @@ export class ReportPage implements OnInit {
   secondH4Content: string = 'to notify medics';
 
   constructor(private alertController: AlertController, private toastController:ToastController, private emergencyService:EmergencyService) {}
-
-  ngOnInit() {}
+  
+  ngOnInit() {
+  
+  }
 
   async reportEmergencyAlert() {
     if (this.isButtonClicked) {

@@ -17,7 +17,7 @@ const routes: Routes = [
   /* MEMBER ROUTES*/
   {
     path: '',
-    redirectTo: '/tabs/report-emergency',
+    redirectTo: '/login',
     pathMatch: 'full'
   },
   {
