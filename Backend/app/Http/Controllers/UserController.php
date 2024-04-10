@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Str;
 
 use App\Models\Cover_request;
 use App\Models\User;
@@ -146,7 +147,7 @@ class UserController extends Controller{
     }
 
     // LOGIN PAGE
-    function login(Request $request) {
+    public function login(Request $request) {
         $user = User::with('rank')->where("lau_email", $request->lau_email)->first();
     
         if (!$user || !Hash::check($request->password, $user->password)) {
@@ -169,6 +170,11 @@ class UserController extends Controller{
         else{
             $this->resetLoginAttempts($request->lau_email);
             $token = $user->createToken('authToken')->plainTextToken;
+
+            if ($request->remember_me) {
+                $user->remember_token = Str::random(60);
+                $user->save();
+            }
         
             $response = [
                 "user_id" => $user->id,
@@ -204,13 +210,32 @@ class UserController extends Controller{
         ]);
     }
 
+    public function autoLogin(Request $request) {
+        try{
+            $rememberToken = $request->input('rememberToken');
+            $user = User::where('remember_token', $rememberToken)->first();
+    
+            if ($user) {
+                return response()->json(['status' => 'Login successful']);
+            }
+            else{
+                return response()->json(['error' => 'User not found'], 404);
+            }
+            
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
     //LOGOUT
-    function logout(Request $request){
+    public function logout(Request $request){
         try{
             $user = User::where("lau_email", $request->lau_email)->first();
 
             if($user){
                 $user->tokens()->delete();
+                $user->remember_token = null;
+                $user->save();
                 return response()->json(["status" => "Logged out",]);
             }
             else{

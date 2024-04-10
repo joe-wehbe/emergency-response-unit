@@ -27,6 +27,7 @@ Route::group(["prefix" => "v0.1"], function () {
     Route::group(["prefix" => "user"], function () {
         Route::post("register", [UserController::class, "register"]);
         Route::post("login", [UserController::class, "login"]);
+        Route::post('auto-login', [UserController::class, 'autoLogin']);
         Route::post('logout', [UserController::class, 'logout']);
         // Route::group(["middleware" => "auth:sanctum"], function () {
             Route::put("apply", [UserController::class, "apply"]);

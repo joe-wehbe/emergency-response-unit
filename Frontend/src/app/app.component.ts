@@ -36,13 +36,15 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
-    this.checkDarkModeStatus();
+    console.log(localStorage);
     this.getUserInfo();
+    this.checkDarkModeStatus();
     this.checkSignupRequestStatus();
   }
 
   checkSignupRequestStatus() {
-    this.userService.getRequestStatus(this.email)
+    if(this.email){
+      this.userService.getRequestStatus(this.email)
       .subscribe({
         next: (response) => {
           console.log('Fetched signup request status:', response);
@@ -53,6 +55,7 @@ export class AppComponent {
           console.error('Error fetching signup request status:', error);
         },
       });
+    }
   }
 
   getUserInfo() {

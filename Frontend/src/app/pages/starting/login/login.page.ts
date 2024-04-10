@@ -28,41 +28,56 @@ export class LoginPage {
     this.showPassword = !this.showPassword;
   }
 
-  async login() {
+  ngOnInit(){
+    this.autoLogin();
+  }
+
+  autoLogin(){
+    const rememberToken = localStorage.getItem("rememberToken");
+
+    if(rememberToken){
+      this.userService.autoLogin(rememberToken)
+      .subscribe({
+        next: (response) => {
+          console.log('Auto login successful:', response);
+          this.router.navigate(['./tabs/report-emergency']);
+        },
+        error: (error) => {
+          console.error('Error auto logging in:', error);
+        },
+      });
+    }
+  }
+
+  login() {
     if (!this.email || !this.password) {
       this.presentToast('Email and password cannot be empty');
-    } 
-    else if (!this.email.match(this.emailPattern)) {
+    } else if (!this.email.match(this.emailPattern)) {
       this.presentToast('Invalid email');
-    } 
-    else {
-      this.userService.login(this.email, this.password).subscribe( (response) => {
+    } else {
+      this.userService.login(this.email, this.password, this.rememberMe).subscribe(response => {
         const parsedResponse = JSON.parse(JSON.stringify(response));
         console.log("Response: ", parsedResponse);
-
-        if(parsedResponse.status === 'Invalid credentials') {
+        console.log("Remember me: ", this.rememberMe);
+  
+        if (parsedResponse.status === 'Invalid credentials') {
           this.presentToast('Incorrect email or password');
-        } 
-
-        if(parsedResponse.status === 'Login attempts exceeded') {
+        } else if (parsedResponse.status === 'Login attempts exceeded') {
           this.presentToast('Login attempts limit reached. Try again in 24 hours.');
-        }
-
-        else if(parsedResponse.status === 'Login successful') {
+        } else if (parsedResponse.status === 'Login successful') {
           localStorage.setItem('user_id', parsedResponse.user_id);
           localStorage.setItem('first_name', parsedResponse.first_name);
           localStorage.setItem('last_name', parsedResponse.last_name);
-          localStorage.setItem('lau_email',  parsedResponse.lau_email);
+          localStorage.setItem('lau_email', parsedResponse.lau_email);
           localStorage.setItem('profile_picture', parsedResponse.profile_picture);
           localStorage.setItem('user_type', parsedResponse.user_type);
           localStorage.setItem('auth_token', parsedResponse.token);
-
-          if(parsedResponse.user_type == 1){
-            localStorage.setItem('rank',  parsedResponse.rank.rank_name);
+  
+          if (parsedResponse.user_type == 1) {
+            localStorage.setItem('rank', parsedResponse.rank.rank_name);
             this.router.navigate(["/tabs/report-emergency"]);
             console.log(localStorage);
-          }
-          else if(parsedResponse.user_type == 2){
+          } else if (parsedResponse.user_type == 2) {
             this.router.navigate(["report"]);
             console.log(localStorage);
           }

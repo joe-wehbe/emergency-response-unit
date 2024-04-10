@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, last } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +34,7 @@ export class UserService {
     last_name: string,
     lau_email: string,
     password: string,
-    user_type: number /*remember_me:number*/
+    user_type: number
   ) {
     const headers: HttpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -49,31 +49,31 @@ export class UserService {
       lau_email: lau_email,
       password: password,
       user_type: user_type,
-      //"remember_me": remember_me
     };
 
     const response = this.http.post(this.base_url + 'register', body, options);
-
     return response;
   }
 
-  login(email: string, password: string) {
-    const headers: HttpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    const options = {
-      headers: headers,
-    };
-
+  login(email: string, password: string, rememberMe: boolean) {
     const body = {
       lau_email: email,
       password: password,
-      //"remember_me": remember_me
+      remember_me: rememberMe
     };
 
-    const response = this.http.post(this.base_url + 'login', body, options);
-    return response;
+    return this.http.post<any>(this.base_url + "login", body).pipe(
+      tap(result => {
+        if (result.token && rememberMe) {
+          localStorage.setItem('rememberToken', result.remember_token);
+        }
+      })
+    );
+  }
+
+  autoLogin(rememberToken: string): Observable<any> {
+    const body = { rememberToken };
+    return this.http.post<any>(this.base_url + 'auto-login', body);
   }
 
   register_member(
