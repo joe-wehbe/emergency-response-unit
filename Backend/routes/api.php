@@ -29,7 +29,7 @@ Route::group(["prefix" => "v0.1"], function () {
         Route::post("login", [UserController::class, "login"]);
         Route::post('auto-login', [UserController::class, 'autoLogin']);
         Route::post('logout', [UserController::class, 'logout']);
-        // Route::group(["middleware" => "auth:sanctum"], function () {
+        Route::group(["middleware" => "auth:sanctum"], function () {
             Route::put("apply", [UserController::class, "apply"]);
             Route::get('{id}/get-user-info', [UserController::class, 'getUserInfo']);
             Route::get("get-user-shifts/{id}", [UserController::class, "getUserShifts"]);
@@ -47,11 +47,12 @@ Route::group(["prefix" => "v0.1"], function () {
             Route::get('get-medical-faqs/{type}', [UserController::class, 'getMedicalFaqs']);
             Route::put('add-case-report', [UserController::class, 'addCaseReport']);
             Route::get('get-semester', [UserController::class, 'getSemester']);
-        // });
+         });
     });
     // EMERGENCY CONTROLLER APIs
-    // Route::group(["middleware" => "auth:sanctum"], function () {
+   
         Route::group(["prefix" => "emergency"], function () {
+            Route::group(["middleware" => "auth:sanctum"], function () {
             Route::post("report-emergency", [EmergencyController::class, "reportEmergency"]);
             Route::get('get-ongoing-emergencies', [EmergencyController::class, 'getOngoingEmergencies']);
             Route::get('get-ended-emergencies', [EmergencyController::class, 'getEndedEmergencies']);
@@ -68,10 +69,10 @@ Route::group(["prefix" => "v0.1"], function () {
             Route::get('get-all-case-reports', [EmergencyController::class, 'getAllCaseReports']);
 
         });
-    // });
+    });
     // ADMIN CONTROLLER APIs
     Route::group(["prefix" => "admin"], function () {
-        // Route::group(["middleware" => ["auth:sanctum", "App\Http\Middleware\AdminMiddleware"]], function () {
+        Route::group(["middleware" => ["auth:sanctum", "App\Http\Middleware\AdminMiddleware"]], function () {
             Route::put("update-semester-dates", [AdminController::class, "updateSemesterDates"]);
             Route::put("add-member", [AdminController::class, "addMember"]);
             Route::put("remove-member", [AdminController::class, "removeMember"]);
@@ -94,7 +95,7 @@ Route::group(["prefix" => "v0.1"], function () {
             Route::get('get-members', [AdminController::class, 'getMembers']);
             Route::get('get-ongoing-shifts', [AdminController::class, 'getOngoingShifts']);
             Route::get('get-admins', [AdminController::class, 'getAdmins']);
-        // });
+        });
     });
 });
 
