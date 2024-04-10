@@ -146,91 +146,54 @@ class UserController extends Controller{
     }
 
     // LOGIN PAGE
-    function login(Request $request){
-      
-        $check_user = User::where("lau_email", $request->lau_email)->first();
-   
-        if (!$check_user) {
-            return response()->json([
-                "status" => "Invalid credentials",
-            ]);
-        }
-
-        if ($this->hasExceededLoginAttempts($request->lau_email)) {
-            $last_attempt = Login_attempt::where('email', '=', $request->lau_email)->orderBy('created_at', 'desc')->first();
-            $now = Carbon::now();
-            $last_attempt_time = Carbon::parse($last_attempt->created_at);
-            $diff_in_hours = $last_attempt_time->diffInHours($now);
-
-            if ($diff_in_hours >= 24) {
-                $this->resetLoginAttempts($request->lau_email);
-            } else {
-                return response()->json([
-                    "status" => "Too many failed login attempts",
-                ]);
-            }
-        }
+    function login(Request $request) {
+        $user = User::with('rank')->where("lau_email", $request->lau_email)->first();
+    
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            $this->addFailedLoginAttempt($request->lau_email);
         
-        if($check_user->user_type == 1) {
-            $check_request = Login_request::where("email", $request->lau_email)->first();
-            
-            if ( Hash::check($request->password, $check_user->password)) {
-                $this->resetLoginAttempts($request->lau_email);
-                $token = $check_user->createToken('authToken')->plainTextToken;
-                $user_id = $check_user->id;
-                return response()->json([
-                    "status" => 'Login successful member',
-                    "token" => $token,
-                    "user_id" => $user_id,
-                    "user_type" => $check_user->user_type,
-                    "first_name" => $check_user->first_name,
-                    "last_name" =>$check_user->last_name,
-                    "profile" =>$check_user->profile_picture,
-                    "request" => $check_request->status,
-                    "remember_token" => $check_user->remember_token
-                ]);
-            } else {
-                $this->addFailedLoginAttempt($request->lau_email);
-                return response()->json([
-                    "status" => "Invalid credentials",
-                ]);
+            if ($this->hasExceededLoginAttempts($request->lau_email)) {
+                $last_attempt = Login_attempt::where('email', $request->lau_email)->orderBy('created_at', 'desc')->first();
+                $last_attempt_time = Carbon::parse($last_attempt->created_at);
+                $diff_in_hours = $last_attempt_time->diffInHours(Carbon::now());
+        
+                if ($diff_in_hours < 24) {
+                    return response()->json(["status" => "Login attempts exceeded"]);
+                } 
+                else {
+                    $this->resetLoginAttempts($request->lau_email);
+                }
             }
-        }else if($check_user->user_type == 2){
-            if ( Hash::check($request->password, $check_user->password)) {
-                $this->resetLoginAttempts($request->lau_email);
-                $token = $check_user->createToken('authToken')->plainTextToken;
-                $user_id = $check_user->id;
-                return response()->json([
-                    "status" => 'Login successful ssf',
-                    "token" => $token,
-                    "user_id" => $user_id,
-                    "first_name" => $check_user->first_name,
-                    "last_name" =>$check_user->last_name,
-                    "profile" =>$check_user->profile_picture,
-                    "user_type" => $check_user->user_type,
-                    "remember_token" => $check_user->remember_token
-                ]);
-            } else {
-                $this->addFailedLoginAttempt($request->lau_email);
-                return response()->json([
-                    "status" => "Invalid credentials",
-                ]);
-            }
+            return response()->json(["status" => "Invalid credentials"]);
         }
+        else{
+            $this->resetLoginAttempts($request->lau_email);
+            $token = $user->createToken('authToken')->plainTextToken;
         
-
-       
-
+            $response = [
+                "user_id" => $user->id,
+                "first_name" => $user->first_name,
+                "last_name" => $user->last_name,
+                "lau_email" => $user->lau_email,
+                "rank" => $user->rank,
+                "profile_picture" => $user->profile_picture,
+                "user_type" => $user->user_type,
+                "token" => $token,
+                "remember_token" => $user->remember_token
+            ];
         
+            $response["status"] = 'Login successful';
+            return response()->json($response);
+        }
     }
-
+    
     private function hasExceededLoginAttempts($lau_email){
-        $total_attempts = Login_attempt::where('email', '=', $lau_email)->count();
-        return ($total_attempts >= 5);
+        $total_attempts = Login_attempt::where('email', $lau_email)->count();
+        return $total_attempts >= 5;
     }
 
     private function resetLoginAttempts($lau_email){
-        Login_attempt::where('email', '=', $lau_email)->delete();
+        Login_attempt::where('email', $lau_email)->delete();
     }
 
     private function addFailedLoginAttempt($lau_email){
@@ -241,13 +204,22 @@ class UserController extends Controller{
         ]);
     }
 
-    // LOGOUT
+    //LOGOUT
     function logout(Request $request){
-        auth()->user()->tokens()->delete();
-        return response()->json([
-            "status" => "Logged out",
-        ]);
-    }
+        try{
+            $user = User::where("lau_email", $request->lau_email)->first();
+
+            if($user){
+                $user->tokens()->delete();
+                return response()->json(["status" => "Logged out",]);
+            }
+            else{
+                return response()->json(['error' => 'User not found'], 404);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    } 
 
     // REPORT PAGE
     public function apply(Request $request){
@@ -283,10 +255,11 @@ class UserController extends Controller{
 
     public function getRequestStatus($email){
         try {
-            $request = Login_request::where('email', '=', $email)->first();
+            $request = Login_request::where('email', $email)->first();
     
             if ($request) {
                 $status = $request->status;
+
                 if ($status == 0) {
                     return response()->json(['status' => 'pending'], 200);
                 } elseif ($status == 1) {
@@ -294,15 +267,16 @@ class UserController extends Controller{
                 } elseif ($status == 2) {
                     return response()->json(['status' => 'rejected'], 200);
                 } else {
-                    return response()->json(['status' => 'unknown'], 200); // Handle other statuses if necessary
+                    return response()->json(['status' => 'unknown'], 200);
                 }
             } else {
-                return response()->json(['error' => 'Request not found'], 404);
+                return response()->json(['message' => 'No signup request'], 200);
             }
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
+
     // PROFILE PAGE
     public function getUserInfo($id){
         try {

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { AppComponent } from 'src/app/app.component';
 import { UserService } from 'src/app/services/user/user.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: 'login.page.html',
@@ -15,7 +17,12 @@ export class LoginPage {
   email: string = '';
   emailPattern: string = '^[^\\s@]+@lau\\.edu(?:\\.lb)?$';
   rememberMe: boolean = false;
-  constructor(private userService:UserService, private router: Router, private toastController: ToastController) {}
+  
+  constructor(
+    private userService:UserService, 
+    private router: Router, 
+    private toastController: ToastController,
+    private appComponent: AppComponent) {}
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
@@ -23,47 +30,44 @@ export class LoginPage {
 
   async login() {
     if (!this.email || !this.password) {
-      this.presentToast('Incorrect email or password');
-    } else if (!this.email.match(this.emailPattern)) {
+      this.presentToast('Email and password cannot be empty');
+    } 
+    else if (!this.email.match(this.emailPattern)) {
       this.presentToast('Invalid email');
-    } else {
+    } 
+    else {
       this.userService.login(this.email, this.password).subscribe( (response) => {
-         
         const parsedResponse = JSON.parse(JSON.stringify(response));
-        const status = parsedResponse.status;
-        console.log(parsedResponse);
-        if(status === 'Invalid credentials') {
-          this.presentToast('Wrong email or password');
-        }    else if(status === 'Too many failed login attempts') {
-          this.presentToast('Account locked for 24 hours, too many attempts');
-        }    else if(status === 'Login successful ssf') {
-          localStorage.setItem('auth_token', parsedResponse.token);
-          localStorage.setItem('user_id', parsedResponse.user_id);
-          localStorage.setItem('first_name', parsedResponse.first_name);
-          localStorage.setItem('last_name', parsedResponse.last_name);
-          localStorage.setItem('lau_email',  parsedResponse.lau_email);
-          localStorage.setItem('profile_picture', parsedResponse.profile_picture);
-          localStorage.setItem("request_status", "ssf");
-          
-          this.router.navigate(['/report']);
-          
-        }  else if(status === 'Login successful member') {
-          
-          localStorage.setItem('auth_token', parsedResponse.token);
-          localStorage.setItem('user_id', parsedResponse.user_id);
-          localStorage.setItem('first_name', parsedResponse.first_name);
-          localStorage.setItem('last_name', parsedResponse.last_name);
-          localStorage.setItem('profile_picture', parsedResponse.profile_picture);
-          localStorage.setItem('lau_email',  parsedResponse.lau_email);
-          localStorage.setItem('request_status', parsedResponse.request);
-          if(parsedResponse.request == "1"){
-            this.router.navigate(['/tabs/report-emergency']);
-            console.log(localStorage); 
-          }else if(parsedResponse.request == "0" ||parsedResponse.request == "2"  ){
-          this.router.navigate(['/report']);
-          }
-          
+        console.log("Response: ", parsedResponse);
+
+        if(parsedResponse.status === 'Invalid credentials') {
+          this.presentToast('Incorrect email or password');
         } 
+
+        if(parsedResponse.status === 'Login attempts exceeded') {
+          this.presentToast('Login attempts limit reached. Try again in 24 hours.');
+        }
+
+        else if(parsedResponse.status === 'Login successful') {
+          localStorage.setItem('user_id', parsedResponse.user_id);
+          localStorage.setItem('first_name', parsedResponse.first_name);
+          localStorage.setItem('last_name', parsedResponse.last_name);
+          localStorage.setItem('lau_email',  parsedResponse.lau_email);
+          localStorage.setItem('profile_picture', parsedResponse.profile_picture);
+          localStorage.setItem('user_type', parsedResponse.user_type);
+          localStorage.setItem('auth_token', parsedResponse.token);
+
+          if(parsedResponse.user_type == 1){
+            localStorage.setItem('rank',  parsedResponse.rank.rank_name);
+            this.router.navigate(["/tabs/report-emergency"]);
+            console.log(localStorage);
+          }
+          else if(parsedResponse.user_type == 2){
+            this.router.navigate(["report"]);
+            console.log(localStorage);
+          }
+          this.appComponent.getUserInfo();
+        }
       });
     }
   }

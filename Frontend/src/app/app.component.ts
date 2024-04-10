@@ -7,140 +7,66 @@ import { UserService } from './services/user/user.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss']
+  styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+
   showSideMenu = true;
   darkMode = false;
   reportPageActive = false;
-  user: any;
-  first_name: string = "";
-  last_name: string = "";
-  email: string = "";
-  id: string = "";
-  rejected: boolean = false;
-  user_rank: string = "";
-  profile_picture: string = "";
+
+  id: string = '';
+  first_name: string = '';
+  last_name: string = '';
+  email: string = '';
+  rank: string = '';
+  request_status: string = '';
+
   @Output() darkModeToggled = new EventEmitter<boolean>();
-  request_status:string = "";
-  constructor(
-    private router: Router,
-    private alertController: AlertController,
-    private toastController:ToastController,
-    private userService:UserService,
-    ){
-    this.router.events
-    .pipe(filter((event: RouterEvent): event is NavigationEnd => event instanceof NavigationEnd))
+
+  constructor(private router: Router, private alertController: AlertController,
+    private toastController: ToastController,private userService: UserService) {
+    this.router.events.pipe(filter((event: RouterEvent): event is NavigationEnd =>event instanceof NavigationEnd))
     .subscribe((event: NavigationEnd) => {
       const currentUrl = event.url;
       this.reportPageActive = currentUrl === '/report' || currentUrl.startsWith('/report/');
-      const routeData = this.router.routerState.snapshot.root.firstChild?.data as { showSideMenu?: boolean };
+      const routeData = this.router.routerState.snapshot.root.firstChild ?.data as { showSideMenu?: boolean };
       this.showSideMenu = routeData ? routeData['showSideMenu'] !== false : true && !this.reportPageActive;
-    });  
+    });
   }
 
   ngOnInit(): void {
-    
     this.checkDarkModeStatus();
-    
-    const storedRequestStatus = localStorage.getItem('request_status');
-   
-    if (storedRequestStatus !== null) {
-        this.request_status = storedRequestStatus;
-    } else {
-        this.request_status = "default_value";
-    }
-
-    const user_id = localStorage.getItem('user_id');
-    if (user_id !== null) {
-      this.id = user_id;
-  } else {
-      this.request_status = "default_value";
+    this.getUserInfo();
+    this.checkSignupRequestStatus();
   }
 
-  if(user_id){
-  this.getUserInfo(this.id);
-  
+  checkSignupRequestStatus() {
+    this.userService.getRequestStatus(this.email)
+      .subscribe({
+        next: (response) => {
+          console.log('Fetched signup request status:', response);
+          const parsedResponse = JSON.parse(JSON.stringify(response));
+          this.request_status = parsedResponse.status;
+        },
+        error: (error) => {
+          console.error('Error fetching signup request status:', error);
+        },
+      });
   }
 
-  
-  }
-
-  
-  
-
-  checkRequestStatus(){
-    this.userService.getRequestStatus(this.user.lau_email).subscribe(async (response) => {
-    
-      const parsedResponse = JSON.parse(JSON.stringify(response));
-        const status = parsedResponse.status;
-        if(status == "pending"){
-          const toast = await this.toastController.create({
-            message: "Your request is still pending",
-            duration: 2000,
-            position: 'bottom'
-          });
-          toast.present();
-
-        }else if(status == "rejected"){
-          this.rejected = true;
-          const toast = await this.toastController.create({
-            message: "Your request was rejected",
-            duration: 2000,
-            position: 'bottom'
-          });
-          toast.present();
-
-        }else if(status == "accepted"){
- this.router.navigate(["./tabs/report-emergency"])
-        }
-    });
-  }
-
-  getUserInfo(id: string) {
-    
-    this.userService.getUserInfo(id)
-    .subscribe({
-      next: (response) => {
-        console.log("Fetched user data:", response);
-        this.user = response['User'];
-        this.user_rank = this.getUserRankName(this.user.user_rank);
-      
-        this.profile_picture = this.user.profile_picture;
-      },
-      error: (error) => {
-        console.error("Error getting user info:", error);
-      },
-      complete: () => {
-      }
-    });
-  }
-
-
-  getUserRankName(rankNumber: string): string {
-    switch (rankNumber) {
-      case '1':
-        return 'Dispatcher';
-      case '2':
-        return 'Medic';
-      case '3':
-        return 'Admin';
-      case '4':
-        return 'Medic & Admin';
-      case '5':
-        return 'Dispatcher & Admin';
-      case '6':
-        return 'Dispatcher & Medic';
-      default:
-        return 'Unknown'; 
-    }
+  getUserInfo() {
+    this.first_name = localStorage.getItem('first_name') ?? ''; 
+    this.last_name = localStorage.getItem('last_name') ?? ''; 
+    this.rank = localStorage.getItem('rank') ?? ''; 
+    this.email = localStorage.getItem('lau_email') ?? ''; 
   }
 
   async applyAlert() {
     const alert = await this.alertController.create({
       header: 'Applying to ERU',
       subHeader: 'Applications with incorrect information will not be considered!',
-      cssClass: "alert-dialog",
+      cssClass: 'alert-dialog',
       mode: 'ios',
 
       inputs: [
@@ -185,27 +111,23 @@ export class AppComponent {
         {
           text: 'Apply',
           cssClass: 'alert-button-ok-green',
-          handler: async(data) => {
-            if(!data.id || !data.number || !data.major){
+          handler: async (data) => {
+            if (!data.id || !data.number || !data.major) {
               const message = 'All fields are required';
-              const toast = await this.toastController.create({
-                message: message,
-                duration: 2000, 
-                position: 'bottom'
-              });
+              const toast = await this.toastController.create({message: message, duration: 2000, position: 'bottom',});
               toast.present();
               return false;
-            }
-            else{
+
+            } else {
               this.userService.apply(data.id, data.number, data.major)
-              .subscribe({
-                next: (response) => {
-                  console.log("User applied successfully:", response);
-                },
-                error: (error) => {
-                  console.error("Error applying:", error);
-                },
-              });
+                .subscribe({
+                  next: (response) => {
+                    console.log('User applied successfully:', response);
+                  },
+                  error: (error) => {
+                    console.error('Error applying:', error);
+                  },
+                });
               return true;
             }
           },
@@ -242,27 +164,24 @@ export class AppComponent {
         {
           text: 'Cancel',
           role: 'cancel',
-          cssClass: 'alert-button-cancel'
+          cssClass: 'alert-button-cancel',
         },
         {
           text: 'Logout',
           cssClass: 'alert-button-ok-red',
-          handler: () => { 
-             this.userService.logout().subscribe((data: any) => {
-            localStorage.removeItem('auth_token');
-            localStorage.removeItem('user_id');
-            localStorage.removeItem('first_name');
-            localStorage.removeItem('last_name');
-            localStorage.removeItem('profile_picture'); 
-            localStorage.removeItem('lau_email');
-            localStorage.removeItem('user_type');
-            localStorage.removeItem('request_status');
-            
-          });
-          this.router.navigate(["./login"])
-          
-        }
-           
+          handler: () => {
+            this.userService.logout(this.email)
+            .subscribe({
+              next: (response) => {
+                console.log('Loggout out successfully:', response);
+                localStorage.clear();
+                this.router.navigate(['./login']);
+              },
+              error: (error) => {
+                console.error('Error logging out:', error);
+              },
+            });
+          },
         },
       ],
     });

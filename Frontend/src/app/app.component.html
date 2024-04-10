@@ -6,12 +6,12 @@
           <div class="container">
             <div>
               <ion-avatar slot="start" class="profile-picture">
-                <img *ngIf="profile_picture === null" alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
               </ion-avatar>            
             </div>
-            <div *ngIf="user" class="profile-info">
-              <p class="name">{{ user.first_name }} {{ user.last_name }}</p>
-            <p   *ngIf="getUserRankName(user.user_rank) !== 'Unknown'" class="role">{{user_rank}}</p>
+            <div class="profile-info">
+              <p class="name">{{ first_name }} {{ last_name }}</p>
+              <p class="role">{{ rank }}</p>
             </div>
           </div>
         </ion-toolbar>
@@ -66,11 +66,11 @@
             <div class="seperator"></div>
             <div class="third-block">
               <ion-list>
-                <div *ngIf="user_rank === 'Admin' || user_rank === 'Medic & Admin' || user_rank === 'Dispatcher & Medic'"  class="tab-container" routerDirection="root" [routerLink]="'/admin-panel'" lines="none" detail="false" routerLinkActive="selected">
+                <div *ngIf="rank === 'Admin' || rank === 'Dispatcher & Admin' || rank === 'Medic & Admin'"  class="tab-container" routerDirection="root" [routerLink]="'/admin-panel'" lines="none" detail="false" routerLinkActive="selected">
                   <ion-img src="assets/icon/admin-panel.png"></ion-img>
                   Admin panel
                 </div>
-                <div class="darkmode-tab-container" lines="none" detail="false"  (click)="$event.stopPropagation()">
+                <div class="darkmode-tab-container" lines="none" detail="false" (click)="$event.stopPropagation()">
                   <ion-icon name="moon-outline"></ion-icon>
                   Dark Mode
                   <ion-toggle mode="md" (ionChange)="toggleDarkMode()" [checked]="darkMode"></ion-toggle>
@@ -95,9 +95,9 @@
                 <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
               </ion-avatar>            
             </div>
-            <div *ngIf="user" class="profile-info">
-              <p class="name">{{ user.first_name }} {{ user.last_name }}</p>
-              <p class="email">{{ user.lau_email }}</p>
+            <div class="profile-info">
+              <p class="name">{{ first_name }} {{ last_name }}</p>
+              <p class="email">{{ email }}</p>
             </div>
           </div>
         </ion-toolbar>
@@ -110,14 +110,25 @@
                 <div class="logo-block">
                   <img class="logo" src="/assets/img/logo.png">
                 </div>
-                <div *ngIf="request_status === 'ssf'"  class="statements">
+                <div class="statements">
                   <h1> Want to join our unit?</h1>
-                  <h6> Be part of a vibrant community dedicated to saving lives!</h6>
+                  <h6 *ngIf="!request_status"> Be part of a vibrant community dedicated to saving lives!</h6>
                 </div>
-
-                <ion-button fill="outline" *ngIf="(request_status === '0' || request_status === '2' || request_status === '1') && !rejected"
-                mode="ios"  (click)="checkRequestStatus()" (click)="$event.stopPropagation()">Check Request</ion-button>
-                <ion-button *ngIf="request_status === 'ssf'" mode="ios" fill="outline" (click)="applyAlert()" (click)="$event.stopPropagation()">Apply</ion-button>
+                <ion-button *ngIf="!request_status" mode="ios" fill="outline" (click)="applyAlert()" (click)="$event.stopPropagation()">
+                  Apply
+                </ion-button>
+                <ion-text *ngIf="request_status == 'pending'" fill="outline" mode="ios" (click)="$event.stopPropagation()">
+                  Application status: <ion-text class="pending">Pending</ion-text>
+                </ion-text>
+                <ion-text *ngIf="request_status == 'accepted'" fill="outline" mode="ios" (click)="$event.stopPropagation()">
+                  Application status: <ion-text class="accepted">Accepted</ion-text>
+                </ion-text>              
+                <ion-button *ngIf="request_status == 'accepted'" mode="ios" fill="outline" [routerLink]="'/tabs/report-emergency'" (click)="$event.stopPropagation()">
+                  Get started
+                </ion-button>
+                <ion-text *ngIf="request_status == 'rejected'" fill="outline" mode="ios" (click)="$event.stopPropagation()">
+                  Application status: <ion-text class="rejected">Rejected</ion-text>
+                </ion-text>
               </div>
               <div class="lower-block">
                 <ion-list>
