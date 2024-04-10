@@ -99,11 +99,11 @@ export class EmergencyService {
   }
 
   getAllEmergenciesWithLastAssessment(){
-    return this.http.get(`${this.base_url}get-all-emergencies-with-last-assessment`);
+    return this.http.get(`${this.base_url}get-all-emergencies-with-last-assessment`,  { headers: this.getAuthHeaders() });
   }
 
   getAllCaseReports(){
-    return this.http.get(this.base_url + "get-all-case-reports"); 
+    return this.http.get(this.base_url + "get-all-case-reports",  { headers: this.getAuthHeaders() }); 
   }
 
 }

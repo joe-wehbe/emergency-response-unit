@@ -21,7 +21,7 @@
       </div>
       <div class="second-box">
         <div class="name">
-          <h2 class="username">{{announcement.first_name}} {{announcement.last_name}}</h2>
+          <h2 class="username">{{announcement.admin_first_name}} {{announcement.admin_last_name}}</h2>
           <ng-container *ngIf= "announcement.importance == 'Very important'">
             <ion-chip color="danger">{{announcement.importance}}</ion-chip>
           </ng-container>
@@ -61,7 +61,7 @@
           </div>
           <div class="second-box">
             <div class="name">
-              <h2 class="username">{{selectedAnnouncement.first_name}} {{selectedAnnouncement.last_name}}</h2>
+              <h2 class="username">{{selectedAnnouncement.admin_first_name}} {{selectedAnnouncement.admin_last_name}}</h2>
               <ng-container *ngIf= "selectedAnnouncement.importance == 'Very important'">
                 <ion-chip color="danger">{{selectedAnnouncement.importance}}</ion-chip>
               </ng-container>

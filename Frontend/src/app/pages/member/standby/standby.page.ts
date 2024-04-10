@@ -29,7 +29,7 @@ export class StandbyPage implements OnInit {
       .subscribe({
         next: (response) => {
           if(response && response.hasOwnProperty("emergencies")){
-            console.log("Fetched Ongoing emergencies: ", response);
+           
             const parsedResponse = JSON.parse(JSON.stringify(response));
             this.ongoingEmergencies = [].concat.apply([], Object.values(parsedResponse['emergencies']));
           }
@@ -48,7 +48,7 @@ export class StandbyPage implements OnInit {
       .subscribe({
         next: (response) => {
           if (response && response.hasOwnProperty("emergencies")) {
-            console.log("Fetched ended emergencies: ", response);
+            
             const parsedResponse = JSON.parse(JSON.stringify(response));
             this.endedEmergencies = [].concat.apply([], Object.values(parsedResponse['emergencies']));
 

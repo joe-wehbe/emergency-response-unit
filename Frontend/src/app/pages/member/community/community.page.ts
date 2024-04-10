@@ -52,7 +52,7 @@ export class CommunityPage implements OnInit {
               this.users.push({
                 firstName: user.first_name, 
                 lastName: user.last_name, 
-                role: user.rank.rank_name,
+                role: this.getRole(user.user_rank),
                 phoneNumber: user.phone_number,
                 studentId: user.student_id,
                 major: user.major,
@@ -72,6 +72,23 @@ export class CommunityPage implements OnInit {
         }
       });
   }
+
+  getRole(roleNumber: number | string): string {
+    switch (Number(roleNumber)) {
+      case 1:case 5: 
+        return 'Dispatcher';
+      case 2:case 4:
+        return 'Medic';
+      case 3:
+        return 'Admin';
+      case 6:
+        return 'Dispatcher & Medic';
+       
+      default:
+        return '';
+    }
+  }
+
 
   groupUsers() {
     this.users.sort((a, b) => a.firstName.localeCompare(b.firstName));

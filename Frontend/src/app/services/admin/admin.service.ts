@@ -20,12 +20,14 @@ export class AdminService {
   }
 
   get_eru_members(){
-    const response = this.http.get(this.base_url + "get-members", { headers: this.getAuthHeaders() });
+    const headers = this.getAuthHeaders();
+    const response = this.http.get(this.base_url + "get-members", { headers: headers });
     return response;
   }
 
   get_announcements(){
-    const response = this.http.get(this.base_url_user + "get-all-announcements", { headers: this.getAuthHeaders() });
+    const headers = this.getAuthHeaders();
+    const response = this.http.get(this.base_url_user + "get-all-announcements", { headers: headers });
     return response;
   }
 
@@ -50,7 +52,7 @@ export class AdminService {
   }
 
   get_medical_faqs(id: string){
-    const response = this.http.get(this.base_url_user + id + "/get-medical-faqs", { headers: this.getAuthHeaders() });
+    const response = this.http.get(this.base_url_user + "get-medical-faqs/" + id, { headers: this.getAuthHeaders() });
     return response;
   }
 
@@ -95,7 +97,7 @@ export class AdminService {
       'Content-Type': 'application/json',
     });
     const options = {
-      headers: headers,
+      headers:  this.getAuthHeaders(),
     };
 
     const body = {
@@ -117,7 +119,7 @@ export class AdminService {
       'Content-Type': 'application/json',
     });
     const options = {
-      headers: headers,
+      headers:  this.getAuthHeaders() ,
     };
 
     const body = {
@@ -134,7 +136,7 @@ export class AdminService {
       'Content-Type': 'application/json',
     });
     const options = {
-      headers: headers,
+      headers: this.getAuthHeaders() ,
     };
 
     const body = {
@@ -176,11 +178,11 @@ export class AdminService {
       "start_date": $startDate,
       "end_date": $endDate,
     }
-    return this.http.put(this.base_url + "update-semester-dates", body); 
+    return this.http.put(this.base_url + "update-semester-dates", body,{ headers: this.getAuthHeaders() }); 
   }
 
   getSignupRequests(){
-    const response = this.http.get(this.base_url + "get-signup-requests");
+    const response = this.http.get(this.base_url + "get-signup-requests" ,{ headers: this.getAuthHeaders() });
     return response;
   }
 
@@ -188,13 +190,13 @@ export class AdminService {
     const body = {
       "request_id": request_id,
     }
-    return this.http.put(this.base_url + "accept-signup-request/" + request_id, body); 
+    return this.http.put(this.base_url + "accept-signup-request/" + request_id, body, { headers: this.getAuthHeaders() }); 
   }
 
   rejectSignupRequest(request_id:number){
     const body = {
       "request_id": request_id,
     }
-    return this.http.put(this.base_url + "reject-signup-request/" + request_id, body); 
+    return this.http.put(this.base_url + "reject-signup-request/" + request_id, body, { headers: this.getAuthHeaders() }); 
   }
 }

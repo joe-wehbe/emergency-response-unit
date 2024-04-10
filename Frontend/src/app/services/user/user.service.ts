@@ -19,6 +19,27 @@ export class UserService {
 
     return headers;
   }
+
+  isAdmin(){
+    
+    const isAdmin = localStorage.getItem('rank');
+    if (isAdmin == "admin" || isAdmin == "medic_admin" || isAdmin == "dispatcher_admin") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isLoggedIn(){
+    
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      return JSON.parse(JSON.stringify(token));
+    } else {
+      return undefined;
+    }
+  }
+
   getUserInfo(id: string): Observable<any> {
     return this.http.get(this.base_url + id + '/get-user-info', {
       headers: this.getAuthHeaders(),
@@ -26,7 +47,7 @@ export class UserService {
   }
 
   getRequestStatus(email: string) {
-    return this.http.get(this.base_url + 'get-request-status/' + email);
+    return this.http.get(this.base_url + 'get-request-status/' + email,  { headers: this.getAuthHeaders() });
   }
 
   register_user(
@@ -198,11 +219,11 @@ export class UserService {
   }
 
   getExtensions() {
-    return this.http.get(this.base_url + 'get-extensions');
+    return this.http.get(this.base_url + 'get-extensions',  { headers: this.getAuthHeaders() });
   }
 
   getMedicalFAQs(type: string) {
-    const response = this.http.get(this.base_url + 'get-medical-faqs/' + type);
+    const response = this.http.get(this.base_url + 'get-medical-faqs/' + type,  { headers: this.getAuthHeaders() });
     return response;
   }
 
@@ -211,7 +232,7 @@ export class UserService {
       id: $id,
       covered_by: 1, // GET USER ID FROM THE LOCAL STORAGE
     };
-    return this.http.put(this.base_url + 'accept-cover-request', body);
+    return this.http.put(this.base_url + 'accept-cover-request', body,  { headers: this.getAuthHeaders() });
   }
 
   addCaseReport(
@@ -238,6 +259,6 @@ export class UserService {
       consultation: consultation,
       issues: issues,
     };
-    return this.http.put(this.base_url + 'add-case-report', body);
+    return this.http.put(this.base_url + 'add-case-report', body, { headers: this.getAuthHeaders() });
   }
 }

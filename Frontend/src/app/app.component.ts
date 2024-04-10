@@ -62,6 +62,13 @@ export class AppComponent {
     this.first_name = localStorage.getItem('first_name') ?? ''; 
     this.last_name = localStorage.getItem('last_name') ?? ''; 
     this.rank = localStorage.getItem('rank') ?? ''; 
+    if(this.rank == "admin"){
+      this.rank = "Admin"
+    }else if (this.rank == "medic_admin"){
+      this.rank = "Medic & Admin"
+    }else if (this.rank == "dispatcher_admin"){
+      this.rank = "Dispatcher & Admin"
+    }
     this.email = localStorage.getItem('lau_email') ?? ''; 
   }
 
@@ -176,7 +183,7 @@ export class AppComponent {
             this.userService.logout(this.email)
             .subscribe({
               next: (response) => {
-                console.log('Loggout out successfully:', response);
+                
                 localStorage.clear();
                 this.router.navigate(['./login']);
               },

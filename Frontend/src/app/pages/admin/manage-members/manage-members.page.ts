@@ -24,7 +24,7 @@ interface User {
 
 export class ManageMembersPage implements OnInit {
 
-  users: User[] =  [ ];
+  users: User[] =  [];
   users_all : User[] = [];
   AllUsers : User[] = [];
   ongoing: User[] = [];
@@ -72,7 +72,7 @@ export class ManageMembersPage implements OnInit {
         return 'Dispatcher & Medic';
        
       default:
-        return 'Unknown';
+        return '';
     }
   }
 

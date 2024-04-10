@@ -29,6 +29,7 @@ export class ManageAnnouncementsPage implements OnInit {
 
   ngOnInit() {
     this.getAnnouncements();
+    
   }
 
   getAnnouncements(){
@@ -37,6 +38,7 @@ export class ManageAnnouncementsPage implements OnInit {
         if(response && response.hasOwnProperty("announcements")){
           const parsedResponse = JSON.parse(JSON.stringify(response));
           this.announcements = [].concat.apply([], Object.values(parsedResponse['announcements']));
+          
         }
       },
       error: (error) => {
