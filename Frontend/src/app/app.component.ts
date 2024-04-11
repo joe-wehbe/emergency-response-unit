@@ -3,6 +3,7 @@ import { Router, NavigationEnd, Event as RouterEvent } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { filter } from 'rxjs/operators';
 import { UserService } from './services/user/user.service';
+import { AuthService } from './services/authentication/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,8 @@ export class AppComponent {
   darkMode = false;
   reportPageActive = false;
 
+  user: any;
+
   id: string = '';
   first_name: string = '';
   last_name: string = '';
@@ -24,7 +27,7 @@ export class AppComponent {
 
   @Output() darkModeToggled = new EventEmitter<boolean>();
 
-  constructor(private router: Router, private alertController: AlertController,
+  constructor(private router: Router, private alertController: AlertController, private authService:AuthService,
     private toastController: ToastController,private userService: UserService) {
     this.router.events.pipe(filter((event: RouterEvent): event is NavigationEnd =>event instanceof NavigationEnd))
     .subscribe((event: NavigationEnd) => {
@@ -39,11 +42,34 @@ export class AppComponent {
     console.log(localStorage);
     this.getUserInfo();
     this.checkDarkModeStatus();
-    this.checkSignupRequestStatus();
+  }
+
+  getUserInfo() {
+    this.id = localStorage.getItem('user_id') ?? '';
+    if(this.id){
+      this.userService.getUserInfo(this.id)
+      .subscribe({
+        next: (response) => {
+          console.log("Fetched user data:", response);
+          this.user = response['User'];
+          this.first_name = this.user.first_name;
+          this.last_name = this.user.last_name;
+          this.rank = this.user.rank? this.user.rank.rank_name : null;
+          this.email = this.user.lau_email;
+        },
+        error: (error) => {
+          console.error("Error getting user info:", error);
+        },
+        complete: () => {
+          this.checkSignupRequestStatus();
+        }
+      });
+    }
   }
 
   checkSignupRequestStatus() {
     if(this.email){
+      console.log("Email: ", this.email);
       this.userService.getRequestStatus(this.email)
       .subscribe({
         next: (response) => {
@@ -56,13 +82,6 @@ export class AppComponent {
         },
       });
     }
-  }
-
-  getUserInfo() {
-    this.first_name = localStorage.getItem('first_name') ?? ''; 
-    this.last_name = localStorage.getItem('last_name') ?? ''; 
-    this.rank = localStorage.getItem('rank') ?? ''; 
-    this.email = localStorage.getItem('lau_email') ?? ''; 
   }
 
   async applyAlert() {
@@ -173,10 +192,10 @@ export class AppComponent {
           text: 'Logout',
           cssClass: 'alert-button-ok-red',
           handler: () => {
-            this.userService.logout(this.email)
+            this.authService.logout(this.email)
             .subscribe({
               next: (response) => {
-                console.log('Loggout out successfully:', response);
+                console.log('Logged out successfully:', response);
                 localStorage.clear();
                 this.router.navigate(['./login']);
               },

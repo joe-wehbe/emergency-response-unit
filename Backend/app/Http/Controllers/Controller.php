@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-use Carbon\Carbon;
+
 use App\Models\Shift;
 use App\Models\User_has_shift;
 
-class Controller extends BaseController
-{
+use Carbon\Carbon;
+
+class Controller extends BaseController{
     use AuthorizesRequests, ValidatesRequests;
 
     public static function updateShiftStatus(){
@@ -19,9 +20,9 @@ class Controller extends BaseController
         $currentDay = $currentTime->englishDayOfWeek;
 
         $currentShift = Shift::where('day', $currentDay)
-                            ->whereTime('time_start', '<=', $currentTime)
-                            ->whereTime('time_end', '>=', $currentTime)
-                            ->first();
+        ->whereTime('time_start', '<=', $currentTime)
+        ->whereTime('time_end', '>=', $currentTime)
+        ->first();
 
         $currentShiftId = $currentShift->id;
         $shifts = User_has_shift::all();

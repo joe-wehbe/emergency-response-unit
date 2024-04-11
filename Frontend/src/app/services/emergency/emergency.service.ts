@@ -9,15 +9,13 @@ export class EmergencyService {
   private base_url:string = "http://localhost:8000/api/v0.1/emergency/";
 
   constructor(private http:HttpClient) { }
+
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('auth_token');
-  
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-  
+    const headers = new HttpHeaders({'Authorization': `Bearer ${token}`});
     return headers;
   }
+
   reportEmergency(location:string, reporter_description:string){
     const body = {
       "location": location,
@@ -77,18 +75,18 @@ export class EmergencyService {
     id:number, heart_rate:number, blood_pressure:string, oxygen_saturation:number, temperature:number, 
     respiration_rate:number, capillary_refill_time:number, hemoglucotest:number,pupils_reaction:string){
 
-      const body = {
-        'emergency_id': id,
-        'heart_rate' : heart_rate,
-        'blood_pressure' : blood_pressure,
-        'oxygen_saturation' : oxygen_saturation,
-        'temperature' : temperature,
-        'respiration_rate' : respiration_rate,
-        'capillary_refill_time' : capillary_refill_time,
-        'hemoglucotest' : hemoglucotest,
-        'pupils_reaction' : pupils_reaction,
-      }
-      return this.http.post(this.base_url + "add-assessment", body, { headers: this.getAuthHeaders() });
+    const body = {
+      'emergency_id': id,
+      'heart_rate' : heart_rate,
+      'blood_pressure' : blood_pressure,
+      'oxygen_saturation' : oxygen_saturation,
+      'temperature' : temperature,
+      'respiration_rate' : respiration_rate,
+      'capillary_refill_time' : capillary_refill_time,
+      'hemoglucotest' : hemoglucotest,
+      'pupils_reaction' : pupils_reaction,
+    }
+    return this.http.post(this.base_url + "add-assessment", body, { headers: this.getAuthHeaders() });
   }
 
   endEmergency(id:number){
@@ -105,5 +103,4 @@ export class EmergencyService {
   getAllCaseReports(){
     return this.http.get(this.base_url + "get-all-case-reports"); 
   }
-
 }

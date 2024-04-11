@@ -8,24 +8,22 @@
       <div class="statement-container">
         <h1>{{ text }}</h1>
       </div>
-
       <div class="initial-container" *ngIf="!showContent">
         <ion-list>
-          <ion-radio-group mode="md" [(ngModel)]="emergencyResponseUnit">
+          <ion-radio-group mode="md" [(ngModel)]="isERU">
             <ion-item class="radio-header-item" lines="none">
               <ion-label>Are you in the Emergency Response Unit?</ion-label>
             </ion-item>
             <div class="options-container">
-              <ion-item class="radio-item" lines="none" [ngClass]="{'selected': emergencyResponseUnit === 'no'}">
+              <ion-item class="radio-item" lines="none" [ngClass]="{'selected': isERU === 'no'}">
                 <ion-radio value="no">No</ion-radio>
               </ion-item>
-              <ion-item class="radio-item" lines="none" [ngClass]="{'selected': emergencyResponseUnit === 'yes'}">
+              <ion-item class="radio-item" lines="none" [ngClass]="{'selected': isERU === 'yes'}">
                 <ion-radio value="yes">Yes</ion-radio>
               </ion-item>
             </div>
           </ion-radio-group>
         </ion-list>
-
         <div class="button-container">
           <ion-button class="continue-button" (click)="next()">
             <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
@@ -35,7 +33,7 @@
       </div>
 
       <div class="forms-container" *ngIf="showContent">
-        <div *ngIf="emergencyResponseUnit === 'yes'">
+        <div *ngIf="isERU === 'yes'">
           <ion-list>
             <ion-item lines="none">
               <ion-input type="text" placeholder="First name" [(ngModel)]="fname" required>
@@ -48,7 +46,7 @@
               </ion-input>
             </ion-item>
             <ion-item lines="none">
-              <ion-input type="number" placeholder="LAU ID" [(ngModel)]="id" required>
+              <ion-input type="number" placeholder="LAU ID" [(ngModel)]="studentId" required>
                 <ion-icon name="card-outline" slot="start"></ion-icon>
               </ion-input>
             </ion-item>
@@ -81,7 +79,7 @@
           </ion-list>
         </div>
 
-        <div *ngIf="emergencyResponseUnit === 'no'">
+        <div *ngIf="isERU === 'no'">
           <ion-list>
             <ion-item lines="none">
               <ion-input type="text" placeholder="First name" [(ngModel)]="fname" required>
@@ -111,23 +109,18 @@
             </ion-item>
           </ion-list>
         </div>
-
-      
-
-        <ion-button class="register-button" (click)="register(fname, lname, email, password, id, phone, major)">
+        
+        <ion-button class="register-button" (click)="register()">
           <ion-icon slot="start" name="log-in-outline"></ion-icon>
           Register
         </ion-button>
-        
         <h6 class="no-account-text" (click)="navigateLogin()">Already have an account?</h6>  
-
         <div class="back-button-container">
           <ion-button class="back-button" (click)="back()">
             <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
             Back
           </ion-button>
-        </div>
-        
+        </div>  
       </div>  
     </div>
   </div>

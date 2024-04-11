@@ -16,7 +16,6 @@ export class ReportPage implements OnInit {
   constructor(private alertController: AlertController, private toastController:ToastController, private emergencyService:EmergencyService) {}
   
   ngOnInit() {
-  
   }
 
   async reportEmergencyAlert() {

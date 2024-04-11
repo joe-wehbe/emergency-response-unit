@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { AppComponent } from 'src/app/app.component';
-import { UserService } from 'src/app/services/user/user.service';
+import { AuthService } from 'src/app/services/authentication/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,7 @@ export class LoginPage {
   rememberMe: boolean = false;
   
   constructor(
-    private userService:UserService, 
+    private authService:AuthService,
     private router: Router, 
     private toastController: ToastController,
     private appComponent: AppComponent) {}
@@ -36,11 +36,20 @@ export class LoginPage {
     const rememberToken = localStorage.getItem("rememberToken");
 
     if(rememberToken){
-      this.userService.autoLogin(rememberToken)
+      this.authService.autoLogin(rememberToken)
       .subscribe({
         next: (response) => {
           console.log('Auto login successful:', response);
-          this.router.navigate(['./tabs/report-emergency']);
+          const user_type = localStorage.getItem("user_type");
+
+          if(user_type == "1"){
+            this.router.navigate(['./tabs/report-emergency']);
+          }
+
+          if(user_type == "2"){
+            this.router.navigate(['./report']);
+          }
+
         },
         error: (error) => {
           console.error('Error auto logging in:', error);
@@ -52,19 +61,23 @@ export class LoginPage {
   login() {
     if (!this.email || !this.password) {
       this.presentToast('Email and password cannot be empty');
-    } else if (!this.email.match(this.emailPattern)) {
-      this.presentToast('Invalid email');
-    } else {
-      this.userService.login(this.email, this.password, this.rememberMe).subscribe(response => {
+    } 
+    else if (!this.email.match(this.emailPattern)) {
+      this.presentToast('Invalid LAU email');
+    } 
+    else {
+      this.authService.login(this.email, this.password, this.rememberMe).subscribe(response => {
         const parsedResponse = JSON.parse(JSON.stringify(response));
         console.log("Response: ", parsedResponse);
         console.log("Remember me: ", this.rememberMe);
   
         if (parsedResponse.status === 'Invalid credentials') {
           this.presentToast('Incorrect email or password');
-        } else if (parsedResponse.status === 'Login attempts exceeded') {
+        } 
+        else if (parsedResponse.status === 'Login attempts exceeded') {
           this.presentToast('Login attempts limit reached. Try again in 24 hours.');
-        } else if (parsedResponse.status === 'Login successful') {
+        } 
+        else if (parsedResponse.status === 'Login successful') {
           localStorage.setItem('user_id', parsedResponse.user_id);
           localStorage.setItem('first_name', parsedResponse.first_name);
           localStorage.setItem('last_name', parsedResponse.last_name);
@@ -77,11 +90,12 @@ export class LoginPage {
             localStorage.setItem('rank', parsedResponse.rank.rank_name);
             this.router.navigate(["/tabs/report-emergency"]);
             console.log(localStorage);
-          } else if (parsedResponse.user_type == 2) {
+          } 
+          else if (parsedResponse.user_type == 2) {
             this.router.navigate(["report"]);
             console.log(localStorage);
           }
-          this.appComponent.getUserInfo();
+          this.appComponent.ngOnInit();
         }
       });
     }

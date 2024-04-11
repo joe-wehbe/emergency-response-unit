@@ -6,19 +6,17 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
+  
   private base_url: string = 'http://localhost:8000/api/v0.1/user/';
 
   constructor(private http: HttpClient) {}
 
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('auth_token');
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
-
+    const headers = new HttpHeaders({Authorization: `Bearer ${token}`,});
     return headers;
   }
+
   getUserInfo(id: string): Observable<any> {
     return this.http.get(this.base_url + id + '/get-user-info', {
       headers: this.getAuthHeaders(),
@@ -29,88 +27,8 @@ export class UserService {
     return this.http.get(this.base_url + 'get-request-status/' + email);
   }
 
-  register_user(
-    first_name: string,
-    last_name: string,
-    lau_email: string,
-    password: string,
-    user_type: number
-  ) {
-    const headers: HttpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-    const options = {
-      headers: headers,
-    };
-
-    const body = {
-      first_name: first_name,
-      last_name: last_name,
-      lau_email: lau_email,
-      password: password,
-      user_type: user_type,
-    };
-
-    const response = this.http.post(this.base_url + 'register', body, options);
-    return response;
-  }
-
-  login(email: string, password: string, rememberMe: boolean) {
-    const body = {
-      lau_email: email,
-      password: password,
-      remember_me: rememberMe
-    };
-
-    return this.http.post<any>(this.base_url + "login", body).pipe(
-      tap(result => {
-        if (result.token && rememberMe) {
-          localStorage.setItem('rememberToken', result.remember_token);
-        }
-      })
-    );
-  }
-
-  autoLogin(rememberToken: string): Observable<any> {
-    const body = { rememberToken };
-    return this.http.post<any>(this.base_url + 'auto-login', body);
-  }
-
-  register_member(
-    first_name: string,
-    last_name: string,
-    lau_email: string,
-    password: string,
-    user_type: number,
-    id: string,
-    number: string,
-    major: string /*remember_me:number*/
-  ) {
-    const headers: HttpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-    const options = {
-      headers: headers,
-    };
-
-    const body = {
-      first_name: first_name,
-      last_name: last_name,
-      lau_email: lau_email,
-      password: password,
-      user_type: user_type,
-      student_id: id,
-      phone_number: number,
-      major: major,
-      //"remember_me": remember_me
-    };
-
-    const response = this.http.post(this.base_url + 'register', body, options);
-
-    return response;
-  }
-
   apply(student_id: number, phone_number: string, major: string) {
+    
     const body = {
       user_id: 1, // GET USER ID FROM THE LOCAL STORAGE
       student_id: student_id,
@@ -124,13 +42,6 @@ export class UserService {
     return this.http.get(this.base_url + 'get-user-shifts/1', {
       headers: this.getAuthHeaders(),
     }); // GET USER ID FROM THE LOCAL STORAGE
-  }
-
-  logout(email: string): Observable<any> {
-    const body = {
-      lau_email: email,
-    };
-    return this.http.post(this.base_url + 'logout', body, {});
   }
 
   getSemester() {
@@ -214,18 +125,9 @@ export class UserService {
     return this.http.put(this.base_url + 'accept-cover-request', body);
   }
 
-  addCaseReport(
-    emergency_id: number,
-    patient_name: string,
-    location: string,
-    patient_condition: string,
-    history: string,
-    treatment_administration: string,
-    transportation: string,
-    equipment: string,
-    consultation: string,
-    issues: string
-  ) {
+  addCaseReport(emergency_id: number, patient_name: string, location: string, patient_condition: string, history: string,
+    treatment_administration: string, transportation: string, equipment: string, consultation: string, issues: string) {
+      
     const body = {
       id: emergency_id,
       patient_name: patient_name,
