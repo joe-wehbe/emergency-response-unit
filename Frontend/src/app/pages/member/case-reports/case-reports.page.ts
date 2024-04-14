@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EmergencyService } from 'src/app/services/emergency/emergency.service';
 
-
 @Component({
   selector: 'app-case-reports',
   templateUrl: './case-reports.page.html',

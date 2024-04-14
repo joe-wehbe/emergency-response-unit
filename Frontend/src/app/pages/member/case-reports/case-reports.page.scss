@@ -34,6 +34,7 @@ ion-menu-button{
   flex-direction: row;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
   height: 7em;
+  margin: 10px;
 }
 
 .ongoing-card:active{
@@ -100,6 +101,14 @@ ion-menu-button{
   color: #08811B;
 }
 
+.patient-name-green{
+  color: #08811B;
+}
+
+.patient-name-red{
+  color: red;
+}
+
 .vitals{
   display: flex;
   flex-direction: row;
@@ -131,6 +140,3 @@ ion-img{
     transform: scale(1);
   }
 }
-
-
-

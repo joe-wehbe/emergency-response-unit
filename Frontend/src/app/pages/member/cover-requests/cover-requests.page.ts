@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController} from '@ionic/angular';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -14,7 +14,6 @@ export class CoverRequestsPage implements OnInit {
   constructor(
     private userService: UserService,
     private alertController: AlertController,
-    private toastController: ToastController
   ) {}
 
   ngOnInit() {
@@ -31,7 +30,6 @@ export class CoverRequestsPage implements OnInit {
             [],
             Object.values(parsedResponse['coverRequests'])
           );
-          // Convert time format for display
           this.coverRequests.forEach((cover_request) => {
             cover_request.shift.time_start = this.formatTime(
               cover_request.shift.time_start
@@ -51,9 +49,7 @@ export class CoverRequestsPage implements OnInit {
   }
 
   formatTime(time: string): string {
-    // Split the time string by ":" and get the hour and minute parts
     const [hours, minutes] = time.split(':');
-    // Return formatted time in "HH:mm" format
     return `${hours}:${minutes}`;
   }
 
@@ -73,9 +69,9 @@ export class CoverRequestsPage implements OnInit {
           text: 'Accept',
           cssClass: 'alert-button-ok-green',
           handler: async () => {
-            this.userService.acceptCoverRequests(coverRequestId).subscribe({
+            this.userService.acceptCoverRequest(coverRequestId).subscribe({
               next: (response) => {
-                console.log('User applied successfully:', response);
+                console.log('Cover request accepted:', response);
               },
               error: (error) => {
                 console.error('Error applying:', error);

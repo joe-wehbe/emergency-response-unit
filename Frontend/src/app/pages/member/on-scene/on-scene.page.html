@@ -13,7 +13,6 @@
       <p>{{noResponseEmergencies.length}} emergencies with no medical response!</p>
       <p class="second-stmt">Click on a case to accept</p>
     </div>
-    
     <ion-card class="ongoing-card" (click)="acceptAlert(emergency.id)" *ngFor="let emergency of noResponseEmergencies">
       <div class="first-box-red">
         {{ emergency.created_at | date: 'dd/MM' }}<br>
@@ -78,7 +77,7 @@
     <div class="body">
       <div class="stmt">
         <p>No ongoing emergencies</p>
-        <p class="second-stmt">Stay alert! Emergencies can happen anytime!</p>
+        <p class="second-stmt">Emergencies with no response will appear here.</p>
         <ion-img class="no-emergencies-img" src="assets/img/no-emergencies-img.png"></ion-img>
       </div>
     </div>

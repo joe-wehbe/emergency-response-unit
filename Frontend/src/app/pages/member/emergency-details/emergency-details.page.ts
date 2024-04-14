@@ -24,7 +24,6 @@ export class EmergencyDetailsPage implements OnInit {
   getEmergency() {
     this.route.params.subscribe(params => {
       this.emergencyId = params['id'];
-
       this.emergencyService.getEmergency(this.emergencyId)
         .subscribe({
           next: (response) => {
@@ -41,7 +40,6 @@ export class EmergencyDetailsPage implements OnInit {
   getEmergencyAssessments(){
     this.route.params.subscribe(params => {
       this.emergencyId = params['id'];
-
       this.emergencyService.getEmergencyAssessments(this.emergencyId)
         .subscribe({
           next: (response) => {
@@ -56,15 +54,7 @@ export class EmergencyDetailsPage implements OnInit {
     });
   }
 
-
   back(){
     this.router.navigate(["./tabs/standby"])
   }
-
-  // handleRefresh(event: any) {
-  //   this.getEmergency();
-  //   setTimeout(() => {
-  //     event.target.complete();
-  //   }, 2000);
-  // }
 }

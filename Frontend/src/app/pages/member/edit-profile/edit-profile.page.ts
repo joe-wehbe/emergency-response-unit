@@ -11,6 +11,7 @@ import { UserService } from 'src/app/services/user/user.service';
 export class EditProfilePage implements OnInit {
 
   user: any;
+  userId: string = localStorage.getItem("user_id") ?? '';
   userShifts: any[] = [];
   shifts: any[] = [];
   semesterData: any[] = [];
@@ -32,7 +33,7 @@ export class EditProfilePage implements OnInit {
   }
 
   getUserInfo() {
-    this.userService.getUserInfo("1")
+    this.userService.getUserInfo(this.userId)
     .subscribe({
       next: (response) => {
         console.log("Fetched user data:", response);
@@ -49,7 +50,7 @@ export class EditProfilePage implements OnInit {
   }
 
   getUserShifts(){
-    this.userService.getUserShifts()
+    this.userService.getUserShifts(this.userId)
     .subscribe({
       next: (response) => {
         console.log("Fetched user shifts:", response);

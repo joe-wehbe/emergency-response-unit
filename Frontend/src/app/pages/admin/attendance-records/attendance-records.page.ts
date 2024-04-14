@@ -26,7 +26,7 @@ export class AttendanceRecordsPage implements OnInit {
   constructor(private router:Router, private modalController:ModalController, private adminService:AdminService) {
     this.selectedMonth = this.getCurrentMonth();
 
-    this.adminService.get_attendance_shifts()
+    this.adminService.getAttendanceRecords()
     .subscribe({
       next: (response) => {
         console.log("Fetched shifts:", response);

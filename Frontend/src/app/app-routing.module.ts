@@ -102,11 +102,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/admin/manage-members/manage-members.module').then( m => m.ManageMembersPageModule), data: { showSideMenu: false }
   },
   {
-    path: 'user-profile',
+    path: 'user-profile/:id',
     loadChildren: () => import('./pages/admin/user-profile/user-profile.module').then( m => m.UserProfilePageModule), data: { showSideMenu: false }
   },
   {
-    path: 'change-schedule',
+    path: 'change-schedule/:id',
     loadChildren: () => import('./pages/admin/change-schedule/change-schedule.module').then( m => m.ChangeSchedulePageModule), data: { showSideMenu: false }
   },
   {

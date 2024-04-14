@@ -12,10 +12,10 @@
       <ng-template>
         <ion-content>
           <ion-list>
-            <ion-item [button]="true" [detail]="false" (click)="getOngoing()">On shift</ion-item>
-            <ion-item [button]="true" [detail]="false" (click)="applyFilter('Medic')">Medics</ion-item>
+            <ion-item [button]="true" [detail]="false" (click)="applyFilter('On shift')">On shift</ion-item>
             <ion-item [button]="true" [detail]="false" (click)="applyFilter('Dispatcher')">Dispatchers</ion-item>
-            <ion-item [button]="true" [detail]="false" (click)="getAdmins()">Board members</ion-item>
+            <ion-item [button]="true" [detail]="false" (click)="applyFilter('Medic')">Medics</ion-item>
+            <ion-item [button]="true" [detail]="false" (click)="applyFilter('Admin')">Admins</ion-item>
             <ion-item [button]="true" [detail]="false" (click)="applyFilter('All members')">All members</ion-item>
           </ion-list>
         </ion-content>
@@ -26,11 +26,9 @@
 </ion-header>
 
 <ion-content class="background">
-
   <div class="search-bar-container">
-    <ion-searchbar mode="md" class="search-bar" [debounce]="800" placeholder="Search all members" (ionInput)="handleInput($event)"></ion-searchbar>
+    <ion-searchbar mode="md" class="search-bar" [debounce]="800" placeholder="Search {{placeholder}}" (ionInput)="handleInput($event)"></ion-searchbar>
   </div>
-
   <ng-container *ngFor="let group of filteredGroupedUsers">
     <ion-list *ngIf="group.users.length > 0">
       <ion-list-header lines="inset">
@@ -44,20 +42,22 @@
                 <ion-avatar class="icon">
                   <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
                 </ion-avatar>
-                <div class="user-name"> {{ user.firstName }} {{ user.lastName }} </div>
+                <div class="user-name"> 
+                  {{ user.firstName }} <br>
+                  {{ user.lastName }} 
+                </div>                
                 <div class="user-role">{{ user.role }}</div>
               </div>
-              <div class="gray-bottom"></div>
+              <ng-container *ngIf="!user.hasShift">
+                <div class="gray-bottom"></div>
+              </ng-container>
+              <ng-container *ngIf="user.hasShift">
+                <div class="green-bottom"></div>
+              </ng-container>
             </ion-card>
           </ion-col>
         </ion-row>
       </ion-grid>
     </ion-list>
   </ng-container>
-
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="presentAlert()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 </ion-content>

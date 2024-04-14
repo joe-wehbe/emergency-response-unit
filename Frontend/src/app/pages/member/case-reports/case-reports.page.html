@@ -8,12 +8,10 @@
 </ion-header>
 
 <ion-content class="background">
-
   <div class="stmt">
-    <p>{{ caseReports.length }} {{ caseReports.length === 1 ? 'Case Report' : 'Case Reports' }} with no report submitted</p>
-    <p class="second-stmt">Click on a case to fill its report form</p>
+    <p>{{ caseReports.length }} {{ caseReports.length === 1 ? 'emergency' : 'emergencies' }} with no report submitted</p>
+    <p class="second-stmt">Click on a card to fill its report form</p>
   </div>
-
   <ion-card class="ongoing-card" *ngFor ="let case_report of caseReports" (click)="navigateCaseReportForm(case_report.emergency.id)"> 
     <div class="first-box">
       {{ case_report.emergency.created_at | date: 'dd/MM'}}<br>
@@ -33,10 +31,18 @@
         <p>Medic on scene:</p>
         <p class="medic-name-green">{{ case_report.emergency.medic.first_name }} {{ case_report.emergency.medic.last_name }}</p>
       </div>
-      <div class="patient">
-        <p>Patient:</p>
-        <p class="patient-name">{{ case_report.emergency.patient_name}}</p>
-      </div>
+      <ng-container *ngIf="case_report.emergency.patient_name !== null; else noPatientName">
+        <div class="patient">
+          <p>Patient:</p>
+          <p class="patient-name-green">{{ case_report.emergency.patient_name }}</p>
+        </div>
+      </ng-container>
+      <ng-template #noPatientName>
+        <div class="patient">
+          <p>Patient:</p>
+          <p class="patient-name-red">N/A</p>
+        </div>
+      </ng-template>
       <div class="vitals">
         <div class="heart-rate">
           <ion-img src="assets/icon/hr.png"></ion-img>
@@ -70,9 +76,7 @@
           <ion-img src="assets/icon/pr.png"></ion-img>
           <p class="pr">{{ case_report.last_assessment ? case_report.last_assessment.pupils_reaction || 'N/A' : 'N/A' }}</p>
         </div>
-
       </div>
     </div>
   </ion-card>
-
 </ion-content>

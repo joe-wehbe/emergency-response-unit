@@ -5,16 +5,15 @@
     </ion-buttons>
     <ion-title class="title">Community</ion-title>
     <ion-icon class="filter-button" name="filter-outline" slot="end" id="popover-button"></ion-icon>
-
     <ion-popover trigger="popover-button" [dismissOnSelect]="true">
       <ng-template>
         <ion-content>
           <ion-list>
-            <ion-item [button]="true" [detail]="false">On shift</ion-item>
-            <ion-item [button]="true" [detail]="false">Medics</ion-item>
-            <ion-item [button]="true" [detail]="false">Dispatchers</ion-item>
-            <ion-item [button]="true" [detail]="false">Board members</ion-item>
-            <ion-item [button]="true" [detail]="false">All members</ion-item>
+            <ion-item [button]="true" [detail]="false" (click)="applyFilter('On shift')">On shift</ion-item>
+            <ion-item [button]="true" [detail]="false" (click)="applyFilter('Dispatcher')">Dispatchers</ion-item>
+            <ion-item [button]="true" [detail]="false" (click)="applyFilter('Medic')">Medics</ion-item>
+            <ion-item [button]="true" [detail]="false" (click)="applyFilter('Admin')">Admins</ion-item>
+            <ion-item [button]="true" [detail]="false" (click)="applyFilter('All members')">All members</ion-item>
           </ion-list>
         </ion-content>
       </ng-template>
@@ -23,9 +22,8 @@
 </ion-header>
 
 <ion-content class="background">
-
   <div class="search-bar-container">
-    <ion-searchbar mode="md" class="search-bar" [debounce]="800" placeholder="Search all members" (ionInput)="handleInput($event)"></ion-searchbar>
+    <ion-searchbar mode="md" class="search-bar" [debounce]="800" placeholder="Search {{placeholder}}" (ionInput)="handleInput($event)"></ion-searchbar>
   </div>
 
   <ng-container *ngFor="let group of filteredGroupedUsers">
@@ -41,10 +39,18 @@
                 <ion-avatar class="icon">
                   <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
                 </ion-avatar>
-                <div class="user-name"> {{ user.firstName }} {{ user.lastName }} </div>
+                <div class="user-name"> 
+                  {{ user.firstName }} <br>
+                  {{ user.lastName }} 
+                </div>
                 <div class="user-role">{{ user.role }}</div>
               </div>
-              <div class="gray-bottom"></div>
+              <ng-container *ngIf="!user.hasShift">
+                <div class="gray-bottom"></div>
+              </ng-container>
+              <ng-container *ngIf="user.hasShift">
+                <div class="green-bottom"></div>
+              </ng-container>
             </ion-card>
           </ion-col>
         </ion-row>
@@ -79,8 +85,7 @@
               <p>{{ selectedUser.firstName }} {{ selectedUser.lastName }}</p>
             </ion-col>
             <ion-col class="modal-col" size="6" size-md="4" size-lg="2">
-              <ion-img src="assets/icon/phone.png"></ion-img>
-              
+              <ion-img src="assets/icon/phone.png"></ion-img>    
               <p>{{ selectedUser.phoneNumber }}</p>
             </ion-col>
           </ion-row>
@@ -95,13 +100,11 @@
             </ion-col>
           </ion-row>
         </ion-grid>
-    
         <div class="seperator">
           <div class="first-line"></div>
           <p class="section-name">Experience</p>
           <div class="second-line"></div>
         </div>
-      
         <div class="experience-sections">
           <div class="first-experience-section">
             <h6>Accomplishments</h6>
@@ -109,9 +112,7 @@
               <ion-text class="experience-text" *ngIf ="selectedUser && selectedUser.bio">{{selectedUser.bio}}</ion-text>
               <ion-text class = "no-experience-text" *ngIf="!(selectedUser && selectedUser.bio)">Nothing to show here</ion-text>
             </ion-card>
-
           </div>
-      
           <div class="second-experience-section">
             <h6>Medical Skills</h6>
             <ion-card class="skills-card">
@@ -124,7 +125,6 @@
             </ion-card>
           </div>
         </div>
-
       </ion-content>
     </ng-template>
   </ion-modal>

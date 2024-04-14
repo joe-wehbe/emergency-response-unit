@@ -9,7 +9,7 @@
 
 <ion-content class="background">
   <div class="mainpage">
-    <div *ngFor="let announcement of announcements; let i = index" class="announcement" [id]="'announcement_' + i">
+    <div class="announcement" *ngFor = "let announcement of visibleAnnouncements"  id="announcement.id" (click)="openModal(announcement)">
       <div class="first-box">
         <ion-avatar slot="start" class="profile-picture">
           <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
@@ -34,11 +34,24 @@
           </p>
         </div>
         <div class="time-posted">
-          <h3 class="time">{{ formatDate(announcement.created_at) }}</h3>
+          <div *ngIf="userRank == 'Admin' || userRank == 'Medic & Admin' || userRank == 'Dispatcher & Admin'">
+            <h3 class="time">
+              Sent to
+              {{ announcement.visible_to == 1 ? 'dispatchers' : '' }}
+              {{ announcement.visible_to == 2 ? 'medics' : '' }}
+              {{ announcement.visible_to == 3 ? 'admins' : '' }}
+              {{ announcement.visible_to == 4 ? 'medics & admins' : '' }}
+              {{ announcement.visible_to == 5 ? 'dispatchers & admins' : '' }}
+              {{ announcement.visible_to == 6 ? 'dispatchers & medics' : '' }}
+            </h3>
+          </div>
+          <h3 class="time">
+            &nbsp;{{ formatDate(announcement.created_at) }}
+          </h3>
         </div>
       </div>
 
-      <ion-modal [id]="'modal_' + i" #modal [trigger]="'announcement_' + i">
+      <ion-modal id="view-announcement-modal" #modal>
         <ng-template>
           <div class="wrapper">
             <div class="announcement">
@@ -49,32 +62,28 @@
               </div>
               <div class="second-box">
                 <div class="name">
-                  <h2 class="username">{{announcement.admin.first_name}} {{announcement.admin.last_name}}</h2>
+                  <h2 class="username">{{selectedAnnouncement.admin.first_name}} {{selectedAnnouncement.admin.last_name}}</h2>
                   <ng-container *ngIf="announcement.importance == 'Very important'">
-                    <ion-chip color="danger">{{announcement.importance}}</ion-chip>
+                    <ion-chip color="danger">{{selectedAnnouncement.importance}}</ion-chip>
                   </ng-container>
                   <ng-container *ngIf="announcement.importance == 'Important'">
-                    <ion-chip color="warning">{{announcement.importance}}</ion-chip>
+                    <ion-chip color="warning">{{selectedAnnouncement.importance}}</ion-chip>
                   </ng-container>
                   <ng-container *ngIf="announcement.importance == 'Regular'">
-                    <ion-chip color="success">{{announcement.importance}}</ion-chip>
+                    <ion-chip color="success">{{selectedAnnouncement.importance}}</ion-chip>
                   </ng-container>
                 </div>
                 <div class="description-container">
-                  <p class="description">{{announcement.description}}</p>
+                  <p class="description">{{ selectedAnnouncement.description }}</p>
                 </div>
                 <div class="time-posted">
-                  <h3 class="time">{{ formatDate(announcement.created_at) }}</h3>
+                  <h3 class="time">{{ formatDate(selectedAnnouncement.created_at) }}</h3>
                 </div>
               </div>
             </div>
           </div>
         </ng-template>
       </ion-modal>
-
     </div>
   </div>
-
-
-
 </ion-content>

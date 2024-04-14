@@ -31,6 +31,7 @@ export class ReportEmergencyPage implements OnInit {
       header: 'Emergency Alert',
       subHeader: 'Please provide emergency information',
       cssClass: "alert-dialog",
+      mode: "ios",
 
       inputs: [
         {
@@ -43,7 +44,6 @@ export class ReportEmergencyPage implements OnInit {
             maxlength: 20,
           },
         },
-
         {
           name: 'description',
           type: 'text',

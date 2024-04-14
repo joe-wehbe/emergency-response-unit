@@ -13,7 +13,7 @@
 
 <ion-content class="background">
   <div class="mainpage">
-    <div class="announcement" *ngFor = "let announcement of announcements"  id="announcement.id" (click)="openModal(announcement)">
+    <div class="announcement" *ngFor = "let announcement of myAnnouncements"  id="announcement.id" (click)="openModal(announcement)">
       <div class="first-box">
         <ion-avatar slot="start" class="profile-picture">
           <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
@@ -21,7 +21,7 @@
       </div>
       <div class="second-box">
         <div class="name">
-          <h2 class="username">{{announcement.first_name}} {{announcement.last_name}}</h2>
+          <h2 class="username">{{announcement.admin.first_name}} {{announcement.admin.last_name}}</h2>
           <ng-container *ngIf= "announcement.importance == 'Very important'">
             <ion-chip color="danger">{{announcement.importance}}</ion-chip>
           </ng-container>
@@ -38,12 +38,19 @@
           </p>
         </div>
         <div class="time-posted">
-          <h3 class="time">{{ formatDate(announcement.created_at) }}</h3>
+          <h3 class="time">Sent to
+            {{ announcement.visible_to == 1 ? 'dispatchers' : '' }}
+            {{ announcement.visible_to == 2 ? 'medics' : '' }}
+            {{ announcement.visible_to == 3 ? 'admins' : '' }}
+            {{ announcement.visible_to == 4 ? 'medics & admins' : '' }}
+            {{ announcement.visible_to == 5 ? 'dispatchers & admins' : '' }}
+            {{ announcement.visible_to == 6 ? 'dispatchers & medics' : '' }}
+            {{ formatDate(announcement.created_at) }}
+          </h3>
         </div>
       </div>
     </div>
   </div>
-
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button id="add-announcement">
       <ion-icon name="add"></ion-icon>
@@ -61,7 +68,7 @@
           </div>
           <div class="second-box">
             <div class="name">
-              <h2 class="username">{{selectedAnnouncement.first_name}} {{selectedAnnouncement.last_name}}</h2>
+              <h2 class="username">{{selectedAnnouncement.admin.first_name}} {{selectedAnnouncement.admin.last_name}}</h2>
               <ng-container *ngIf= "selectedAnnouncement.importance == 'Very important'">
                 <ion-chip color="danger">{{selectedAnnouncement.importance}}</ion-chip>
               </ng-container>
@@ -72,13 +79,11 @@
                 <ion-chip color="success">{{selectedAnnouncement.importance}}</ion-chip>
               </ng-container>            </div>
             <div class="description-container">
-              <p class="description">
-                {{ selectedAnnouncement.description }}
-              </p>
+              <p class="description">{{ selectedAnnouncement.description }}</p>
             </div>
             <div class="time-posted">
               <h3 class="time">{{ formatDate(selectedAnnouncement.created_at) }}</h3>
-              <ion-icon class="delete-icon" name="trash-outline" (click)="presentAlert()"></ion-icon>
+              <ion-icon class="delete-icon" name="trash-outline" (click)="deleteAlert()"></ion-icon>
             </div>
           </div>
         </div>
@@ -90,42 +95,36 @@
     <ng-template>
       <form #announcementForm="ngForm">
         <div class="wrapper">
-
           <p class="statement"> Share what you want to say </p>
-
           <div class="announcement-container">
             <ion-text>Write your announcement</ion-text>
-            <ion-textarea [autoGrow]="true" placeholder="Announcement..." name="announcement" ngModel required>
+            <ion-textarea [(ngModel)]="description" [autoGrow]="true" placeholder="Announcement..." name="announcement" ngModel required>
               <ion-icon class="modal-icon" name="megaphone" slot="start"></ion-icon>
             </ion-textarea>
           </div>
-
           <div class="receiver-container">
             <ion-text>Specify who will see your announcement</ion-text>
-            <ion-select placeholder="Select Receiver" [(ngModel)]="receiverSelectedOption" name="receiver"
+            <ion-select placeholder="Select Receiver" [(ngModel)]="visibilitySelectedOption" name="receiver"
               [multiple]="true" ngModel required>
-              <ion-select-option value="all-members">All members</ion-select-option>
-              <ion-select-option value="board-members">Board members</ion-select-option>
-              <ion-select-option value="medics">Medics</ion-select-option>
               <ion-select-option value="dispatchers">Dispatchers</ion-select-option>
+              <ion-select-option value="medics">Medics</ion-select-option>
+              <ion-select-option value="admins">Board members</ion-select-option>
               <ion-icon class="modal-icon" slot="start" name="people"></ion-icon>
             </ion-select>
           </div>
-
           <div class="importance-container">
             <ion-text>Specify its importance level</ion-text>
             <ion-select placeholder="Select Importance level" [(ngModel)]="importanceSelectedOption" name="importance"
               ngModel required>
-              <ion-select-option value="very-important">Very important</ion-select-option>
-              <ion-select-option value="important">Important</ion-select-option>
-              <ion-select-option value="regular">Regular</ion-select-option>
+              <ion-select-option value="Very important">Very important</ion-select-option>
+              <ion-select-option value="Important">Important</ion-select-option>
+              <ion-select-option value="Regular">Regular</ion-select-option>
               <ion-icon class="modal-icon" slot="start" name="alert-circle-sharp"></ion-icon>
             </ion-select>
           </div>
-
           <div class="buttons-container">
             <ion-button class="cancel-button" fill="outline" (click)="dismiss()">Cancel</ion-button>
-            <ion-button class="send-button" fill="outline" (click)="send(announcementForm)"
+            <ion-button class="send-button" fill="outline" (click)="addAnnouncement()"
               [disabled]="announcementForm.invalid">Send</ion-button>
           </div>
         </div>

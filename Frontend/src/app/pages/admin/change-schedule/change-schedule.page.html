@@ -21,18 +21,18 @@
     </div>
 
     <div class="day-container" *ngFor = "let shift of shifts">
-      <p class="day">{{getDayName(shift.date)}}</p>
+      <p class="day">{{shift.day}}</p>
       <ion-card class="shifts-card">
         <div class="shift-container">
           <div class="shift">
-              <p class="time">{{shift.time_start}} - {{shift.time_end}}</p>
+              <p class="time">{{shift.start_time}} - {{shift.end_time}}</p>
               <div class="seperator"></div>
               <ion-chip color="warning">
-                <ion-label>{{shift.coverCount.coverRequestsCount}} covers</ion-label>
+                <!-- <ion-label>{{shift.coverCount.coverRequestsCount}} covers</ion-label> -->
               </ion-chip>
               <div class="seperator"></div>
               <ion-chip color="danger">
-                <ion-label>{{shift.missed_attendance}} misses</ion-label>
+                <!-- <ion-label>{{shift.missed_attendance}} misses</ion-label> -->
               </ion-chip>            
           </div>
           <ion-icon class="delete-icon" name="close-circle-outline" (click)="deleteAlert(shift.id)"></ion-icon>
@@ -54,7 +54,7 @@
           <p class="section">Please select a day and time range</p>
         </div> 
         <div class="weekdays-radio">
-          <ion-radio-group mode="md"  [(ngModel)]="selectedOption">
+          <ion-radio-group mode="md" [(ngModel)]="selectedOption">
             <ion-radio value="monday" labelPlacement="stacked">Monday</ion-radio>
             <ion-radio value="tuesday" labelPlacement="stacked">Tuesday</ion-radio>
             <ion-radio value="wednesday" labelPlacement="stacked">Wednesday</ion-radio>

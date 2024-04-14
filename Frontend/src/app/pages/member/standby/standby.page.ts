@@ -17,7 +17,8 @@ export class StandbyPage implements OnInit {
   constructor(
     private router:Router, 
     private alertController:AlertController,
-    private emergencyService:EmergencyService) { }
+    private emergencyService:EmergencyService
+  ) { }
 
   ngOnInit() {
     this.getOngoingEmergencies();
@@ -142,5 +143,4 @@ export class StandbyPage implements OnInit {
   navigateEmergencyDetails(emergencyId: number){
     this.router.navigate(["./emergency-details", emergencyId])
   }
-
 }

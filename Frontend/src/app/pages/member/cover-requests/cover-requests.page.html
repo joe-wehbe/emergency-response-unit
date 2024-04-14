@@ -3,23 +3,18 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-
     <ion-title class="title">Cover Requests</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="background">
-
   <div class="stmt">
     <p>{{ coverRequests.length }} {{ coverRequests.length === 1 ? 'Cover Request' : 'Cover Requests' }}</p>
     <p class="second-stmt">The member you cover for will be notified of your acceptance</p>
   </div>
 
   <ion-card *ngFor ="let cover_request of coverRequests" (click)="presentAlert(cover_request.id)">
-
-    <div class="first-box">
-    </div>
-
+    <div class="first-box"></div>
     <div class="second-box">
       <ion-avatar slot="start" class="profile-picture">
         <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
@@ -32,13 +27,11 @@
             <p class="name">{{cover_request.user.first_name}} {{cover_request.user.last_name}}</p>
             <p class="time">{{cover_request.shift.time_start}}-{{cover_request.shift.time_end}}</p>
           </div>
-
           <div class="role-container">
             <p class="role">{{cover_request.user.rank.rank_name}}</p>
             <p class="date">{{cover_request.shift.day}}</p>
           </div>
         </div>
-
         <div class="description-container">
           <ion-icon class="icon" name="chatbubble-ellipses-outline"></ion-icon>
           <p class="description">{{cover_request.reason}}</p>

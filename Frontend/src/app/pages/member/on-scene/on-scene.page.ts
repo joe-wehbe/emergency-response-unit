@@ -15,7 +15,8 @@ export class OnScenePage implements OnInit {
   constructor(
     private router:Router, 
     public alertController: AlertController, 
-    private emergencyService:EmergencyService) { }
+    private emergencyService:EmergencyService
+  ) { }
 
   ngOnInit() {
     this.getNoResponseEmergencies();

@@ -11,78 +11,75 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="gradient-background">
+<ion-content *ngIf="user">
   <ion-card class="card-container">
-      
     <div class="header">
       <ion-avatar class="icon">
         <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-avatar>
-  
       <div class="container">
         <div class="np-container">
-          <h2 class="name">{{full_name}}</h2>
-          <p class="position">{{user_rank}}</p>
+          <h2 class="name">{{ user.first_name }} {{ user.last_name }}</h2>
+          <p class="position">{{user.rank.rank_name}}</p>
         </div>
-
         <div class="options-icon-container">
           <ion-icon id="open-action-sheet" class="options-icon" name="options-outline"></ion-icon>
           <ion-action-sheet class="action-sheet" trigger="open-action-sheet" header="Select" [buttons]="actionSheetButtons"></ion-action-sheet>
         </div>
       </div>
     </div>
-
     <ion-grid [fixed]="true" class="grid-container">
       <ion-row>
         <ion-col size="6" size-md="4" size-lg="2">
           <ion-img src="assets/icon/email.png"></ion-img>
-          <p>{{lau_email}}</p>
+          <p>{{ user.first_name }} {{ user.last_name }}</p>
         </ion-col>
         <ion-col size="6" size-md="4" size-lg="2">
           <ion-img src="assets/icon/phone.png"></ion-img>
-          <p>{{phone_number}}</p>
+          <p>{{ user.phone_number }}</p>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col size="6" size-md="4" size-lg="2">
           <ion-img src="assets/icon/id.png"></ion-img>
-          <p>{{student_id}}</p>
+          <p>{{ user.student_id }}</p>
         </ion-col>
         <ion-col size="6" size-md="4" size-lg="2">
           <ion-img src="assets/icon/major.png"></ion-img>
-          <p>{{major}}</p>
+          <p>{{ user.major }}</p>
         </ion-col>
       </ion-row>
     </ion-grid>
-
     <div class="seperator">
       <div class="first-line"></div>
       <p class="section-name">Experience</p>
       <div class="second-line"></div>
     </div>
-  
     <div class="experience-sections">
       <div class="first-experience-section">
         <h6>Talk about your accomplishments</h6>
         <ion-card class="experience-card">
-          <ion-text class="experience-text">{{bio}}</ion-text>
+          <ion-text class="experience-text" *ngIf="user && user.bio">{{ user.bio }}</ion-text>
+          <ion-text class="no-experience-text" *ngIf="!(user && user.bio)">Nothing to show here</ion-text>
         </ion-card>
       </div>
-  
       <div class="second-experience-section">
         <h6>Show your skills in the medical field</h6>
         <ion-card class="skills-card">
-          <ion-badge *ngFor="let tag of tags">{{tag}}</ion-badge>
+          <ng-container *ngIf="user && user.tags">
+            <ng-container *ngFor="let tag of user.tags.split(',')">
+              <ion-badge>{{ tag.trim() }}</ion-badge>
+            </ng-container>
+          </ng-container>
+          <ion-text class="no-tags-text" *ngIf="!(user && user.tags)">Nothing to show here</ion-text>
         </ion-card>
       </div>
     </div>
-
     <div class="seperator">
       <div class="first-line"></div>
       <p class="section-name">Schedule</p>
       <div class="second-line"></div>
     </div>
-
     <div class="calendar-container">
       <ion-datetime 
         class="calendar"

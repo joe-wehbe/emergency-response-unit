@@ -7,7 +7,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class AdminService {
 
   private base_url: string = 'http://localhost:8000/api/v0.1/admin/';
-  private base_url_user: string = 'http://localhost:8000/api/v0.1/user/';
 
   constructor(private http: HttpClient) {}
 
@@ -17,106 +16,7 @@ export class AdminService {
     return headers;
   }
 
-  get_eru_members(){
-    const response = this.http.get(this.base_url + "get-members", { headers: this.getAuthHeaders() });
-    return response;
-  }
-
-  get_announcements(){
-    const response = this.http.get(this.base_url_user + "get-all-announcements", { headers: this.getAuthHeaders() });
-    return response;
-  }
-
-  get_ongoing_shifts(){
-    const response = this.http.get(this.base_url + "get-ongoing-shifts", { headers: this.getAuthHeaders() });
-    return response;
-  }
-
-  get_extensions(){
-    const response = this.http.get(this.base_url_user + "get-extensions", { headers: this.getAuthHeaders() });
-    return response;
-  }
-
-  get_user_info(id: number){
-    const response = this.http.get(this.base_url_user + id + "/get-user-info", { headers: this.getAuthHeaders() });
-    return response;
-  }
-
-  get_admins(){
-    const response = this.http.get(this.base_url + "get-admins", { headers: this.getAuthHeaders() });
-    return response;
-  }
-
-  get_medical_faqs(id: string){
-    const response = this.http.get(this.base_url_user + id + "/get-medical-faqs", { headers: this.getAuthHeaders() });
-    return response;
-  }
-
-  get_user_shifts(id: number){
-    const response = this.http.get(this.base_url + "get-user-shifts/" + id, { headers: this.getAuthHeaders() });
-    return response;
-  }
-
-  get_attendance_shifts(){
-    const response = this.http.get(this.base_url + "get-attendance-records", { headers: this.getAuthHeaders() });
-    return response;
-  }
-
-  get_shift_covers(shift_id: number){
-    const response = this.http.get(this.base_url_user + "get-shift-cover-requests/" + shift_id, { headers: this.getAuthHeaders() });
-    return response;
-  }
-
-  remove_member(id: number){
-    const headers: HttpHeaders = new HttpHeaders({'Content-Type' : 'application/json'});
-    const options= {headers: this.getAuthHeaders()}
-    const body = {id: id,};
-
-    const response = this.http.put(this.base_url + 'remove-member', body, options);
-    return response;
-  }
-
-  change_rank(user_id: number, rank_id: number) {
-    const headers: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json',});
-    const options = {headers: headers,};
-    const body = {user_id: user_id, rank_id: rank_id,};
-
-    const response = this.http.put(this.base_url + 'change-rank', body, options);
-    return response;
-  }
-
-  add_member(lau_email: string) {
-    const headers: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json',});
-    const options = {headers: headers,};
-    const body = {lau_email: lau_email,};
-
-    const response = this.http.put(this.base_url + 'add-member', body, options);
-    return response;
-  }
-
-  add_extension(name: string, ext: string) {
-    const headers: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json',});
-    const options = {headers: headers,};
-    const body = {name: name, number: ext,};
-
-    const response = this.http.post(this.base_url + 'add-extension', body,options);
-    return response;
-  }
-
-  add_faq(type: string, question: string, answer: string){
-    const headers: HttpHeaders = new HttpHeaders({'Content-Type' : 'application/json'});
-    const options= { headers: this.getAuthHeaders()}
-
-    const body = {
-      "type": type,
-      "question": question,
-      "answer": answer
-    }
-
-    const response = this.http.post(this.base_url + "add-faq", body, options); 
-    return response;
-  }
-
+  // ADMIN PANEL
   updateSemesterDates($startDate:String, $endDate:String){
     const body = {
       "id": 1,
@@ -126,22 +26,85 @@ export class AdminService {
     return this.http.put(this.base_url + "update-semester-dates", body); 
   }
 
+  // MANAGE MEMBERS TAB
+  removeMember(id: string){
+    const body = {id: id};
+    return this.http.put(this.base_url + 'remove-member', body);
+  }
+
+  changeRank(user_id: string, rank_id: number) {
+    const body = {user_id: user_id, rank_id: rank_id};
+    return this.http.put(this.base_url + 'change-rank', body);
+  }
+
+  // CHANGE SCHEDULE PAGE
+  // add shift and delete shift missing
+
+  // MANAGE ANNOUNCEMENTS TAB
+  addAnnouncement(id:string, importance:string, description:string, visible_to:number){
+    const body = {
+      "admin_id": id,
+      "importance": importance,
+      "description": description,
+      "visible_to": visible_to
+    }
+    return this.http.post(this.base_url + "add-announcement", body); 
+  }
+
+  deleteAnnouncement(id:number){
+    return this.http.delete(this.base_url + "delete-announcement/" + id); 
+  }
+
+  // MANAGE FAQs TAB
+  addFaq(type: string, question: string, answer: string){
+    const body = {
+      "type": type,
+      "question": question,
+      "answer": answer
+    }
+    return this.http.post(this.base_url + "add-faq", body); 
+  }
+
+  deleteFaq(id:number){
+    return this.http.delete(this.base_url + 'delete-faq/' + id);
+  }
+
+  // MANAGE EXTENSIONS TAB
+  addExtension(name: string, ext: string) {
+    const body = {name: name, number: ext};
+    return this.http.post(this.base_url + 'add-extension', body);
+  }
+
+  deleteExtension(id:number){
+    return this.http.delete(this.base_url + 'delete-extension/' + id);
+  }
+
+  // ATTENDANCE RECORDS TAB
+  getAttendanceRecords(){
+    return this.http.get(this.base_url + "get-attendance-records", { headers: this.getAuthHeaders() });
+  }
+
+  // SIGNUP REQUESTS TAB
   getSignupRequests(){
-    const response = this.http.get(this.base_url + "get-signup-requests");
-    return response;
+    return this.http.get(this.base_url + "get-signup-requests");
   }
 
   acceptSignupRequest(request_id:number){
     const body = {
-      "request_id": request_id,
+      "request_id": request_id
     }
     return this.http.put(this.base_url + "accept-signup-request/" + request_id, body); 
   }
 
   rejectSignupRequest(request_id:number){
     const body = {
-      "request_id": request_id,
+      "request_id": request_id
     }
     return this.http.put(this.base_url + "reject-signup-request/" + request_id, body); 
+  }
+
+  // UNKNOWN
+  getShiftCovers(shift_id: number){
+    return this.http.get(this.base_url + "get-shift-cover-requests/" + shift_id, { headers: this.getAuthHeaders() });
   }
 }

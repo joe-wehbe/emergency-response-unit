@@ -24,7 +24,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(["prefix" => "v0.1"], function () {
-
     // AUTHENTICATION CONTROLLER APIs
     Route::group(["prefix" => "auth"], function () {
         Route::post("register", [AuthController::class, "register"]);
@@ -36,17 +35,17 @@ Route::group(["prefix" => "v0.1"], function () {
     // USER CONTROLLER APIs
     Route::group(["prefix" => "user"], function () {
         Route::put("apply", [UserController::class, "apply"]);
-        Route::get('{id}/get-user-info', [UserController::class, 'getUserInfo']);
+        Route::get('get-user-info/{id}', [UserController::class, 'getUserInfo']);
         Route::get("get-user-shifts/{id}", [UserController::class, "getUserShifts"]);
         Route::get("get-request-status/{email}", [UserController::class, "getRequestStatus"]);
         Route::put('edit-bio', [UserController::class, 'editBio']);
         Route::put('edit-tags', [UserController::class, 'editTags']);
         Route::post('request-cover', [UserController::class, 'requestCover']);
         Route::put('mark-attendance', [UserController::class, 'markAttendance']);
-        Route::get('get-all-users', [UserController::class, 'getAllUsers']);
+        Route::get('get-all-members/{id}', [UserController::class, 'getAllMembers']);
+        Route::get('get-users-on-shift', [UserController::class, 'getUsersOnShift']);
         Route::get('get-all-announcements', [UserController::class, 'getAllAnnouncements']);
-        Route::get('get-all-cover-requests', [UserController::class, 'getAllCoverRequests']);
-        Route::get('get-shift-cover-requests/{id}', [UserController::class, 'getShiftCoverRequests']);
+        Route::get('get-all-cover-requests/{id}', [UserController::class, 'getAllCoverRequests']);
         Route::put('accept-cover-request', [UserController::class, 'acceptCoverRequest']);
         Route::get('get-extensions', [UserController::class, 'getExtensions']);
         Route::get('get-medical-faqs/{type}', [UserController::class, 'getMedicalFaqs']);
@@ -75,14 +74,13 @@ Route::group(["prefix" => "v0.1"], function () {
     // ADMIN CONTROLLER APIs
     Route::group(["prefix" => "admin"], function () {
         Route::put("update-semester-dates", [AdminController::class, "updateSemesterDates"]);
-        Route::put("add-member", [AdminController::class, "addMember"]);
         Route::put("remove-member", [AdminController::class, "removeMember"]);
         Route::put("change-rank", [AdminController::class, "changeRank"]);
         Route::get("get-user-shifts/{id}", [AdminController::class, "getUserShifts"]);
         Route::post("add-shift", [AdminController::class, "addShift"]);
         Route::delete("delete-shift/{shift_id}/{user_id}", [AdminController::class, "deleteShift"]);
         Route::post("add-announcement", [AdminController::class, "addAnnouncement"]);
-        Route::delete("delete-announcement", [AdminController::class, "deleteAnnouncement"]);
+        Route::delete("delete-announcement/{id}", [AdminController::class, "deleteAnnouncement"]);
         Route::post("add-faq", [AdminController::class, "addFaq"]);
         Route::delete("delete-faq/{id}", [AdminController::class, "deleteFaq"]);
         Route::post("add-extension", [AdminController::class, "addExtension"]);
@@ -92,9 +90,8 @@ Route::group(["prefix" => "v0.1"], function () {
         Route::put("accept-signup-request/{id}", [AdminController::class, "acceptSignupRequest"]);
         Route::put("reject-signup-request/{id}", [AdminController::class, "rejectSignupRequest"]);
         Route::get('get-emergency-records', [AdminController::class, 'getEmergencyRecords']);
-        Route::get('get-members', [AdminController::class, 'getMembers']);
-        Route::get('get-ongoing-shifts', [AdminController::class, 'getOngoingShifts']);
         Route::get('get-admins', [AdminController::class, 'getAdmins']);
+        Route::get('get-cover-requests-count/{id}', [AdminController::class, 'getShiftCoverRequests']);
     });
 });
 

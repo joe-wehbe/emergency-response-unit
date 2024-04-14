@@ -1,19 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { AdminService } from 'src/app/services/admin/admin.service';
 import { SharedService } from 'src/app/services/shared.service';
-import { catchError, forkJoin } from 'rxjs';
-import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { ToastController } from '@ionic/angular';
-interface Shift {
-  id :number;
-  date: string;
-  startfrom: string;
-  endat: string;
-  misses: string;
-}
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-change-schedule',
@@ -21,49 +14,70 @@ interface Shift {
   styleUrls: ['./change-schedule.page.scss'],
 })
 
-
-
 export class ChangeSchedulePage implements OnInit {
   selectedUser: any;
   selectedOption: string = 'monday';
   shifts: any[] = [];
   shiftsPastWeek: number = 0;
-  constructor(private toastController:ToastController, private http:HttpClient, private sharedService:SharedService, private adminService:AdminService, private alertController:AlertController, private router:Router, private modalController:ModalController) { }
+  userId: string = '';
 
-  ngOnInit() {
-    this.selectedUser = this.sharedService.getVariableValue();
-    this.adminService.get_user_shifts(this.selectedUser).subscribe(response => {
-       this.shifts = Object.values(response).reduce((acc: any[], curr: any[]) => acc.concat(curr), []);
 
-       this.shiftsPastWeek = this.shifts.length;
+  user: any;
+  // userId: string = '';
+  userShifts: any[] = [];
+  // shifts: any[] = [];
+  semesterData: any[] = [];
 
-       const requests = this.shifts.map(shift => this.getShiftCoverCount(shift.id));
-      forkJoin(requests).subscribe((responses) => {
-        
-        responses.forEach((coverCount, index) => {
-          this.shifts[index].coverCount = coverCount;
-        });
+  constructor(
+    private toastController:ToastController, 
+    private http:HttpClient, 
+    private sharedService:SharedService, 
+    private adminService:AdminService, 
+    private alertController:AlertController, 
+    private router:Router, 
+    private modalController:ModalController,
+    private userService: UserService,
+    private route:ActivatedRoute,
+  ) { }
 
-      });
- 
-
-    });
-
+  ngOnInit() {  
+    this.getUserShifts();
+  }
   
+  getUserShifts(){
+    this.route.params.subscribe(params => {
+      this.userId = params['id'];
+      this.userService.getUserShifts(this.userId)
+      .subscribe({
+        next: (response) => {
+          console.log("Fetched user shifts:", response);
+          const parsedResponse = JSON.parse(JSON.stringify(response));
+          this.userShifts = [].concat.apply([], Object.values(parsedResponse['Shifts']));
+          this.userShifts.forEach(shiftRecord => {
+            this.shifts.push({ id: shiftRecord.id, day: shiftRecord.shift.day, start_time: shiftRecord.shift.time_start, end_time: shiftRecord.shift.time_end})
+          });
+        },
+        error: (error) => {
+          console.error("Error getting user shifts:", error);
+        },
+        complete: () => {
+        }
+      });
+    });
   }
 
-  getShiftCoverCount(shiftId: number) {
+  // getShiftCoverCount(shiftId: number) {
    
-    return this.adminService.get_shift_covers(shiftId);
-  }
+  //   return this.adminService.getShiftCovers(shiftId);
+  // }
  
 
-  getDayName(dateString: string): string {
-    const date = new Date(dateString);
-    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const dayOfWeek = date.getDay();
-    return dayNames[dayOfWeek];
-  }
+  // getDayName(dateString: string): string {
+  //   const date = new Date(dateString);
+  //   const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  //   const dayOfWeek = date.getDay();
+  //   return dayNames[dayOfWeek];
+  // }
 
   async back() {
     const alert = await this.alertController.create({
@@ -110,7 +124,7 @@ export class ChangeSchedulePage implements OnInit {
           text: 'Delete',
           cssClass: 'alert-button-ok-red',
           handler: () => {
-            this.deleteShift(this.selectedUser, shift_id);
+            // this.deleteShift(this.selectedUser, shift_id);
           }
         },
       ],
@@ -118,39 +132,39 @@ export class ChangeSchedulePage implements OnInit {
     await alert.present();
   }
 
-  async deleteShift(user_id: number, shift_id: number){
-    try {
-      await this.http.delete<any>(`http://localhost:8000/api/v0.1/admin/delete-shift/${shift_id}/${user_id}`).pipe(
-        catchError(async (error) => {
-          console.error('Error occurred while deleting shift:', error);
-          const toast = await this.toastController.create({
-            message: 'Failed to delete shift',
-            duration: 2000, 
-            position: 'bottom'
-          });
-          toast.present();
-          throw error;
-        })
-      ).toPromise();
+  // async deleteShift(user_id: number, shift_id: number){
+  //   try {
+  //     await this.http.delete<any>(`http://localhost:8000/api/v0.1/admin/delete-shift/${shift_id}/${user_id}`).pipe(
+  //       catchError(async (error) => {
+  //         console.error('Error occurred while deleting shift:', error);
+  //         const toast = await this.toastController.create({
+  //           message: 'Failed to delete shift',
+  //           duration: 2000, 
+  //           position: 'bottom'
+  //         });
+  //         toast.present();
+  //         throw error;
+  //       })
+  //     ).toPromise();
   
-      const toast = await this.toastController.create({
-        message: 'Shift deleted successfully',
-        duration: 2000, 
-        position: 'bottom'
-      });
-      toast.present();
+  //     const toast = await this.toastController.create({
+  //       message: 'Shift deleted successfully',
+  //       duration: 2000, 
+  //       position: 'bottom'
+  //     });
+  //     toast.present();
     
       
-    } catch (error) {
-      console.error('Error occurred while deleting shift:', error);
-      const toast = await this.toastController.create({
-        message: 'Failed to delete shift',
-        duration: 2000, 
-        position: 'bottom'
-      });
-      toast.present();
-    }
-  }
+  //   } catch (error) {
+  //     console.error('Error occurred while deleting shift:', error);
+  //     const toast = await this.toastController.create({
+  //       message: 'Failed to delete shift',
+  //       duration: 2000, 
+  //       position: 'bottom'
+  //     });
+  //     toast.present();
+  //   }
+  // }
 
   async saveAlert() {
     const alert = await this.alertController.create({

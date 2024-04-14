@@ -8,11 +8,9 @@
 </ion-header>
 
 <ion-content class="background">
-
   <div class="search-bar-container">
     <ion-searchbar mode="md" class="search-bar" [debounce]="800" placeholder="Search a name..." (ionInput)="handleInput($event)"></ion-searchbar>
   </div>
-
   <div class="lists-container">
     <ng-container *ngFor="let group of filteredGroupedExtensions">
         <ion-list *ngIf="group.extensions.length > 0">

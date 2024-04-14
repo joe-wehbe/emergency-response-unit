@@ -57,12 +57,6 @@ ion-list {
 }
 
 .card:active{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
     animation: pulse 0.1s ease-in-out;
 }
 
@@ -83,7 +77,8 @@ ion-list {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .icon{
@@ -94,13 +89,14 @@ ion-list {
 
 .user-name{
     padding-top: 5px; 
-    font-weight: bold;   
+    font-weight: bold;  
+    text-align: center; 
 }
 
 .user-role{
     opacity: 0.8;
+    text-align: center;
 }
-
 
 .gray-bottom{
     display: flex;
@@ -111,8 +107,18 @@ ion-list {
     background-color: #838383;
 }
 
+.green-bottom{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    width: 100%;
+    background-color: green;
+    opacity: 0.8;
+}
+
 ion-modal {
-    --height: 60%;
+    --height: 50%;
     --border-radius: 16px;
     --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
@@ -146,7 +152,7 @@ ion-modal {
   
 .name, .position {
     margin: 0; 
-    font-size: 1.2rem; 
+    font-size: 1.2rem;
 }
 
 .position {
@@ -243,7 +249,6 @@ ion-img{
 h6{
     font-size: 0.8rem;
     font-weight: lighter;
-    font-style: italic;
     margin: 0;
 }
 
@@ -274,14 +279,14 @@ h6{
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
 }
 
+.no-experience-text, .no-tags-text{
+    font-style: italic;
+}
+
 ion-badge{
     background: #810808;
     font-weight: normal;
     margin-right: 2px;
     --color: white;
-}
-
-.no-tags-text, .no-tags-text{
-    font-style: italic;
 }
   

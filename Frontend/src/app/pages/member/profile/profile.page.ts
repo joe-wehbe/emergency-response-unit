@@ -30,7 +30,7 @@ export class ProfilePage implements OnInit {
   }
 
   getUserInfo() {
-    this.userService.getUserInfo("1")
+    this.userService.getUserInfo(localStorage.getItem("user_id") ?? '')
     .subscribe({
       next: (response) => {
         console.log("Fetched user data:", response);
@@ -45,7 +45,7 @@ export class ProfilePage implements OnInit {
   }
 
   getUserShifts(){
-    this.userService.getUserShifts()
+    this.userService.getUserShifts(localStorage.getItem("user_id") ?? '')
     .subscribe({
       next: (response) => {
         console.log("Fetched user shifts:", response);
@@ -205,6 +205,7 @@ export class ProfilePage implements OnInit {
               .subscribe({
                 next: (response) => {
                   console.log("Cover request sent successfully:", response);
+                  this.presentToast("Cover request sent")
                 },
                 error: (error) => {
                   console.error("Error requesting cover:", error);
@@ -219,15 +220,12 @@ export class ProfilePage implements OnInit {
     await alert.present();
   } 
 
-  navigateEditProfile(){
-    this.router.navigate(["./edit-profile"]);
-  }
-
   markAttendance(){
     this.userService.markAttendance()
     .subscribe({
       next: (response) => {
         console.log("Marked attendance successfully:", response);
+        this.presentToast("Attendance marked for the current shift")
       },
       error: (error) => {
         console.error("Error marking attendance:", error);
@@ -235,6 +233,10 @@ export class ProfilePage implements OnInit {
       complete: () => {
       }
     });
+  }
+
+  navigateEditProfile(){
+    this.router.navigate(["./edit-profile"]);
   }
 
   async presentToast(message: string) {

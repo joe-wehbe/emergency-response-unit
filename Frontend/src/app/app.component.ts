@@ -11,12 +11,12 @@ import { AuthService } from './services/authentication/auth.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  
+  user: any;
 
   showSideMenu = true;
   darkMode = false;
   reportPageActive = false;
-
-  user: any;
 
   id: string = '';
   first_name: string = '';

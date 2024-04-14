@@ -12,43 +12,36 @@
 </ion-header>
 
 <ion-content class="background">
-
   <div class = "mainpage">
     <div class = stmt>
       Fill the case report form
     </div>
-    
     <ion-list *ngIf="emergency">
       <div class="question">
         <ion-input label="Date of incident" mode="md" [value]="emergency.created_at | date:'dd/MM/yy'" label-placement="floating" fill="outline" [disabled]="true">
           <ion-icon class="modal-icon" name="calendar-number-outline" slot="start"></ion-icon>
         </ion-input>
       </div>
-
       <div class="question">
         <ion-input label="Time of incident" mode="md" [value]="emergency.created_at | date:'hh:mm'" label-placement="floating" fill="outline" [disabled]="true">
           <ion-icon class="modal-icon" name="time-outline" slot="start"></ion-icon>
         </ion-input>
       </div>
-
       <div class="question">
         <ion-input label="Medic on site" type = "text" [value] = "emergency.medic.first_name + ' ' + emergency.medic.last_name" mode="md" label-placement="floating" fill="outline" [disabled]="true">
           <ion-icon class="modal-icon" name="people-outline" slot="start"></ion-icon>
         </ion-input>
       </div>
-
       <div class="question">
         <ion-input [(ngModel)]="patient_name" label="Patient's name" type = "text" mode="md" label-placement="floating" fill="outline">
           <ion-icon class="modal-icon" name="body-outline" slot="start"></ion-icon>
         </ion-input>
       </div>
-
       <div class="question">
         <ion-input [(ngModel)]="location" label="Location of incident" type = "text" mode="md" label-placement="floating" fill="outline">
           <ion-icon class="modal-icon" name="location-outline" slot="start"></ion-icon>
         </ion-input>
       </div>
-
       <div class="question">
         <ng-container *ngIf="patient_condition !== 'other'" >
           <ion-select [(ngModel)]="patient_condition" label = "Patient's condition" mode="md" label-placement="floating" fill="outline">
@@ -64,13 +57,11 @@
           </ion-input>
         </ng-container>
       </div>
-
       <div class="question"> 
           <ion-textarea [(ngModel)]="history" label="History" mode = "md" type = "text" label-placement="floating" fill = "outline">
             <ion-icon class="modal-icon" name="document-text-outline" slot="start"></ion-icon>
           </ion-textarea>
       </div>
-
       <div class="question">
         <ng-container *ngIf="treatment_administration !== 'other'" >
           <ion-select [(ngModel)]="treatment_administration" label = "Medication/Treatment administered by" mode="md" label-placement="floating" fill="outline">
@@ -87,7 +78,6 @@
           </ion-input>
         </ng-container>
       </div>
-
       <div class="question">
         <ng-container *ngIf="transportation !== 'other'" >
           <ion-select [(ngModel)]="transportation" label = "Transportation requested to" mode="md" label-placement="floating" fill="outline">
@@ -104,7 +94,6 @@
           </ion-input>
         </ng-container>
       </div>
-
       <div class="question">
         <ng-container *ngIf="consultation !== 'other'" >
           <ion-select [(ngModel)]="consultation" label = "Consultation done with nurse" mode="md" label-placement="floating" fill="outline">
@@ -120,13 +109,11 @@
           </ion-input>
         </ng-container>
       </div>
-
       <div class="question">
         <ion-input [(ngModel)]="equipment" label="Material/equipment used (if any)" type = "text" mode="md" label-placement="floating" fill="outline">
           <ion-icon class="modal-icon" name="bandage-outline" slot="start"></ion-icon>
         </ion-input>
       </div>
-
       <div class="question">
         <ng-container *ngIf="issues !== 'other'" >
           <ion-select [(ngModel)]="issues" label = "Any issues encountered by the dispatch team" mode="md" label-placement="floating" fill="outline">
@@ -142,7 +129,6 @@
         </ng-container>
       </div>       
     </ion-list>
-
     <div class="submit-button-container">
       <ion-button fill="outline" mode="ios" class="submit-button" (click)="addCaseReport()">Submit</ion-button>
     </div>

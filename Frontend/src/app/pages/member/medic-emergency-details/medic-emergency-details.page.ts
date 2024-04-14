@@ -80,7 +80,6 @@ export class MedicEmergencyDetailsPage implements OnInit {
   addEmergencyDetails(){
     if(!this.patientName && !this.patientId && !this.medicDescription && 
       this.patientCondition? !this.otherPatientCondition : !this.patientCondition){
-
       this.presentToast("At least one field should not be empty");
 
     } else {

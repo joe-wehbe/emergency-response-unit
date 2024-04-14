@@ -1,129 +1,128 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { Router } from '@angular/router';
-import { SharedService } from 'src/app/services/shared.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from 'src/app/services/admin/admin.service';
-import { Time } from '@angular/common';
 import { ToastController } from '@ionic/angular';
+import { UserService } from 'src/app/services/user/user.service';
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.page.html',
   styleUrls: ['./user-profile.page.scss'],
 })
 export class UserProfilePage implements OnInit {
-  selectedUser: any;
-  user:any = [];
-  user_id: number = 0;
-  first_name:string = '';
-  last_name:string = '';
-  full_name:string = '';
-  user_rank:string = '';
-  lau_email:string = '';
-  student_id:string = '';
-  major:string = '';
-  phone_number:string = '';
-  bio:string = '';
-  tags: string[] = [];
-  profile_pic = '';
-  shifts: any[] = [];
+
   boardMemberChecked: boolean = false;
   medicChecked: boolean = false;
   dispatcherChecked: boolean = false;
 
-  constructor(private toastController:ToastController, private adminService:AdminService, private sharedService:SharedService, private router:Router, private alertController: AlertController) { }
+  user: any;
+  userId: string = '';
+  userShifts: any[] = [];
+  shifts: any[] = [];
+  semesterData: any[] = [];
+
+  constructor(
+    private toastController: ToastController,
+    private adminService: AdminService,
+    private router: Router,
+    private alertController: AlertController,
+    private userService: UserService,
+    private route:ActivatedRoute
+  ) {}
 
   ngOnInit() {
- this.selectedUser = this.sharedService.getVariableValue();
- this.adminService.get_user_info(this.selectedUser).subscribe(response => {
-  this.user = response;
-  this.user_id = (this.user['User'].id);
-  this.last_name = (this.user['User'].last_name);
-  this.first_name = (this.user['User'].first_name);
-  this.full_name = this.first_name + ' ' + this.last_name;
-  this.user_rank = this.getRole(this.user['User'].user_rank);
-  this.lau_email = (this.user['User'].lau_email);
-  this.student_id = (this.user['User'].student_id);
-  this.major = (this.user['User'].major);
-  this.phone_number = (this.user['User'].phone_number);
-  this.bio = this.checkBio(this.user['User'].bio);
-  if(this.user && this.user['User'] && this.user['User'].tags){
-  this.tags.push(...this.user['User'].tags.split(','));
-}else{this.tags = ["No", "tags", "yet"];}
-this.adminService.get_user_shifts(this.user_id).subscribe(response => {
-  const shifts = Object.values(response).reduce((acc: any[], curr: any[]) => acc.concat(curr), []); 
-  this.shifts = shifts.map((shift: { date: Date, startTime: Time, endTime: Time }) => ({ 
-    date : shift.date,
-    start_time: shift.startTime,
-    end_time: shift.endTime,
-  }));
-});
- });
-
-
-}
-
-
-
-  checkBio(bio: string): string {
-    if (!bio || bio.trim() === '') {
-        return 'No bio yet!';
-    } else {
-        return bio;
-    }
-}
-  getRole(roleNumber: number | string): string {
-    switch (Number(roleNumber)) {
-      case 1: 
-        return 'Dispatcher';
-      case 2:
-        return 'Medic';
-      case 3:
-        return 'Admin';
-      case 4:
-        return 'Medic & Admin';
-      case 5: 
-      return 'Dispatcher & Admin';
-      case 6:
-        return 'Dispatcher & Medic';
-       
-      default:
-        return 'Unknown';
-    }
+    this.getUserInfo();
+    this.getUserShifts();
+    this.getSemester();
   }
 
-  back(){
-    this.router.navigate(["./manage-members"])
-  }
-
-
-
-  highlightedDates = (isoString: any) => {
-    const date = new Date(isoString).toISOString().split('T')[0];
-    const shiftsOnDay = this.shifts.filter(shift => {
-      const shiftDate = new Date(shift.date).toISOString().split('T')[0];
-      return shiftDate === date;
+  getUserInfo(){
+    this.route.params.subscribe(params => {
+      this.userId = params['id'];
+      this.userService.getUserInfo(this.userId)
+      .subscribe({
+        next: (response) => {
+          console.log("Fetched user data:", response);
+          this.user = response['User'];
+        },
+        error: (error) => {
+          console.error("Error getting user info:", error);
+        },
+        complete: () => {
+        }
+      });
     });
+  }
 
-    return shiftsOnDay.length > 0 ? {
-      textColor: '#800080',
-      backgroundColor: '#ffc0cb',
-    } : undefined;
-  };
+  getUserShifts(){
+    this.route.params.subscribe(params => {
+      this.userId = params['id'];
+      this.userService.getUserShifts(this.userId)
+      .subscribe({
+        next: (response) => {
+          console.log("Fetched user shifts:", response);
+          const parsedResponse = JSON.parse(JSON.stringify(response));
+          this.userShifts = [].concat.apply([], Object.values(parsedResponse['Shifts']));
+  
+          this.userShifts.forEach(shiftRecord => {
+            this.shifts.push({ id: shiftRecord.id, day: shiftRecord.shift.day, start_time: shiftRecord.shift.time_start, end_time: shiftRecord.shift.time_end})
+          });
+        },
+        error: (error) => {
+          console.error("Error getting user info:", error);
+        },
+        complete: () => {
+        }
+      });
+    });
+  }
+
+  getSemester() {
+    this.userService.getSemester()
+    .subscribe({
+      next: (response) => {
+        console.log("Fetched semester data", response);
+        this.semesterData = (response as any)['Semester'];
+      },
+      error: (error) => {
+        console.error("Error getting semester data:", error);
+      },
+      complete: () => {
+      }
+    });
+  }
+
+  highlightedDates = (isoString: string) => {
+    const date = new Date(isoString);
+
+    if (this.semesterData.length > 0) {
+      const startDate = new Date(this.semesterData[0].start_date);
+      const endDate = new Date(this.semesterData[0].end_date);
+
+      if (date >= startDate && date <= endDate) {
+        const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'long' });
+        const shiftsOnDay = this.shifts.filter(shift => shift.day === dayOfWeek);
+
+        return shiftsOnDay.length > 0 ? {
+          textColor: '#800080',
+          backgroundColor: '#ffc0cb',
+        } : undefined;
+      }
+    }
+    return undefined;
+  }
 
   async showShiftTime(event: any) {
     const selectedDate = event.detail.value;
-    
     const highlighted = this.highlightedDates(selectedDate);
     
     if (highlighted) {
-      const selectedDateISO = new Date(selectedDate).toISOString().split('T')[0];
-      const shiftsOnDay = this.shifts.filter(shift => {
-        const shiftDate = new Date(shift.date).toISOString().split('T')[0];
-        return shiftDate === selectedDateISO;
-      });
-
+      const dayOfWeek = new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long' }); 
+      const shiftsOnDay = this.shifts.filter(shift => shift.day === dayOfWeek);
+  
       if (shiftsOnDay.length > 0) {
-        const shiftTimes = shiftsOnDay.map(shift => `from ${shift.startTime} to ${shift.endTime}`).join(', ');
+        const shiftTimes = shiftsOnDay.map(shift => `from ${shift.start_time} to ${shift.end_time}`).join(', ');
         const alert = await this.alertController.create({
           header: 'Shifts',
           subHeader: `${shiftTimes}`,
@@ -134,7 +133,7 @@ this.adminService.get_user_shifts(this.user_id).subscribe(response => {
               cssClass: 'alert-button-cancel'
             },
           ],
-          cssClass:'alert-dialog'
+          cssClass: 'alert-dialog'
         });
         await alert.present();
       } 
@@ -148,7 +147,7 @@ this.adminService.get_user_shifts(this.user_id).subscribe(response => {
         action: 'change-schedule',
       },
       handler: () => {
-        this.router.navigate(["./change-schedule"])
+        this.router.navigate(['./change-schedule', this.userId]);
       },
     },
     {
@@ -157,7 +156,7 @@ this.adminService.get_user_shifts(this.user_id).subscribe(response => {
         action: 'change-rank',
       },
       handler: () => {
-        this.rankAlert()
+        this.rankAlert();
       },
     },
     {
@@ -168,7 +167,7 @@ this.adminService.get_user_shifts(this.user_id).subscribe(response => {
         action: 'delete',
       },
       handler: () => {
-        this.removeAlert()
+        this.removeAlert();
       },
     },
     {
@@ -184,7 +183,7 @@ this.adminService.get_user_shifts(this.user_id).subscribe(response => {
     const alert = await this.alertController.create({
       header: 'Change rank',
       subHeader: 'Select which rank(s) to promote/demote this member to.',
-      cssClass: "alert-dialog",
+      cssClass: 'alert-dialog',
       mode: 'ios',
       inputs: [
         {
@@ -192,25 +191,31 @@ this.adminService.get_user_shifts(this.user_id).subscribe(response => {
           type: 'checkbox',
           label: 'Board member',
           value: 'Board member',
-          checked: this.boardMemberChecked, // Bind to component property
-          handler: () => { this.boardMemberChecked = !this.boardMemberChecked; }
+          checked: this.boardMemberChecked,
+          handler: () => {
+            this.boardMemberChecked = !this.boardMemberChecked;
+          },
         },
         {
           name: 'medic',
           type: 'checkbox',
           label: 'Medic',
           value: 'Medic',
-          checked: this.medicChecked, // Bind to component property
-          handler: () => { this.medicChecked = !this.medicChecked; }
+          checked: this.medicChecked,
+          handler: () => {
+            this.medicChecked = !this.medicChecked;
+          },
         },
         {
           name: 'dispatcher',
           type: 'checkbox',
           label: 'Dispatcher',
           value: 'Dispatcher',
-          checked: this.dispatcherChecked, // Bind to component property
-          handler: () => { this.dispatcherChecked = !this.dispatcherChecked; }
-        }
+          checked: this.dispatcherChecked,
+          handler: () => {
+            this.dispatcherChecked = !this.dispatcherChecked;
+          },
+        },
       ],
       buttons: [
         {
@@ -233,65 +238,62 @@ this.adminService.get_user_shifts(this.user_id).subscribe(response => {
             if (this.dispatcherChecked) {
               selectedOptions.push('Dispatcher');
             }
-
-            this.changeRank(selectedOptions);
-          }
+            this.setRank(selectedOptions);
+          },
         },
       ],
     });
-
     await alert.present();
   }
 
-  changeRank(ranks: string[]){
-    const hasMedic = ranks.includes('Medic');
-    const hasDispatcher = ranks.includes('Dispatcher');
-    const hasBoardMember = ranks.includes('Board member');
-    let rank: number;
-    if (hasMedic && hasDispatcher) {
-      rank = 6;
-    } else if (hasDispatcher && !hasMedic && !hasBoardMember) {
-      rank= 1;
-    } else if (hasMedic && !hasDispatcher && !hasBoardMember) {
-      rank= 2;
-    } else if (hasBoardMember && !hasMedic && !hasDispatcher) {
-      rank= 3;
-    } else if (hasMedic && hasBoardMember && !hasDispatcher) {
-      rank= 4;
-    } else if (hasDispatcher && hasBoardMember && !hasMedic) {
-      rank= 5;
-    } else {
-      rank= 0;
+  setRank(ranks: string[]) {
+    const isMedic = ranks.includes('Medic');
+    const isDispatcher = ranks.includes('Dispatcher');
+    const isBoardMember = ranks.includes('Board member');
+  
+    if (isDispatcher && !isMedic && !isBoardMember) { // Dispatcher
+      this.changeRank(1);
     }
-    this.adminService.change_rank(this.selectedUser, rank).subscribe(response => {
-      this.handleResponseAdd(response);
-    });
-
+    if (!isDispatcher && isMedic && !isBoardMember) { // Medic
+      this.changeRank(2);
+    }
+    if (!isDispatcher && !isMedic && isBoardMember) { // Admin
+      this.changeRank(3);
+    }
+    if (!isDispatcher && isMedic && isBoardMember) { // Medic & Admin
+      this.changeRank(4);
+    }
+    if (isDispatcher && !isMedic && isBoardMember) { // Dispatcher & Admin
+      this.changeRank(5);
+    }
+    if (isDispatcher && isMedic && !isBoardMember) { // Dispatcher & Medic
+      this.changeRank(6);
+    }
+    if(isDispatcher && isMedic && isBoardMember){ // All selected
+      this.presentToast("A member can have at most 2 ranks");
+    }
   }
 
-   
-  async handleResponseAdd(response: any) {
-    const str = JSON.stringify(response);
-    const result = JSON.parse(str);
-    const status = result['message'];
-    if (status == "Rank updated successfully") {
-      this.router.navigate(["./manage-members"]);
-    } else {
-      const toast = await this.toastController.create({
-        message: 'Failed to change rank',
-        duration: 2000, 
-        position: 'bottom'
-      });
-      toast.present();
-    }
+  changeRank(rank: number){
+    this.adminService.changeRank(this.userId, rank)
+    .subscribe({
+      next: (response) => {
+        console.log('Rank updated successfully', response);
+        this.presentToast(this.user.first_name + ' ' + this.user.last_name + "'s rank is updated");
+        this.getUserInfo();
+      },
+      error: (error) => {
+        console.error('Error updating rank:', error);
+        this.presentToast("An error occured");
+      },
+    });
   }
 
   async removeAlert() {
     const alert = await this.alertController.create({
       header: 'Remove member',
       subHeader: 'Are you sure you want to permanently remove this member from the unit?',
-      cssClass: "alert-dialog",
-
+      cssClass: 'alert-dialog',
       buttons: [
         {
           text: 'Cancel',
@@ -305,8 +307,7 @@ this.adminService.get_user_shifts(this.user_id).subscribe(response => {
           text: 'Remove',
           cssClass: 'alert-button-ok-red',
           handler: () => {
-            // Call your API here
-            this.removeMember(this.user_id);
+            this.removeMember(this.userId);
           },
         },
       ],
@@ -314,28 +315,30 @@ this.adminService.get_user_shifts(this.user_id).subscribe(response => {
     await alert.present();
   }
 
-  removeMember(id: number){
-    this.adminService.remove_member(id).subscribe(response => {
-      this.handleResponse(response);
+  removeMember(id: string) {
+    this.adminService.removeMember(id)
+    .subscribe({
+      next: (response) => {
+        console.log('User removed successfully', response);
+        this.presentToast(this.user.first_name + ' ' + this.user.last_name + " is no longer in the unit.");
+        this.router.navigate(['./manage-members']);
+      },
+      error: (error) => {
+        console.error('Error removing user:', error);
+      },
     });
-
   }
 
-  async handleResponse(response: any) {
-    const str = JSON.stringify(response);
-    const result = JSON.parse(str);
-    console.log(result);
-   if (result.message == "User removed successfully") {
-    this.router.navigate(["./manage-members"]).then(() => {
-      window.location.reload();
+  async presentToast(message:string){
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom',
     });
-    } else {
-      const toast = await this.toastController.create({
-        message: 'Failed to remove member',
-        duration: 2000, 
-        position: 'bottom'
-      });
-      toast.present();
-    }
+    toast.present();
+  }
+
+  back() {
+    this.router.navigate(['./manage-members']);
   }
 }

@@ -92,7 +92,7 @@ class UserController extends Controller{
         }
     }
 
-    public function getUserShifts($userId){ // ALSO IMPLEMENTED IN ADMIN CONTROLLER (ADJUST)
+    public function getUserShifts($userId){
         try {
             $user = User::find($userId);
     
@@ -142,7 +142,7 @@ class UserController extends Controller{
                     $coverRequest->user_id = $request->user_id;
                     $coverRequest->shift_id = $request->shift_id;
                     $coverRequest->reason = $request->reason;
-                    $coverRequest->request_status = 1;
+                    $coverRequest->request_status = 0;
                     $coverRequest->save();
 
                     return response()->json(['message' => 'Cover request added successfully'], 201);
@@ -235,22 +235,32 @@ class UserController extends Controller{
     }
 
     // COMMUNITY PAGE
-    public function getAllUsers(){
+    public function getAllMembers($id){
         try {
-            $users = User::with("rank")->where("user_type", 1)->get();
+            $users = User::with(["rank", "hasShift"])
+                        ->where("user_type", 1)
+                        ->whereNotIn("id", [$id])
+                        ->get()
+                        ->map(function ($user) {
+                            $user['has_shift'] = $user->hasShift->isNotEmpty();
+                            unset($user->hasShift);
+                            return $user;
+                        });
             return response()->json(['users' => $users], 200);
-        }  catch (Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
+    }
+    
+    public function getUsersOnShift(){
+        $users = User::whereHas('hasShift', function ($query) {$query->where('shift_status', 1);})->get();
+        return response()->json(['users on shift' => $users], 200);
     }
 
     // ANNOUNCEMENTS PAGE
     public function getAllAnnouncements(){
         try {
-            $announcements = Announcement::with('admin')->join('users', 'announcements.admin_id', '=', 'users.id')
-                ->select('announcements.*', 'users.first_name as admin_first_name', 'users.last_name as admin_last_name')
-                ->get();
-    
+            $announcements = Announcement::with('admin')->orderBy('created_at', 'desc')->get();
             return response()->json(['announcements' => $announcements], 200);
         }  catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
@@ -258,9 +268,9 @@ class UserController extends Controller{
     }
 
     // COVER REQUESTS PAGE
-    public function getAllCoverRequests(){
+    public function getAllCoverRequests($id){
         try {
-            $coverRequests = Cover_request::with(['user' => function ($query) {
+            $coverRequests = Cover_request::whereNotIn("user_id", [$id])->with(['user' => function ($query) {
                 $query->with('rank');
             }])->with("shift")->where('request_status', 0)->get();
             return response()->json(['coverRequests' => $coverRequests], 200);
@@ -340,31 +350,12 @@ class UserController extends Controller{
     // MEDICAL FAQs PAGE
     public function getMedicalFaqs($type){
         try {
-            $faqs = Medical_Faq::where('type', $type)->get();
+            $faqs = Medical_Faq::where('type', $type)->orderBy('created_at', 'desc')->get();
             return response()->json(['medicalFAQ' => $faqs], 200);
         } catch (ModelNotFoundException $exception) {
             return response()->json(['error' => 'Medical FAQ not found'], 404);
         } catch (Exception $exception) {
             return response()->json(['error' => 'Failed to fetch medical FAQ'], 500);
-        }
-    }
-
-
-
-
-
-
-
-
-
-    // UNKNOWN
-    public function getShiftCoverRequests($shiftId){
-        try {
-            $coverRequestsCount = Cover_request::where('shift_id', $shiftId)->count();
-            
-            return response()->json(['coverRequestsCount' => $coverRequestsCount], 200);
-        }  catch (Exception $exception) {
-            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 }

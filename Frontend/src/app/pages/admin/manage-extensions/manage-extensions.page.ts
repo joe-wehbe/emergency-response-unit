@@ -3,14 +3,13 @@ import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { AdminService } from 'src/app/services/admin/admin.service';
-import { HttpClient} from '@angular/common/http';
 import { ToastController } from '@ionic/angular';
-import { catchError } from 'rxjs/operators';
+import { UserService } from 'src/app/services/user/user.service';
 
-interface User {
+interface Extension {
   id: number;
   name: string;
-  extension: string;
+  number: string;
 }
 
 @Component({
@@ -19,105 +18,88 @@ interface User {
   styleUrls: ['./manage-extensions.page.scss'],
 })
 export class ManageExtensionsPage implements OnInit {
+
   name: string = '';
   number: string = '';
-  users: User[] = [
-  ];
+  extensions: Extension[] = [];
+  groupedExtensions: { letter: string, extensions: Extension[] }[] = [];
+  filteredGroupedExtensions: { letter: string, extensions: Extension[] }[] = [];
 
-  groupedUsers: { letter: string, users: User[] }[] = [];
-  filteredGroupedUsers: { letter: string, users: User[] }[] = [];
+  constructor(
+    private toastController:ToastController, 
+    private adminService:AdminService, 
+    private router:Router, 
+    private modalController:ModalController, 
+    private alertController:AlertController,
+    private userService:UserService,
+  ) {}
 
-  constructor(private toastController:ToastController, private http:HttpClient, private adminService:AdminService, private router:Router, private modalController:ModalController, private alertController:AlertController) {
-    
-    
-  }
   ngOnInit() {
-
-    this.adminService.get_extensions().subscribe(response => {
-      const extensions = Object.values(response).reduce((acc: any[], curr: any[]) => acc.concat(curr), []); 
-      this.users = extensions.map((user: { id: number, name: string, number: string }) => ({ 
-        id : user.id,
-        name: user.name,
-        number: user.number,
-      }));
-
-    this.groupUsers();
-    this.filteredGroupedUsers = [...this.groupedUsers];
-
-    });
-
+    this.getExtensions();
   }
 
-  groupUsers() {
-    this.users.sort((a, b) => a.name.localeCompare(b.name));
-  
-    const groups: any = {};
-    this.users.forEach(user => {
-      const firstLetter = user.name.charAt(0).toUpperCase();
-      groups[firstLetter] = groups[firstLetter] || [];
-      groups[firstLetter].push(user);
+  getExtensions(){
+    this.userService.getExtensions().subscribe(response => {
+      const extensions = Object.values(response).reduce((acc: any[], curr: any[]) => acc.concat(curr), []); 
+      this.extensions = extensions.map((extension: { id: number, name: string, number: string }) => ({ 
+        id : extension.id,
+        name: extension.name,
+        number: extension.number,
+      }));
+      this.groupExtensions();
+      this.filteredGroupedExtensions = [...this.groupedExtensions];
     });
-  
-    this.groupedUsers = Object.keys(groups).map(letter => ({
+  }
+
+  groupExtensions() {
+    this.extensions.sort((a, b) => a.name.localeCompare(b.name));
+    const groups: any = {};
+    this.extensions.forEach(extension => {
+      const firstLetter = extension.name.charAt(0).toUpperCase();
+      groups[firstLetter] = groups[firstLetter] || [];
+      groups[firstLetter].push(extension);
+    });
+    this.groupedExtensions = Object.keys(groups).map(letter => ({
       letter,
-      users: groups[letter]
+      extensions: groups[letter]
     }));
   }
 
   handleInput(event: any) {
     const query = event.target.value.trim().toLowerCase();
-
     if (query === '') {
-      this.filteredGroupedUsers = [...this.groupedUsers];
+      this.filteredGroupedExtensions = [...this.groupedExtensions];
       return;
     }
-
-    this.filteredGroupedUsers = this.groupedUsers.map(group => ({
+    this.filteredGroupedExtensions = this.groupedExtensions.map(group => ({
       letter: group.letter,
-      users: group.users.filter(user =>
-        (user.name.toLowerCase()).includes(query)
+      extensions: group.extensions.filter(extension =>
+        (extension.name.toLowerCase()).includes(query)
       )
-    })).filter(filteredGroup => filteredGroup.users.length > 0);
+    })).filter(filteredGroup => filteredGroup.extensions.length > 0);
   }
 
-
-
-  back(){
-    this.router.navigate(['/admin-panel']);
-  }
-
-
-
-  dismiss(){
-    this.modalController.dismiss();
-  }
-
-   add() {
-    this.adminService.add_extension(this.name, this.number).subscribe(response => {
-      this.handleResponse(response);
+  addExtension() {
+    this.adminService.addExtension(this.name, this.number)
+    .subscribe({
+      next: (response) => {
+        console.log('Added extension successfully:', response);
+        this.presentToast("Extension added");
+        this.name = '';
+        this.number = '';
+        this.dismiss();
+        this.ngOnInit();
+      },
+      error: (error) => {
+        console.error('Error adding extension:', error);
+      },
     });
-  }
-  
-  async handleResponse(response: any) {
-    const str = JSON.stringify(response);
-    const result = JSON.parse(str);
-    const status = result['status'];
-    if (status == "Success") {
-      window.location.reload();
-    } else {
-      const toast = await this.toastController.create({
-        message: 'Failed to add extension',
-        duration: 2000, 
-        position: 'bottom'
-      });
-      toast.present();
-    }
   }
 
   async deleteAlert(id: number) {
     const alert = await this.alertController.create({
       header: 'Delete Extension',
-      subHeader: 'Are you sure you want to delete this extension?',
+      subHeader: 'Are you sure you want to permanently delete this extension?',
       cssClass:'alert-dialog',
       buttons: [
         {
@@ -129,7 +111,6 @@ export class ManageExtensionsPage implements OnInit {
           text: 'Delete',
           cssClass: 'alert-button-ok-red',
           handler: () => {
-            // Call your API here
             this.deleteExtension(id);
           }
         },
@@ -138,38 +119,35 @@ export class ManageExtensionsPage implements OnInit {
     await alert.present();
   }
 
+  deleteExtension(id:number){
+    this.adminService.deleteExtension(id)
+    .subscribe({
+      next: (response) => {
+        console.log('Deleted extension successfully:', response);
+        this.presentToast("Extension deleted");
+        this.dismiss();
+        this.ngOnInit();
+      },
+      error: (error) => {
+        console.error('Error deleting exntesion:', error);
+      },
+    });
+  }
 
-  async deleteExtension(ext_id: number){
-    try {
-      await this.http.delete<any>(`http://localhost:8000/api/v0.1/admin/delete-extension/${ext_id}`).pipe(
-        catchError(async (error) => {
-          console.error('Error occurred while deleting extension:', error);
-          const toast = await this.toastController.create({
-            message: 'Failed to delete extension',
-            duration: 2000, 
-            position: 'bottom'
-          });
-          toast.present();
-          throw error;
-        })
-      ).toPromise();
-  
-      const toast = await this.toastController.create({
-        message: 'Extension deleted successfully',
-        duration: 2000, 
-        position: 'bottom'
-      });
-      toast.present();
-      window.location.reload();
-      
-    } catch (error) {
-      console.error('Error occurred while deleting extension:', error);
-      const toast = await this.toastController.create({
-        message: 'Failed to delete extension',
-        duration: 2000, 
-        position: 'bottom'
-      });
-      toast.present();
-    }
+  async presentToast(message:string){
+    const toast = await this.toastController.create({
+         message: message,
+         duration: 2000, 
+         position: 'bottom'
+    });
+    toast.present();
+  }
+
+  dismiss(){
+    this.modalController.dismiss();
+  }
+
+  back(){
+    this.router.navigate(['/admin-panel']);
   }
 }

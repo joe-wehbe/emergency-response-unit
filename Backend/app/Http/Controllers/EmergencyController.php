@@ -297,7 +297,7 @@ class EmergencyController extends Controller{
         }
     }
 
-    // EMERGENCY RECORDS PAGE
+    // EMERGENCY RECORDS TAB
     public function getAllEmergenciesWithLastAssessment(){
         try {
             $emergencies = Emergency::with('medic')

@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EmergencyService } from 'src/app/services/emergency/emergency.service';
 import { UserService } from 'src/app/services/user/user.service';
 
-
 @Component({
   selector: 'app-case-report-form',
   templateUrl: './case-report-form.page.html',
@@ -11,30 +10,32 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class CaseReportFormPage implements OnInit {
 
-  otherInput: string = ''; 
-
-  emergency_id: number = 0;
   patient_name: string = "";
   location: string = "";
   patient_condition: string = "Serious";
   history: string = "";
   treatment_administration: string ="first responder team";
   transportation: string = "lau clinic";
-  equipment: string = "";
   consultation: string = "yes";
+  equipment: string = "";
   issues: string = "yes";
+  otherInput: string = ''; 
 
   emergency: any;
   emergencyId:number = 0;
   previousRoute: string = '/case-report';
 
-  constructor(private router:Router, private route: ActivatedRoute, private emergencyService: EmergencyService, private userService: UserService) { }
+  constructor(
+    private router:Router, 
+    private route: ActivatedRoute, 
+    private emergencyService: EmergencyService, 
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.previousRoute = params['from']  || '/case-report';
     });
-
     this.getEmergency();
   }
  

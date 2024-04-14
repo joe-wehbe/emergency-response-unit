@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { AdminService } from 'src/app/services/admin/admin.service';
 
 @Component({
@@ -16,9 +16,11 @@ export class SignupRequestsPage implements OnInit {
     private router:Router, 
     private alertController: AlertController,
     private adminService: AdminService,
-  ) { }
+    private toastController: ToastController,
+  ) {}
 
   ngOnInit() {
+    this.requests = [];
     this.getSignupRequests();
   }
 
@@ -46,6 +48,8 @@ export class SignupRequestsPage implements OnInit {
     .subscribe({
       next: () => {
         console.log("Signup request accepted");
+        this.presentToast("Registration request accepted");
+        this.ngOnInit();
       },
       error: (error) => {
         console.error("Error accepting signup requests:", error);
@@ -81,6 +85,8 @@ export class SignupRequestsPage implements OnInit {
     .subscribe({
       next: () => {
         console.log("Signup request rejected");
+        this.presentToast("Registration request rejected");
+        this.ngOnInit();
       },
       error: (error) => {
         console.error("Error rejecting signup requests:", error);
@@ -109,6 +115,15 @@ export class SignupRequestsPage implements OnInit {
       ],
     });
     await alert.present();
+  }
+
+  async presentToast(message:string){
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom',
+    });
+    toast.present();
   }
 
   back(){

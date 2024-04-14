@@ -31,10 +31,6 @@ export class ReadingMedicalFaqPage implements OnInit {
     this.getMedicalFAQs();
   }
 
-  back() {
-    this.router.navigate(['./medical-faqs']);
-  }
-
   getMedicalFAQs() {
     this.route.params.subscribe((params) => {
       this.type = params['type'];
@@ -45,7 +41,6 @@ export class ReadingMedicalFaqPage implements OnInit {
             console.log('Fetched all medical FAQs: ', response);
             const parsedResponse = JSON.parse(JSON.stringify(response));
             this.allFAQs = [].concat.apply([], Object.values(parsedResponse['medicalFAQ']));
-
             this.allFAQs.forEach((faq) => {
               this.medicalFaqs.push({
                 id: faq.id,
@@ -64,5 +59,9 @@ export class ReadingMedicalFaqPage implements OnInit {
         },
       });
     });
+  }
+
+  back() {
+    this.router.navigate(['./medical-faqs']);
   }
 }

@@ -8,6 +8,7 @@ import { Observable, tap } from 'rxjs';
 export class UserService {
   
   private base_url: string = 'http://localhost:8000/api/v0.1/user/';
+  private userId: string = localStorage.getItem("user_id") ?? '';
 
   constructor(private http: HttpClient) {}
 
@@ -17,20 +18,10 @@ export class UserService {
     return headers;
   }
 
-  getUserInfo(id: string): Observable<any> {
-    return this.http.get(this.base_url + id + '/get-user-info', {
-      headers: this.getAuthHeaders(),
-    });
-  }
-
-  getRequestStatus(email: string) {
-    return this.http.get(this.base_url + 'get-request-status/' + email);
-  }
-
+  // REPORT PAGE
   apply(student_id: number, phone_number: string, major: string) {
-    
     const body = {
-      user_id: 1, // GET USER ID FROM THE LOCAL STORAGE
+      user_id: this.userId,
       student_id: student_id,
       phone_number: phone_number,
       major: major,
@@ -38,96 +29,80 @@ export class UserService {
     return this.http.put(this.base_url + 'apply', body);
   }
 
-  getUserShifts() {
-    return this.http.get(this.base_url + 'get-user-shifts/1', {
-      headers: this.getAuthHeaders(),
-    }); // GET USER ID FROM THE LOCAL STORAGE
+  getRequestStatus(email: string) {
+    return this.http.get(this.base_url + 'get-request-status/' + email);
+  }
+
+  // PROFILE PAGE
+  getUserInfo(id:string): Observable<any> {
+    return this.http.get(this.base_url + 'get-user-info/' + id, {headers: this.getAuthHeaders()});
+  }
+
+  getUserShifts(id:string) {
+    return this.http.get(this.base_url + 'get-user-shifts/' + id, {headers: this.getAuthHeaders()});
   }
 
   getSemester() {
-    return this.http.get(this.base_url + 'get-semester', {
-      headers: this.getAuthHeaders(),
-    });
-  }
-
-  markAttendance() {
-    const body = {
-      user_id: 1, // GET USER ID FROM THE LOCAL STORAGE
-    };
-    return this.http.put(this.base_url + 'mark-attendance', body, {
-      headers: this.getAuthHeaders(),
-    });
-  }
-
-  editBio($bio: string) {
-    const body = {
-      id: 1, // GET USER ID FROM THE LOCAL STORAGE
-      bio: $bio,
-    };
-    return this.http.put(this.base_url + 'edit-bio', body, {
-      headers: this.getAuthHeaders(),
-    });
-  }
-
-  editTags($tags: string) {
-    const body = {
-      id: 1, // GET USER ID FROM THE LOCAL STORAGE
-      tags: $tags,
-    };
-    return this.http.put(this.base_url + 'edit-tags', body, {
-      headers: this.getAuthHeaders(),
-    });
+    return this.http.get(this.base_url + 'get-semester', {headers: this.getAuthHeaders()});
   }
 
   requestCover($shift_id: number, $reason: string) {
     const body = {
-      user_id: 1, // GET USER ID FROM THE LOCAL STORAGE
+      user_id: this.userId,
       shift_id: $shift_id,
-      reason: $reason,
+      reason: $reason
     };
-    return this.http.post(this.base_url + 'request-cover', body, {
-      headers: this.getAuthHeaders(),
-    });
+    return this.http.post(this.base_url + 'request-cover', body, {headers: this.getAuthHeaders()});
   }
 
-  getAllUsers() {
-    return this.http.get(this.base_url + 'get-all-users', {
-      headers: this.getAuthHeaders(),
-    });
+  markAttendance() {
+    const body = {user_id: this.userId};
+    return this.http.put(this.base_url + 'mark-attendance', body, {headers: this.getAuthHeaders()});
   }
 
+  // EDIT PROFILE PAGE
+  editBio($bio: string) {
+    const body = {
+      id: this.userId,
+      bio: $bio
+    };
+    return this.http.put(this.base_url + 'edit-bio', body, {headers: this.getAuthHeaders()});
+  }
+
+  editTags($tags: string) {
+    const body = {
+      id: this.userId,
+      tags: $tags
+    };
+    return this.http.put(this.base_url + 'edit-tags', body, {headers: this.getAuthHeaders()});
+  }
+
+  // COMMUNITY PAGE
+  getAllMembers() {
+    return this.http.get(this.base_url + 'get-all-members/' + this.userId, {headers: this.getAuthHeaders()});
+  }
+
+  // ANNOUNCEMENTS PAGE
   getAllAnnouncements() {
-    return this.http.get(this.base_url + 'get-all-announcements', {
-      headers: this.getAuthHeaders(),
-    });
+    return this.http.get(this.base_url + 'get-all-announcements', {headers: this.getAuthHeaders()});
   }
 
+  // COVER REQUESTS PAGE
   getAllCoverRequests() {
-    return this.http.get(this.base_url + 'get-all-cover-requests', {
-      headers: this.getAuthHeaders(),
-    });
+    return this.http.get(this.base_url + 'get-all-cover-requests/' + this.userId, {headers: this.getAuthHeaders()});
   }
 
-  getExtensions() {
-    return this.http.get(this.base_url + 'get-extensions');
-  }
-
-  getMedicalFAQs(type: string) {
-    const response = this.http.get(this.base_url + 'get-medical-faqs/' + type);
-    return response;
-  }
-
-  acceptCoverRequests($id: number) {
+  acceptCoverRequest($id: number) {
     const body = {
       id: $id,
-      covered_by: 1, // GET USER ID FROM THE LOCAL STORAGE
+      covered_by: this.userId,
     };
     return this.http.put(this.base_url + 'accept-cover-request', body);
   }
 
+  // CASE REPORTS PAGE
   addCaseReport(emergency_id: number, patient_name: string, location: string, patient_condition: string, history: string,
     treatment_administration: string, transportation: string, equipment: string, consultation: string, issues: string) {
-      
     const body = {
       id: emergency_id,
       patient_name: patient_name,
@@ -141,5 +116,15 @@ export class UserService {
       issues: issues,
     };
     return this.http.put(this.base_url + 'add-case-report', body);
+  }
+
+  // EXTENSIONS PAGE
+  getExtensions() {
+    return this.http.get(this.base_url + 'get-extensions');
+  }
+
+  // MEDICAL FAQs PAGE
+  getMedicalFAQs(type: string) {
+    return this.http.get(this.base_url + 'get-medical-faqs/' + type);
   }
 }

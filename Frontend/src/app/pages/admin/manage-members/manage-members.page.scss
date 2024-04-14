@@ -84,8 +84,8 @@ ion-list {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px;
-}
+  padding-top: 10px;
+  padding-bottom: 10px;}
 
 .icon{
   margin: 5%;
@@ -95,6 +95,13 @@ ion-list {
 
 .user-name{
   padding-top: 5px;
+  font-weight: bold;  
+  text-align: center; 
+}
+
+.user-role{
+  opacity: 0.8;
+  text-align: center;
 }
 
 .gray-bottom{
@@ -104,6 +111,16 @@ ion-list {
   height: 20px;
   width: 100%;
   background-color: #838383;
+}
+
+.green-bottom{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  width: 100%;
+  background-color: green;
+  opacity: 0.8;
 }
 
 ion-fab-button {
