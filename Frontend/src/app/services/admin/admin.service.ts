@@ -108,12 +108,14 @@ export class AdminService {
       "request_id": request_id
     }
     return this.http.put(this.base_url + "accept-signup-request/" + request_id, body, { headers: this.getAuthHeaders() }); 
+    return this.http.put(this.base_url + "accept-signup-request/" + request_id, body, { headers: this.getAuthHeaders() }); 
   }
 
   rejectSignupRequest(request_id:number){
     const body = {
       "request_id": request_id
     }
+    return this.http.put(this.base_url + "reject-signup-request/" + request_id, body, { headers: this.getAuthHeaders() }); 
     return this.http.put(this.base_url + "reject-signup-request/" + request_id, body, { headers: this.getAuthHeaders() }); 
   }
 }

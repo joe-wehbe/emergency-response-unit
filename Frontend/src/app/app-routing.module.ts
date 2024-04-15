@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { TabsComponent } from './components/tabs/tabs.component';
-
+import { AuthGuard } from './guards/auth.guard';
+import { AdminGuard } from './guards/admin.guard';
 const routes: Routes = [
 
   /* STARTING ROUTES */
@@ -22,6 +23,7 @@ const routes: Routes = [
   },
   {
     path: 'tabs',
+    canActivate: [AuthGuard],
     component: TabsComponent,
     children: [
       {
@@ -45,61 +47,75 @@ const routes: Routes = [
   },
   {
     path: 'emergency-details/:id',
-    loadChildren: () => import('./pages/member/emergency-details/emergency-details.module').then( m => m.EmergencyDetailsPageModule), data: { showSideMenu: false }
+    loadChildren: () => import('./pages/member/emergency-details/emergency-details.module').then( m => m.EmergencyDetailsPageModule), data: { showSideMenu: false },
+    canActivate: [AuthGuard]
   },
   {
     path: 'medic-emergency-details/:id',
-    loadChildren: () => import('./pages/member/medic-emergency-details/medic-emergency-details.module').then( m => m.MedicEmergencyDetailsPageModule)
+    loadChildren: () => import('./pages/member/medic-emergency-details/medic-emergency-details.module').then( m => m.MedicEmergencyDetailsPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'profile',
-    loadChildren: () => import('./pages/member/profile/profile.module').then( m => m.ProfilePageModule)
+    loadChildren: () => import('./pages/member/profile/profile.module').then( m => m.ProfilePageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'edit-profile',
-    loadChildren: () => import('./pages/member/edit-profile/edit-profile.module').then( m => m.EditProfilePageModule), data: { showSideMenu: false }
+    loadChildren: () => import('./pages/member/edit-profile/edit-profile.module').then( m => m.EditProfilePageModule), data: { showSideMenu: false },
+    canActivate: [AuthGuard]
   },
   {
     path: 'community',
-    loadChildren: () => import('./pages/member/community/community.module').then( m => m.CommunityPageModule)
+    loadChildren: () => import('./pages/member/community/community.module').then( m => m.CommunityPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'announcements',
-    loadChildren: () => import('./pages/member/announcements/announcements.module').then( m => m.AnnouncementsPageModule)
+    loadChildren: () => import('./pages/member/announcements/announcements.module').then( m => m.AnnouncementsPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'cover-requests',
-    loadChildren: () => import('./pages/member/cover-requests/cover-requests.module').then( m => m.CoverRequestsPageModule)
+    loadChildren: () => import('./pages/member/cover-requests/cover-requests.module').then( m => m.CoverRequestsPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'case-reports',
-    loadChildren: () => import('./pages/member/case-reports/case-reports.module').then( m => m.CaseReportsPageModule)
+    loadChildren: () => import('./pages/member/case-reports/case-reports.module').then( m => m.CaseReportsPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'case-report-form/:id',
-    loadChildren: () => import('./pages/member/case-report-form/case-report-form.module').then( m => m.CaseReportFormPageModule), data: { showSideMenu: false }
+    loadChildren: () => import('./pages/member/case-report-form/case-report-form.module').then( m => m.CaseReportFormPageModule), data: { showSideMenu: false },
+    canActivate: [AuthGuard]
   },
   {
     path: 'extensions',
-    loadChildren: () => import('./pages/member/extensions/extensions.module').then( m => m.ExtensionsPageModule)
+    loadChildren: () => import('./pages/member/extensions/extensions.module').then( m => m.ExtensionsPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'medical-faqs',
-    loadChildren: () => import('./pages/member/medical-faqs/medical-faqs.module').then( m => m.MedicalFaqsPageModule)
+    loadChildren: () => import('./pages/member/medical-faqs/medical-faqs.module').then( m => m.MedicalFaqsPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'reading-medical-faq',
-    loadChildren: () => import('./pages/member/reading-medical-faq/reading-medical-faq.module').then( m => m.ReadingMedicalFaqPageModule), data: { showSideMenu: false }
+    loadChildren: () => import('./pages/member/reading-medical-faq/reading-medical-faq.module').then( m => m.ReadingMedicalFaqPageModule), data: { showSideMenu: false },
+    canActivate: [AuthGuard]
   },
 
   /* Admin Routes */
   {
     path: 'admin-panel',
-    loadChildren: () => import('./pages/admin/admin-panel/admin-panel.module').then( m => m.AdminPanelPageModule)
+    loadChildren: () => import('./pages/admin/admin-panel/admin-panel.module').then( m => m.AdminPanelPageModule),
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'manage-members',
-    loadChildren: () => import('./pages/admin/manage-members/manage-members.module').then( m => m.ManageMembersPageModule), data: { showSideMenu: false }
+    loadChildren: () => import('./pages/admin/manage-members/manage-members.module').then( m => m.ManageMembersPageModule), data: { showSideMenu: false },
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'user-profile/:id',
@@ -111,37 +127,45 @@ const routes: Routes = [
   },
   {
     path: 'manage-announcements',
-    loadChildren: () => import('./pages/admin/manage-announcements/manage-announcements.module').then( m => m.ManageAnnouncementsPageModule), data: { showSideMenu: false }
+    loadChildren: () => import('./pages/admin/manage-announcements/manage-announcements.module').then( m => m.ManageAnnouncementsPageModule), data: { showSideMenu: false },
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'manage-faqs',
-    loadChildren: () => import('./pages/admin/manage-faqs/manage-faqs.module').then( m => m.ManageFAQsPageModule), data: { showSideMenu: false }
+    loadChildren: () => import('./pages/admin/manage-faqs/manage-faqs.module').then( m => m.ManageFAQsPageModule), data: { showSideMenu: false },
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'medical-faq',
-    loadChildren: () => import('./pages/admin/medical-faq/medical-faq.module').then( m => m.MedicalFAQPageModule), data: { showSideMenu: false }
+    loadChildren: () => import('./pages/admin/medical-faq/medical-faq.module').then( m => m.MedicalFAQPageModule), data: { showSideMenu: false },
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'manage-extensions',
-    loadChildren: () => import('./pages/admin/manage-extensions/manage-extensions.module').then( m => m.ManageExtensionsPageModule), data: { showSideMenu: false }
+    loadChildren: () => import('./pages/admin/manage-extensions/manage-extensions.module').then( m => m.ManageExtensionsPageModule), data: { showSideMenu: false },
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'emergency-records',
-    loadChildren: () => import('./pages/admin/emergency-records/emergency-records.module').then( m => m.EmergencyRecordsPageModule), data: { showSideMenu: false }
+    loadChildren: () => import('./pages/admin/emergency-records/emergency-records.module').then( m => m.EmergencyRecordsPageModule), data: { showSideMenu: false },
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'attendance-records',
-    loadChildren: () => import('./pages/admin/attendance-records/attendance-records.module').then( m => m.AttendanceRecordsPageModule), data: { showSideMenu: false }
+    loadChildren: () => import('./pages/admin/attendance-records/attendance-records.module').then( m => m.AttendanceRecordsPageModule), data: { showSideMenu: false },
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'signup-requests',
-    loadChildren: () => import('./pages/admin/signup-requests/signup-requests.module').then( m => m.SignupRequestsPageModule), data: { showSideMenu: false }
+    loadChildren: () => import('./pages/admin/signup-requests/signup-requests.module').then( m => m.SignupRequestsPageModule), data: { showSideMenu: false },
+    canActivate: [AuthGuard, AdminGuard]
   },
 
   /* SSF Routes */
   {
     path: 'report',
-    loadChildren: () => import('./pages/ssf/report/report.module').then( m => m.ReportPageModule)
+    loadChildren: () => import('./pages/ssf/report/report.module').then( m => m.ReportPageModule),
+    canActivate: [AuthGuard]
   },
 ];
 

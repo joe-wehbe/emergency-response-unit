@@ -103,7 +103,7 @@ export class EmergencyService {
 
   // CASE REPORTS PAGE
   getAllCaseReports(){
-    return this.http.get(this.base_url + "get-all-case-reports"); 
+    return this.http.get(this.base_url + "get-all-case-reports",  { headers: this.getAuthHeaders() }); 
   }
 
   // EMERGENCY RECORDS PAGE

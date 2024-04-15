@@ -79,6 +79,23 @@ export class CommunityPage implements OnInit {
     });
   }
 
+  getRole(roleNumber: number | string): string {
+    switch (Number(roleNumber)) {
+      case 1:case 5: 
+        return 'Dispatcher';
+      case 2:case 4:
+        return 'Medic';
+      case 3:
+        return 'Admin';
+      case 6:
+        return 'Dispatcher & Medic';
+       
+      default:
+        return '';
+    }
+  }
+
+
   groupUsers() {
     this.users.sort((a, b) => a.firstName.localeCompare(b.firstName));
     const groups: any = {};

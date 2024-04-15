@@ -97,7 +97,7 @@ export class UserService {
       id: $id,
       covered_by: this.userId,
     };
-    return this.http.put(this.base_url + 'accept-cover-request', body);
+    return this.http.put(this.base_url + 'accept-cover-request', body,  { headers: this.getAuthHeaders() });
   }
 
   // CASE REPORTS PAGE
