@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { TabsComponent } from './components/tabs/tabs.component';
-import { AuthGuard } from './guards/auth.guard';
-import { AdminGuard } from './guards/admin.guard';
-const routes: Routes = [
+import { AdminGuard } from './guards/admin/admin.guard';
+import { AuthGuard } from './guards/authentication/auth.guard';
 
+const routes: Routes = [
   /* STARTING ROUTES */
   {
     path: 'login',
@@ -119,11 +119,13 @@ const routes: Routes = [
   },
   {
     path: 'user-profile/:id',
-    loadChildren: () => import('./pages/admin/user-profile/user-profile.module').then( m => m.UserProfilePageModule), data: { showSideMenu: false }
+    loadChildren: () => import('./pages/admin/user-profile/user-profile.module').then( m => m.UserProfilePageModule), data: { showSideMenu: false },
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'change-schedule/:id',
-    loadChildren: () => import('./pages/admin/change-schedule/change-schedule.module').then( m => m.ChangeSchedulePageModule), data: { showSideMenu: false }
+    loadChildren: () => import('./pages/admin/change-schedule/change-schedule.module').then( m => m.ChangeSchedulePageModule), data: { showSideMenu: false },
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'manage-announcements',

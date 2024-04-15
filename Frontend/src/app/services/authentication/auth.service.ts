@@ -11,6 +11,15 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+  isLoggedIn(){
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      return JSON.parse(JSON.stringify(token));
+    } else {
+      return undefined;
+    }
+  }
+
   register(first_name: string, last_name: string, studentId: string, number: string, major: string, 
     lau_email: string, password: string, confirmation:string, isERU: string) {
 

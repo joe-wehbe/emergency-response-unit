@@ -18,6 +18,11 @@ export class UserService {
     return headers;
   }
 
+  isAdmin(){
+    const isAdmin = localStorage.getItem('rank');
+    return (isAdmin == "Admin" || isAdmin == "Medic & Admin" || isAdmin == "Dispatcher & Admin");
+  }
+
   // REPORT PAGE
   apply(student_id: number, phone_number: string, major: string) {
     const body = {
