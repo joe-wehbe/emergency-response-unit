@@ -10,6 +10,7 @@ import { UserService } from 'src/app/services/user/user.service';
 export class CoverRequestsPage implements OnInit {
   coverRequests: any[] = [];
   coverRequestCount: any;
+  isLoading: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -21,6 +22,7 @@ export class CoverRequestsPage implements OnInit {
   }
 
   getAllCoverRequests() {
+    this.isLoading = true;
     this.userService.getAllCoverRequests().subscribe({
       next: (response) => {
         if (response && response.hasOwnProperty('coverRequests')) {
@@ -45,6 +47,9 @@ export class CoverRequestsPage implements OnInit {
       error: (error) => {
         console.error('Error retrieving cover requests:', error);
       },
+      complete: () => {
+        this.isLoading = false;
+      }
     });
   }
 

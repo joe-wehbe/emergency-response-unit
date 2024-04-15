@@ -25,107 +25,127 @@
   <div class="search-bar-container">
     <ion-searchbar mode="md" class="search-bar" [debounce]="800" placeholder="Search {{placeholder}}" (ionInput)="handleInput($event)"></ion-searchbar>
   </div>
-
-  <ng-container *ngFor="let group of filteredGroupedUsers">
-    <ion-list *ngIf="group.users.length > 0">
-      <ion-list-header lines="inset">
-        {{ group.letter }}
-      </ion-list-header>
-      <ion-grid>
-        <ion-row>
-          <ion-col size="4" *ngFor="let user of group.users">
-            <ion-card class="card" (click)="openModal(user)">
-              <div class="card-content">
-                <ion-avatar class="icon">
-                  <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-                </ion-avatar>
-                <div class="user-name"> 
-                  {{ user.firstName }} <br>
-                  {{ user.lastName }} 
+  <ng-container *ngIf="allUsers.length > 0">
+    <ng-container *ngFor="let group of filteredGroupedUsers">
+      <ion-list *ngIf="group.users.length > 0">
+        <ion-list-header lines="inset">
+          {{ group.letter }}
+        </ion-list-header>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="4" *ngFor="let user of group.users">
+              <ion-card class="card" (click)="openModal(user)">
+                <div class="card-content">
+                  <ion-avatar class="icon">
+                    <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                  </ion-avatar>
+                  <div class="user-name"> 
+                    {{ user.firstName }} <br>
+                    {{ user.lastName }} 
+                  </div>
+                  <div class="user-role">{{ user.role }}</div>
                 </div>
-                <div class="user-role">{{ user.role }}</div>
-              </div>
-              <ng-container *ngIf="!user.hasShift">
-                <div class="gray-bottom"></div>
-              </ng-container>
-              <ng-container *ngIf="user.hasShift">
-                <div class="green-bottom"></div>
-              </ng-container>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-list>
-  </ng-container>
-
-  <ion-modal #modal>
-    <ng-template>
-      <ion-content class="modal-content">
-        <ion-toolbar>
-          <div class="header">
-            <ion-avatar class="modal-profile-pic">
-              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-            </ion-avatar>
-            <div class="container">
-              <div class="np-container">
-                <h2 class="name">{{ selectedUser.firstName }} {{ selectedUser.lastName }}</h2>
-                <p class="position">{{ selectedUser.role }}</p>
-              </div>
-            </div>
-          </div>
-          <ion-buttons slot="end">
-            <ion-button (click)="modal.dismiss()">Close</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-
-        <ion-grid class="modal-grid" [fixed]="true" class="grid-container">
-          <ion-row class="modal-row">
-            <ion-col class="modal-col" size="6" size-md="4" size-lg="2">
-              <ion-img src="assets/icon/email.png"></ion-img>
-              <p class="entry">{{ selectedUser.email }}</p>
-            </ion-col>
-            <ion-col class="modal-col" size="6" size-md="4" size-lg="2">
-              <ion-img src="assets/icon/phone.png"></ion-img>    
-              <p class="entry">{{ selectedUser.phoneNumber }}</p>
-            </ion-col>
-          </ion-row>
-          <ion-row class="modal-row">
-            <ion-col class="modal-col" size="6" size-md="4" size-lg="2">
-              <ion-img src="assets/icon/id.png"></ion-img>
-              <p class="entry">{{ selectedUser.studentId }}</p>
-            </ion-col>
-            <ion-col class="modal-col" size="6" size-md="4" size-lg="2">
-              <ion-img src="assets/icon/major.png"></ion-img>
-              <p class="entry">{{ selectedUser.major }}</p>
+                <ng-container *ngIf="!user.hasShift">
+                  <div class="gray-bottom"></div>
+                </ng-container>
+                <ng-container *ngIf="user.hasShift">
+                  <div class="green-bottom"></div>
+                </ng-container>
+              </ion-card>
             </ion-col>
           </ion-row>
         </ion-grid>
-        <div class="seperator">
-          <div class="first-line"></div>
-          <p class="section-name">Experience</p>
-          <div class="second-line"></div>
-        </div>
-        <div class="experience-sections">
-          <div class="first-experience-section">
-            <h6>Accomplishments</h6>
-            <ion-card class="experience-card">
-              <ion-text class="experience-text" *ngIf ="selectedUser && selectedUser.bio">{{selectedUser.bio}}</ion-text>
-              <ion-text class = "no-experience-text" *ngIf="!(selectedUser && selectedUser.bio)">Nothing to show here</ion-text>
-            </ion-card>
+      </ion-list>
+    </ng-container>
+    <ng-container *ngIf="filteredGroupedUsers.length === 0">
+      <div class="body">
+        <p class="no-results">No members found</p>
+      </div> 
+    </ng-container>
+    <ion-modal #modal>
+      <ng-template>
+        <ion-content class="modal-content">
+          <ion-toolbar>
+            <div class="header">
+              <ion-avatar class="modal-profile-pic">
+                <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+              </ion-avatar>
+              <div class="container">
+                <div class="np-container">
+                  <h2 class="name">{{ selectedUser.firstName }} {{ selectedUser.lastName }}</h2>
+                  <p class="position">{{ selectedUser.role }}</p>
+                </div>
+              </div>
+            </div>
+            <ion-buttons slot="end">
+              <ion-button (click)="modal.dismiss()">Close</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+          <ion-grid class="modal-grid" [fixed]="true" class="grid-container">
+            <ion-row class="modal-row">
+              <ion-col class="modal-col" size="6" size-md="4" size-lg="2">
+                <ion-img src="assets/icon/email.png"></ion-img>
+                <p class="entry">{{ selectedUser.email }}</p>
+              </ion-col>
+              <ion-col class="modal-col" size="6" size-md="4" size-lg="2">
+                <ion-img src="assets/icon/phone.png"></ion-img>    
+                <p class="entry">{{ selectedUser.phoneNumber }}</p>
+              </ion-col>
+            </ion-row>
+            <ion-row class="modal-row">
+              <ion-col class="modal-col" size="6" size-md="4" size-lg="2">
+                <ion-img src="assets/icon/id.png"></ion-img>
+                <p class="entry">{{ selectedUser.studentId }}</p>
+              </ion-col>
+              <ion-col class="modal-col" size="6" size-md="4" size-lg="2">
+                <ion-img src="assets/icon/major.png"></ion-img>
+                <p class="entry">{{ selectedUser.major }}</p>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <div class="seperator">
+            <div class="first-line"></div>
+            <p class="section-name">Experience</p>
+            <div class="second-line"></div>
           </div>
-          <div class="second-experience-section">
-            <h6>Medical Skills</h6>
-            <ion-card class="skills-card">
-              <ng-container *ngIf = "selectedUser && selectedUser.tags">
-                <ng-container *ngFor="let tag of selectedUser.tags.split(',')">
-                  <ion-badge>{{ tag.trim() }}</ion-badge>
+          <div class="experience-sections">
+            <div class="first-experience-section">
+              <h6>Accomplishments</h6>
+              <ion-card class="experience-card">
+                <ion-text class="experience-text" *ngIf ="selectedUser && selectedUser.bio">{{selectedUser.bio}}</ion-text>
+                <ion-text class = "no-experience-text" *ngIf="!(selectedUser && selectedUser.bio)">Nothing to show here</ion-text>
+              </ion-card>
+            </div>
+            <div class="second-experience-section">
+              <h6>Medical Skills</h6>
+              <ion-card class="skills-card">
+                <ng-container *ngIf = "selectedUser && selectedUser.tags">
+                  <ng-container *ngFor="let tag of selectedUser.tags.split(',')">
+                    <ion-badge>{{ tag.trim() }}</ion-badge>
+                  </ng-container>
                 </ng-container>
-              </ng-container>
-              <ion-text class="no-tags-text" *ngIf = "!(selectedUser && selectedUser.tags)">Nothing to show here</ion-text>
-            </ion-card>
+                <ion-text class="no-tags-text" *ngIf = "!(selectedUser && selectedUser.tags)">Nothing to show here</ion-text>
+              </ion-card>
+            </div>
           </div>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+  </ng-container>
+  <ng-container *ngIf="allUsers.length == 0">
+    <ng-container *ngIf="isLoading">
+      <div class="body">
+          <ion-spinner name="crescent"></ion-spinner>
+      </div> 
+    </ng-container>
+    <ng-container *ngIf="!isLoading">
+      <div class="body">
+        <div class="stmt">
+          <p>No members</p>
+          <p class="second-stmt">Members will appear here once registered</p>
+          <ion-img class="no-emergencies-img" src="assets/img/no-emergencies-img.png"></ion-img>
         </div>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+      </div>  
+    </ng-container>
+  </ng-container>
 </ion-content>

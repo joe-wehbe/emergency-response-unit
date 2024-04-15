@@ -29,6 +29,7 @@ export class ManageMembersPage implements OnInit {
   filteredGroupedUsers: { letter: string, users: User[] }[] = [];
   selectedFilter: string = '';
   placeholder: string = '';
+  isLoading: boolean = false;
 
   @ViewChild('modal') modal: IonModal | undefined;
   constructor(
@@ -42,6 +43,7 @@ export class ManageMembersPage implements OnInit {
   }
 
   getAllMembers(){
+    this.isLoading = true;
     this.userService.getAllMembers()
     .subscribe({
       next: (response) => {
@@ -73,6 +75,9 @@ export class ManageMembersPage implements OnInit {
       },
       error: (error) => {
         console.error("Error retrieving users:", error);
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
   }

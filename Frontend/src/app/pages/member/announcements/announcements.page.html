@@ -8,82 +8,100 @@
 </ion-header>
 
 <ion-content class="background">
-  <div class="mainpage">
-    <div class="announcement" *ngFor = "let announcement of visibleAnnouncements"  id="announcement.id" (click)="openModal(announcement)">
-      <div class="first-box">
-        <ion-avatar slot="start" class="profile-picture">
-          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-        </ion-avatar>
-      </div>
-      <div class="second-box">
-        <div class="name">
-          <h2 class="username">{{announcement.admin.first_name}} {{announcement.admin.last_name}}</h2>
-          <ng-container *ngIf="announcement.importance == 'Very important'">
-            <ion-chip color="danger">{{announcement.importance}}</ion-chip>
-          </ng-container>
-          <ng-container *ngIf="announcement.importance == 'Important'">
-            <ion-chip color="warning">{{announcement.importance}}</ion-chip>
-          </ng-container>
-          <ng-container *ngIf="announcement.importance == 'Regular'">
-            <ion-chip color="success">{{announcement.importance}}</ion-chip>
-          </ng-container>
+  <ng-container *ngIf="visibleAnnouncements.length > 0">
+    <div class="mainpage">
+      <div class="announcement" *ngFor = "let announcement of visibleAnnouncements"  id="announcement.id" (click)="openModal(announcement)">
+        <div class="first-box">
+          <ion-avatar slot="start" class="profile-picture">
+            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+          </ion-avatar>
         </div>
-        <div class="description-container">
-          <p class="description">
-            {{ truncateDescription(announcement.description, 65) }}
-          </p>
-        </div>
-        <div class="time-posted">
-          <div *ngIf="userRank == 'Admin' || userRank == 'Medic & Admin' || userRank == 'Dispatcher & Admin'">
+        <div class="second-box">
+          <div class="name">
+            <h2 class="username">{{announcement.admin.first_name}} {{announcement.admin.last_name}}</h2>
+            <ng-container *ngIf="announcement.importance == 'Very important'">
+              <ion-chip color="danger">{{announcement.importance}}</ion-chip>
+            </ng-container>
+            <ng-container *ngIf="announcement.importance == 'Important'">
+              <ion-chip color="warning">{{announcement.importance}}</ion-chip>
+            </ng-container>
+            <ng-container *ngIf="announcement.importance == 'Regular'">
+              <ion-chip color="success">{{announcement.importance}}</ion-chip>
+            </ng-container>
+          </div>
+          <div class="description-container">
+            <p class="description">
+              {{ truncateDescription(announcement.description, 65) }}
+            </p>
+          </div>
+          <div class="time-posted">
+            <div *ngIf="userRank == 'Admin' || userRank == 'Medic & Admin' || userRank == 'Dispatcher & Admin'">
+              <h3 class="time">
+                Sent to
+                {{ announcement.visible_to == 1 ? 'dispatchers' : '' }}
+                {{ announcement.visible_to == 2 ? 'medics' : '' }}
+                {{ announcement.visible_to == 3 ? 'admins' : '' }}
+                {{ announcement.visible_to == 4 ? 'medics & admins' : '' }}
+                {{ announcement.visible_to == 5 ? 'dispatchers & admins' : '' }}
+                {{ announcement.visible_to == 6 ? 'dispatchers & medics' : '' }}
+              </h3>
+            </div>
             <h3 class="time">
-              Sent to
-              {{ announcement.visible_to == 1 ? 'dispatchers' : '' }}
-              {{ announcement.visible_to == 2 ? 'medics' : '' }}
-              {{ announcement.visible_to == 3 ? 'admins' : '' }}
-              {{ announcement.visible_to == 4 ? 'medics & admins' : '' }}
-              {{ announcement.visible_to == 5 ? 'dispatchers & admins' : '' }}
-              {{ announcement.visible_to == 6 ? 'dispatchers & medics' : '' }}
+              &nbsp;{{ formatDate(announcement.created_at) }}
             </h3>
           </div>
-          <h3 class="time">
-            &nbsp;{{ formatDate(announcement.created_at) }}
-          </h3>
         </div>
-      </div>
-
-      <ion-modal id="view-announcement-modal" #modal>
-        <ng-template>
-          <div class="wrapper">
-            <div class="announcement">
-              <div class="first-box">
-                <ion-avatar slot="start" class="profile-picture">
-                  <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-                </ion-avatar>
-              </div>
-              <div class="second-box">
-                <div class="name">
-                  <h2 class="username">{{selectedAnnouncement.admin.first_name}} {{selectedAnnouncement.admin.last_name}}</h2>
-                  <ng-container *ngIf="announcement.importance == 'Very important'">
-                    <ion-chip color="danger">{{selectedAnnouncement.importance}}</ion-chip>
-                  </ng-container>
-                  <ng-container *ngIf="announcement.importance == 'Important'">
-                    <ion-chip color="warning">{{selectedAnnouncement.importance}}</ion-chip>
-                  </ng-container>
-                  <ng-container *ngIf="announcement.importance == 'Regular'">
-                    <ion-chip color="success">{{selectedAnnouncement.importance}}</ion-chip>
-                  </ng-container>
+  
+        <ion-modal id="view-announcement-modal" #modal>
+          <ng-template>
+            <div class="wrapper">
+              <div class="announcement">
+                <div class="first-box">
+                  <ion-avatar slot="start" class="profile-picture">
+                    <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                  </ion-avatar>
                 </div>
-                <div class="description-container">
-                  <p class="description">{{ selectedAnnouncement.description }}</p>
-                </div>
-                <div class="time-posted">
-                  <h3 class="time">{{ formatDate(selectedAnnouncement.created_at) }}</h3>
+                <div class="second-box">
+                  <div class="name">
+                    <h2 class="username">{{selectedAnnouncement.admin.first_name}} {{selectedAnnouncement.admin.last_name}}</h2>
+                    <ng-container *ngIf="announcement.importance == 'Very important'">
+                      <ion-chip color="danger">{{selectedAnnouncement.importance}}</ion-chip>
+                    </ng-container>
+                    <ng-container *ngIf="announcement.importance == 'Important'">
+                      <ion-chip color="warning">{{selectedAnnouncement.importance}}</ion-chip>
+                    </ng-container>
+                    <ng-container *ngIf="announcement.importance == 'Regular'">
+                      <ion-chip color="success">{{selectedAnnouncement.importance}}</ion-chip>
+                    </ng-container>
+                  </div>
+                  <div class="description-container">
+                    <p class="description">{{ selectedAnnouncement.description }}</p>
+                  </div>
+                  <div class="time-posted">
+                    <h3 class="time">{{ formatDate(selectedAnnouncement.created_at) }}</h3>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </ng-template>
-      </ion-modal>
+          </ng-template>
+        </ion-modal>
+      </div>
     </div>
-  </div>
+  </ng-container>
+  <ng-container *ngIf="visibleAnnouncements.length == 0">
+    <ng-container *ngIf="isLoading">
+      <div class="body">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div> 
+    </ng-container>
+    <ng-container *ngIf="!isLoading">
+      <div class="body">
+        <div class="stmt">
+          <p>No announcements</p>
+          <p class="second-stmt">Announcements sent by board members will appear here</p>
+          <ion-img class="no-emergencies-img" src="assets/img/no-emergencies-img.png"></ion-img>
+        </div>
+      </div>  
+    </ng-container>
+  </ng-container>
 </ion-content>

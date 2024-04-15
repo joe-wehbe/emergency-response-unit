@@ -11,12 +11,12 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="background">
+<ion-content *ngIf="emergency">
   <div class = "mainpage">
     <div class = stmt>
       Fill the case report form
     </div>
-    <ion-list *ngIf="emergency">
+    <ion-list>
       <div class="question">
         <ion-input label="Date of incident" mode="md" [value]="emergency.created_at | date:'dd/MM/yy'" label-placement="floating" fill="outline" [disabled]="true">
           <ion-icon class="modal-icon" name="calendar-number-outline" slot="start"></ion-icon>
@@ -138,4 +138,10 @@
       <ion-button fill="outline" mode="ios" class="submit-button" (click)="addCaseReport()">Submit</ion-button>
     </div>
   </div>
+</ion-content>
+
+<ion-content *ngIf="!emergency && isLoading">
+  <div class="body">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div> 
 </ion-content>

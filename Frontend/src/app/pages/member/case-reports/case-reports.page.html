@@ -7,76 +7,94 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="background">
-  <div class="stmt">
-    <p>{{ caseReports.length }} {{ caseReports.length === 1 ? 'emergency' : 'emergencies' }} with no report submitted</p>
-    <p class="second-stmt">Click on a card to fill its report form</p>
-  </div>
-  <ion-card class="ongoing-card" *ngFor ="let case_report of caseReports" (click)="navigateCaseReportForm(case_report.emergency.id)"> 
-    <div class="first-box">
-      {{ case_report.emergency.created_at | date: 'dd/MM'}}<br>
-      {{ case_report.emergency.created_at | date: 'h:mm'}} 
+<ion-content>
+  <ng-container *ngIf="caseReports.length > 0">
+    <div class="stmt">
+      <p>{{ caseReports.length }} {{ caseReports.length === 1 ? 'emergency' : 'emergencies' }} with no report submitted</p>
+      <p class="second-stmt">Click on a card to fill its report form</p>
     </div>
-    <div class="second-box">
-      <div class="location">
-        {{ case_report.emergency.location }}
+    <ion-card class="ongoing-card" *ngFor ="let case_report of caseReports" (click)="navigateCaseReportForm(case_report.emergency.id)"> 
+      <div class="first-box">
+        {{ case_report.emergency.created_at | date: 'dd/MM'}}<br>
+        {{ case_report.emergency.created_at | date: 'h:mm'}} 
       </div>
-      <div class="description-container">
-        <p class="description">{{ case_report.emergency.reporter_description}}</p>
-      </div>
-    </div>
-    <div class="seperator"></div>
-    <div class="third-box">
-      <div class="medic">
-        <p>Medic on scene:</p>
-        <p class="medic-name-green">{{ case_report.emergency.medic.first_name }} {{ case_report.emergency.medic.last_name }}</p>
-      </div>
-      <ng-container *ngIf="case_report.emergency.patient_name !== null; else noPatientName">
-        <div class="patient">
-          <p>Patient:</p>
-          <p class="patient-name-green">{{ case_report.emergency.patient_name }}</p>
+      <div class="second-box">
+        <div class="location">
+          {{ case_report.emergency.location }}
         </div>
-      </ng-container>
-      <ng-template #noPatientName>
-        <div class="patient">
-          <p>Patient:</p>
-          <p class="patient-name-red">N/A</p>
-        </div>
-      </ng-template>
-      <div class="vitals">
-        <div class="heart-rate">
-          <ion-img src="assets/icon/hr.png"></ion-img>
-          <p class="hr">{{ case_report.last_assessment ? case_report.last_assessment.heart_rate || 'N/A' : 'N/A' }}</p>
-        </div>
-        <div class="blood-pressure">
-          <ion-img src="assets/icon/bp.png"></ion-img>
-          <p class="bp">{{ case_report.last_assessment ? case_report.last_assessment.blood_pressure || 'N/A' : 'N/A' }}</p>
-        </div>
-        <div class="spo2">
-          <ion-img src="assets/icon/spo2.png"></ion-img>
-          <p class="sp">{{ case_report.last_assessment ? case_report.last_assessment.oxygen_saturation || 'N/A' : 'N/A' }}</p>
-        </div>
-        <div class="temperature">
-          <ion-img src="assets/icon/temp.png"></ion-img>
-          <p class="temp">{{ case_report.last_assessment ? case_report.last_assessment.temperature || 'N/A' : 'N/A' }}</p>
-        </div>
-        <div class="respiration-rate">
-          <ion-img src="assets/icon/rr.png"></ion-img>
-          <p class="rr">{{ case_report.last_assessment ? case_report.last_assessment.respiration_rate || 'N/A' : 'N/A' }}</p>
-        </div>
-        <div class="capillary-refill">
-          <ion-img src="assets/icon/crt.png"></ion-img>
-          <p class="crt">{{ case_report.last_assessment ? case_report.last_assessment.capillary_refill_time || 'N/A' : 'N/A' }}</p>
-        </div>
-        <div class="hemo-gluco-test">
-          <ion-img src="assets/icon/hgt.png"></ion-img>
-          <p class="hgt">{{ case_report.last_assessment ? case_report.last_assessment.hemoglucotest|| 'N/A' : 'N/A' }}</p>
-        </div>
-        <div class="pupils-reaction">
-          <ion-img src="assets/icon/pr.png"></ion-img>
-          <p class="pr">{{ case_report.last_assessment ? case_report.last_assessment.pupils_reaction || 'N/A' : 'N/A' }}</p>
+        <div class="description-container">
+          <p class="description">{{ case_report.emergency.reporter_description}}</p>
         </div>
       </div>
-    </div>
-  </ion-card>
+      <div class="seperator"></div>
+      <div class="third-box">
+        <div class="medic">
+          <p>Medic on scene:</p>
+          <p class="medic-name-green">{{ case_report.emergency.medic.first_name }} {{ case_report.emergency.medic.last_name }}</p>
+        </div>
+        <ng-container *ngIf="case_report.emergency.patient_name !== null; else noPatientName">
+          <div class="patient">
+            <p>Patient:</p>
+            <p class="patient-name-green">{{ case_report.emergency.patient_name }}</p>
+          </div>
+        </ng-container>
+        <ng-template #noPatientName>
+          <div class="patient">
+            <p>Patient:</p>
+            <p class="patient-name-red">N/A</p>
+          </div>
+        </ng-template>
+        <div class="vitals">
+          <div class="heart-rate">
+            <ion-img src="assets/icon/hr.png"></ion-img>
+            <p class="hr">{{ case_report.last_assessment ? case_report.last_assessment.heart_rate || 'N/A' : 'N/A' }}</p>
+          </div>
+          <div class="blood-pressure">
+            <ion-img src="assets/icon/bp.png"></ion-img>
+            <p class="bp">{{ case_report.last_assessment ? case_report.last_assessment.blood_pressure || 'N/A' : 'N/A' }}</p>
+          </div>
+          <div class="spo2">
+            <ion-img src="assets/icon/spo2.png"></ion-img>
+            <p class="sp">{{ case_report.last_assessment ? case_report.last_assessment.oxygen_saturation || 'N/A' : 'N/A' }}</p>
+          </div>
+          <div class="temperature">
+            <ion-img src="assets/icon/temp.png"></ion-img>
+            <p class="temp">{{ case_report.last_assessment ? case_report.last_assessment.temperature || 'N/A' : 'N/A' }}</p>
+          </div>
+          <div class="respiration-rate">
+            <ion-img src="assets/icon/rr.png"></ion-img>
+            <p class="rr">{{ case_report.last_assessment ? case_report.last_assessment.respiration_rate || 'N/A' : 'N/A' }}</p>
+          </div>
+          <div class="capillary-refill">
+            <ion-img src="assets/icon/crt.png"></ion-img>
+            <p class="crt">{{ case_report.last_assessment ? case_report.last_assessment.capillary_refill_time || 'N/A' : 'N/A' }}</p>
+          </div>
+          <div class="hemo-gluco-test">
+            <ion-img src="assets/icon/hgt.png"></ion-img>
+            <p class="hgt">{{ case_report.last_assessment ? case_report.last_assessment.hemoglucotest|| 'N/A' : 'N/A' }}</p>
+          </div>
+          <div class="pupils-reaction">
+            <ion-img src="assets/icon/pr.png"></ion-img>
+            <p class="pr">{{ case_report.last_assessment ? case_report.last_assessment.pupils_reaction || 'N/A' : 'N/A' }}</p>
+          </div>
+        </div>
+      </div>
+    </ion-card>
+  </ng-container>
+  <ng-container *ngIf="caseReports.length == 0">
+    <ng-container *ngIf="isLoading">
+      <div class="body">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div> 
+    </ng-container>
+    <ng-container *ngIf="!isLoading">
+      <div class="body">
+        <div class="stmt">
+          <p>No case reports</p>
+          <p class="second-stmt">Emergencies with no case report submitted will appear here</p>
+          <ion-img class="no-emergencies-img" src="assets/img/no-emergencies-img.png"></ion-img>
+        </div>
+      </div>  
+    </ng-container>
+  </ng-container>
 </ion-content>

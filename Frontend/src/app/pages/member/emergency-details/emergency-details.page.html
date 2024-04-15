@@ -222,4 +222,10 @@
       </div>
     </ion-accordion>
   </ion-accordion-group>
+
+  <ng-container *ngIf="!emergency && isLoading">
+    <div class="body">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div> 
+  </ng-container>
 </ion-content>

@@ -29,6 +29,7 @@ export class CommunityPage implements OnInit {
   selectedUser: any;
   selectedFilter: string = '';
   placeholder: string = '';
+  isLoading: boolean = false;
 
   @ViewChild('modal') modal: IonModal | undefined;
   constructor(private userService:UserService) {}
@@ -39,39 +40,43 @@ export class CommunityPage implements OnInit {
   }
 
   getAllMembers(){
+    this.isLoading = true;
     this.userService.getAllMembers()
-      .subscribe({
-        next: (response) => {
-          if(response && response.hasOwnProperty("users")){
-            console.log("Fetched all users: ", response);
-            const parsedResponse = JSON.parse(JSON.stringify(response));
-            this.allUsers = [].concat.apply([], Object.values(parsedResponse['users']));
+    .subscribe({
+      next: (response) => {
+        if(response && response.hasOwnProperty("users")){
+          console.log("Fetched all users: ", response);
+          const parsedResponse = JSON.parse(JSON.stringify(response));
+          this.allUsers = [].concat.apply([], Object.values(parsedResponse['users']));
 
-            this.allUsers.forEach(user =>{
-              this.users.push({
-                firstName: user.first_name, 
-                lastName: user.last_name, 
-                role: user.rank.rank_name,
-                email: user.lau_email,
-                phoneNumber: user.phone_number,
-                studentId: user.student_id,
-                major: user.major,
-                bio: user.bio,
-                tags: user.tags,
-                hasShift: user.has_shift
-              })
+          this.allUsers.forEach(user =>{
+            this.users.push({
+              firstName: user.first_name, 
+              lastName: user.last_name, 
+              role: user.rank.rank_name,
+              email: user.lau_email,
+              phoneNumber: user.phone_number,
+              studentId: user.student_id,
+              major: user.major,
+              bio: user.bio,
+              tags: user.tags,
+              hasShift: user.has_shift
             })
-            this.groupUsers();
-            this.filteredGroupedUsers = [...this.groupedUsers];
-          }
-          else{
-            console.log("No users");
-          }
-        },
-        error: (error) => {
-          console.error("Error retrieving users:", error);
+          })
+          this.groupUsers();
+          this.filteredGroupedUsers = [...this.groupedUsers];
         }
-      });
+        else{
+          console.log("No users");
+        }
+      },
+      error: (error) => {
+        console.error("Error retrieving users:", error);
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
   }
 
   groupUsers() {

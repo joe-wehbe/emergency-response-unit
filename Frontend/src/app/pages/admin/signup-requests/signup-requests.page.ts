@@ -11,6 +11,7 @@ import { AdminService } from 'src/app/services/admin/admin.service';
 export class SignupRequestsPage implements OnInit {
 
   requests: any[] = [];
+  isLoading: boolean = false;
 
   constructor( 
     private router:Router, 
@@ -25,6 +26,7 @@ export class SignupRequestsPage implements OnInit {
   }
 
   getSignupRequests(){
+    this.isLoading = true;
     this.adminService.getSignupRequests()
     .subscribe({
       next: (response) => {
@@ -40,6 +42,9 @@ export class SignupRequestsPage implements OnInit {
       error: (error) => {
         console.error("Error fetching signup requests:", error);
       },
+      complete: () => {
+        this.isLoading = false;
+      }
     });
   }
 

@@ -11,41 +11,12 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="background">
-
-  <div class="body">
-    <div class="stmt">
-      <p *ngIf="shifts.length === 1">{{ shifts.length }} shift per week</p>
-      <p *ngIf="shifts.length > 1">{{ shifts.length }}  shifts per week</p>
-    </div>
-    <div *ngFor="let day of sortedDays()">
-      <p class="day">{{ day }}</p>
-      <ion-card class="shifts-card">
-        <div class="shift-container" *ngFor="let shift of groupedShifts[day]">
-          <div class="shift">
-            <p class="time">{{ shift.shift.time_start | date: 'h:mm' }} - {{ shift.shift.time_end | date: 'h:mm' }}</p>
-            <div class="seperator"></div>
-            <ion-chip color="warning">
-              <ion-label *ngIf="shift.coverCount">{{ shift.coverCount.coverRequestsCount }} covers</ion-label>
-            </ion-chip>
-            <div class="seperator"></div>
-            <ion-chip color="danger">
-              <ion-label>{{ shift.missed_attendance }} misses</ion-label>
-            </ion-chip>            
-          </div>
-          <ion-icon class="delete-icon" name="close-circle-outline" (click)="deleteAlert(shift.id)"></ion-icon>
-        </div>
-      </ion-card>
-    </div>
-    
-  </div>
-
+<ion-content>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button id="add-shift">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
   <ion-modal mode="ios" id="add-shift-modal" #modal trigger="add-shift">
     <ng-template>
       <div class="wrapper">
@@ -88,4 +59,48 @@
       </div>
     </ng-template>
   </ion-modal>
+
+  <ng-container *ngIf="shifts.length > 0">
+    <div class="body">
+      <div class="stmt">
+        <p *ngIf="shifts.length === 1">{{ shifts.length }} shift per week</p>
+        <p *ngIf="shifts.length > 1">{{ shifts.length }}  shifts per week</p>
+      </div>
+      <div *ngFor="let day of sortedDays()">
+        <p class="day">{{ day }}</p>
+        <ion-card class="shifts-card">
+          <div class="shift-container" *ngFor="let shift of groupedShifts[day]">
+            <div class="shift">
+              <p class="time">{{ shift.shift.time_start | date: 'h:mm' }} - {{ shift.shift.time_end | date: 'h:mm' }}</p>
+              <div class="seperator"></div>
+              <ion-chip color="warning">
+                <ion-label *ngIf="shift.coverCount">{{ shift.coverCount.coverRequestsCount }} covers</ion-label>
+              </ion-chip>
+              <div class="seperator"></div>
+              <ion-chip color="danger">
+                <ion-label>{{ shift.missed_attendance }} misses</ion-label>
+              </ion-chip>            
+            </div>
+            <ion-icon class="delete-icon" name="close-circle-outline" (click)="deleteAlert(shift.id)"></ion-icon>
+          </div>
+        </ion-card>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="shifts.length == 0">
+    <ng-container *ngIf="isLoading">
+      <div class="body1">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div> 
+    </ng-container>
+    <ng-container *ngIf="!isLoading">
+      <div class="body1">
+        <div class="stmt">
+          <p>No shifts</p>
+          <p class="second-stmt">This member's shifts will appear here</p>
+          <ion-img class="no-emergencies-img" src="assets/img/no-emergencies-img.png"></ion-img>
+        </div>
+      </div>  
+    </ng-container>
+  </ng-container>
 </ion-content>

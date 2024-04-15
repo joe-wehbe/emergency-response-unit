@@ -12,17 +12,35 @@
 </ion-header>
 
 <ion-content class="background">
-  <div class="stmt">
-    <p class="section">{{ type }}</p>
-  </div>
-  <div class="cards-container">
-    <ion-card *ngFor ="let medicalfaq of allFAQs">
-      <div class="question-container">
-        <p class="question">{{ medicalfaq.question }}</p>
-      </div>
-      <div class="answer-container">
-        <p class="answer">{{ medicalfaq.answer }}</p>
-      </div>
-    </ion-card>
-  </div>
+  <ng-container *ngIf="allFAQs.length > 0">
+    <div class="stmt">
+      <p class="section">{{ type }}</p>
+    </div>
+    <div class="cards-container">
+      <ion-card *ngFor ="let medicalfaq of allFAQs">
+        <div class="question-container">
+          <p class="question">{{ medicalfaq.question }}</p>
+        </div>
+        <div class="answer-container">
+          <p class="answer">{{ medicalfaq.answer }}</p>
+        </div>
+      </ion-card>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="allFAQs.length == 0">
+    <ng-container *ngIf="isLoading">
+      <div class="body">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div> 
+    </ng-container>
+    <ng-container *ngIf="!isLoading">
+      <div class="body">
+        <div class="stmt">
+          <p>No FAQs</p>
+          <p class="second-stmt">FAQs related to {{ type }} will appear here</p>
+          <ion-img class="no-emergencies-img" src="assets/img/no-emergencies-img.png"></ion-img>
+        </div>
+      </div>  
+    </ng-container>
+  </ng-container>
 </ion-content>

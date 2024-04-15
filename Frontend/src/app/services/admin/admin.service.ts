@@ -23,18 +23,18 @@ export class AdminService {
       "start_date": $startDate,
       "end_date": $endDate,
     }
-    return this.http.put(this.base_url + "update-semester-dates", body); 
+    return this.http.put(this.base_url + "update-semester-dates", body, { headers: this.getAuthHeaders() }); 
   }
 
   // MANAGE MEMBERS TAB
   removeMember(id: string){
     const body = {id: id};
-    return this.http.put(this.base_url + 'remove-member', body);
+    return this.http.put(this.base_url + 'remove-member', body, { headers: this.getAuthHeaders() });
   }
 
   changeRank(user_id: string, rank_id: number) {
     const body = {user_id: user_id, rank_id: rank_id};
-    return this.http.put(this.base_url + 'change-rank', body);
+    return this.http.put(this.base_url + 'change-rank', body, { headers: this.getAuthHeaders() });
   }
 
   // CHANGE SCHEDULE PAGE
@@ -47,11 +47,11 @@ export class AdminService {
       "user_id": userId,
       "shift_id": shiftId
     };
-    return this.http.put(this.base_url + 'add-shift', body);
+    return this.http.put(this.base_url + 'add-shift', body, { headers: this.getAuthHeaders() });
   }
 
   deleteShift(userId:string, shiftId:number){
-    return this.http.delete(this.base_url + "delete-shift/" + userId + '/' + shiftId); 
+    return this.http.delete(this.base_url + "delete-shift/" + userId + '/' + shiftId, { headers: this.getAuthHeaders() }); 
   }
 
   // MANAGE ANNOUNCEMENTS TAB
@@ -62,11 +62,11 @@ export class AdminService {
       "description": description,
       "visible_to": visible_to
     }
-    return this.http.post(this.base_url + "add-announcement", body); 
+    return this.http.post(this.base_url + "add-announcement", body, { headers: this.getAuthHeaders() }); 
   }
 
   deleteAnnouncement(id:number){
-    return this.http.delete(this.base_url + "delete-announcement/" + id); 
+    return this.http.delete(this.base_url + "delete-announcement/" + id, { headers: this.getAuthHeaders() }); 
   }
 
   // MANAGE FAQs TAB
@@ -76,21 +76,21 @@ export class AdminService {
       "question": question,
       "answer": answer
     }
-    return this.http.post(this.base_url + "add-faq", body); 
+    return this.http.post(this.base_url + "add-faq", body, { headers: this.getAuthHeaders() }); 
   }
 
   deleteFaq(id:number){
-    return this.http.delete(this.base_url + 'delete-faq/' + id);
+    return this.http.delete(this.base_url + 'delete-faq/' + id, { headers: this.getAuthHeaders() });
   }
 
   // MANAGE EXTENSIONS TAB
   addExtension(name: string, ext: string) {
     const body = {name: name, number: ext};
-    return this.http.post(this.base_url + 'add-extension', body);
+    return this.http.post(this.base_url + 'add-extension', body, { headers: this.getAuthHeaders() });
   }
 
   deleteExtension(id:number){
-    return this.http.delete(this.base_url + 'delete-extension/' + id);
+    return this.http.delete(this.base_url + 'delete-extension/' + id, { headers: this.getAuthHeaders() });
   }
 
   // ATTENDANCE RECORDS TAB
@@ -100,20 +100,20 @@ export class AdminService {
 
   // SIGNUP REQUESTS TAB
   getSignupRequests(){
-    return this.http.get(this.base_url + "get-signup-requests");
+    return this.http.get(this.base_url + "get-signup-requests", { headers: this.getAuthHeaders() });
   }
 
   acceptSignupRequest(request_id:number){
     const body = {
       "request_id": request_id
     }
-    return this.http.put(this.base_url + "accept-signup-request/" + request_id, body); 
+    return this.http.put(this.base_url + "accept-signup-request/" + request_id, body, { headers: this.getAuthHeaders() }); 
   }
 
   rejectSignupRequest(request_id:number){
     const body = {
       "request_id": request_id
     }
-    return this.http.put(this.base_url + "reject-signup-request/" + request_id, body); 
+    return this.http.put(this.base_url + "reject-signup-request/" + request_id, body, { headers: this.getAuthHeaders() }); 
   }
 }

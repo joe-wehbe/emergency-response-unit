@@ -60,6 +60,7 @@
   <div class="search-bar-container">
     <ion-searchbar mode="md" #searchBar class="search-bar" [debounce]="800" placeholder="Search name, date, location..." (ionInput)="search($event)"></ion-searchbar>
   </div>
+
   <div *ngFor="let date of Object.keys(groupedEmergencies)">
     <ion-list-header lines="inset">
       <p class="date">{{ date }}</p>
@@ -131,27 +132,40 @@
       </div>
     </ion-card>
   </div>
+
   <div *ngIf="Object.keys(groupedEmergencies).length === 0 && !searchBar.value">
-    <div class="body">
-      <div class="stmt">
-        <p>No records at the moment</p>
-        <p class="second-stmt">Emergencies history will appear here</p>
-        <ion-img class="no-emergencies-img" src="assets/img/no-emergencies-img.png"></ion-img>
+    <ng-container *ngIf="isLoading">
+      <div class="body">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div> 
+    </ng-container>
+    <ng-container *ngIf="!isLoading">
+      <div class="body" *ngIf="Object.keys(groupedEmergencies).length === 0 && selectedOption !== 'select-time'">
+        <div class="stmt">
+          <p>No records at the moment</p>
+          <p class="second-stmt">Emergencies history will appear here</p>
+          <ion-img class="no-emergencies-img" src="assets/img/no-emergencies-img.png"></ion-img>
+        </div>
       </div>
-    </div>
+      <div class="body" *ngIf="Object.keys(groupedEmergencies).length === 0 && selectedOption === 'select-time'">
+        <p class="no-results">No emergencies found</p>
+      </div>
+    </ng-container>
+    
   </div>
+
   <div *ngIf="Object.keys(groupedEmergencies).length === 0 && searchBar.value">
     <div class="body">
-      <div class="stmt">
-        <p>No emergencies found</p>
-      </div>
+      <p class="no-results">No emergencies found</p>
     </div>
   </div>
+
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button id="add-announcement">
+    <ion-fab-button id="download-records">
       <ion-icon class="download-icon" name="download-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
   <ion-modal #detailsModal id="details-modal">
     <ng-template>
       <div class="wrapper">
@@ -372,4 +386,5 @@
       </div>
     </ng-template>
   </ion-modal>
+
 </ion-content>

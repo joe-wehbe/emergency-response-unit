@@ -4,7 +4,6 @@ import { AlertController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { AdminService } from 'src/app/services/admin/admin.service';
 import { forkJoin } from 'rxjs';
-import { HttpClient} from '@angular/common/http';
 import { ToastController } from '@ionic/angular';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -23,6 +22,7 @@ export class ChangeSchedulePage implements OnInit {
   selectedOption: string = 'monday';
   shifts: any[] = [];
   shiftsPastWeek: number = 0;
+  isLoading: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -39,6 +39,7 @@ export class ChangeSchedulePage implements OnInit {
   }
 
   getUserShifts() {
+    this.isLoading = true;
     this.route.params.subscribe((params) => {
       this.userId = params['id'];
       this.userService.getUserShifts(this.userId).subscribe((response) => {
@@ -51,7 +52,13 @@ export class ChangeSchedulePage implements OnInit {
           responses.forEach((coverCount, index) => {
             this.shifts[index].coverCount = coverCount;
           });
+        }, error => {
+          console.error("Error fetching shift covers count:", error);
+        }, () => {
+          this.isLoading = false;
         });
+      }, error => {
+        console.error("Error fetching user shifts:", error);
       });
     });
   }

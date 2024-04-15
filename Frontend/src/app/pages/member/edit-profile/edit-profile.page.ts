@@ -15,6 +15,7 @@ export class EditProfilePage implements OnInit {
   userShifts: any[] = [];
   shifts: any[] = [];
   semesterData: any[] = [];
+  isLoading: boolean = false;
 
   bio: string = '';
   tags: string = '';
@@ -33,6 +34,7 @@ export class EditProfilePage implements OnInit {
   }
 
   getUserInfo() {
+    this.isLoading = true;
     this.userService.getUserInfo(this.userId)
     .subscribe({
       next: (response) => {
@@ -45,6 +47,7 @@ export class EditProfilePage implements OnInit {
         console.error("Error getting user info:", error);
       },
       complete: () => {
+        this.isLoading = false;
       }
     });
   }
@@ -158,7 +161,9 @@ export class EditProfilePage implements OnInit {
               this.editTags();
             }
             this.presentToast("Changes saved");
-            this.router.navigate(["./profile"])
+            this.router.navigate(["./profile"]).then(() => {
+              window.location.reload();
+            });
           },
         },
       ],

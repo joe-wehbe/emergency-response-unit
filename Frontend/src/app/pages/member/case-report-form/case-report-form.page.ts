@@ -13,28 +13,22 @@ export class CaseReportFormPage implements OnInit {
 
   patientName: string = "";
   location: string = "";
-
   patientCondition: string = "Serious";
   otherPatientCondition: string = "";
-
   history: string = "";
-
   treatmentAdministration: string ="first responder team";
   otherTreatmentAdministration: string="";
-
   transportation: string = "lau clinic";
   otherTransportation: string = "";
-
   consultation: string = "yes";
   otherConsultation: string = "";
-
   equipment: string = "";
   issues: string = "yes";
   otherInput: string = ''; 
-
   emergency: any;
   emergencyId:number = 0;
   previousRoute: string = '/case-report';
+  isLoading: boolean = false;
 
   constructor(
     private router:Router, 
@@ -52,6 +46,7 @@ export class CaseReportFormPage implements OnInit {
   }
 
   getEmergency() {
+    this.isLoading = true;
     this.route.params.subscribe(params => {
       this.emergencyId = params['id'];
 
@@ -77,6 +72,9 @@ export class CaseReportFormPage implements OnInit {
           error: (error) => {
             console.error("Error getting emergency info:", error);
           },
+          complete: () => {
+            this.isLoading = false;
+          }
         });
     });
   }
@@ -93,7 +91,9 @@ export class CaseReportFormPage implements OnInit {
         .subscribe({
           next: (response) => {
             console.log('Case submitted successfully:', response);
-            this.router.navigate(["./case-reports"])
+            this.router.navigate(["./case-reports"]).then(() => {
+              window.location.reload();
+            });
           },
           error: (error) => {
             console.error('Error sumbitting:', error);

@@ -21,9 +21,11 @@ export class ManageExtensionsPage implements OnInit {
 
   name: string = '';
   number: string = '';
+  allExtensions: any[] = [];
   extensions: Extension[] = [];
   groupedExtensions: { letter: string, extensions: Extension[] }[] = [];
   filteredGroupedExtensions: { letter: string, extensions: Extension[] }[] = [];
+  isLoading: boolean = false;
 
   constructor(
     private toastController:ToastController, 
@@ -35,19 +37,40 @@ export class ManageExtensionsPage implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.extensions = [];
     this.getExtensions();
   }
 
   getExtensions(){
-    this.userService.getExtensions().subscribe(response => {
-      const extensions = Object.values(response).reduce((acc: any[], curr: any[]) => acc.concat(curr), []); 
-      this.extensions = extensions.map((extension: { id: number, name: string, number: string }) => ({ 
-        id : extension.id,
-        name: extension.name,
-        number: extension.number,
-      }));
-      this.groupExtensions();
-      this.filteredGroupedExtensions = [...this.groupedExtensions];
+    this.isLoading = true;
+    this.userService.getExtensions()
+    .subscribe({
+      next: (response) => {
+        if(response && response.hasOwnProperty("extensions")){
+          console.log("Fetched all extensions: ", response);
+          const parsedResponse = JSON.parse(JSON.stringify(response));
+          this.allExtensions = [].concat.apply([], Object.values(parsedResponse['extensions']));
+
+          this.allExtensions.forEach(extension =>{
+            this.extensions.push({
+              id: extension.id,
+              name: extension.name, 
+              number: extension.number, 
+            })
+          })
+          this.groupExtensions();
+          this.filteredGroupedExtensions = [...this.groupedExtensions];
+        }
+        else{
+          console.log("No extensions");
+        }
+      },
+      error: (error) => {
+        console.error("Error retrieving extensions:", error);
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
     });
   }
 

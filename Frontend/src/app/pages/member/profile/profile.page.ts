@@ -16,6 +16,7 @@ export class ProfilePage implements OnInit {
   userShifts: any[] = [];
   shifts: any[] = [];
   semesterData: any[] = [];
+  isLoading: boolean = false;
 
   constructor(
     private router:Router, 
@@ -30,6 +31,7 @@ export class ProfilePage implements OnInit {
   }
 
   getUserInfo() {
+    this.isLoading = true;
     this.userService.getUserInfo(localStorage.getItem("user_id") ?? '')
     .subscribe({
       next: (response) => {
@@ -40,6 +42,7 @@ export class ProfilePage implements OnInit {
         console.error("Error getting user info:", error);
       },
       complete: () => {
+        this.isLoading = false;
       }
     });
   }

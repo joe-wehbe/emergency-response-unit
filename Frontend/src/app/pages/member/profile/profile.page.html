@@ -90,3 +90,9 @@
     </div>
   </ion-card>
 </ion-content>
+
+<ion-content *ngIf="!user && isLoading">
+  <div class="body">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div> 
+</ion-content>

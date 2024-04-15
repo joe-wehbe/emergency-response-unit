@@ -19,6 +19,7 @@ export class ManageAnnouncementsPage implements OnInit {
   visibilitySelectedOption: string = 'dispatchers';
   importanceSelectedOption: string = 'Very important';
   description: string = '';
+  isLoading: boolean = false;
 
   @ViewChild('modal') modal: IonModal | undefined;
   constructor(
@@ -36,6 +37,7 @@ export class ManageAnnouncementsPage implements OnInit {
   }
 
   getAllAnnouncements(){
+    this.isLoading = true;
     this.userService.getAllAnnouncements()
     .subscribe({
       next: (response) => {
@@ -56,6 +58,9 @@ export class ManageAnnouncementsPage implements OnInit {
       },
       error: (error) => {
         console.error("Error retrieving announcements:", error);
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
   }

@@ -31,24 +31,27 @@ export class MedicEmergencyDetailsPage implements OnInit {
   pupils_reaction: string = "";
   assessmentsCount: number = 1;
 
+  isLoading: boolean = false;
+
   constructor(
     private router:Router, 
     public alertController:AlertController,
     private route:ActivatedRoute,
     private toastController:ToastController,
-    public emergencyService:EmergencyService) { }
+    public emergencyService:EmergencyService
+  ) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.emergencyId = params['id'];
     });
     this.getEmergencyWithLastAssessment();
-
     const storedCount = localStorage.getItem(`assessmentsCount${this.emergencyId}`);
     this.assessmentsCount = storedCount ? parseInt(storedCount) : 1;
   }
 
   getEmergencyWithLastAssessment(){
+    this.isLoading = true;
     this.emergencyService.getEmergencyWithLastAssessment(this.emergencyId)
       .subscribe({
         next: (response) => {
@@ -74,6 +77,9 @@ export class MedicEmergencyDetailsPage implements OnInit {
         error: (error) => {
           console.error("Error getting emergency info:", error);
         },
+        complete: () => {
+          this.isLoading = false;
+        }
       });
   }
 
@@ -161,7 +167,9 @@ export class MedicEmergencyDetailsPage implements OnInit {
               next: (response) => {
                 console.log("Emergency ended:", response);
                 localStorage.removeItem(`assessmentsCount${this.emergencyId}`);
-                this.router.navigate(["./tabs/on-scene"])
+                this.router.navigate(["./tabs/on-scene"]).then(() => {
+                  window.location.reload();
+                });
               },
               error: (error) => {
                 console.error("Error ending emergency:", error);

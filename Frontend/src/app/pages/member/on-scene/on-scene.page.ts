@@ -11,6 +11,7 @@ import { EmergencyService } from 'src/app/services/emergency/emergency.service';
 export class OnScenePage implements OnInit {
 
   noResponseEmergencies: any[] = [];
+  isLoading: boolean = false;
 
   constructor(
     private router:Router, 
@@ -23,6 +24,7 @@ export class OnScenePage implements OnInit {
   }
 
   getNoResponseEmergencies(){
+    this.isLoading = true;
     this.emergencyService.getNoResponseEmergencies()
     .subscribe({
       next: (response) => {
@@ -37,6 +39,9 @@ export class OnScenePage implements OnInit {
       },
       error: (error) => {
         console.error("Error retrieving no response emergencies:", error);
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
   }

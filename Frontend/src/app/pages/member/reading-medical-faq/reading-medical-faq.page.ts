@@ -16,10 +16,10 @@ interface MedicalFaq {
   styleUrls: ['./reading-medical-faq.page.scss'],
 })
 export class ReadingMedicalFaqPage implements OnInit {
-  allMedicalFaqs: any[] = [];
   type: string = '';
   medicalFaqs: MedicalFaq[] = [];
   allFAQs: any[] = [];
+  isLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -32,6 +32,7 @@ export class ReadingMedicalFaqPage implements OnInit {
   }
 
   getMedicalFAQs() {
+    this.isLoading = true;
     this.route.params.subscribe((params) => {
       this.type = params['type'];
       
@@ -57,6 +58,9 @@ export class ReadingMedicalFaqPage implements OnInit {
         error: (error) => {
           console.error('Error retrieving users:', error);
         },
+        complete: () => {
+          this.isLoading = false;
+        }
       });
     });
   }

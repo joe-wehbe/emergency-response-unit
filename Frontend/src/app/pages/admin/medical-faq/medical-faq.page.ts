@@ -21,10 +21,12 @@ interface FAQ {
 })
 export class MedicalFAQPage implements OnInit {
 
-  medical_faqs: FAQ[] = [];
   type: string = "";
   question: string = "";
   answer: string = "";
+  medicalFaqs: FAQ[] = [];
+  allFAQs: any[] = [];
+  isLoading: boolean = false;
 
   constructor(
     private toastController: ToastController, 
@@ -41,18 +43,37 @@ export class MedicalFAQPage implements OnInit {
   }
 
   getMedicalFAQs() {
-    this.route.params.subscribe(params => {
-      this.type = params['type']; 
-      this.userService.getMedicalFAQs(this.type).subscribe(response => {
-        const faqs = Object.values(response).reduce((acc: any[], curr: any[]) => acc.concat(curr), []); 
-        this.medical_faqs = faqs.map((faq: {id: number, type: string, question: string, answer: string}) => ({ 
-          id : faq.id,
-          type: faq.type,
-          question: faq.question,
-          answer: faq.answer
-        }));
-     });
-   });
+    this.isLoading = true;
+    this.route.params.subscribe((params) => {
+      this.type = params['type'];
+      
+      this.userService.getMedicalFAQs(this.type).subscribe({
+        next: (response) => {
+          if (response && response.hasOwnProperty('medicalFAQ')) {
+            console.log('Fetched all medical FAQs: ', response);
+            const parsedResponse = JSON.parse(JSON.stringify(response));
+            this.allFAQs = [].concat.apply([], Object.values(parsedResponse['medicalFAQ']));
+            this.allFAQs.forEach((faq) => {
+              this.medicalFaqs.push({
+                id: faq.id,
+                type: faq.type,
+                question: faq.question,
+                answer: faq.answer,
+              });
+              this.type = faq.type;
+            });
+          } else {
+            console.log('No users');
+          }
+        },
+        error: (error) => {
+          console.error('Error retrieving users:', error);
+        },
+        complete: () => {
+          this.isLoading = false;
+        }
+      });
+    });
   }
 
   addFaq() {
@@ -111,9 +132,9 @@ export class MedicalFAQPage implements OnInit {
 
   async presentToast(message:string){
     const toast = await this.toastController.create({
-         message: message,
-         duration: 2000, 
-         position: 'bottom'
+      message: message,
+      duration: 2000, 
+      position: 'bottom'
     });
     toast.present();
   }

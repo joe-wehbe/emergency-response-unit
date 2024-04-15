@@ -11,6 +11,7 @@ export class CaseReportsPage implements OnInit {
 
   selectedSegment: string = 'Ongoing';
   caseReports: any[] = [];
+  isLoading: boolean = false;
 
   constructor(private router:Router, private emergencyService: EmergencyService) { }
 
@@ -18,11 +19,8 @@ export class CaseReportsPage implements OnInit {
     this.getAllCaseReports();
   }
 
-  navigateCaseReportForm(emergencyId: number){
-    this.router.navigate(['/case-report-form', emergencyId], { queryParams: { from: 'case-reports' } });
-  }
-
   getAllCaseReports() {
+    this.isLoading = true;
     this.emergencyService.getAllCaseReports().subscribe({
       next: (response) => {
         if (response && response.hasOwnProperty('emergencies')) {
@@ -37,6 +35,13 @@ export class CaseReportsPage implements OnInit {
       error: (error) => {
         console.error('Error retrieving case reports to be filled:', error);
       },
+      complete: () => {
+        this.isLoading = false;
+      }
     });
+  }
+
+  navigateCaseReportForm(emergencyId: number){
+    this.router.navigate(['/case-report-form', emergencyId], { queryParams: { from: 'case-reports' } });
   }
 }

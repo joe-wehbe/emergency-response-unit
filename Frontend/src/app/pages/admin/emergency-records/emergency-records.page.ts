@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit} from '@angular/core';
+import { Component, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { IonModal } from '@ionic/angular';
@@ -46,6 +46,7 @@ export class EmergencyRecordsPage {
   selectedEmergency: any;
   fromDateElement: HTMLIonDatetimeElement | null = null;
   toDateElement: HTMLIonDatetimeElement | null = null;
+  isLoading: boolean = false;
 
   @ViewChild('detailsModal') modal: IonModal | undefined;
   constructor(
@@ -62,6 +63,7 @@ export class EmergencyRecordsPage {
   }
 
   getAllEmergenciesWithLastAssessment() {
+    this.isLoading = true;
     this.emergencyService.getAllEmergenciesWithLastAssessment()
     .subscribe({
       next: (response) => {
@@ -109,6 +111,9 @@ export class EmergencyRecordsPage {
       },
       error: (error) => {
         console.error("Error retrieving emergencies:", error);
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
   }
@@ -261,9 +266,6 @@ export class EmergencyRecordsPage {
         let toDate = new Date(currentYear, currentMonth, 0);
 
         if (this.fromDateElement && this.toDateElement) {
-          console.log('From date value:', this.fromDateElement);
-          console.log('To date value:', this.toDateElement);
-
           const fromDateValue = this.fromDateElement.value;
           const toDateValue = this.toDateElement.value;
 

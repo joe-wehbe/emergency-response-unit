@@ -21,6 +21,7 @@ export class UserProfilePage implements OnInit {
   userShifts: any[] = [];
   shifts: any[] = [];
   semesterData: any[] = [];
+  isLoading: boolean = false;
 
   constructor(
     private toastController: ToastController,
@@ -38,6 +39,7 @@ export class UserProfilePage implements OnInit {
   }
 
   getUserInfo(){
+    this.isLoading = true;
     this.route.params.subscribe(params => {
       this.userId = params['id'];
       this.userService.getUserInfo(this.userId)
@@ -50,6 +52,7 @@ export class UserProfilePage implements OnInit {
           console.error("Error getting user info:", error);
         },
         complete: () => {
+          this.isLoading = false;
         }
       });
     });
@@ -321,7 +324,9 @@ export class UserProfilePage implements OnInit {
       next: (response) => {
         console.log('User removed successfully', response);
         this.presentToast(this.user.first_name + ' ' + this.user.last_name + " is no longer in the unit.");
-        this.router.navigate(['./manage-members']);
+        this.router.navigate(['./manage-members']).then(() => {
+          window.location.reload();
+        });
       },
       error: (error) => {
         console.error('Error removing user:', error);

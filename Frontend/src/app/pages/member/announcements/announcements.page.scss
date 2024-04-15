@@ -110,3 +110,36 @@ ion-modal#view-announcement-modal {
     --border-radius: 6px;
     --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
 }
+
+.body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 5em;
+    padding: 10px;
+}
+  
+.stmt{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1em;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.second-stmt{
+    margin-top: -1em;
+    font-size: 14px;
+    text-align: center;
+}
+
+.no-emergencies-img{
+    width: 80%;
+}
+
+.no-results{
+    font-style: italic;
+}

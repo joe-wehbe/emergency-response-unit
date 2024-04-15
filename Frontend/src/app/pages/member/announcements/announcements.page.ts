@@ -14,6 +14,7 @@ export class AnnouncementsPage implements OnInit {
   announcements: any[] = [];
   visibleAnnouncements: any[] = [];
   selectedAnnouncement: any;
+  isLoading: boolean = false;
 
   @ViewChild('modal') modal: IonModal | undefined;
   constructor(private userService: UserService) {}
@@ -23,6 +24,7 @@ export class AnnouncementsPage implements OnInit {
   }
 
   getAllAnnouncements(){
+    this.isLoading = true;
     this.userService.getAllAnnouncements()
     .subscribe({
       next: (response) => {
@@ -57,6 +59,9 @@ export class AnnouncementsPage implements OnInit {
       },
       error: (error) => {
         console.error("Error retrieving announcements:", error);
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
   }

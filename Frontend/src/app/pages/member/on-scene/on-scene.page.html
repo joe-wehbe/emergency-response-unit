@@ -74,12 +74,19 @@
     </ion-card>
   </ng-container>
   <ng-template #noEmergencies>
-    <div class="body">
-      <div class="stmt">
-        <p>No ongoing emergencies</p>
-        <p class="second-stmt">Emergencies with no response will appear here.</p>
-        <ion-img class="no-emergencies-img" src="assets/img/no-emergencies-img.png"></ion-img>
+    <ng-container *ngIf="isLoading">
+      <div class="body">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div> 
+    </ng-container>
+    <ng-container *ngIf="!isLoading">
+      <div class="body">
+        <div class="stmt">
+          <p>No ongoing emergencies</p>
+          <p class="second-stmt">Emergencies with no response will appear here.</p>
+          <ion-img class="no-emergencies-img" src="assets/img/no-emergencies-img.png"></ion-img>
+        </div>
       </div>
-    </div>
+    </ng-container>
   </ng-template>
 </ion-content>

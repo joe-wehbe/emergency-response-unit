@@ -12,42 +12,58 @@
 </ion-header>
 
 <ion-content class="background">
-  <div class="stmt">
-    <p>{{ requests.length }} registration request</p>
-    <p class="second-stmt">Check if the user trying to register is an ERU member</p>
-  </div>
-
-  <div class="cards">
-    <ion-card *ngFor="let request of requests">
-      <div class="first-block">
-        <p class="date">{{ request.created_at | date: 'dd/MM/yyyy' }}</p>
-        <p class="time">{{ request.created_at | date: 'h:mm' }}</p>
-
-      </div>
-      <div class="second-block">
-        <p class="name">{{ request.user.first_name }} {{ request.user.last_name }}</p>
-        <div class="email-container">
-          <ion-icon name="mail-outline"></ion-icon>
-          <p class="email">{{ request.email }}</p>
+  <ng-container *ngIf="requests.length > 0">
+    <div class="stmt">
+      <p>{{ requests.length }} registration request</p>
+      <p class="second-stmt">Check if the user trying to register is an ERU member</p>
+    </div> 
+    <div class="cards">
+      <ion-card *ngFor="let request of requests">
+        <div class="first-block">
+          <p class="date">{{ request.created_at | date: 'dd/MM/yyyy' }}</p>
+          <p class="time">{{ request.created_at | date: 'h:mm' }}</p>
         </div>
-        <div class="id-container">
-          <ion-icon name="card-outline"></ion-icon>
-          <p class="id">{{ request.user.student_id}}</p>
+        <div class="second-block">
+          <p class="name">{{ request.user.first_name }} {{ request.user.last_name }}</p>
+          <div class="email-container">
+            <ion-icon name="mail-outline"></ion-icon>
+            <p class="email">{{ request.email }}</p>
+          </div>
+          <div class="id-container">
+            <ion-icon name="card-outline"></ion-icon>
+            <p class="id">{{ request.user.student_id}}</p>
+          </div>
+          <div class="number-container">
+            <ion-icon name="call-outline"></ion-icon>
+            <p class="number">{{ request.user.phone_number}}</p>
+          </div>
+          <div class="major-container">
+            <ion-icon name="desktop-outline"></ion-icon>
+            <p class="major">{{ request.user.major }}</p>
+          </div>
         </div>
-        <div class="number-container">
-          <ion-icon name="call-outline"></ion-icon>
-          <p class="number">{{ request.user.phone_number}}</p>
+        <div class="third-block">
+          <ion-icon class="accept-icon" name="checkmark-circle-outline" (click)="acceptAlert(request.id)"></ion-icon>
+          <ion-icon class="reject-icon" name="close-circle-outline" (click)="rejectAlert(request.id)"></ion-icon>
         </div>
-        <div class="major-container">
-          <ion-icon name="desktop-outline"></ion-icon>
-          <p class="major">{{ request.user.major }}</p>
+      </ion-card>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="requests.length == 0">
+    <ng-container *ngIf="isLoading">
+      <div class="body">
+          <ion-spinner name="crescent"></ion-spinner>
+      </div> 
+    </ng-container>
+    <ng-container *ngIf="!isLoading">
+      <div class="body">
+        <div class="stmt">
+          <p>No registration requests</p>
+          <p class="second-stmt">Registration requests will appear here</p>
+          <ion-img class="no-emergencies-img" src="assets/img/no-emergencies-img.png"></ion-img>
         </div>
-      </div>
-      <div class="third-block">
-        <ion-icon class="accept-icon" name="checkmark-circle-outline" (click)="acceptAlert(request.id)"></ion-icon>
-        <ion-icon class="reject-icon" name="close-circle-outline" (click)="rejectAlert(request.id)"></ion-icon>
-      </div>
-    </ion-card>
-  </div>
+      </div>  
+    </ng-container>
+  </ng-container>
 </ion-content>
 

@@ -18,6 +18,7 @@ export class ExtensionsPage implements OnInit {
   allExtensions: any[] = [];
   groupedExtensions: { letter: string, extensions: Extension[] }[] = [];
   filteredGroupedExtensions: { letter: string, extensions: Extension[] }[] = [];
+  isLoading: boolean = false;
 
   constructor(private router:Router, private userService: UserService) {}
 
@@ -26,6 +27,7 @@ export class ExtensionsPage implements OnInit {
   }
 
   getExtensions(){
+    this.isLoading = true;
     this.userService.getExtensions()
     .subscribe({
       next: (response) => {
@@ -49,6 +51,9 @@ export class ExtensionsPage implements OnInit {
       },
       error: (error) => {
         console.error("Error retrieving extensions:", error);
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
   }

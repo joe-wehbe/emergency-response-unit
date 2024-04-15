@@ -7,36 +7,53 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="background">
-  <div class="stmt">
-    <p>{{ coverRequests.length }} {{ coverRequests.length === 1 ? 'Cover Request' : 'Cover Requests' }}</p>
-    <p class="second-stmt">The member you cover for will be notified of your acceptance</p>
-  </div>
-
-  <ion-card *ngFor ="let cover_request of coverRequests" (click)="presentAlert(cover_request.id)">
-    <div class="first-box"></div>
-    <div class="second-box">
-      <ion-avatar slot="start" class="profile-picture">
-        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-      </ion-avatar>
+<ion-content>
+  <ng-container *ngIf="coverRequests.length > 0">
+    <div class="stmt">
+      <p>{{ coverRequests.length }} {{ coverRequests.length === 1 ? 'Cover Request' : 'Cover Requests' }}</p>
+      <p class="second-stmt">The member you cover for will be notified of your acceptance</p>
     </div>
-    <div class="third-box">
-      <div class="cover_requests" id="cover_requests">
-        <div class="upper-container">
-          <div class="name-time-container">
-            <p class="name">{{cover_request.user.first_name}} {{cover_request.user.last_name}}</p>
-            <p class="time">{{cover_request.shift.time_start}}-{{cover_request.shift.time_end}}</p>
+    <ion-card *ngFor ="let cover_request of coverRequests" (click)="presentAlert(cover_request.id)">
+      <div class="first-box"></div>
+      <div class="second-box">
+        <ion-avatar slot="start" class="profile-picture">
+          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        </ion-avatar>
+      </div>
+      <div class="third-box">
+        <div class="cover_requests" id="cover_requests">
+          <div class="upper-container">
+            <div class="name-time-container">
+              <p class="name">{{cover_request.user.first_name}} {{cover_request.user.last_name}}</p>
+              <p class="time">{{cover_request.shift.time_start}}-{{cover_request.shift.time_end}}</p>
+            </div>
+            <div class="role-container">
+              <p class="role">{{cover_request.user.rank.rank_name}}</p>
+              <p class="date">{{cover_request.shift.day}}</p>
+            </div>
           </div>
-          <div class="role-container">
-            <p class="role">{{cover_request.user.rank.rank_name}}</p>
-            <p class="date">{{cover_request.shift.day}}</p>
+          <div class="description-container">
+            <ion-icon class="icon" name="chatbubble-ellipses-outline"></ion-icon>
+            <p class="description">{{cover_request.reason}}</p>
           </div>
-        </div>
-        <div class="description-container">
-          <ion-icon class="icon" name="chatbubble-ellipses-outline"></ion-icon>
-          <p class="description">{{cover_request.reason}}</p>
         </div>
       </div>
-    </div>
-  </ion-card>
+    </ion-card>
+  </ng-container>
+  <ng-container *ngIf="coverRequests.length == 0">
+    <ng-container *ngIf="isLoading">
+      <div class="body">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div> 
+    </ng-container>
+    <ng-container *ngIf="!isLoading">
+      <div class="body">
+        <div class="stmt">
+          <p>No cover requests</p>
+          <p class="second-stmt">Cover requests sent by members will appear here</p>
+          <ion-img class="no-emergencies-img" src="assets/img/no-emergencies-img.png"></ion-img>
+        </div>
+      </div>  
+    </ng-container>
+  </ng-container>
 </ion-content>

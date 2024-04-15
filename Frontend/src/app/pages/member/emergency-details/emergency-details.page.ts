@@ -13,6 +13,7 @@ export class EmergencyDetailsPage implements OnInit {
   emergencyId: number = 0;
   emergency: any;
   assessments: any[] = [];
+  isLoading: boolean = false;
 
   constructor(private router:Router, private route:ActivatedRoute, private emergencyService:EmergencyService) { }
 
@@ -22,6 +23,7 @@ export class EmergencyDetailsPage implements OnInit {
   }
 
   getEmergency() {
+    this.isLoading = true;
     this.route.params.subscribe(params => {
       this.emergencyId = params['id'];
       this.emergencyService.getEmergency(this.emergencyId)
@@ -33,6 +35,9 @@ export class EmergencyDetailsPage implements OnInit {
           error: (error) => {
             console.error("Error getting emergency info:", error);
           },
+          complete: () => {
+            this.isLoading = false;
+          }
         });
     });
   }

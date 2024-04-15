@@ -12,25 +12,21 @@
 </ion-header>
 
 <ion-content class="gradient-background" *ngIf="user">
-  <ion-card class="card-container">
-      
+  <ion-card class="card-container">   
     <div class="header">
       <ion-avatar class="icon">
         <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       </ion-avatar>
-  
       <div class="container">
         <div class="np-container">
           <h2 class="name">{{ user.first_name }} {{ user.last_name }}</h2>
           <p class="position">{{user.rank.rank_name}}</p>
         </div>
-
         <div class="save-button">
           <ion-icon name="checkbox-outline" (click)="navigateProfile()"></ion-icon>
         </div>
       </div>
     </div>
-
     <ion-grid [fixed]="true" class="grid-container">
       <ion-row>
         <ion-col size="6" size-md="4" size-lg="2">
@@ -53,13 +49,11 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-
     <div class="seperator">
       <div class="first-line"></div>
       <p class="section-name">Experience</p>
       <div class="second-line"></div>
     </div>
-  
     <div class="experience-sections">
       <div class="first-experience-section" id="edit-first-section">
         <h6>Talk about your accomplishments</h6>
@@ -68,7 +62,6 @@
           <ion-text class="no-experience-text" *ngIf="!(bio)">Nothing to show here</ion-text>
         </ion-card>
       </div>
-  
       <div class="second-experience-section" id="edit-second-section">
         <h6>Show your skills in the medical field</h6>
         <ion-card class="skills-card">
@@ -81,13 +74,11 @@
         </ion-card>
       </div>
     </div>
-
     <div class="seperator">
       <div class="first-line"></div>
       <p class="section-name">Schedule</p>
       <div class="second-line"></div>
     </div>
-
     <div class="calendar-container">
       <ion-datetime 
         class="calendar"
@@ -98,12 +89,10 @@
         [highlightedDates]="highlightedDates">
       </ion-datetime> 
     </div>
-
     <div class="attendance-button-container">
       <ion-button class="attendance-button" fill="outline" disabled>Mark attendance</ion-button>
     </div>
   </ion-card>
-
   <ion-modal id="edit-first-section-modal" #modal trigger="edit-first-section">
     <ng-template>
       <div class="wrapper">
@@ -121,7 +110,6 @@
       </div>
     </ng-template>
   </ion-modal>
-
   <ion-modal id="edit-second-section-modal" #modal trigger="edit-second-section">
     <ng-template>
       <div class="wrapper">
@@ -139,4 +127,10 @@
       </div>
     </ng-template>
   </ion-modal>
+</ion-content>
+
+<ion-content *ngIf="!user && isLoading">
+  <div class="body">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div> 
 </ion-content>

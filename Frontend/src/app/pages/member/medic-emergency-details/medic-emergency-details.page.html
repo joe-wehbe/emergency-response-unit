@@ -12,12 +12,12 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="background">
+<ion-content class="background" *ngIf="emergency">
   <div class="stmt">
     <p>Record vitals and patient information</p>
   </div>
 
-  <ion-accordion-group *ngIf="emergency" mode="ios" [multiple]="true" [value]="['first', 'second', 'third']">
+  <ion-accordion-group mode="ios" [multiple]="true" [value]="['first', 'second', 'third']">
     <ion-accordion value="first">
       <ion-item slot="header" class="first-item">
         <p class="statement">Emergency Updates</p>
@@ -200,4 +200,10 @@
   <div class="end-emergency">
     <ion-button mode="ios" class="end-emergency-button" (click)="endEmergencyAlert()">End Emergency</ion-button>
   </div>
+</ion-content>
+
+<ion-content *ngIf="!emergency && isLoading">
+  <div class="body">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div> 
 </ion-content>

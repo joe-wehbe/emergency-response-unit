@@ -13,6 +13,7 @@ export class StandbyPage implements OnInit {
   selectedSegment: string = 'Ongoing';
   ongoingEmergencies: any = [];
   endedEmergencies: any = [];
+  isLoading: boolean = false;
 
   constructor(
     private router:Router, 
@@ -26,41 +27,45 @@ export class StandbyPage implements OnInit {
   }
 
   getOngoingEmergencies() {
+    this.isLoading = true;
     this.emergencyService.getOngoingEmergencies()
-      .subscribe({
-        next: (response) => {
-          if(response && response.hasOwnProperty("emergencies")){
-            console.log("Fetched Ongoing emergencies: ", response);
-            const parsedResponse = JSON.parse(JSON.stringify(response));
-            this.ongoingEmergencies = [].concat.apply([], Object.values(parsedResponse['emergencies']));
-          }
-          else{
-            console.log("No ongoing emergencies");
-          }
-        },
-        error: (error) => {
-          console.error("Error retrieving ongoing emergencies:", error);
+    .subscribe({
+      next: (response) => {
+        if(response && response.hasOwnProperty("emergencies")){
+          console.log("Fetched Ongoing emergencies: ", response);
+          const parsedResponse = JSON.parse(JSON.stringify(response));
+          this.ongoingEmergencies = [].concat.apply([], Object.values(parsedResponse['emergencies']));
         }
-      });
+        else{
+          console.log("No ongoing emergencies");
+        }
+      },
+      error: (error) => {
+        console.error("Error retrieving ongoing emergencies:", error);
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
   }
   
   getEndedEmergencies() {
     this.emergencyService.getEndedEmergencies()
-      .subscribe({
-        next: (response) => {
-          if (response && response.hasOwnProperty("emergencies")) {
-            console.log("Fetched ended emergencies: ", response);
-            const parsedResponse = JSON.parse(JSON.stringify(response));
-            this.endedEmergencies = [].concat.apply([], Object.values(parsedResponse['emergencies']));
+    .subscribe({
+      next: (response) => {
+        if (response && response.hasOwnProperty("emergencies")) {
+          console.log("Fetched ended emergencies: ", response);
+          const parsedResponse = JSON.parse(JSON.stringify(response));
+          this.endedEmergencies = [].concat.apply([], Object.values(parsedResponse['emergencies']));
 
-          } else {
-            console.log("No ended emergencies");
-          }
-        },
-        error: (error) => {
-          console.error("Error retrieving ended emergencies:", error);
+        } else {
+          console.log("No ended emergencies");
         }
-      });
+      },
+      error: (error) => {
+        console.error("Error retrieving ended emergencies:", error);
+      }
+    });
   }
 
   openActionSheet(emergencyId: number) {
