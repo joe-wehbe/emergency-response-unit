@@ -7,7 +7,6 @@
         </ion-button>
       </ion-buttons>
       <ion-title class="title">Editing Schedule</ion-title>
-    <ion-icon class="save-button" name="checkbox-outline" slot="end" (click)="saveAlert()"></ion-icon>
     </div>
   </ion-toolbar>
 </ion-header>
@@ -16,29 +15,29 @@
 
   <div class="body">
     <div class="stmt">
-      <p *ngIf="shiftsPastWeek === 1">{{ shiftsPastWeek }} shift per week</p>
-      <p *ngIf="shiftsPastWeek > 1">{{ shiftsPastWeek }}  shifts per week</p>
+      <p *ngIf="shifts.length === 1">{{ shifts.length }} shift per week</p>
+      <p *ngIf="shifts.length > 1">{{ shifts.length }}  shifts per week</p>
     </div>
-
-    <div class="day-container" *ngFor = "let shift of shifts">
-      <p class="day">{{shift.day}}</p>
+    <div *ngFor="let day of sortedDays()">
+      <p class="day">{{ day }}</p>
       <ion-card class="shifts-card">
-        <div class="shift-container">
+        <div class="shift-container" *ngFor="let shift of groupedShifts[day]">
           <div class="shift">
-              <p class="time">{{shift.start_time}} - {{shift.end_time}}</p>
-              <div class="seperator"></div>
-              <ion-chip color="warning">
-                <!-- <ion-label>{{shift.coverCount.coverRequestsCount}} covers</ion-label> -->
-              </ion-chip>
-              <div class="seperator"></div>
-              <ion-chip color="danger">
-                <!-- <ion-label>{{shift.missed_attendance}} misses</ion-label> -->
-              </ion-chip>            
+            <p class="time">{{ shift.shift.time_start | date: 'h:mm' }} - {{ shift.shift.time_end | date: 'h:mm' }}</p>
+            <div class="seperator"></div>
+            <ion-chip color="warning">
+              <ion-label *ngIf="shift.coverCount">{{ shift.coverCount.coverRequestsCount }} covers</ion-label>
+            </ion-chip>
+            <div class="seperator"></div>
+            <ion-chip color="danger">
+              <ion-label>{{ shift.missed_attendance }} misses</ion-label>
+            </ion-chip>            
           </div>
           <ion-icon class="delete-icon" name="close-circle-outline" (click)="deleteAlert(shift.id)"></ion-icon>
         </div>
       </ion-card>
     </div>
+    
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
@@ -54,7 +53,7 @@
           <p class="section">Please select a day and time range</p>
         </div> 
         <div class="weekdays-radio">
-          <ion-radio-group mode="md" [(ngModel)]="selectedOption">
+          <ion-radio-group mode="md"  [(ngModel)]="selectedOption">
             <ion-radio value="monday" labelPlacement="stacked">Monday</ion-radio>
             <ion-radio value="tuesday" labelPlacement="stacked">Tuesday</ion-radio>
             <ion-radio value="wednesday" labelPlacement="stacked">Wednesday</ion-radio>
@@ -84,7 +83,7 @@
         </div>
         <div class="buttons-container">
           <ion-button class="cancel-button" fill="outline" (click)="dismiss()">Cancel</ion-button>
-          <ion-button class="fetch-button" fill="outline" (click)="add()">Add shift</ion-button>
+          <ion-button class="fetch-button" fill="outline" (click)="addShift()">Add shift</ion-button>
         </div>
       </div>
     </ng-template>

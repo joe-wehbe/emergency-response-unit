@@ -72,6 +72,7 @@ export class CoverRequestsPage implements OnInit {
             this.userService.acceptCoverRequest(coverRequestId).subscribe({
               next: (response) => {
                 console.log('Cover request accepted:', response);
+                this.ngOnInit();
               },
               error: (error) => {
                 console.error('Error applying:', error);

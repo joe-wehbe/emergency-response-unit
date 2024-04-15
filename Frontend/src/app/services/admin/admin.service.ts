@@ -38,7 +38,21 @@ export class AdminService {
   }
 
   // CHANGE SCHEDULE PAGE
-  // add shift and delete shift missing
+  getShiftCoversCount(userId:string, shiftId: number){
+    return this.http.get(this.base_url + "get-shift-covers-count/" + userId + '/' + shiftId, { headers: this.getAuthHeaders() });
+  }
+
+  addShift(userId:number, shiftId:number){
+    const body = {
+      "user_id": userId,
+      "shift_id": shiftId
+    };
+    return this.http.put(this.base_url + 'add-shift', body);
+  }
+
+  deleteShift(userId:string, shiftId:number){
+    return this.http.delete(this.base_url + "delete-shift/" + userId + '/' + shiftId); 
+  }
 
   // MANAGE ANNOUNCEMENTS TAB
   addAnnouncement(id:string, importance:string, description:string, visible_to:number){
@@ -101,10 +115,5 @@ export class AdminService {
       "request_id": request_id
     }
     return this.http.put(this.base_url + "reject-signup-request/" + request_id, body); 
-  }
-
-  // UNKNOWN
-  getShiftCovers(shift_id: number){
-    return this.http.get(this.base_url + "get-shift-cover-requests/" + shift_id, { headers: this.getAuthHeaders() });
   }
 }

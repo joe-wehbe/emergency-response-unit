@@ -104,6 +104,15 @@ class AdminController extends Controller{
         }
     }
 
+    public function getShiftCoversCount($userId, $shiftId){
+        try {
+            $coverRequestsCount = Cover_request::where('user_id', $userId)->where('shift_id', $shiftId)->count();
+            return response()->json(['coverRequestsCount' => $coverRequestsCount], 200);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
     public function addShift(Request $request){
         $request->validate([
             'user_id' => 'required',
@@ -135,7 +144,7 @@ class AdminController extends Controller{
         }
     }
 
-    public function deleteShift($shift_id, $user_id){
+    public function deleteShift($user_id, $shift_id){
         try {
             $user = User::find($user_id);
 
@@ -405,16 +414,6 @@ class AdminController extends Controller{
                 return response()->json(['error' => 'Signup request not found'], 404);
             }
         } catch (Exception $exception) {
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
-    }
-
-    // UNKNOWN
-    public function getCoverRequestsCount($user_id, $shiftId){
-        try {
-            $coverRequestsCount = Cover_request::where('user_id', $user_id)->where('shift_id', $shiftId)->count();
-            return response()->json(['coverRequestsCount' => $coverRequestsCount], 200);
-        }  catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }

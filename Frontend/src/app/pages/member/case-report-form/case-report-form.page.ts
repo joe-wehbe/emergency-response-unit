@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 import { EmergencyService } from 'src/app/services/emergency/emergency.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -10,13 +11,23 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class CaseReportFormPage implements OnInit {
 
-  patient_name: string = "";
+  patientName: string = "";
   location: string = "";
-  patient_condition: string = "Serious";
+
+  patientCondition: string = "Serious";
+  otherPatientCondition: string = "";
+
   history: string = "";
-  treatment_administration: string ="first responder team";
+
+  treatmentAdministration: string ="first responder team";
+  otherTreatmentAdministration: string="";
+
   transportation: string = "lau clinic";
+  otherTransportation: string = "";
+
   consultation: string = "yes";
+  otherConsultation: string = "";
+
   equipment: string = "";
   issues: string = "yes";
   otherInput: string = ''; 
@@ -29,7 +40,8 @@ export class CaseReportFormPage implements OnInit {
     private router:Router, 
     private route: ActivatedRoute, 
     private emergencyService: EmergencyService, 
-    private userService: UserService
+    private userService: UserService,
+    private toastController:ToastController
   ) { }
 
   ngOnInit() {
@@ -37,29 +49,6 @@ export class CaseReportFormPage implements OnInit {
       this.previousRoute = params['from']  || '/case-report';
     });
     this.getEmergency();
-  }
- 
-  optionSelected() {
-    if (this.patient_condition !== 'other' || this.treatment_administration !== 'other' || this.transportation !== 'other' || this.consultation !== 'other' || this.issues !== 'other') {
-      this.otherInput = '';
-    }
-  }
-
-  back(){
-    this.router.navigate([this.previousRoute]);
-  }
-
-  addCaseReport(){
-    this.userService.addCaseReport(this.emergencyId, this.patient_name, this.location, this.patient_condition, 
-      this.history, this.treatment_administration, this.transportation, this.equipment, this.consultation, this.issues).subscribe({
-      next: (response) => {
-        console.log('Case submitted successfully:', response);
-        this.router.navigate(["./case-reports"])
-      },
-      error: (error) => {
-        console.error('Error sumbitting:', error);
-      },
-    });
   }
 
   getEmergency() {
@@ -71,14 +60,83 @@ export class CaseReportFormPage implements OnInit {
           next: (response) => {
             console.log("Fetched emergency data:", response);
             this.emergency = (response as any).emergency;
-            this.patient_name = this.emergency.patient_name;
+            this.patientName = this.emergency.patient_name;
             this.location = this.emergency.location;
-            this.patient_condition = this.emergency.patient_condition;
+
+            if(this.emergency.patient_condition == 'Serious' || 
+            this.emergency.patient_condition == 'Not Serious' || 
+            this.emergency.patient_condition == null){
+  
+              this.patientCondition = this.emergency.patient_condition;
+            }
+            else{
+              this.patientCondition = "other";
+              this.otherPatientCondition = this.emergency.patient_condition;
+            }
           },
           error: (error) => {
             console.error("Error getting emergency info:", error);
           },
         });
     });
+  }
+
+  addCaseReport(){
+    if(this.emergencyId && this.patientName && this.location && this.patientCondition && 
+      this.history && this.treatmentAdministration && this.transportation && this.equipment && this.consultation && this.issues){
+
+      this.userService.addCaseReport(this.emergencyId, this.patientName, this.location,
+        this.patientCondition == "other" ? this.otherPatientCondition : this.patientCondition,this.history,
+        this.treatmentAdministration == "other" ? this.otherTreatmentAdministration : this.treatmentAdministration,
+        this.transportation == "other" ? this.otherTransportation : this.transportation,this.equipment, 
+        this.consultation == "other" ? this.otherConsultation : this.consultation, this.issues)
+        .subscribe({
+          next: (response) => {
+            console.log('Case submitted successfully:', response);
+            this.router.navigate(["./case-reports"])
+          },
+          error: (error) => {
+            console.error('Error sumbitting:', error);
+          },
+        });
+    }
+    else{
+      this.presentToast("All fields are required");
+    }
+  }
+
+  async presentToast(message:string){
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom',
+    });
+    toast.present();
+  }
+
+  optionSelected() {
+    if (this.patientCondition !== 'other' || this.treatmentAdministration !== 'other' || this.transportation !== 'other' || this.consultation !== 'other' || this.issues !== 'other') {
+      this.otherInput = '';
+    }
+  }
+
+  enableSelectionPC(){
+    this.patientCondition="";
+  }
+
+  enableSelectionTA(){
+    this.treatmentAdministration="";
+  }
+
+  enableSelectionT(){
+    this.transportation="";
+  }
+
+  enableSelectionC(){
+    this.consultation="";
+  }
+
+  back(){
+    this.router.navigate([this.previousRoute]);
   }
 }

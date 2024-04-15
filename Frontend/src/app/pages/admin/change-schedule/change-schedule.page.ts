@@ -3,98 +3,115 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { AdminService } from 'src/app/services/admin/admin.service';
-import { SharedService } from 'src/app/services/shared.service';
+import { forkJoin } from 'rxjs';
 import { HttpClient} from '@angular/common/http';
 import { ToastController } from '@ionic/angular';
 import { UserService } from 'src/app/services/user/user.service';
+
 
 @Component({
   selector: 'app-change-schedule',
   templateUrl: './change-schedule.page.html',
   styleUrls: ['./change-schedule.page.scss'],
 })
-
 export class ChangeSchedulePage implements OnInit {
-  selectedUser: any;
+
+  userId: string = '';
+  groupedShifts: { [key: string]: any[] } = {};
+
+  // selectedUser: any;
   selectedOption: string = 'monday';
   shifts: any[] = [];
   shiftsPastWeek: number = 0;
-  userId: string = '';
-
-
-  user: any;
-  // userId: string = '';
-  userShifts: any[] = [];
-  // shifts: any[] = [];
-  semesterData: any[] = [];
 
   constructor(
-    private toastController:ToastController, 
-    private http:HttpClient, 
-    private sharedService:SharedService, 
-    private adminService:AdminService, 
-    private alertController:AlertController, 
-    private router:Router, 
-    private modalController:ModalController,
     private userService: UserService,
-    private route:ActivatedRoute,
-  ) { }
+    private route: ActivatedRoute,
+    private toastController: ToastController,
+    private adminService: AdminService,
+    private alertController: AlertController,
+    private router: Router,
+    private modalController: ModalController
+  ) {}
 
-  ngOnInit() {  
+  ngOnInit() {
     this.getUserShifts();
   }
-  
-  getUserShifts(){
-    this.route.params.subscribe(params => {
+
+  getUserShifts() {
+    this.route.params.subscribe((params) => {
       this.userId = params['id'];
-      this.userService.getUserShifts(this.userId)
-      .subscribe({
-        next: (response) => {
-          console.log("Fetched user shifts:", response);
-          const parsedResponse = JSON.parse(JSON.stringify(response));
-          this.userShifts = [].concat.apply([], Object.values(parsedResponse['Shifts']));
-          this.userShifts.forEach(shiftRecord => {
-            this.shifts.push({ id: shiftRecord.id, day: shiftRecord.shift.day, start_time: shiftRecord.shift.time_start, end_time: shiftRecord.shift.time_end})
+      this.userService.getUserShifts(this.userId).subscribe((response) => {
+        this.shifts = Object.values(response).reduce((acc: any[], curr: any[]) => acc.concat(curr), []);
+  
+        this.groupedShifts = this.groupShiftsByDay(this.shifts);
+  
+        const requests = this.shifts.map((shift) => this.getShiftCoversCount(shift.id));
+        forkJoin(requests).subscribe((responses) => {
+          responses.forEach((coverCount, index) => {
+            this.shifts[index].coverCount = coverCount;
           });
-        },
-        error: (error) => {
-          console.error("Error getting user shifts:", error);
-        },
-        complete: () => {
-        }
+        });
       });
     });
   }
 
-  // getShiftCoverCount(shiftId: number) {
-   
-  //   return this.adminService.getShiftCovers(shiftId);
-  // }
- 
+  getShiftCoversCount(shiftId: number) {
+    return this.adminService.getShiftCoversCount(this.userId, shiftId);
+  }
+  
+  groupShiftsByDay(shifts: any[]) {
+    const dayOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    return shifts.reduce((acc, shift) => {
+      const day = shift.shift.day;
+      if (!acc[day]) {
+        acc[day] = [];
+      }
+      shift.shift.time_start = new Date(`1970-01-01T${shift.shift.time_start}`);
+      shift.shift.time_end = new Date(`1970-01-01T${shift.shift.time_end}`);
+      acc[day].push(shift);
+      return acc;
+    }, {});
+  }
 
-  // getDayName(dateString: string): string {
-  //   const date = new Date(dateString);
-  //   const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  //   const dayOfWeek = date.getDay();
-  //   return dayNames[dayOfWeek];
-  // }
+  sortedDays(): string[] {
+    const dayOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    return Object.keys(this.groupedShifts).sort((a, b) => {
+      return dayOrder.indexOf(a) - dayOrder.indexOf(b);
+    });
+  }
 
-  async back() {
+  
+  addShift() {
+    // this.adminService.addShift()
+    // .subscribe({
+    //   next: (response) => {
+    //     console.log('Logged out successfully:', response);
+    //     localStorage.clear();
+    //     this.router.navigate(['./login']);
+    //   },
+    //   error: (error) => {
+    //     console.error('Error logging out:', error);
+    //   },
+    // });
+  }
+
+  async deleteAlert(shiftId: number) {
     const alert = await this.alertController.create({
-      header: 'Discard Changes?',
-      subHeader: 'Are you sure you want to discard any changes you made?',
-      cssClass:'alert-dialog',
+      header: 'Delete Shift?',
+      subHeader: 'Are you sure you want to permanently delete this shift?',
+      cssClass: 'alert-dialog',
       buttons: [
         {
           text: 'Cancel',
           role: 'cancel',
-          cssClass: 'alert-button-cancel'
+          cssClass: 'alert-button-cancel',
         },
         {
-          text: 'Discard',
+          text: 'Delete',
           cssClass: 'alert-button-ok-red',
           handler: () => {
-            this.router.navigate(["./user-profile"])
+            this.deleteShift(shiftId);
           },
         },
       ],
@@ -102,91 +119,34 @@ export class ChangeSchedulePage implements OnInit {
     await alert.present();
   }
 
-  dismiss(){
+  deleteShift(shiftId:number){
+    this.adminService.deleteShift(this.userId, shiftId)
+    .subscribe({
+      next: (response) => {
+        console.log('Deleted shift successfully:', response);
+        this.presentToast("Shift deleted");
+        this.ngOnInit();
+      },
+      error: (error) => {
+        console.error('Error deleting shift:', error);
+      },
+    });
+  }
+
+  async presentToast(message:string){
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000, 
+      position: 'bottom'
+    });
+    toast.present();
+  }
+  
+  dismiss() {
     this.modalController.dismiss();
   }
 
-  add(){
+  async back() {
+    this.router.navigate(['./user-profile', this.userId]);
   }
-
-  async deleteAlert(shift_id: number) {
-    const alert = await this.alertController.create({
-      header: 'Delete Shift?',
-      subHeader: 'Are you sure you want to permanently delete this shift?',
-      cssClass:'alert-dialog',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'alert-button-cancel'
-        },
-        {
-          text: 'Delete',
-          cssClass: 'alert-button-ok-red',
-          handler: () => {
-            // this.deleteShift(this.selectedUser, shift_id);
-          }
-        },
-      ],
-    });
-    await alert.present();
-  }
-
-  // async deleteShift(user_id: number, shift_id: number){
-  //   try {
-  //     await this.http.delete<any>(`http://localhost:8000/api/v0.1/admin/delete-shift/${shift_id}/${user_id}`).pipe(
-  //       catchError(async (error) => {
-  //         console.error('Error occurred while deleting shift:', error);
-  //         const toast = await this.toastController.create({
-  //           message: 'Failed to delete shift',
-  //           duration: 2000, 
-  //           position: 'bottom'
-  //         });
-  //         toast.present();
-  //         throw error;
-  //       })
-  //     ).toPromise();
-  
-  //     const toast = await this.toastController.create({
-  //       message: 'Shift deleted successfully',
-  //       duration: 2000, 
-  //       position: 'bottom'
-  //     });
-  //     toast.present();
-    
-      
-  //   } catch (error) {
-  //     console.error('Error occurred while deleting shift:', error);
-  //     const toast = await this.toastController.create({
-  //       message: 'Failed to delete shift',
-  //       duration: 2000, 
-  //       position: 'bottom'
-  //     });
-  //     toast.present();
-  //   }
-  // }
-
-  async saveAlert() {
-    const alert = await this.alertController.create({
-      header: 'Save Changes?',
-      subHeader: 'Are you sure you want to save the changes you made?',
-      cssClass:'alert-dialog',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'alert-button-cancel'
-        },
-        {
-          text: 'Save',
-          cssClass: 'alert-button-ok-green',
-          handler: () =>{
-            this.router.navigate(["/user-profile"])
-          }
-        },
-      ],
-    });
-    await alert.present();
-  }
-
 }

@@ -6,6 +6,7 @@ interface User {
   firstName: string;
   lastName: string;
   role: string;
+  email: string;
   phoneNumber: string;
   studentId: string;
   major: string;
@@ -51,6 +52,7 @@ export class CommunityPage implements OnInit {
                 firstName: user.first_name, 
                 lastName: user.last_name, 
                 role: user.rank.rank_name,
+                email: user.lau_email,
                 phoneNumber: user.phone_number,
                 studentId: user.student_id,
                 major: user.major,

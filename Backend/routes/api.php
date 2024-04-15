@@ -78,7 +78,7 @@ Route::group(["prefix" => "v0.1"], function () {
         Route::put("change-rank", [AdminController::class, "changeRank"]);
         Route::get("get-user-shifts/{id}", [AdminController::class, "getUserShifts"]);
         Route::post("add-shift", [AdminController::class, "addShift"]);
-        Route::delete("delete-shift/{shift_id}/{user_id}", [AdminController::class, "deleteShift"]);
+        Route::delete("delete-shift/{user_id}/{shift_id}", [AdminController::class, "deleteShift"]);
         Route::post("add-announcement", [AdminController::class, "addAnnouncement"]);
         Route::delete("delete-announcement/{id}", [AdminController::class, "deleteAnnouncement"]);
         Route::post("add-faq", [AdminController::class, "addFaq"]);
@@ -91,7 +91,7 @@ Route::group(["prefix" => "v0.1"], function () {
         Route::put("reject-signup-request/{id}", [AdminController::class, "rejectSignupRequest"]);
         Route::get('get-emergency-records', [AdminController::class, 'getEmergencyRecords']);
         Route::get('get-admins', [AdminController::class, 'getAdmins']);
-        Route::get('get-cover-requests-count/{id}', [AdminController::class, 'getShiftCoverRequests']);
+        Route::get('get-shift-covers-count/{userId}/{shiftId}', [AdminController::class, 'getShiftCoversCount']);
     });
 });
 
