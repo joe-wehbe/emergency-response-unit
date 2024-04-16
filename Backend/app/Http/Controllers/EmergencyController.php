@@ -216,6 +216,27 @@ class EmergencyController extends Controller{
         }
     }
     
+    public function findOngoingEmergencyByMedicId(Request $request){
+        $request->validate([
+            'medic_id' => 'required|integer'
+        ]);
+    
+        try {
+    
+            $emergency = Emergency::where('medic_id', $request->medic_id)
+                ->where('status', '1')
+                ->first();
+    
+            if($emergency){
+                return response()->json(['emergency' => $emergency], 200);
+            } else {
+                return response()->json(['nothing' => 'No Ongoing emergency not found for this medic'], 404);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+    
     public function addAssessment(Request $request){
         $request->validate([
             'emergency_id' => 'required',

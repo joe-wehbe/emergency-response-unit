@@ -24,6 +24,13 @@ export class EmergencyService {
     }
     return this.http.post(this.base_url + "report-emergency", body, {headers: this.getAuthHeaders()});
   }
+
+  getOngoingForMedic(medic_id:string){
+    const body = {
+      "medic_id": medic_id,
+    }
+    return this.http.post(this.base_url + "find-ongoing-emergency", body, {headers: this.getAuthHeaders()});
+  }
   
   // STANDBY PAGE
   getOngoingEmergencies(){

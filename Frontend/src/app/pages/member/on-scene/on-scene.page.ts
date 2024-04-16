@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { EmergencyService } from 'src/app/services/emergency/emergency.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-on-scene',
@@ -12,7 +13,8 @@ export class OnScenePage implements OnInit {
 
   noResponseEmergencies: any[] = [];
   isLoading: boolean = false;
-
+  user_rank:string = "";
+  id:string = "";
   constructor(
     private router:Router, 
     public alertController: AlertController, 
@@ -20,8 +22,48 @@ export class OnScenePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getNoResponseEmergencies();
+    const medic_id = localStorage.getItem('user_id');
+    if (medic_id !== null) {
+      this.id = medic_id;
+  } else {
+      this.id = "";
   }
+  this.callApi(this.id);
+   
+    const rank = localStorage.getItem('rank');
+    if (rank !== null) {
+        this.user_rank = rank;
+    } else {
+        this.user_rank = "";
+    }
+        
+  }
+
+  callApi(id: string){
+    this.emergencyService.getOngoingForMedic(this.id).subscribe(
+      (response: any) => {
+        if(response.emergency){
+        this.router.navigate(["./medic-emergency-details", response.emergency.id])
+        }
+      },
+      (error: HttpErrorResponse) => {
+        
+        if (error.status === 404 && error.error && error.error.nothing) {
+          this.getNoResponseEmergencies();
+        
+        } else {
+       
+          console.error("An error occurred while fetching ongoing emergency:", error.statusText);
+        }
+       
+      }
+    );
+  }
+
+  checkCondition(): boolean {
+  
+    return (this.user_rank === 'Medic' || this.user_rank === 'Medic & Admin' || this.user_rank == 'Dispatcher & Medic');
+}
 
   getNoResponseEmergencies(){
     this.isLoading = true;
