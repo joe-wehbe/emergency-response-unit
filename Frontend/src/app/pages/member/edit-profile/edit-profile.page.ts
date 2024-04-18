@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { SafeUrl } from '@angular/platform-browser';
+
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-edit-profile',
@@ -16,11 +20,15 @@ export class EditProfilePage implements OnInit {
   shifts: any[] = [];
   semesterData: any[] = [];
   isLoading: boolean = false;
-
+  user_profile_pic = localStorage.getItem('profile_picture');
+  user_src_img: any;
+  user_src_img_display: any;
   bio: string = '';
   tags: string = '';
+  user_id: string ="";
 
   constructor(
+    private sanitizer: DomSanitizer,
     private router:Router, 
     private alertController: AlertController, 
     private modalController:ModalController,
@@ -40,8 +48,10 @@ export class EditProfilePage implements OnInit {
       next: (response) => {
         console.log("Fetched user data:", response);
         this.user = response['User'];
+        this.user_id = this.user.id;
         this.bio = this.user.bio;
         this.tags = this.user.tags;
+        this.user_src_img = this.user.profile_picture;
       },
       error: (error) => {
         console.error("Error getting user info:", error);
@@ -52,6 +62,25 @@ export class EditProfilePage implements OnInit {
     });
   }
 
+
+
+  onChange(event: any) {
+    this.user_src_img = event.target.files[0];
+    this.previewImage(event);
+  }
+  
+
+  previewImage(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.user_src_img_display = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  
   getUserShifts(){
     this.userService.getUserShifts(this.userId)
     .subscribe({
@@ -108,6 +137,7 @@ export class EditProfilePage implements OnInit {
   }
 
   editBio(){
+    if(this.bio != this.user.bio){
     this.userService.editBio(this.bio)
     .subscribe({
       next: (response) => {
@@ -116,9 +146,28 @@ export class EditProfilePage implements OnInit {
       error: (error) => {
         console.error("Error updating bio: ", error);
       },
-      complete: () => {
+      complete: () => { 
+      
+        if(this.tags != this.user.tags){
+          this.editTags();
+          
+        }
+        else{
+          this.router.navigate(["./profile"]).then(() => {
+            window.location.reload();
+          })
+        }
+       
       }
     });
+  }else if(this.tags != this.user.tags){
+    this.editTags();
+
+  } else {
+    this.editProfile();
+  }
+  
+  
   }
 
   editTags(){
@@ -126,13 +175,43 @@ export class EditProfilePage implements OnInit {
     .subscribe({
       next: (response) => {
         console.log("Tags updated successfully: ", response);
+        this.editProfile();
       },
       error: (error) => {
         console.error("Error updating tags: ", error);
       },
-      complete: () => {
+      complete: () => { this.router.navigate(["./profile"]).then(() => {
+        window.location.reload();
+      })
       }
     });
+  }
+
+
+  editProfile(){
+    const formData = new FormData();
+    formData.append('user_id', this.userId);
+    formData.append('user_profile_pic', this.user_src_img);
+    this.userService.editProfile(formData)
+    .subscribe({
+      next: (response) => {
+        const parsedResponse = JSON.parse(JSON.stringify(response));
+        console.log(parsedResponse)
+         if (parsedResponse.status === 'success') {
+           const newProfilePicUrl = parsedResponse.new_pic;
+           localStorage.setItem('user_profile_pic', newProfilePicUrl);
+         }
+      },
+      error: (error) => {
+        console.error("Error updating picture: ", error);
+      },
+      complete: () => {
+        this.router.navigate(["./profile"]).then(() => {
+          window.location.reload();
+        })
+      }
+    });
+   
   }
 
   async navigateProfile(){
@@ -150,20 +229,8 @@ export class EditProfilePage implements OnInit {
           text: 'Save',
           cssClass: 'alert-button-ok-green',
           handler: () => {
-            if(this.bio != this.user.bio && this.tags == this.user.tags){
-              this.editBio();
-            }
-            else if (this.bio == this.user.bio && this.tags != this.user.tags){
-              this.editTags();
-            }
-            else if (this.bio != this.user.bio && this.tags != this.user.tags){
-              this.editBio();
-              this.editTags();
-            }
-            this.presentToast("Changes saved");
-            this.router.navigate(["./profile"]).then(() => {
-              window.location.reload();
-            });
+            this.editBio();
+            
           },
         },
       ],

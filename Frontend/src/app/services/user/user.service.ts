@@ -132,4 +132,12 @@ export class UserService {
   getMedicalFAQs(type: string) {
     return this.http.get(this.base_url + 'get-medical-faqs/' + type);
   }
+
+  editProfile(formData: FormData) {
+    const headers = this.getAuthHeaders();
+    const options = { headers: headers };
+    const response = this.http.post(this.base_url + 'edit-profile-picture', formData, options);
+    return response;
+  }
+
 }

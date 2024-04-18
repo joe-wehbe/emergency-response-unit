@@ -17,7 +17,7 @@ export class ProfilePage implements OnInit {
   shifts: any[] = [];
   semesterData: any[] = [];
   isLoading: boolean = false;
-
+user_profile_pic: string ="";
   constructor(
     private router:Router, 
     private alertController: AlertController, 
@@ -37,6 +37,8 @@ export class ProfilePage implements OnInit {
       next: (response) => {
         console.log("Fetched user data:", response);
         this.user = response['User'];
+        this.user_profile_pic = this.user.profile_picture;
+     
       },
       error: (error) => {
         console.error("Error getting user info:", error);

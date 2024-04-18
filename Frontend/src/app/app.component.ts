@@ -24,6 +24,7 @@ export class AppComponent {
   email: string = '';
   rank: string = '';
   request_status: string = '';
+  user_profile_pic: string ="";
 
   @Output() darkModeToggled = new EventEmitter<boolean>();
 
@@ -39,7 +40,7 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
-    console.log(localStorage);
+ 
     this.getUserInfo();
     this.checkDarkModeStatus();
   }
@@ -56,6 +57,8 @@ export class AppComponent {
           this.last_name = this.user.last_name;
           this.rank = this.user.rank? this.user.rank.rank_name : null;
           this.email = this.user.lau_email;
+          this.user_profile_pic = this.user.profile_picture;
+         
         },
         error: (error) => {
           console.error("Error getting user info:", error);

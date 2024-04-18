@@ -14,9 +14,20 @@
 <ion-content class="gradient-background" *ngIf="user">
   <ion-card class="card-container">   
     <div class="header">
-      <ion-avatar class="icon">
-        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+
+      <ion-avatar class="icon" *ngIf = "user_src_img && !user_src_img_display">
+        <input style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;" id="fileInput" (change)="onChange($event)" class="img" type="file" accept="image/png, image/jpeg, image/jpg, image/gif">
+        <img alt="Silhouette of a person's head"  [src]="user_src_img ? 'http://127.0.0.1:8000/storage/images/' + user_src_img :
+        'https://ionicframework.com/docs/img/demos/avatar.svg'"
+ onerror="this.src='https://ionicframework.com/docs/img/demos/avatar.svg'" />
       </ion-avatar>
+     
+      <ion-avatar class="icon" *ngIf = "user_src_img && user_src_img_display">
+        <input style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;" id="fileInput" (change)="onChange($event)" class="img" type="file" accept="image/png, image/jpeg, image/jpg, image/gif">
+        <img alt="Silhouette of a person's head"  [src]="user_src_img_display"
+ onerror="this.src='https://ionicframework.com/docs/img/demos/avatar.svg'" />
+      </ion-avatar>
+     
       <div class="container">
         <div class="np-container">
           <h2 class="name">{{ user.first_name }} {{ user.last_name }}</h2>

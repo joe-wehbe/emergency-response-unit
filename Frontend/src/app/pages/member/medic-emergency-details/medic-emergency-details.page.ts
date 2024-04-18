@@ -42,6 +42,7 @@ export class MedicEmergencyDetailsPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    
     this.route.params.subscribe(params => {
       this.emergencyId = params['id'];
     });
