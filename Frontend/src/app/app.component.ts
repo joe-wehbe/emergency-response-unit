@@ -38,12 +38,6 @@ export class AppComponent {
       const routeData = this.router.routerState.snapshot.root.firstChild ?.data as { showSideMenu?: boolean };
       this.showSideMenu = routeData ? routeData['showSideMenu'] !== false : true && !this.reportPageActive;
     });
-
-    this.platform.ready().then(() => {
-      this.fcm.initPush();
-    }).catch(exception => {
-      console.log('error fcm: ', exception);
-    });
   }
 
   ngOnInit(): void {

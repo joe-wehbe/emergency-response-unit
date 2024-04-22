@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
 import { EmergencyService } from 'src/app/services/emergency/emergency.service';
+import { FcmService } from 'src/app/services/firebase/fcm.service';
 
 @Component({
   selector: 'app-report',
@@ -13,7 +14,12 @@ export class ReportPage implements OnInit {
   firstH4Content: string = 'Press the button below';
   secondH4Content: string = 'to notify medics';
 
-  constructor(private alertController: AlertController, private toastController:ToastController, private emergencyService:EmergencyService) {}
+  constructor(
+    private alertController: AlertController, 
+    private toastController:ToastController, 
+    private emergencyService:EmergencyService,
+    private fcmService:FcmService,
+  ) {}
   
   ngOnInit() {
   }
@@ -101,6 +107,7 @@ export class ReportPage implements OnInit {
                 next: (response) => {
                   console.log("Emergency reported successfully:", response);
                   this.sendSOS();
+                  this.fcmService.notifyMedics(data.location, data.description);
                 },
                 error: (error) => {
                   console.error("Error reporting emergency:", error);
