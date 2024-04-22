@@ -1,9 +1,10 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationEnd, Event as RouterEvent } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, Platform, ToastController } from '@ionic/angular';
 import { filter } from 'rxjs/operators';
 import { UserService } from './services/user/user.service';
 import { AuthService } from './services/authentication/auth.service';
+import { FcmService } from './services/firebase/fcm.service';
 
 @Component({
   selector: 'app-root',
@@ -28,13 +29,20 @@ export class AppComponent {
   @Output() darkModeToggled = new EventEmitter<boolean>();
 
   constructor(private router: Router, private alertController: AlertController, private authService:AuthService,
-    private toastController: ToastController,private userService: UserService) {
+    private toastController: ToastController,private userService: UserService, private fcm: FcmService, private platform: Platform) {
+
     this.router.events.pipe(filter((event: RouterEvent): event is NavigationEnd =>event instanceof NavigationEnd))
     .subscribe((event: NavigationEnd) => {
       const currentUrl = event.url;
       this.reportPageActive = currentUrl === '/report' || currentUrl.startsWith('/report/');
       const routeData = this.router.routerState.snapshot.root.firstChild ?.data as { showSideMenu?: boolean };
       this.showSideMenu = routeData ? routeData['showSideMenu'] !== false : true && !this.reportPageActive;
+    });
+
+    this.platform.ready().then(() => {
+      this.fcm.initPush();
+    }).catch(exception => {
+      console.log('error fcm: ', exception);
     });
   }
 
