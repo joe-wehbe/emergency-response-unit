@@ -130,7 +130,7 @@ export class ChangeSchedulePage implements OnInit {
     this.adminService.deleteShift(this.userId, shiftId)
     .subscribe({
       next: (response) => {
-        console.log('Deleted shift successfully:', response);
+       
         this.presentToast("Shift deleted");
         this.ngOnInit();
       },

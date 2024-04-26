@@ -56,7 +56,7 @@ export class MedicEmergencyDetailsPage implements OnInit {
     this.emergencyService.getEmergencyWithLastAssessment(this.emergencyId)
       .subscribe({
         next: (response) => {
-          console.log("Fetched emergency with last assessment:", response);
+
           this.emergency = (response as any).emergency;
           this.assessment = (response as any).last_assessment;
 
@@ -90,18 +90,14 @@ export class MedicEmergencyDetailsPage implements OnInit {
       this.presentToast("At least one field should not be empty");
 
     } else {
-      console.log("hi: ", this.patientName);
-      console.log("hi: ", this.patientId);
-      console.log("hi: ", this.medicDescription);
-      console.log("hi: ", this.patientCondition);
-      console.log("hi: ", this.otherPatientCondition);
+    
       
       this.emergencyService.addEmergencyDetails(this.emergencyId, this.patientName, 
         this.patientId !== null ? this.patientId : -1, this.medicDescription, 
         this.patientCondition == "other" ? this.otherPatientCondition : this.patientCondition
       ).subscribe({
         next: (response) => {
-          console.log("Emergency details added successfully", response);
+         
           this.presentToast("Patient information saved");
         },
         error: (error) => {
@@ -125,7 +121,7 @@ export class MedicEmergencyDetailsPage implements OnInit {
 
       .subscribe({
         next: (response) => {
-          console.log("Assessment added successfully", response);
+        
           this.presentToast("Assessment recorded");
 
           this.heart_rate= null;
@@ -166,7 +162,7 @@ export class MedicEmergencyDetailsPage implements OnInit {
             this.emergencyService.endEmergency(this.emergencyId)
             .subscribe({
               next: (response) => {
-                console.log("Emergency ended:", response);
+             
                 localStorage.removeItem(`assessmentsCount${this.emergencyId}`);
                 this.router.navigate(["./tabs/on-scene"]).then(() => {
                   window.location.reload();

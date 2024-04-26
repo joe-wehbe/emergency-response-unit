@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Login_request;
 use App\Models\Login_attempt;
-
+use Illuminate\Auth\Events\Registered;
 use Carbon\Carbon;
 use Exception;
 
@@ -49,7 +49,7 @@ class AuthController extends Controller{
                             $login_request = new Login_request();
                             $login_request->email = $newUser->lau_email;
                             $login_request->save();
-    
+                           
                             $token = $newUser->createToken('auth_token')->plainTextToken;
                             return response()->json(['status' => 'Success', 'token' => $token, 'id' => $newUser->id]);
                         }
@@ -83,12 +83,14 @@ class AuthController extends Controller{
                     if(empty($password_errors)){
 
                         if($request->confirmation == $request->password){
+                            
                             $newUser = User::create([
                             'first_name' => $request->input('first_name'),
                             'last_name' => $request->input('last_name'),
                             'lau_email' => $request->input('lau_email'),
                             'password' => Hash::make($request->input('password')),
                             ]);
+                           
                             $token = $newUser->createToken('auth_token')->plainTextToken;
                             return response()->json(['status' => 'Success', 'token' => $token, 'id' => $newUser->id]);
                         }

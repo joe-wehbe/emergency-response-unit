@@ -50,7 +50,7 @@ export class MedicalFAQPage implements OnInit {
       this.userService.getMedicalFAQs(this.type).subscribe({
         next: (response) => {
           if (response && response.hasOwnProperty('medicalFAQ')) {
-            console.log('Fetched all medical FAQs: ', response);
+            
             const parsedResponse = JSON.parse(JSON.stringify(response));
             this.allFAQs = [].concat.apply([], Object.values(parsedResponse['medicalFAQ']));
             this.allFAQs.forEach((faq) => {
@@ -80,7 +80,7 @@ export class MedicalFAQPage implements OnInit {
     this.adminService.addFaq(this.type, this.question, this.answer)
     .subscribe({
       next: (response) => {
-        console.log('FAQ added:', response);
+       
         this.presentToast("FAQ added")
         this.question = '';
         this.answer = '';
@@ -120,7 +120,7 @@ export class MedicalFAQPage implements OnInit {
     this.adminService.deleteFaq(id)
     .subscribe({
       next: (response) => {
-        console.log('FAQ deleted:', response);
+      
         this.presentToast("FAQ deleted")
         this.ngOnInit();
       },

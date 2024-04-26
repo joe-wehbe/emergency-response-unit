@@ -46,7 +46,7 @@ export class EditProfilePage implements OnInit {
     this.userService.getUserInfo(this.userId)
     .subscribe({
       next: (response) => {
-        console.log("Fetched user data:", response);
+      
         this.user = response['User'];
         this.user_id = this.user.id;
         this.bio = this.user.bio;
@@ -85,7 +85,7 @@ export class EditProfilePage implements OnInit {
     this.userService.getUserShifts(this.userId)
     .subscribe({
       next: (response) => {
-        console.log("Fetched user shifts:", response);
+       
         const parsedResponse = JSON.parse(JSON.stringify(response));
         this.userShifts = [].concat.apply([], Object.values(parsedResponse['Shifts']));
 
@@ -105,7 +105,7 @@ export class EditProfilePage implements OnInit {
     this.userService.getSemester()
     .subscribe({
       next: (response) => {
-        console.log("Fetched semester data", response);
+       
         this.semesterData = (response as any)['Semester'];
       },
       error: (error) => {
@@ -196,7 +196,7 @@ export class EditProfilePage implements OnInit {
     .subscribe({
       next: (response) => {
         const parsedResponse = JSON.parse(JSON.stringify(response));
-        console.log(parsedResponse)
+     
          if (parsedResponse.status === 'success') {
            const newProfilePicUrl = parsedResponse.new_pic;
            localStorage.setItem('user_profile_pic', newProfilePicUrl);

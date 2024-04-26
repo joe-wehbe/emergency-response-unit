@@ -26,7 +26,7 @@ export class CoverRequestsPage implements OnInit {
     this.userService.getAllCoverRequests().subscribe({
       next: (response) => {
         if (response && response.hasOwnProperty('coverRequests')) {
-          console.log('Fetched all cover requests: ', response);
+
           const parsedResponse = JSON.parse(JSON.stringify(response));
           this.coverRequests = [].concat.apply(
             [],
@@ -76,7 +76,7 @@ export class CoverRequestsPage implements OnInit {
           handler: async () => {
             this.userService.acceptCoverRequest(coverRequestId).subscribe({
               next: (response) => {
-                console.log('Cover request accepted:', response);
+               
                 this.ngOnInit();
               },
               error: (error) => {

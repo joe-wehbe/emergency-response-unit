@@ -45,7 +45,7 @@ export class CommunityPage implements OnInit {
     .subscribe({
       next: (response) => {
         if(response && response.hasOwnProperty("users")){
-          console.log("Fetched all users: ", response);
+          
           const parsedResponse = JSON.parse(JSON.stringify(response));
           this.allUsers = [].concat.apply([], Object.values(parsedResponse['users']));
 

@@ -29,7 +29,7 @@ export class EmergencyDetailsPage implements OnInit {
       this.emergencyService.getEmergency(this.emergencyId)
         .subscribe({
           next: (response) => {
-            console.log("Fetched emergency data:", response);
+       
             this.emergency = (response as any).emergency;
           },
           error: (error) => {
@@ -48,7 +48,7 @@ export class EmergencyDetailsPage implements OnInit {
       this.emergencyService.getEmergencyAssessments(this.emergencyId)
         .subscribe({
           next: (response) => {
-            console.log("Fetched emergency assessments: ", response);
+           
             const parsedResponse = JSON.parse(JSON.stringify(response));
             this.assessments = [].concat.apply([], Object.values(parsedResponse['assessments']));
           },

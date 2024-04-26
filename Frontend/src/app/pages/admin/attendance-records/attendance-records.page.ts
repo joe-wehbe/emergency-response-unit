@@ -29,7 +29,6 @@ export class AttendanceRecordsPage implements OnInit {
     this.adminService.getAttendanceRecords()
     .subscribe({
       next: (response) => {
-        console.log("Fetched shifts:", response);
         const parsedResponse = JSON.parse(JSON.stringify(response));
         this.allShifts = [].concat.apply([], Object.values(parsedResponse['shifts']));
 

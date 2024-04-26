@@ -35,7 +35,7 @@ export class UserService {
   }
 
   getRequestStatus(email: string) {
-    return this.http.get(this.base_url + 'get-request-status/' + email);
+    return this.http.get(this.base_url + 'get-request-status/' + email, {headers: this.getAuthHeaders()});
   }
 
   // PROFILE PAGE
@@ -120,17 +120,17 @@ export class UserService {
       consultation: consultation,
       issues: issues,
     };
-    return this.http.put(this.base_url + 'add-case-report', body);
+    return this.http.put(this.base_url + 'add-case-report', body, {headers: this.getAuthHeaders()});
   }
 
   // EXTENSIONS PAGE
   getExtensions() {
-    return this.http.get(this.base_url + 'get-extensions');
+    return this.http.get(this.base_url + 'get-extensions', {headers: this.getAuthHeaders()});
   }
 
   // MEDICAL FAQs PAGE
   getMedicalFAQs(type: string) {
-    return this.http.get(this.base_url + 'get-medical-faqs/' + type);
+    return this.http.get(this.base_url + 'get-medical-faqs/' + type, {headers: this.getAuthHeaders()});
   }
 
   editProfile(formData: FormData) {

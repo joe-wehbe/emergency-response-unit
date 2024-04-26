@@ -53,7 +53,7 @@ export class CaseReportFormPage implements OnInit {
       this.emergencyService.getEmergency(this.emergencyId)
         .subscribe({
           next: (response) => {
-            console.log("Fetched emergency data:", response);
+            
             this.emergency = (response as any).emergency;
             this.patientName = this.emergency.patient_name;
             this.location = this.emergency.location;
@@ -90,7 +90,7 @@ export class CaseReportFormPage implements OnInit {
         this.consultation == "other" ? this.otherConsultation : this.consultation, this.issues)
         .subscribe({
           next: (response) => {
-            console.log('Case submitted successfully:', response);
+           
             this.router.navigate(["./case-reports"]).then(() => {
               window.location.reload();
             });

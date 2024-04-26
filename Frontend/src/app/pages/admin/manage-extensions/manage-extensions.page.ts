@@ -47,7 +47,7 @@ export class ManageExtensionsPage implements OnInit {
     .subscribe({
       next: (response) => {
         if(response && response.hasOwnProperty("extensions")){
-          console.log("Fetched all extensions: ", response);
+          
           const parsedResponse = JSON.parse(JSON.stringify(response));
           this.allExtensions = [].concat.apply([], Object.values(parsedResponse['extensions']));
 
@@ -106,7 +106,7 @@ export class ManageExtensionsPage implements OnInit {
     this.adminService.addExtension(this.name, this.number)
     .subscribe({
       next: (response) => {
-        console.log('Added extension successfully:', response);
+       
         this.presentToast("Extension added");
         this.name = '';
         this.number = '';

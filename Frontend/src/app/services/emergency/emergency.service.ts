@@ -115,6 +115,6 @@ export class EmergencyService {
 
   // EMERGENCY RECORDS PAGE
   getAllEmergenciesWithLastAssessment(){
-    return this.http.get(`${this.base_url}get-all-emergencies-with-last-assessment`);
+    return this.http.get(`${this.base_url}get-all-emergencies-with-last-assessment`, {headers: this.getAuthHeaders()});
   }
 }

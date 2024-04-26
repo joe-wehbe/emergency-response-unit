@@ -7,6 +7,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmergencyController;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\AdminMiddleware;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,9 +33,11 @@ Route::group(["prefix" => "v0.1"], function () {
         Route::post("login", [AuthController::class, "login"]);
         Route::post('auto-login', [AuthController::class, 'autoLogin']);
         Route::post('logout', [AuthController::class, 'logout']);
+        
     });
 
     // USER CONTROLLER APIs
+    Route::group(["middleware" =>"auth:sanctum"], function(){
     Route::group(["prefix" => "user"], function () {
         Route::put("apply", [UserController::class, "apply"]);
         Route::get('get-user-info/{id}', [UserController::class, 'getUserInfo']);
@@ -74,6 +79,7 @@ Route::group(["prefix" => "v0.1"], function () {
     });
 
     // ADMIN CONTROLLER APIs
+    Route::group(["middleware" => ["auth:sanctum",AdminMiddleware::class]], function(){
     Route::group(["prefix" => "admin"], function () {
         Route::put("update-semester-dates", [AdminController::class, "updateSemesterDates"]);
         Route::put("remove-member", [AdminController::class, "removeMember"]);
@@ -95,5 +101,6 @@ Route::group(["prefix" => "v0.1"], function () {
         Route::get('get-admins', [AdminController::class, 'getAdmins']);
         Route::get('get-shift-covers-count/{userId}/{shiftId}', [AdminController::class, 'getShiftCoversCount']);
     });
+    });
 });
-
+});
