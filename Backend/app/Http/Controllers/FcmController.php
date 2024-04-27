@@ -8,7 +8,6 @@ use App\Models\User;
 
 use Exception;
 
-
 class FcmController extends Controller {
 
     public function saveFcmToken(Request $request){
@@ -16,7 +15,6 @@ class FcmController extends Controller {
             'id' => 'required',
             'fcm_token' => 'required'
         ]);
-
         try {
             $user = User::where('id', $request->id)->first();
 
@@ -40,17 +38,30 @@ class FcmController extends Controller {
                                 ->pluck('fcm_token')
                                 ->toArray();   
             if(empty($medicsTokens)){
-                return response()->json(['message' => 'No medics token found'], 200);
+                return response()->json(['message' => 'No medics tokens found'], 200);
             }
             else{
-                return response()->json(['medicsToken' => $medicsTokens], 200);
+                return response()->json(['medicsTokens' => $medicsTokens], 200);
             }
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 
-    public function getOnShiftFcmTokens(){
+    public function getOnShiftFcmTokens($id){
+        try{
+            $usersOnShift = User::whereHas('hasShift', function ($query) {
+                $query->where('shift_status', 1);
+            })->whereNotIn("id", [$id])->with('hasShift')->get()->pluck('fcm_token');            
 
+            if(empty($usersOnShift)){
+                return response()->json(['message' => 'No on shift tokens found'], 200);
+            }
+            else{
+                return response()->json(['onShiftTokens' => $usersOnShift], 200);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
     }
 }

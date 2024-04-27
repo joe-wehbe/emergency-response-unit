@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { ActionPerformed, PushNotifications, PushNotificationSchema, Token } from '@capacitor/push-notifications';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, forkJoin } from 'rxjs';
 
 export const FCM_TOKEN = 'push_notification_token';
 
@@ -97,7 +97,7 @@ export class FcmService {
     );
   }
 
-  // Saves a user's fcm token in the database
+  // Saves a user's fcm token in the database upon logging in
   private saveFcmToken(fcmToken: string) {
     this.http.put(this.baseUrl + "save-fcm-token", { id: this.userId, fcm_token: fcmToken })
     .subscribe({
@@ -112,20 +112,24 @@ export class FcmService {
 
   /****************** APIs IMPLEMENTATION ******************/
 
-  // report & report-emergency 
-  notifyMedics(location: string, description: string) {
+  // Notifies dispatchers on-shift and medics, can be called from report and report-emergency
+  notifyResponders(location: string, description: string) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'key=' + this.serverKey
     });
-
-    this.http.get<{ medicsToken: string[] }>(this.baseUrl + "get-medics-fcm-tokens/" + this.userId)
-    .subscribe({
-      next: (response: any) => {
-        const tokens: string[] = response.medicsToken;
-
-        if (tokens.length > 0) {
-          tokens.forEach(token => {
+  
+    forkJoin([
+      this.http.get<{ medicsTokens: string[] }>(this.baseUrl + "get-medics-fcm-tokens/" + this.userId),
+      this.http.get<{ onShiftTokens: string[] }>(this.baseUrl + "get-on-shift-fcm-tokens/" + this.userId)
+    ]).subscribe({
+      next: ([medicsResponse, onShiftResponse]: [any, any]) => {
+        const medicsTokens: string[] = medicsResponse.medicsTokens;
+        const onShiftTokens: string[] = onShiftResponse.onShiftTokens;
+        const allTokens: string[] = [...medicsTokens, ...onShiftTokens];
+  
+        if (allTokens.length > 0) {
+          allTokens.forEach(token => {
             const notificationPayload = {
               to: token,
               notification: {
@@ -149,7 +153,7 @@ export class FcmService {
         }        
       },
       error: (error: any) => {
-        console.error('Error getting medic tokens:', error);
+        console.error('Error getting tokens:', error);
       },
     });
   }

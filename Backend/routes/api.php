@@ -99,6 +99,7 @@ Route::group(["prefix" => "v0.1"], function () {
     Route::group(["prefix" => "fcm"], function () {
         Route::put("save-fcm-token", [FcmController::class, "saveFcmToken"]);
         Route::get("get-medics-fcm-tokens/{id}", [FcmController::class, "getMedicsFcmTokens"]);
+        Route::get("get-on-shift-fcm-tokens/{id}", [FcmController::class, "getOnShiftFcmTokens"]);
     });
 });
 
