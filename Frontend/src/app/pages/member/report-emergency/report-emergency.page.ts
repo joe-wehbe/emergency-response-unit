@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 import { EmergencyService } from 'src/app/services/emergency/emergency.service';
+import { FcmService } from 'src/app/services/firebase/fcm.service';
 
 @Component({
   selector: 'app-report-emergency',
@@ -9,7 +10,6 @@ import { EmergencyService } from 'src/app/services/emergency/emergency.service';
   styleUrls: ['./report-emergency.page.scss'],
 })
 export class ReportEmergencyPage implements OnInit {
-
   isButtonClicked = false;
   notifyingStatement: string = '';
   firstH4Content: string = 'Press the button below';
@@ -18,7 +18,9 @@ export class ReportEmergencyPage implements OnInit {
   constructor(
     public alertController: AlertController, 
     private toastController:ToastController,
-    private emergencyService:EmergencyService) {}
+    private emergencyService:EmergencyService,
+    private fcmService: FcmService
+  ) {}
 
   ngOnInit() {}
 
@@ -104,6 +106,7 @@ export class ReportEmergencyPage implements OnInit {
                 next: (response) => {
                   console.log("Emergency reported successfully:", response);
                   this.sendSOS();
+                  this.fcmService.notifyMedics(data.location, data.description);
                 },
                 error: (error) => {
                   console.error("Error reporting emergency:", error);
@@ -126,6 +129,7 @@ export class ReportEmergencyPage implements OnInit {
     this.secondH4Content = "when a medic responds";
     this.isButtonClicked = true;
     const sosButton = document.querySelector('.sos-button');
+    
     if (sosButton) {
       sosButton.classList.add('clicked');
       setTimeout(() => {

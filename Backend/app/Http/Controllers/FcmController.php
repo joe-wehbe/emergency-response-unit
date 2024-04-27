@@ -33,18 +33,24 @@ class FcmController extends Controller {
         }
     }
 
-    public function getMedicsFcmTokens(){
+    public function getMedicsFcmTokens($id){
         try {
-            $medicsTokens = User::whereIn('user_rank', [2, 4, 6])->pluck('fcm_token')->toArray();            
+            $medicsTokens = User::whereIn('user_rank', [2, 4, 6])
+                                ->whereNotIn("id", [$id])
+                                ->pluck('fcm_token')
+                                ->toArray();   
             if(empty($medicsTokens)){
                 return response()->json(['message' => 'No medics token found'], 200);
             }
             else{
                 return response()->json(['medicsToken' => $medicsTokens], 200);
             }
-    
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
+    }
+
+    public function getOnShiftFcmTokens(){
+
     }
 }

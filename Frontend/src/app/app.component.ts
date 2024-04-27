@@ -29,7 +29,7 @@ export class AppComponent {
   @Output() darkModeToggled = new EventEmitter<boolean>();
 
   constructor(private router: Router, private alertController: AlertController, private authService:AuthService,
-    private toastController: ToastController,private userService: UserService, private fcm: FcmService, private platform: Platform) {
+    private toastController: ToastController,private userService: UserService) {
 
     this.router.events.pipe(filter((event: RouterEvent): event is NavigationEnd =>event instanceof NavigationEnd))
     .subscribe((event: NavigationEnd) => {

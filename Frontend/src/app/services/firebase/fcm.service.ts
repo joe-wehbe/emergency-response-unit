@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { ActionPerformed, PushNotifications, PushNotificationSchema, Token } from '@capacitor/push-notifications';
-import { BehaviorSubject, catchError, throwError } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 export const FCM_TOKEN = 'push_notification_token';
 
@@ -12,15 +12,20 @@ export const FCM_TOKEN = 'push_notification_token';
 export class FcmService {
 
   private baseUrl:string = "http://10.0.2.2:8000/api/v0.1/fcm/";
+  private fcmUrl:string = "https://fcm.googleapis.com/fcm/send";
+  private serverKey:string = "AAAA2JYAb0s:APA91bFGsDePgAPQIpny5NcTRxhEEYOVAKFb9Gg14X7EqAwP_Yv7Orv2leUY03MFdbd5d_Wdz-ItALW95KURJJTfeUK_0Zi1v8Ojn-wpO5_N5wgxbgNLWdGaun8ONTAA4xjXVib2Z7at";
+  private userId = localStorage.getItem("user_id");
   private _redirect = new BehaviorSubject<any>(null);
-
-  constructor(private http: HttpClient) { }
 
   get redirect() {
     return this._redirect.asObservable();
   }
 
-  // Initializes push notifications when the native application is launched
+  constructor(private http: HttpClient) { }
+
+  /****************** PUSH NOTIFICATIONS IMPLEMENTATION ******************/
+
+  // Initializes push notifications when the user logs in
   initializePushNotifications() {
     if (Capacitor.getPlatform() !== 'web') {
       this.registerToPushNotifications();
@@ -47,24 +52,10 @@ export class FcmService {
     }
   }
 
-  // Displays in the console all notifications (Unused function)
-  async getDeliveredNotifications() {
-    const notificationList = await PushNotifications.getDeliveredNotifications();
-    console.log('delivered notifications', notificationList);
-  }
-
-
-
-
-
-
-
-
-
-
-  // This function is used to listen to push notification events
+  // Listens to push notification events
   addListeners() {
-    // Registration event: checks if incoming token != than saved token and updates the localstorage accordingly
+    
+    // Registration event: checks if incoming token != than saved token and updates the localstorage and database accordingly
     PushNotifications.addListener(
       'registration',
       async (token: Token) => {
@@ -106,17 +97,9 @@ export class FcmService {
     );
   }
 
-
-
-
-
-
-
+  // Saves a user's fcm token in the database
   private saveFcmToken(fcmToken: string) {
-    const endpoint = `${this.baseUrl}save-fcm-token`;
-    const userId = localStorage.getItem("user_id");
-
-    this.http.put(endpoint, { id: userId, fcm_token: fcmToken })
+    this.http.put(this.baseUrl + "save-fcm-token", { id: this.userId, fcm_token: fcmToken })
     .subscribe({
       next: (response: any) => {
         console.log('FCM token saved successfully:', response);
@@ -127,59 +110,18 @@ export class FcmService {
     });
   }
 
+  /****************** APIs IMPLEMENTATION ******************/
 
-
-
-
-
-  // notifyMedics(location: string, description: string) {
-  //   const endpoint: string = 'https://fcm.googleapis.com/fcm/send?key=AIzaSyBGbO3VPUfkxLeL47um-Z0G-jUko-zg5w0';
-
-  //   this.http.get<string[]>(this.baseUrl + "get-medics-fcm-token")
-  //   .subscribe({
-  //     next: (tokens: string[]) => {
-  //       tokens.forEach((token: string) => {
-  //         const notificationPayload = {
-  //           to: token,
-  //           notification: {
-  //             title: location,
-  //             body: description
-  //           }
-  //         };
-
-  //         this.http.post(endpoint, notificationPayload)
-  //         .subscribe({
-  //           next: (response: any) => {
-  //             console.log('Notification sent successfully to', token, ':', response);
-  //           },
-  //           error: (error: any) => {
-  //             console.error('Error sending notification to', token, ':', error);
-  //           },
-  //         });
-  //       });
-  //     },
-  //     error: (error: any) => { 
-  //       console.error('Error getting medic tokens:', error);
-  //     },
-  //   });
-  // }
-
+  // report & report-emergency 
   notifyMedics(location: string, description: string) {
-    const endpoint: string = 'https://fcm.googleapis.com/fcm/send';
-    const serverKey: string = 'AAAA2JYAb0s:APA91bFGsDePgAPQIpny5NcTRxhEEYOVAKFb9Gg14X7EqAwP_Yv7Orv2leUY03MFdbd5d_Wdz-ItALW95KURJJTfeUK_0Zi1v8Ojn-wpO5_N5wgxbgNLWdGaun8ONTAA4xjXVib2Z7at';
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'key=' + serverKey
+      'Authorization': 'key=' + this.serverKey
     });
 
-    this.http.get<{ medicsToken: string[] }>(this.baseUrl + "get-medics-fcm-tokens")
-      .pipe(
-        catchError(error => {
-          console.error('Error getting medic tokens:', error);
-          return throwError(error);
-        })
-      )
-      .subscribe(response => {
+    this.http.get<{ medicsToken: string[] }>(this.baseUrl + "get-medics-fcm-tokens/" + this.userId)
+    .subscribe({
+      next: (response: any) => {
         const tokens: string[] = response.medicsToken;
 
         if (tokens.length > 0) {
@@ -188,11 +130,11 @@ export class FcmService {
               to: token,
               notification: {
                 title: location,
-                body: description
+                body: description,
+                sound: "alarm1.mp3"
               }
             };
-
-            this.http.post(endpoint, notificationPayload, { headers })
+            this.http.post(this.fcmUrl, notificationPayload, { headers })
               .subscribe({
                 next: (response: any) => {
                   console.log('Notification sent successfully to', token, ':', response);
@@ -204,25 +146,11 @@ export class FcmService {
           });
         } else {
           console.error('No valid tokens received');
-        }
-      }, error => {
+        }        
+      },
+      error: (error: any) => {
         console.error('Error getting medic tokens:', error);
-      });
-  }
-
-
-
-
-
-
-
-  // Removes the FCM token from the localstorage (Unused function)
-  async removeFcmToken() {
-    try {
-      localStorage.removeItem(FCM_TOKEN);
-    } catch (e) {
-      console.log(e);
-      throw (e);
-    }
+      },
+    });
   }
 }

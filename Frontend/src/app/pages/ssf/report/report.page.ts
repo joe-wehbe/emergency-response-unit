@@ -21,8 +21,7 @@ export class ReportPage implements OnInit {
     private fcmService:FcmService,
   ) {}
   
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   async reportEmergencyAlert() {
     if (this.isButtonClicked) {
@@ -46,7 +45,6 @@ export class ReportPage implements OnInit {
             maxlength: 20,
           },
         },
-
         {
           name: 'description',
           type: 'text',
@@ -57,7 +55,6 @@ export class ReportPage implements OnInit {
           },
         },
       ],
-
       buttons: [
         {
           text: 'Cancel',
