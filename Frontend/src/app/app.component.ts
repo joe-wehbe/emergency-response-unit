@@ -1,10 +1,9 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationEnd, Event as RouterEvent } from '@angular/router';
-import { AlertController, Platform, ToastController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { filter } from 'rxjs/operators';
 import { UserService } from './services/user/user.service';
 import { AuthService } from './services/authentication/auth.service';
-import { FcmService } from './services/firebase/fcm.service';
 
 @Component({
   selector: 'app-root',
@@ -38,6 +37,17 @@ export class AppComponent {
       const routeData = this.router.routerState.snapshot.root.firstChild ?.data as { showSideMenu?: boolean };
       this.showSideMenu = routeData ? routeData['showSideMenu'] !== false : true && !this.reportPageActive;
     });
+    this.forgetUser();
+  }
+
+  forgetUser(){
+    if (!localStorage.getItem("rememberToken")) {
+      this.authService.logout(localStorage.getItem("lau_email") ?? '');
+      localStorage.clear();
+    }
+    else{
+      console.log("User remembered");
+    }
   }
 
   ngOnInit(): void {

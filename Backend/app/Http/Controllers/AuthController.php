@@ -217,6 +217,7 @@ class AuthController extends Controller{
             if($user){
                 $user->tokens()->delete();
                 $user->remember_token = null;
+                $user->fcm_token = null;
                 $user->save();
                 return response()->json(["status" => "Logged out",]);
             }

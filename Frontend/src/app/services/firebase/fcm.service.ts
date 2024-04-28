@@ -21,7 +21,9 @@ export class FcmService {
     return this._redirect.asObservable();
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    
+   }
 
   /****************** PUSH NOTIFICATIONS IMPLEMENTATION ******************/
 
@@ -99,7 +101,7 @@ export class FcmService {
 
   // Saves a user's fcm token in the database upon logging in
   private saveFcmToken(fcmToken: string) {
-    this.http.put(this.baseUrl + "save-fcm-token", { id: this.userId, fcm_token: fcmToken })
+    this.http.put(this.baseUrl + "save-fcm-token", { id: localStorage.getItem("user_id"), fcm_token: fcmToken })
     .subscribe({
       next: (response: any) => {
         console.log('FCM token saved successfully:', response);
