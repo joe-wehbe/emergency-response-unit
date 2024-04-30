@@ -104,7 +104,7 @@ export class ReportPage implements OnInit {
                 next: (response) => {
                   console.log("Emergency reported successfully:", response);
                   this.sendSOS();
-                  this.fcmService.notifyResponders(data.location, data.description);
+                  this.fcmService.notifyFirstResponders(data.location, data.description);
                 },
                 error: (error) => {
                   console.error("Error reporting emergency:", error);

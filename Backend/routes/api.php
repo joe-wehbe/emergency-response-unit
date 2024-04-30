@@ -98,8 +98,11 @@ Route::group(["prefix" => "v0.1"], function () {
     // FCM CONTROLLER APIs
     Route::group(["prefix" => "fcm"], function () {
         Route::put("save-fcm-token", [FcmController::class, "saveFcmToken"]);
+        Route::get("get-dispatchers-fcm-tokens/{id}", [FcmController::class, "getDispatchersFcmTokens"]);
         Route::get("get-medics-fcm-tokens/{id}", [FcmController::class, "getMedicsFcmTokens"]);
+        Route::get("get-admins-fcm-tokens/{id}", [FcmController::class, "getAdminsFcmTokens"]);
         Route::get("get-on-shift-fcm-tokens/{id}", [FcmController::class, "getOnShiftFcmTokens"]);
+        Route::get("get-all-fcm-tokens/{id}", [FcmController::class, "getAllFcmTokens"]);
     });
 });
 

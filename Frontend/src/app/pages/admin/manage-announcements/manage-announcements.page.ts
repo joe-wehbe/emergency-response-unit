@@ -4,6 +4,7 @@ import { UserService } from 'src/app/services/user/user.service';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { AdminService } from 'src/app/services/admin/admin.service';
+import { FcmService } from 'src/app/services/firebase/fcm.service';
 
 @Component({
   selector: 'app-manage-announcements',
@@ -16,6 +17,8 @@ export class ManageAnnouncementsPage implements OnInit {
   myAnnouncements: any[] = [];
   selectedAnnouncement: any;
   userId: string = localStorage.getItem("user_id") ?? '';
+  firstName: string = localStorage.getItem("first_name") ?? '';
+  lastName: string = localStorage.getItem("last_name") ?? '';
   visibilitySelectedOption: string = 'dispatchers';
   importanceSelectedOption: string = 'Very important';
   description: string = '';
@@ -29,6 +32,7 @@ export class ManageAnnouncementsPage implements OnInit {
     private userService: UserService,
     private adminService: AdminService,
     private toastController:ToastController,
+    private fcmService: FcmService
   ) {}
 
   ngOnInit() {
@@ -99,11 +103,12 @@ export class ManageAnnouncementsPage implements OnInit {
     .subscribe({
       next: () => {
         this.presentToast("Announcement sent")
+        this.fcmService.notifyAnnouncementReceivers(this.firstName, this.lastName, this.importanceSelectedOption, this.description, this.setVisibility(this.visibilitySelectedOption))
         this.dismiss();
         this.ngOnInit();
       },
       error: (error) => {
-        console.error("Error deleting announcements:", error);
+        console.error("Error adding announcement:", error);
       }
     });
   }
@@ -150,7 +155,6 @@ export class ManageAnnouncementsPage implements OnInit {
             this.deleteAnnouncement(this.selectedAnnouncement.id);
             this.dismiss();
             this.ngOnInit();
-    
           },
         },
       ],

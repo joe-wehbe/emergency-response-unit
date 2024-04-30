@@ -106,7 +106,7 @@ export class ReportEmergencyPage implements OnInit {
                 next: (response) => {
                   console.log("Emergency reported successfully:", response);
                   this.sendSOS();
-                  this.fcmService.notifyResponders(data.location, data.description);
+                  this.fcmService.notifyFirstResponders(data.location, data.description);
                 },
                 error: (error) => {
                   console.error("Error reporting emergency:", error);
@@ -140,8 +140,8 @@ export class ReportEmergencyPage implements OnInit {
     setTimeout(() => {
       this.isButtonClicked = false;
       this.notifyingStatement = 'No medics responded!';
-      this.firstH4Content = "Try directly contacting";
-      this.secondH4Content = "medics or try again!";
+      this.firstH4Content = "Contact medics directly";
+      this.secondH4Content = "or try again!";
     }, 60000);
   }
 }

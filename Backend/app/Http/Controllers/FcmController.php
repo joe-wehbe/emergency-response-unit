@@ -31,6 +31,23 @@ class FcmController extends Controller {
         }
     }
 
+    public function getDispatchersFcmTokens($id){
+        try {
+            $dispatchersTokens = User::whereIn('user_rank', [1, 5, 6])
+                                ->whereNotIn("id", [$id])
+                                ->pluck('fcm_token')
+                                ->toArray();   
+            if(empty($dispatchersTokens)){
+                return response()->json(['message' => 'No dispatchers tokens found'], 200);
+            }
+            else{
+                return response()->json(['dispatchersTokens' => $dispatchersTokens], 200);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
     public function getMedicsFcmTokens($id){
         try {
             $medicsTokens = User::whereIn('user_rank', [2, 4, 6])
@@ -48,6 +65,23 @@ class FcmController extends Controller {
         }
     }
 
+    public function getAdminsFcmTokens($id){
+        try {
+            $adminsTokens = User::whereIn('user_rank', [3, 4, 5])
+                                ->whereNotIn("id", [$id])
+                                ->pluck('fcm_token')
+                                ->toArray();   
+            if(empty($adminsTokens)){
+                return response()->json(['message' => 'No admins tokens found'], 200);
+            }
+            else{
+                return response()->json(['adminsTokens' => $adminsTokens], 200);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
     public function getOnShiftFcmTokens($id){
         try{
             $usersOnShift = User::whereHas('hasShift', function ($query) {
@@ -59,6 +93,20 @@ class FcmController extends Controller {
             }
             else{
                 return response()->json(['onShiftTokens' => $usersOnShift], 200);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
+    public function getAllFcmTokens($id){
+        try {
+            $tokens = User::whereNotIn("id", [$id])->pluck('fcm_token')->toArray();   
+            if(empty($tokens)){
+                return response()->json(['message' => 'No tokens found'], 200);
+            }
+            else{
+                return response()->json(['tokens' => $tokens], 200);
             }
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);

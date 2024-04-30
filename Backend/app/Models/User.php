@@ -23,13 +23,14 @@ class User extends Authenticatable
         'lau_email',
         'password',
         'studend_id',
-        'major',
         'phone_number',
-        'user_type',
+        'major',
         'profile_picture',
-        'user_rank',
         'bio',
         'tags',
+        'user_type',
+        'user_rank',
+        'fcm_token'
     ];
 
     /**

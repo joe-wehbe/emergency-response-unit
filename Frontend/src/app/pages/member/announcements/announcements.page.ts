@@ -47,7 +47,7 @@ export class AnnouncementsPage implements OnInit {
             if(announcement.visible_to == 3 && (this.userRank == 'Admin' || this.userRank == 'Medic & Admin' || this.userRank == 'Dispatcher & Admin')){
               this.visibleAnnouncements.push(announcement);
             }
-            // Announcement to (Dispatcher & Medic) or to everyone, visible to everyone
+            // Announcement to (Dispatcher & Medic) or to (Dispatcher & Medic & Admin), visible to (Dispatcher & Medic & Admin)
             if(announcement.visible_to == 6 || announcement.visible_to == 0){
               this.visibleAnnouncements.push(announcement);
             }

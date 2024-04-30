@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { ActionPerformed, PushNotifications, PushNotificationSchema, Token } from '@capacitor/push-notifications';
-import { BehaviorSubject, forkJoin } from 'rxjs';
+import { forkJoin } from 'rxjs';
 
 export const FCM_TOKEN = 'push_notification_token';
 
@@ -15,91 +15,54 @@ export class FcmService {
   private fcmUrl:string = "https://fcm.googleapis.com/fcm/send";
   private serverKey:string = "AAAA2JYAb0s:APA91bFGsDePgAPQIpny5NcTRxhEEYOVAKFb9Gg14X7EqAwP_Yv7Orv2leUY03MFdbd5d_Wdz-ItALW95KURJJTfeUK_0Zi1v8Ojn-wpO5_N5wgxbgNLWdGaun8ONTAA4xjXVib2Z7at";
   private userId = localStorage.getItem("user_id");
-  private _redirect = new BehaviorSubject<any>(null);
 
-  get redirect() {
-    return this._redirect.asObservable();
-  }
-
-  constructor(private http: HttpClient) {
-    
-   }
+  constructor(private http: HttpClient) {}
 
   /****************** PUSH NOTIFICATIONS IMPLEMENTATION ******************/
 
-  // Initializes push notifications when the user logs in
   initializePushNotifications() {
     if (Capacitor.getPlatform() !== 'web') {
       this.registerToPushNotifications();
     }
   }
 
-  // Requests permission from the user and registers for push notifications if permission is granted
   private async registerToPushNotifications() {
-    try {
-      await this.addListeners();
-      let permissionStatus = await PushNotifications.checkPermissions();
+    let permissionStatus = await PushNotifications.checkPermissions();
 
-      if (permissionStatus.receive === 'prompt') {
-        permissionStatus = await PushNotifications.requestPermissions();
-      }
-
-      if (permissionStatus.receive !== 'granted') {
-        throw new Error('User denied permissions!');
-      }
-
-      await PushNotifications.register();
-    } catch (exception) {
-      console.log(exception);
+    if (permissionStatus.receive === 'prompt') {
+      permissionStatus = await PushNotifications.requestPermissions();
     }
+    if (permissionStatus.receive !== 'granted') {
+      throw new Error('User denied permissions!');
+    }
+    await PushNotifications.register();
   }
 
-  // Listens to push notification events
-  addListeners() {
-    
-    // Registration event: checks if incoming token != than saved token and updates the localstorage and database accordingly
-    PushNotifications.addListener(
-      'registration',
-      async (token: Token) => {
-        console.log('My token: ', token);
-        const fcmToken = token?.value;
-        const savedToken = localStorage.getItem(FCM_TOKEN);
-
-        if (fcmToken && savedToken !== JSON.stringify(fcmToken)) {
-          localStorage.setItem(FCM_TOKEN, JSON.stringify(fcmToken));
-          this.saveFcmToken(fcmToken);
-        }
+  addListeners() { 
+    PushNotifications.addListener('registration', async (token: Token) => {
+      const incomingToken = token?.value;
+      const existingToken = localStorage.getItem(FCM_TOKEN);
+      if (incomingToken && existingToken !== JSON.stringify(incomingToken)) {
+        localStorage.setItem(FCM_TOKEN, JSON.stringify(incomingToken));
+        this.saveFcmToken(incomingToken);
       }
-    );
-
-    // Registration error event: displays the registration error in the console
-    PushNotifications.addListener('registrationError', (error: any) => {
-      console.log('Error registering: ' + JSON.stringify(error));
     });
 
-    // Notification receival event
-    PushNotifications.addListener(
-      'pushNotificationReceived',
-      async (notification: PushNotificationSchema) => {
-        console.log('Push received: ' + JSON.stringify(notification));
-        const data = notification?.data;
-        if (data?.redirect) this._redirect.next(data?.redirect);
-      }
-    );
+    PushNotifications.addListener('registrationError', (error: any) => {
+      console.log('Registration error: ' + JSON.stringify(error));
+    });
 
-    // Performing action event
-    PushNotifications.addListener(
-      'pushNotificationActionPerformed',
-      async (notification: ActionPerformed) => {
-        const data = notification.notification.data;
-        console.log('Action performed: ' + JSON.stringify(notification.notification));
-        console.log('push data: ', data);
-        if (data?.redirect) this._redirect.next(data?.redirect);
-      }
-    );
+    PushNotifications.addListener('pushNotificationReceived', async (notification: PushNotificationSchema) => {
+      console.log('Push notification received: ' + JSON.stringify(notification));
+    });
+
+    PushNotifications.addListener('pushNotificationActionPerformed', async (notification: ActionPerformed) => {
+      console.log('Action performed: ' + JSON.stringify(notification));
+    });
   }
 
-  // Saves a user's fcm token in the database upon logging in
+  /****************** APIs IMPLEMENTATION ******************/
+
   private saveFcmToken(fcmToken: string) {
     this.http.put(this.baseUrl + "save-fcm-token", { id: localStorage.getItem("user_id"), fcm_token: fcmToken })
     .subscribe({
@@ -112,15 +75,11 @@ export class FcmService {
     });
   }
 
-  /****************** APIs IMPLEMENTATION ******************/
-
-  // Notifies dispatchers on-shift and medics, can be called from report and report-emergency
-  notifyResponders(location: string, description: string) {
+  notifyFirstResponders(location: string, description: string) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'key=' + this.serverKey
-    });
-  
+    }); 
     forkJoin([
       this.http.get<{ medicsTokens: string[] }>(this.baseUrl + "get-medics-fcm-tokens/" + this.userId),
       this.http.get<{ onShiftTokens: string[] }>(this.baseUrl + "get-on-shift-fcm-tokens/" + this.userId)
@@ -132,15 +91,15 @@ export class FcmService {
   
         if (allTokens.length > 0) {
           allTokens.forEach(token => {
-            const notificationPayload = {
-              to: token,
-              notification: {
-                title: location,
-                body: description,
-                sound: "alarm1.mp3"
-              }
-            };
-            this.http.post(this.fcmUrl, notificationPayload, { headers })
+            if (token != null){
+              const notificationPayload = {
+                to: token,
+                notification: {
+                  title: "Emergency Alert",
+                  body: location + ': ' + description
+                },
+              };  
+              this.http.post(this.fcmUrl, notificationPayload, { headers })
               .subscribe({
                 next: (response: any) => {
                   console.log('Notification sent successfully to', token, ':', response);
@@ -149,6 +108,7 @@ export class FcmService {
                   console.error('Error sending notification to', token, ':', error);
                 },
               });
+            }
           });
         } else {
           console.error('No valid tokens received');
@@ -158,5 +118,187 @@ export class FcmService {
         console.error('Error getting tokens:', error);
       },
     });
+  }
+
+  notifyAnnouncementReceivers(firstName:string, lastName:string, importance: string, description: string, visibility: number){
+    if(importance == "Very important"){
+      if(visibility == 1 || visibility == 5){
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'key=' + this.serverKey
+        }); 
+        forkJoin([
+          this.http.get<{ dispatchersTokens: string[] }>(this.baseUrl + "get-dispatchers-fcm-tokens/" + this.userId),
+          this.http.get<{ adminsTokens: string[] }>(this.baseUrl + "get-admins-fcm-tokens/" + this.userId)
+        ]).subscribe({
+          next: ([dispatchersResponse, adminsResponse]: [any, any]) => {
+            const dispatchersTokens: string[] = dispatchersResponse?.dispatchersTokens || [];
+            const adminsTokens: string[] = adminsResponse?.adminsTokens || [];
+
+            console.log("Dispatchers tokens:", dispatchersTokens);
+            console.log("Admins tokens: ",adminsTokens);
+
+            const allTokens: string[] = [...dispatchersTokens, ...adminsTokens];
+            const allUniqueTokens: string[] = Array.from(new Set(allTokens));
+  
+            if (allUniqueTokens.length > 0) {
+              allUniqueTokens.forEach(token => {
+                if (token != null){
+                  const notificationPayload = {
+                    to: token,
+                    notification: {
+                      title: "New Announcement",
+                      body: firstName + ' ' + lastName + ': ' + description
+                    },
+                  };  
+                  this.http.post(this.fcmUrl, notificationPayload, { headers })
+                  .subscribe({
+                    next: (response: any) => {
+                      console.log('Notification sent successfully to', token, ':', response);
+                    },
+                    error: (error: any) => {
+                      console.error('Error sending notification to', token, ':', error);
+                    },
+                  });
+                }
+              });
+            } else {
+              console.error('No valid tokens received');
+            }        
+          },
+          error: (error: any) => {
+            console.error('Error getting tokens:', error);
+          },
+        });
+      }
+  
+      if(visibility == 2 || visibility == 4){
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'key=' + this.serverKey
+        }); 
+        forkJoin([
+          this.http.get<{ medicsTokens: string[] }>(this.baseUrl + "get-medics-fcm-tokens/" + this.userId),
+          this.http.get<{ adminsTokens: string[] }>(this.baseUrl + "get-admins-fcm-tokens/" + this.userId)
+        ]).subscribe({
+          next: ([medicsResponse, adminsResponse]: [any, any]) => {
+            const medicsTokens: string[] = medicsResponse?.medicsTokens || [];
+            const adminsTokens: string[] = adminsResponse?.adminsTokens || [];
+            const allTokens: string[] = [...medicsTokens, ...adminsTokens];
+            const allUniqueTokens: string[] = Array.from(new Set(allTokens));
+  
+            if (allUniqueTokens.length > 0) {
+              allUniqueTokens.forEach(token => {
+                if (token != null){
+                  const notificationPayload = {
+                    to: token,
+                    notification: {
+                      title: "New Announcement",
+                      body: firstName + ' ' + lastName + ':' + description
+                    },
+                  };  
+                  this.http.post(this.fcmUrl, notificationPayload, { headers })
+                  .subscribe({
+                    next: (response: any) => {
+                      console.log('Notification sent successfully to', token, ':', response);
+                    },
+                    error: (error: any) => {
+                      console.error('Error sending notification to', token, ':', error);
+                    },
+                  });
+                }
+              });
+            } else {
+              console.error('No valid tokens received');
+            }        
+          },
+          error: (error: any) => {
+            console.error('Error getting tokens:', error);
+          },
+        });
+      }
+  
+      if (visibility == 3) {
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'key=' + this.serverKey
+        }); 
+        this.http.get<{ adminsTokens: string[] }>(this.baseUrl + "get-admins-fcm-tokens/" + this.userId)
+        .subscribe({
+          next: (response: { adminsTokens: string[] }) => {
+            const adminsTokens: string[] = response?.adminsTokens || [];
+    
+            if (adminsTokens.length > 0) {
+              adminsTokens.forEach(token => {
+                if (token != null) {
+                  const notificationPayload = {
+                    to: token,
+                    notification: {
+                      title: "New Announcement",
+                      body: firstName + ' ' + lastName + ':' + description
+                    },
+                  };
+                  this.http.post(this.fcmUrl, notificationPayload, { headers })
+                    .subscribe({
+                      next: (response: any) => {
+                        console.log('Notification sent successfully to', token, ':', response);
+                      },
+                      error: (error: any) => {
+                        console.error('Error sending notification to', token, ':', error);
+                      },
+                    });
+                }
+              });
+            } else {
+              console.error('No valid tokens received');
+            }
+          },
+          error: (error) => {
+            console.error('Error getting tokens:', error);
+          },
+        });
+      }
+      
+      if(visibility == 6 || visibility == 0){
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'key=' + this.serverKey
+        }); 
+        this.http.get<{ tokens: string[] }>(this.baseUrl + "get-all-fcm-tokens/" + this.userId)
+        .subscribe({
+          next: (response: { tokens: string[] }) => {
+            const tokens: string[] = response?.tokens || [];
+    
+            if (tokens.length > 0) {
+              tokens.forEach(token => {
+                if (token != null) {
+                  const notificationPayload = {
+                    to: token,
+                    notification: {
+                      title: "New Announcement",
+                      body: firstName + ' ' + lastName + ':' + description
+                    },
+                  };
+                  this.http.post(this.fcmUrl, notificationPayload, { headers })
+                    .subscribe({
+                      next: (response: any) => {
+                        console.log('Notification sent successfully to', token, ':', response);
+                      },
+                      error: (error: any) => {
+                        console.error('Error sending notification to', token, ':', error);
+                      },
+                    });
+                }
+              });
+            } else {
+              console.error('No valid tokens received');
+            }
+          },
+          error: (error) => {
+            console.error('Error getting tokens:', error);
+          },
+        });
+      }
+    }
   }
 }
