@@ -51,11 +51,11 @@ export class UserService {
     return this.http.get(this.base_url + 'get-semester', {headers: this.getAuthHeaders()});
   }
 
-  requestCover($shift_id: number, $reason: string) {
+  requestCover(shift_id: number, reason: string) {
     const body = {
       user_id: this.userId,
-      shift_id: $shift_id,
-      reason: $reason
+      shift_id: shift_id,
+      reason: reason
     };
     return this.http.post(this.base_url + 'request-cover', body, {headers: this.getAuthHeaders()});
   }

@@ -287,46 +287,46 @@ export class FcmService {
     }
   }
 
-  // notifyForCoverRequest(){
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     'Authorization': 'key=' + this.serverKey
-  //   });
-  //   this.http.get<{ tokens: string[] }>(this.baseUrl + "get-all-fcm-tokens/" + this.userId)
-  //   .subscribe({
-  //     next: (response: { tokens: string[] }) => {
-  //       const tokens: string[] = response?.tokens || [];
+  notifyForCoverRequest(firstName: string, lastName: string, startTime: string, endTime: string, day: string){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'key=' + this.serverKey
+    });
+    this.http.get<{ tokens: string[] }>(this.baseUrl + "get-all-fcm-tokens/" + this.userId)
+    .subscribe({
+      next: (response: { tokens: string[] }) => {
+        const tokens: string[] = response?.tokens || [];
 
-  //       if (tokens.length > 0) {
-  //         tokens.forEach(token => {
-  //           if (token != null) {
-  //             const notificationPayload = {
-  //               to: token,
-  //               notification: {
-  //                 title: "New Cover Request",
-  //                 body: firstName + ' ' + lastName + ':'
-  //               },
-  //             };
-  //             this.http.post(this.fcmUrl, notificationPayload, { headers })
-  //               .subscribe({
-  //                 next: (response: any) => {
-  //                   console.log('Notification sent successfully to', token, ':', response);
-  //                 },
-  //                 error: (error: any) => {
-  //                   console.error('Error sending notification to', token, ':', error);
-  //                 },
-  //               });
-  //           }
-  //         });
-  //       } else {
-  //         console.error('No valid tokens received');
-  //       }
-  //     },
-  //     error: (error) => {
-  //       console.error('Error getting tokens:', error);
-  //     },
-  //   });
-  // }
+        if (tokens.length > 0) {
+          tokens.forEach(token => {
+            if (token != null) {
+              const notificationPayload = {
+                to: token,
+                notification: {
+                  title: firstName + ' ' + lastName + " requested cover",
+                  body: day + ' from ' + startTime + ' to ' + endTime
+                },
+              };
+              this.http.post(this.fcmUrl, notificationPayload, { headers })
+                .subscribe({
+                  next: (response: any) => {
+                    console.log('Notification sent successfully to', token, ':', response);
+                  },
+                  error: (error: any) => {
+                    console.error('Error sending notification to', token, ':', error);
+                  },
+                });
+            }
+          });
+        } else {
+          console.error('No valid tokens received');
+        }
+      },
+      error: (error) => {
+        console.error('Error getting tokens:', error);
+      },
+    });
+  }
   
   notifyForRegistrationRequest(firstName: string, lastName: string){
     const headers = new HttpHeaders({
