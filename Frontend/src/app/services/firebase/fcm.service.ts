@@ -121,12 +121,13 @@ export class FcmService {
   }
 
   notifyAnnouncementReceivers(firstName:string, lastName:string, importance: string, description: string, visibility: number){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'key=' + this.serverKey
+    }); 
+
     if(importance == "Very important"){
       if(visibility == 1 || visibility == 5){
-        const headers = new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': 'key=' + this.serverKey
-        }); 
         forkJoin([
           this.http.get<{ dispatchersTokens: string[] }>(this.baseUrl + "get-dispatchers-fcm-tokens/" + this.userId),
           this.http.get<{ adminsTokens: string[] }>(this.baseUrl + "get-admins-fcm-tokens/" + this.userId)
@@ -134,10 +135,6 @@ export class FcmService {
           next: ([dispatchersResponse, adminsResponse]: [any, any]) => {
             const dispatchersTokens: string[] = dispatchersResponse?.dispatchersTokens || [];
             const adminsTokens: string[] = adminsResponse?.adminsTokens || [];
-
-            console.log("Dispatchers tokens:", dispatchersTokens);
-            console.log("Admins tokens: ",adminsTokens);
-
             const allTokens: string[] = [...dispatchersTokens, ...adminsTokens];
             const allUniqueTokens: string[] = Array.from(new Set(allTokens));
   
@@ -173,10 +170,6 @@ export class FcmService {
       }
   
       if(visibility == 2 || visibility == 4){
-        const headers = new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': 'key=' + this.serverKey
-        }); 
         forkJoin([
           this.http.get<{ medicsTokens: string[] }>(this.baseUrl + "get-medics-fcm-tokens/" + this.userId),
           this.http.get<{ adminsTokens: string[] }>(this.baseUrl + "get-admins-fcm-tokens/" + this.userId)
@@ -219,10 +212,6 @@ export class FcmService {
       }
   
       if (visibility == 3) {
-        const headers = new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': 'key=' + this.serverKey
-        }); 
         this.http.get<{ adminsTokens: string[] }>(this.baseUrl + "get-admins-fcm-tokens/" + this.userId)
         .subscribe({
           next: (response: { adminsTokens: string[] }) => {
@@ -260,10 +249,6 @@ export class FcmService {
       }
       
       if(visibility == 6 || visibility == 0){
-        const headers = new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': 'key=' + this.serverKey
-        }); 
         this.http.get<{ tokens: string[] }>(this.baseUrl + "get-all-fcm-tokens/" + this.userId)
         .subscribe({
           next: (response: { tokens: string[] }) => {
@@ -300,5 +285,88 @@ export class FcmService {
         });
       }
     }
+  }
+
+  // notifyForCoverRequest(){
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'key=' + this.serverKey
+  //   });
+  //   this.http.get<{ tokens: string[] }>(this.baseUrl + "get-all-fcm-tokens/" + this.userId)
+  //   .subscribe({
+  //     next: (response: { tokens: string[] }) => {
+  //       const tokens: string[] = response?.tokens || [];
+
+  //       if (tokens.length > 0) {
+  //         tokens.forEach(token => {
+  //           if (token != null) {
+  //             const notificationPayload = {
+  //               to: token,
+  //               notification: {
+  //                 title: "New Cover Request",
+  //                 body: firstName + ' ' + lastName + ':'
+  //               },
+  //             };
+  //             this.http.post(this.fcmUrl, notificationPayload, { headers })
+  //               .subscribe({
+  //                 next: (response: any) => {
+  //                   console.log('Notification sent successfully to', token, ':', response);
+  //                 },
+  //                 error: (error: any) => {
+  //                   console.error('Error sending notification to', token, ':', error);
+  //                 },
+  //               });
+  //           }
+  //         });
+  //       } else {
+  //         console.error('No valid tokens received');
+  //       }
+  //     },
+  //     error: (error) => {
+  //       console.error('Error getting tokens:', error);
+  //     },
+  //   });
+  // }
+  
+  notifyForRegistrationRequest(firstName: string, lastName: string){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'key=' + this.serverKey
+    }); 
+
+    this.http.get<{ adminsTokens: string[] }>(this.baseUrl + "get-admins-fcm-tokens/" + this.userId)
+    .subscribe({
+      next: (response: { adminsTokens: string[] }) => {
+        const adminsTokens: string[] = response?.adminsTokens || [];
+
+        if (adminsTokens.length > 0) {
+          adminsTokens.forEach(token => {
+            if (token != null) {
+              const notificationPayload = {
+                to: token,
+                notification: {
+                  title: "New Application",
+                  body: firstName + ' ' + lastName + " would like to join the unit",
+                },
+              };
+              this.http.post(this.fcmUrl, notificationPayload, { headers })
+                .subscribe({
+                  next: (response: any) => {
+                    console.log('Notification sent successfully to', token, ':', response);
+                  },
+                  error: (error: any) => {
+                    console.error('Error sending notification to', token, ':', error);
+                  },
+                });
+            }
+          });
+        } else {
+          console.error('No valid tokens received');
+        }
+      },
+      error: (error) => {
+        console.error('Error getting tokens:', error);
+      },
+    });
   }
 }

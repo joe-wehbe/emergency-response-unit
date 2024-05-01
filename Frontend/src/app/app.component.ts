@@ -4,6 +4,7 @@ import { AlertController, ToastController } from '@ionic/angular';
 import { filter } from 'rxjs/operators';
 import { UserService } from './services/user/user.service';
 import { AuthService } from './services/authentication/auth.service';
+import { FcmService } from './services/firebase/fcm.service';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +29,7 @@ export class AppComponent {
   @Output() darkModeToggled = new EventEmitter<boolean>();
 
   constructor(private router: Router, private alertController: AlertController, private authService:AuthService,
-    private toastController: ToastController,private userService: UserService) {
+    private toastController: ToastController, private userService: UserService, private fcmService: FcmService) {
 
     this.router.events.pipe(filter((event: RouterEvent): event is NavigationEnd =>event instanceof NavigationEnd))
     .subscribe((event: NavigationEnd) => {
@@ -157,6 +158,7 @@ export class AppComponent {
                 .subscribe({
                   next: (response) => {
                     console.log('User applied successfully:', response);
+                    this.fcmService.notifyForRegistrationRequest(this.first_name, this.last_name)
                   },
                   error: (error) => {
                     console.error('Error applying:', error);
