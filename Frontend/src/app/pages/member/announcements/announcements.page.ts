@@ -29,7 +29,6 @@ export class AnnouncementsPage implements OnInit {
     .subscribe({
       next: (response) => {
         if(response && response.hasOwnProperty("announcements")){
-         
           const parsedResponse = JSON.parse(JSON.stringify(response));
           this.announcements = [].concat.apply([], Object.values(parsedResponse['announcements']));
 

@@ -139,5 +139,4 @@ export class UserService {
     const response = this.http.post(this.base_url + 'edit-profile-picture', formData, options);
     return response;
   }
-
 }

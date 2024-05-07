@@ -24,7 +24,6 @@ export class CaseReportsPage implements OnInit {
     this.emergencyService.getAllCaseReports().subscribe({
       next: (response) => {
         if (response && response.hasOwnProperty('emergencies')) {
-          
           const parsedResponse = JSON.parse(JSON.stringify(response));
           this.caseReports = [].concat.apply([], Object.values(parsedResponse['emergencies'])
           );

@@ -32,7 +32,6 @@ export class ExtensionsPage implements OnInit {
     .subscribe({
       next: (response) => {
         if(response && response.hasOwnProperty("extensions")){
-       
           const parsedResponse = JSON.parse(JSON.stringify(response));
           this.allExtensions = [].concat.apply([], Object.values(parsedResponse['extensions']));
 

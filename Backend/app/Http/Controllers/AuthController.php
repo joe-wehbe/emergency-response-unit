@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Login_request;
 use App\Models\Login_attempt;
-use Illuminate\Auth\Events\Registered;
+
 use Carbon\Carbon;
 use Exception;
 

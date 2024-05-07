@@ -48,7 +48,6 @@ export class ManageMembersPage implements OnInit {
     .subscribe({
       next: (response) => {
         if(response && response.hasOwnProperty("users")){
-      
           const parsedResponse = JSON.parse(JSON.stringify(response));
           this.allUsers = [].concat.apply([], Object.values(parsedResponse['users']));
 

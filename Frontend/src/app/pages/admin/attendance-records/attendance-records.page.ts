@@ -39,7 +39,6 @@ export class AttendanceRecordsPage implements OnInit {
           //   coveredBy: shift.cover_requests.covered_by_user_name,
           //   isAttended: shift.user_shifts.attended,
           //   da
-      
           // })
         });
       },

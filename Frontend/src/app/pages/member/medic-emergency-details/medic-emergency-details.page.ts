@@ -42,7 +42,6 @@ export class MedicEmergencyDetailsPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    
     this.route.params.subscribe(params => {
       this.emergencyId = params['id'];
     });
@@ -56,10 +55,8 @@ export class MedicEmergencyDetailsPage implements OnInit {
     this.emergencyService.getEmergencyWithLastAssessment(this.emergencyId)
       .subscribe({
         next: (response) => {
-
           this.emergency = (response as any).emergency;
           this.assessment = (response as any).last_assessment;
-
           this.patientName = this.emergency.patient_name;
           this.patientId = this.emergency.patient_lau_id;
           this.medicDescription = this.emergency.medic_description;
@@ -67,7 +64,6 @@ export class MedicEmergencyDetailsPage implements OnInit {
           if(this.emergency.patient_condition == 'Serious' || 
           this.emergency.patient_condition == 'Not Serious' || 
           this.emergency.patient_condition == null){
-
             this.patientCondition = this.emergency.patient_condition;
           }
           else{
@@ -89,15 +85,12 @@ export class MedicEmergencyDetailsPage implements OnInit {
       this.patientCondition? !this.otherPatientCondition : !this.patientCondition){
       this.presentToast("At least one field should not be empty");
 
-    } else {
-    
-      
+    } else {    
       this.emergencyService.addEmergencyDetails(this.emergencyId, this.patientName, 
         this.patientId !== null ? this.patientId : -1, this.medicDescription, 
         this.patientCondition == "other" ? this.otherPatientCondition : this.patientCondition
       ).subscribe({
-        next: (response) => {
-         
+        next: () => {
           this.presentToast("Patient information saved");
         },
         error: (error) => {
@@ -120,10 +113,8 @@ export class MedicEmergencyDetailsPage implements OnInit {
         this.pupils_reaction)
 
       .subscribe({
-        next: (response) => {
-        
+        next: () => {
           this.presentToast("Assessment recorded");
-
           this.heart_rate= null;
           this.blood_pressure = "";
           this.oxygen_saturation = null;
@@ -134,7 +125,6 @@ export class MedicEmergencyDetailsPage implements OnInit {
           this.pupils_reaction = "";
           this.assessmentsCount++;
           localStorage.setItem(`assessmentsCount${this.emergencyId}`, this.assessmentsCount.toString());
-
           this.getEmergencyWithLastAssessment();
         },
         error: (error) => {
@@ -161,8 +151,7 @@ export class MedicEmergencyDetailsPage implements OnInit {
           handler: () => {
             this.emergencyService.endEmergency(this.emergencyId)
             .subscribe({
-              next: (response) => {
-             
+              next: () => {
                 localStorage.removeItem(`assessmentsCount${this.emergencyId}`);
                 this.router.navigate(["./tabs/on-scene"]).then(() => {
                   window.location.reload();

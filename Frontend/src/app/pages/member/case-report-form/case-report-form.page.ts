@@ -53,15 +53,13 @@ export class CaseReportFormPage implements OnInit {
       this.emergencyService.getEmergency(this.emergencyId)
         .subscribe({
           next: (response) => {
-            
             this.emergency = (response as any).emergency;
             this.patientName = this.emergency.patient_name;
             this.location = this.emergency.location;
 
             if(this.emergency.patient_condition == 'Serious' || 
-            this.emergency.patient_condition == 'Not Serious' || 
-            this.emergency.patient_condition == null){
-  
+              this.emergency.patient_condition == 'Not Serious' || 
+              this.emergency.patient_condition == null){
               this.patientCondition = this.emergency.patient_condition;
             }
             else{

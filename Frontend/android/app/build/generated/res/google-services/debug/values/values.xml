@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gcm_defaultSenderId" translatable="false">930229546827</string>
+    <string name="google_api_key" translatable="false">AIzaSyBGbO3VPUfkxLeL47um-Z0G-jUko-zg5w0</string>
+    <string name="google_app_id" translatable="false">1:930229546827:android:6299400dd7434a8d3d02ce</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBGbO3VPUfkxLeL47um-Z0G-jUko-zg5w0</string>
+    <string name="google_storage_bucket" translatable="false">lau-emergency-response-unit.appspot.com</string>
+    <string name="project_id" translatable="false">lau-emergency-response-unit</string>
+</resources>

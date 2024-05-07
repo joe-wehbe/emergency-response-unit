@@ -68,7 +68,6 @@ export class EmergencyRecordsPage {
     .subscribe({
       next: (response) => {
         if (response && response.hasOwnProperty("emergencies")) {
-          
           const parsedResponse = JSON.parse(JSON.stringify(response));
           this.allEmergencies = [].concat.apply([], Object.values(parsedResponse['emergencies']));
 
@@ -124,7 +123,6 @@ export class EmergencyRecordsPage {
     this.emergencyService.getEmergencyAssessments(this.selectedEmergency.id)
     .subscribe({
       next: (response) => {
-        
         const parsedResponse = JSON.parse(JSON.stringify(response));
         this.assessments = [].concat.apply([], Object.values(parsedResponse['assessments']));
       },
@@ -153,7 +151,6 @@ export class EmergencyRecordsPage {
             this.emergencyService.deleteEmergency(this.selectedEmergency.id)
             .subscribe({
               next: (response) => {
-           
                 this.presentToast("Emergency deleted");
                 this.modalController.dismiss();
                 this.ngOnInit();

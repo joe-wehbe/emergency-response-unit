@@ -31,7 +31,6 @@ export class SignupRequestsPage implements OnInit {
     .subscribe({
       next: (response) => {
         if(response && response.hasOwnProperty("requests")){
-      
           const parsedResponse = JSON.parse(JSON.stringify(response));
           this.requests = [].concat.apply([], Object.values(parsedResponse['requests']));
         }
@@ -51,8 +50,7 @@ export class SignupRequestsPage implements OnInit {
   acceptSignupRequest(requestId: number){
     this.adminService.acceptSignupRequest(requestId)
     .subscribe({
-      next: () => {
-       
+      next: () => {  
         this.presentToast("Registration request accepted");
         this.ngOnInit();
       },
@@ -89,7 +87,6 @@ export class SignupRequestsPage implements OnInit {
     this.adminService.rejectSignupRequest(requestId)
     .subscribe({
       next: () => {
-       
         this.presentToast("Registration request rejected");
         this.ngOnInit();
       },
