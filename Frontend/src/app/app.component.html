@@ -46,12 +46,12 @@
                 <div class="tab-container" routerDirection="root" [routerLink]="'cover-requests'" lines="none" detail="false" routerLinkActive="selected">
                   <ion-img src="assets/icon/cover-request.png"></ion-img>
                   <p>Cover requests</p>
-                  <p class="notif">3</p>
+                  <p class="notif">{{ cover_requests_count }}</p>
                 </div>
                 <div class="tab-container" routerDirection="root" [routerLink]="'/case-reports'" lines="none" detail="false" routerLinkActive="selected">
                   <ion-img src="assets/icon/case-report.png"></ion-img>
                   Case reports
-                  <p class="notif">5</p>
+                  <p class="notif">{{ case_reports_count }}</p>
                 </div>
                 <div class="tab-container" routerDirection="root" [routerLink]="'/extensions'" lines="none" detail="false" routerLinkActive="selected">
                   <ion-img src="assets/icon/phone-extensions.png"></ion-img>

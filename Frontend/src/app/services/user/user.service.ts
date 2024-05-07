@@ -103,6 +103,10 @@ export class UserService {
     return this.http.get(this.base_url + 'get-all-cover-requests/' + this.userId, {headers: this.getAuthHeaders()});
   }
 
+  getCoverRequestsCount(){
+    return this.http.get(this.base_url + 'get-cover-requests-count/' + this.userId, {headers: this.getAuthHeaders()});
+  }
+
   acceptCoverRequest($id: number) {
     const body = {
       id: $id,

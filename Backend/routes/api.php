@@ -51,6 +51,7 @@ Route::group(["prefix" => "v0.1"], function () {
             Route::get('get-users-on-shift', [UserController::class, 'getUsersOnShift']);
             Route::get('get-all-announcements', [UserController::class, 'getAllAnnouncements']);
             Route::get('get-all-cover-requests/{id}', [UserController::class, 'getAllCoverRequests']);
+            Route::get('get-cover-requests-count/{id}', [UserController::class, 'getCoverRequestsCount']);
             Route::put('accept-cover-request', [UserController::class, 'acceptCoverRequest']);
             Route::get('get-extensions', [UserController::class, 'getExtensions']);
             Route::get('get-medical-faqs/{type}', [UserController::class, 'getMedicalFaqs']);
@@ -75,6 +76,7 @@ Route::group(["prefix" => "v0.1"], function () {
             Route::put('end-emergency', [EmergencyController::class, 'endEmergency']);
             Route::get('get-all-emergencies-with-last-assessment', [EmergencyController::class, 'getAllEmergenciesWithLastAssessment']);
             Route::get('get-all-case-reports', [EmergencyController::class, 'getAllCaseReports']);
+            Route::get('get-case-reports-count', [EmergencyController::class, 'getCaseReportsCount']);
         });
 
         // ADMIN CONTROLLER APIs

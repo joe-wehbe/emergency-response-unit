@@ -71,7 +71,7 @@ class EmergencyController extends Controller{
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
-
+    
     public function deleteEmergency($emergencyId){
         try{
             $emergency = Emergency::find($emergencyId);
@@ -305,6 +305,21 @@ class EmergencyController extends Controller{
                 ];
             }
             return response()->json(['emergencies' => $emergenciesWithLastAssessments], 200);
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
+    public function getCaseReportsCount(){
+        try{
+            $caseReportsCount = Emergency::where('status', 0)->where('case_report', 0)->count();
+    
+            if($caseReportsCount === 0){
+                return response()->json(['message' => 'No case reports'], 200);
+            }
+            else{
+                return response()->json(['caseReportsCount' => $caseReportsCount], 200);
+            }
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }

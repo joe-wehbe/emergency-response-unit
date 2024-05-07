@@ -111,6 +111,10 @@ export class EmergencyService {
     return this.http.get(this.base_url + "get-all-case-reports",  { headers: this.getAuthHeaders() }); 
   }
 
+  getCaseReportsCount(){
+    return this.http.get(this.base_url + "get-case-reports-count",  { headers: this.getAuthHeaders() }); 
+  }
+
   // EMERGENCY RECORDS PAGE
   getAllEmergenciesWithLastAssessment(){
     return this.http.get(`${this.base_url}get-all-emergencies-with-last-assessment`, {headers: this.getAuthHeaders()});

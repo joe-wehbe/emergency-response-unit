@@ -4,6 +4,7 @@ import { AlertController, ToastController } from '@ionic/angular';
 import { filter } from 'rxjs/operators';
 import { UserService } from './services/user/user.service';
 import { AuthService } from './services/authentication/auth.service';
+import { EmergencyService } from './services/emergency/emergency.service';
 
 @Component({
   selector: 'app-root',
@@ -24,12 +25,14 @@ export class AppComponent {
   email: string = '';
   rank: string = '';
   request_status: string = '';
-  user_profile_pic: string ="";
+  user_profile_pic: string = '';
+  cover_requests_count: number = 0;
+  case_reports_count: number = 0;
 
   @Output() darkModeToggled = new EventEmitter<boolean>();
 
   constructor(private router: Router, private alertController: AlertController, private authService:AuthService,
-    private toastController: ToastController,private userService: UserService) {
+    private toastController: ToastController, private userService: UserService, private emergencyService:EmergencyService) {
     this.router.events.pipe(filter((event: RouterEvent): event is NavigationEnd =>event instanceof NavigationEnd))
     .subscribe((event: NavigationEnd) => {
       const currentUrl = event.url;
@@ -42,6 +45,8 @@ export class AppComponent {
   ngOnInit(): void {
     this.getUserInfo();
     this.checkDarkModeStatus();
+    this.getCoverRequestsCount();
+    this.getCaseReportsCount();
   }
 
   getUserInfo() {
@@ -74,7 +79,6 @@ export class AppComponent {
       this.userService.getRequestStatus(this.email)
       .subscribe({
         next: (response) => {
-          console.log('Fetched signup request status:', response);
           const parsedResponse = JSON.parse(JSON.stringify(response));
           this.request_status = parsedResponse.status;
         },
@@ -83,6 +87,32 @@ export class AppComponent {
         },
       });
     }
+  }
+
+  getCoverRequestsCount(){
+    this.userService.getCoverRequestsCount()
+    .subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.cover_requests_count = response.coverRequestsCount;
+      },
+      error: (error) => {
+        console.error('Error fetching signup request status:', error);
+      },
+    });
+  }
+
+  getCaseReportsCount(){
+    this.emergencyService.getCaseReportsCount()
+    .subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.case_reports_count = response.caseReportsCount;
+      },
+      error: (error) => {
+        console.error('Error fetching signup request status:', error);
+      },
+    });
   }
 
   async applyAlert() {

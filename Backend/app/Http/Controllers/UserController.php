@@ -303,6 +303,15 @@ class UserController extends Controller{
         }
     }
 
+    public function getCoverRequestsCount($id){
+        try {
+            $coverRequestsCount = Cover_request::whereNotIn("user_id", [$id])->where('request_status', 0)->count();
+            return response()->json(['coverRequestsCount' => $coverRequestsCount], 200);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
     public function acceptCoverRequest(Request $request){
         $request->validate([
             'id' => 'required',
