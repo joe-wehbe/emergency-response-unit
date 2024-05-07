@@ -85,7 +85,7 @@ export class FcmService {
       this.http.get<{ onShiftTokens: string[] }>(this.baseUrl + "get-on-shift-fcm-tokens/" + this.userId)
     ]).subscribe({
       next: ([medicsResponse, onShiftResponse]: [any, any]) => {
-        const medicsTokens: string[] = medicsResponse.medicsTokens;
+        const medicsTokens: string[] = medicsResponse?.medicsTokens || [];
         const onShiftTokens: string[] = onShiftResponse.onShiftTokens;
         const allTokens: string[] = [...medicsTokens, ...onShiftTokens];
   
@@ -96,7 +96,8 @@ export class FcmService {
                 to: token,
                 notification: {
                   title: "Emergency Alert",
-                  body: location + ': ' + description
+                  body: location + ': ' + description,
+                  sound: "alarm1.mp3"
                 },
               };  
               this.http.post(this.fcmUrl, notificationPayload, { headers })
