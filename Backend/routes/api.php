@@ -42,9 +42,9 @@ Route::group(["prefix" => "v0.1"], function () {
             Route::get('get-user-info/{id}', [UserController::class, 'getUserInfo']);
             Route::get("get-user-shifts/{id}", [UserController::class, "getUserShifts"]);
             Route::get("get-request-status/{email}", [UserController::class, "getRequestStatus"]);
-            Route::post("edit-profile-picture", [UserController::class, "editProfile"]);
             Route::put('edit-bio', [UserController::class, 'editBio']);
             Route::put('edit-tags', [UserController::class, 'editTags']);
+            Route::put("edit-profile-picture", [UserController::class, "editProfilePicture"]);
             Route::post('request-cover', [UserController::class, 'requestCover']);
             Route::put('mark-attendance', [UserController::class, 'markAttendance']);
             Route::get('get-all-members/{id}', [UserController::class, 'getAllMembers']);
@@ -68,10 +68,10 @@ Route::group(["prefix" => "v0.1"], function () {
             Route::get('get-emergency-assessments/{id}', [EmergencyController::class, 'getEmergencyAssessments']);
             Route::get('get-no-response-emergencies', [EmergencyController::class, 'getNoResponseEmergencies']);
             Route::put('accept-emergency', [EmergencyController::class, 'acceptEmergency']);
+            Route::get("find-ongoing-emergency/{id}", [EmergencyController::class, "findOngoingEmergencyByMedicId"]);
             Route::get('get-emergency-with-last-assessment/{id}', [EmergencyController::class, 'getEmergencyWithLastAssessment']);
             Route::put('add-emergency-details', [EmergencyController::class, "addEmergencyDetails"]);
             Route::post("add-assessment", [EmergencyController::class, "addAssessment"]);
-            Route::post("find-ongoing-emergency", [EmergencyController::class, "findOngoingEmergencyByMedicId"]);
             Route::put('end-emergency', [EmergencyController::class, 'endEmergency']);
             Route::get('get-all-emergencies-with-last-assessment', [EmergencyController::class, 'getAllEmergenciesWithLastAssessment']);
             Route::get('get-all-case-reports', [EmergencyController::class, 'getAllCaseReports']);

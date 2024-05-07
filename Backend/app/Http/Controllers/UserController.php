@@ -15,6 +15,7 @@ use App\Models\Extension;
 use App\Models\Medical_faq;
 use App\Models\Emergency;
 use App\Models\Semester;
+
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Exception;
@@ -233,6 +234,29 @@ class UserController extends Controller{
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
+ 
+    function editProfilePicture(Request $request) {
+        $user_id = $request->user_id;
+        $existing_user = User::find($user_id);
+
+        if (!$existing_user) {
+            return response()->json(['status' => 'error', 'message' => 'User not found']);
+        }
+    
+        $validator = Validator::make($request->all(), ['user_profile_pic' => 'nullable']);
+        
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error','errors' => $validator->errors()]);
+        }
+    
+        if($request->hasFile('user_profile_pic')){
+            $request->validate(['user_profile_pic' => 'mimes:jpeg,bmp,png,jpg']);
+            $request->user_profile_pic->store('public/images');
+            $existing_user->profile_picture = $request->user_profile_pic->hashName();
+        }    
+        $existing_user->save();
+        return response()->json(['status' => 'success', 'message' => 'Profile updated successfully','new_pic' => $existing_user->profile_picture]);
+    }
 
     // COMMUNITY PAGE
     public function getAllMembers($id){
@@ -357,50 +381,5 @@ class UserController extends Controller{
         } catch (Exception $exception) {
             return response()->json(['error' => 'Failed to fetch medical FAQ'], 500);
         }
-    }
-
-    function editProfile(Request $request) {
-
-    
-        $user_id = $request->user_id;
-
-       
-        $existing_user = User::find($user_id);
-        if (!$existing_user) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'User not found'],);
-        }
-    
-        $validator = Validator::make($request->all(), [
-            'user_profile_pic' => 'nullable',
-        ]);
-    
-        
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => $validator->errors()]);
-        }
-    
-        if($request->hasFile('user_profile_pic')){
-            $request->validate([
-                'user_profile_pic' => 'mimes:jpeg,bmp,png,jpg'
-            ]);
-
-            $request->user_profile_pic->store('public/images');
-            $existing_user->profile_picture = $request->user_profile_pic->hashName();
-        }
-    
-     
-        // Save the user's changes to the database
-        $existing_user->save();
-    
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Profile updated successfully',
-        'new_pic' => $existing_user->profile_picture
-    ]);
-
     }
 }

@@ -40,7 +40,6 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
- 
     this.getUserInfo();
     this.checkDarkModeStatus();
   }
@@ -58,7 +57,6 @@ export class AppComponent {
           this.rank = this.user.rank? this.user.rank.rank_name : null;
           this.email = this.user.lau_email;
           this.user_profile_pic = this.user.profile_picture;
-         
         },
         error: (error) => {
           console.error("Error getting user info:", error);
@@ -93,7 +91,6 @@ export class AppComponent {
       subHeader: 'Applications with incorrect information will not be considered!',
       cssClass: 'alert-dialog',
       mode: 'ios',
-
       inputs: [
         {
           name: 'id',

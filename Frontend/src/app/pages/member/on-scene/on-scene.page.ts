@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { EmergencyService } from 'src/app/services/emergency/emergency.service';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-on-scene',
@@ -13,57 +12,49 @@ export class OnScenePage implements OnInit {
 
   noResponseEmergencies: any[] = [];
   isLoading: boolean = false;
-  user_rank:string = "";
-  id:string = "";
+  id = localStorage.getItem('user_id') ? localStorage.getItem('user_id') ?? '' : '';
+  rank = localStorage.getItem('rank') ? localStorage.getItem('rank') ?? '' : '';
+  
   constructor(
     private router:Router, 
     public alertController: AlertController, 
-    private emergencyService:EmergencyService
+    private emergencyService:EmergencyService,
+    private toastController:ToastController
   ) { }
 
   ngOnInit() {
-    const medic_id = localStorage.getItem('user_id');
-    if (medic_id !== null) {
-      this.id = medic_id;
-  } else {
-      this.id = "";
-  }
-  this.callApi(this.id);
-   
-    const rank = localStorage.getItem('rank');
-    if (rank !== null) {
-        this.user_rank = rank;
-    } else {
-        this.user_rank = "";
-    }
-        
+    this.checkMedicStatus(this.id);      
   }
 
-  callApi(id: string){
-    this.emergencyService.getOngoingForMedic(this.id).subscribe(
-      (response: any) => {
-        if(response.emergency){
-        this.router.navigate(["./medic-emergency-details", response.emergency.id])
-        }
-      },
-      (error: HttpErrorResponse) => {
-        
-        if (error.status === 404 && error.error && error.error.nothing) {
+  checkMedicStatus(id: string){
+    if(this.isMedic()){
+      this.emergencyService.findOngoingEmergencyByMedicId(id)
+      .subscribe({
+        next: (response: any) => {
+          if(response.emergency){
+            this.router.navigate(["./medic-emergency-details", response.emergency.id])
+          }
+          else{
+            this.getNoResponseEmergencies();
+          }
+        },
+        error: (error) => {
           this.getNoResponseEmergencies();
-        
-        } else {
-       
-          console.error("An error occurred while fetching ongoing emergency:", error.statusText);
-        }
-       
-      }
-    );
+          console.error('Error retrieving emergency:', error);
+        },
+      });
+    }
   }
 
-  checkCondition(): boolean {
-  
-    return (this.user_rank === 'Medic' || this.user_rank === 'Medic & Admin' || this.user_rank == 'Dispatcher & Medic');
-}
+  isMedic(): boolean {
+    if (this.rank === 'Medic' || this.rank === 'Medic & Admin' || this.rank == 'Dispatcher & Medic'){
+      return true;
+    }
+    else{
+      this.presentToast("Only medics can accept emergencies");
+      return false;
+    }
+  }
 
   getNoResponseEmergencies(){
     this.isLoading = true;
@@ -71,7 +62,6 @@ export class OnScenePage implements OnInit {
     .subscribe({
       next: (response) => {
         if(response && response.hasOwnProperty("emergencies")){
-          console.log("Fetched no response emergencies: ", response);
           const parsedResponse = JSON.parse(JSON.stringify(response));
           this.noResponseEmergencies = [].concat.apply([], Object.values(parsedResponse['emergencies']));
         }
@@ -105,8 +95,7 @@ export class OnScenePage implements OnInit {
           handler: () => {
             this.emergencyService.acceptEmergency(emergencyId)
             .subscribe({
-              next: (response) => {
-                console.log("Emergency accepted:", response);
+              next: () => {
                 this.router.navigate(["./medic-emergency-details", emergencyId])
               },
               error: (error) => {
@@ -121,5 +110,14 @@ export class OnScenePage implements OnInit {
       ],
     });
     await alert.present();
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom'
+    });
+    toast.present();
   }
 }

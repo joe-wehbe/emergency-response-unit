@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 export class EmergencyService {
 
   private base_url:string = "http://localhost:8000/api/v0.1/emergency/";
+  private userId: string = localStorage.getItem("user_id") ?? '';
 
   constructor(private http:HttpClient) { }
 
@@ -25,11 +26,8 @@ export class EmergencyService {
     return this.http.post(this.base_url + "report-emergency", body, {headers: this.getAuthHeaders()});
   }
 
-  getOngoingForMedic(medic_id:string){
-    const body = {
-      "medic_id": medic_id,
-    }
-    return this.http.post(this.base_url + "find-ongoing-emergency", body, {headers: this.getAuthHeaders()});
+  findOngoingEmergencyByMedicId(medic_id:string){
+    return this.http.get(this.base_url + "find-ongoing-emergency/" + this.userId, {headers: this.getAuthHeaders()});
   }
   
   // STANDBY PAGE

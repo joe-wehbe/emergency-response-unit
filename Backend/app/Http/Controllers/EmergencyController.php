@@ -143,7 +143,6 @@ class EmergencyController extends Controller{
             'id' => 'required',
             'medic_id' => 'required'
         ]);
-
         try{
             $emergency = Emergency::find($request->id);    
 
@@ -171,6 +170,20 @@ class EmergencyController extends Controller{
     }
 
     // MEDIC EMERGENCY DETAILS PAGE
+    public function findOngoingEmergencyByMedicId($id){
+        try {
+            $emergency = Emergency::where('medic_id', $id)->where('status', '1')->first();
+    
+            if($emergency){
+                return response()->json(['emergency' => $emergency], 200);
+            } else {
+                return response()->json(['message' => 'No ongoing emergency found for this medic'], 200);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
     public function getEmergencyWithLastAssessment($id){
         try{
             $emergency = Emergency::with('medic')->find($id);
@@ -210,27 +223,6 @@ class EmergencyController extends Controller{
             }
             else{
                 return response()->json(['error' => 'Emergency not found'], 404);
-            }
-        } catch (Exception $exception) {
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
-    }
-    
-    public function findOngoingEmergencyByMedicId(Request $request){
-        $request->validate([
-            'medic_id' => 'required|integer'
-        ]);
-    
-        try {
-    
-            $emergency = Emergency::where('medic_id', $request->medic_id)
-                ->where('status', '1')
-                ->first();
-    
-            if($emergency){
-                return response()->json(['emergency' => $emergency], 200);
-            } else {
-                return response()->json(['nothing' => 'No Ongoing emergency not found for this medic'], 404);
             }
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);

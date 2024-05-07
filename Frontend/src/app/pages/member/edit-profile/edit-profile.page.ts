@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-edit-profile',
@@ -25,12 +24,12 @@ export class EditProfilePage implements OnInit {
   user_id: string ="";
 
   constructor(
-    private sanitizer: DomSanitizer,
     private router:Router, 
     private alertController: AlertController, 
     private modalController:ModalController,
     private toastController:ToastController,
-    private userService:UserService) { }
+    private userService:UserService
+  ) { }
 
   ngOnInit() {
     this.getUserInfo()
@@ -150,7 +149,7 @@ export class EditProfilePage implements OnInit {
     }else if(this.tags != this.user.tags){
       this.editTags();
     } else {
-      this.editProfile();
+      this.editProfilePicture();
     }
   }
 
@@ -158,7 +157,7 @@ export class EditProfilePage implements OnInit {
     this.userService.editTags(this.tags)
     .subscribe({
       next: () => {
-        this.editProfile();
+        this.editProfilePicture();
       },
       error: (error) => {
         console.error("Error updating tags: ", error);
@@ -170,11 +169,11 @@ export class EditProfilePage implements OnInit {
     });
   }
 
-  editProfile(){
+  editProfilePicture(){
     const formData = new FormData();
     formData.append('user_id', this.userId);
     formData.append('user_profile_pic', this.user_src_img);
-    this.userService.editProfile(formData)
+    this.userService.editProfilePicture(formData)
     .subscribe({
       next: (response) => {
         const parsedResponse = JSON.parse(JSON.stringify(response));

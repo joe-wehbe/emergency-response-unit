@@ -82,6 +82,12 @@ export class UserService {
     return this.http.put(this.base_url + 'edit-tags', body, {headers: this.getAuthHeaders()});
   }
 
+  editProfilePicture(formData: FormData) {
+    const headers = this.getAuthHeaders();
+    const options = { headers: headers };
+    return this.http.put(this.base_url + 'edit-profile-picture', formData, options);
+  }
+
   // COMMUNITY PAGE
   getAllMembers() {
     return this.http.get(this.base_url + 'get-all-members/' + this.userId, {headers: this.getAuthHeaders()});
@@ -131,12 +137,5 @@ export class UserService {
   // MEDICAL FAQs PAGE
   getMedicalFAQs(type: string) {
     return this.http.get(this.base_url + 'get-medical-faqs/' + type, {headers: this.getAuthHeaders()});
-  }
-
-  editProfile(formData: FormData) {
-    const headers = this.getAuthHeaders();
-    const options = { headers: headers };
-    const response = this.http.post(this.base_url + 'edit-profile-picture', formData, options);
-    return response;
   }
 }
