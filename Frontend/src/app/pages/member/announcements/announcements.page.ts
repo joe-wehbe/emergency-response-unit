@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { IonModal } from '@ionic/angular';
+import { AppComponent } from 'src/app/app.component';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -17,7 +18,7 @@ export class AnnouncementsPage implements OnInit {
   isLoading: boolean = false;
 
   @ViewChild('modal') modal: IonModal | undefined;
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private appComponent: AppComponent) {}
 
   ngOnInit() {
     this.getAllAnnouncements();
@@ -51,6 +52,9 @@ export class AnnouncementsPage implements OnInit {
               this.visibleAnnouncements.push(announcement);
             }
           })
+          localStorage.setItem("read_announcements_count", this.visibleAnnouncements.length.toString());
+          this.appComponent.getAnnouncementsCount();
+          console.log(localStorage);
         }
         else{
           console.log("No announcements");

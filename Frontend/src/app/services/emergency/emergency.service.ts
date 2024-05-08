@@ -35,6 +35,10 @@ export class EmergencyService {
     return this.http.get(this.base_url + "get-ongoing-emergencies", {headers: this.getAuthHeaders()});
   }
 
+  getOngoingEmergenciesCount(){
+    return this.http.get(this.base_url + "get-ongoing-emergencies-count", {headers: this.getAuthHeaders()});
+  }
+
   getEndedEmergencies(){
     return this.http.get(this.base_url + "get-ended-emergencies", {headers: this.getAuthHeaders()});
   }

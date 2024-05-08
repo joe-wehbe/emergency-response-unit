@@ -24,6 +24,11 @@
                   <div class="tab-container" routerDirection="root" [routerLink]="'/tabs/report-emergency'" lines="none" detail="false" routerLinkActive="selected">
                     <ion-img src="assets/icon/report-emergency.png"></ion-img>
                     Emergency
+                    <p class="notif" *ngIf="ongoing_emergencies_count > 0">
+                      <ion-chip color="danger">
+                        <ion-label>{{ ongoing_emergencies_count }} ongoing</ion-label>
+                      </ion-chip>
+                    </p>
                   </div>
                   <div class="tab-container" routerDirection="root" [routerLink]="'/profile'" lines="none" detail="false" routerLinkActive="selected">
                     <ion-img src="assets/icon/person.png"></ion-img>
@@ -41,17 +46,17 @@
                 <div class="tab-container" routerDirection="root" [routerLink]="'/announcements'" lines="none" detail="false" routerLinkActive="selected">
                   <ion-img src="assets/icon/announcement.png"></ion-img>
                   Announcements
-                  <p class="notif">2</p>
+                  <p class="notif" *ngIf="unread_announcements_count > 0">{{ unread_announcements_count }}</p>
                 </div>
                 <div class="tab-container" routerDirection="root" [routerLink]="'cover-requests'" lines="none" detail="false" routerLinkActive="selected">
                   <ion-img src="assets/icon/cover-request.png"></ion-img>
                   <p>Cover requests</p>
-                  <p class="notif">{{ cover_requests_count }}</p>
+                  <p class="notif" *ngIf="cover_requests_count > 0">{{ cover_requests_count }}</p>
                 </div>
                 <div class="tab-container" routerDirection="root" [routerLink]="'/case-reports'" lines="none" detail="false" routerLinkActive="selected">
                   <ion-img src="assets/icon/case-report.png"></ion-img>
                   Case reports
-                  <p class="notif">{{ case_reports_count }}</p>
+                  <p class="notif" *ngIf="case_reports_count">{{ case_reports_count }}</p>
                 </div>
                 <div class="tab-container" routerDirection="root" [routerLink]="'/extensions'" lines="none" detail="false" routerLinkActive="selected">
                   <ion-img src="assets/icon/phone-extensions.png"></ion-img>

@@ -50,6 +50,7 @@ Route::group(["prefix" => "v0.1"], function () {
             Route::get('get-all-members/{id}', [UserController::class, 'getAllMembers']);
             Route::get('get-users-on-shift', [UserController::class, 'getUsersOnShift']);
             Route::get('get-all-announcements', [UserController::class, 'getAllAnnouncements']);
+            Route::get('get-announcements-count/{rank}', [UserController::class, 'getAnnouncementsCount']);
             Route::get('get-all-cover-requests/{id}', [UserController::class, 'getAllCoverRequests']);
             Route::get('get-cover-requests-count/{id}', [UserController::class, 'getCoverRequestsCount']);
             Route::put('accept-cover-request', [UserController::class, 'acceptCoverRequest']);
@@ -63,6 +64,7 @@ Route::group(["prefix" => "v0.1"], function () {
         Route::group(["prefix" => "emergency"], function () {
             Route::post("report-emergency", [EmergencyController::class, "reportEmergency"]);
             Route::get('get-ongoing-emergencies', [EmergencyController::class, 'getOngoingEmergencies']);
+            Route::get('get-ongoing-emergencies-count', [EmergencyController::class, 'getOngoingEmergenciesCount']);
             Route::get('get-ended-emergencies', [EmergencyController::class, 'getEndedEmergencies']);
             Route::delete('delete-emergency/{id}', [EmergencyController::class, 'deleteEmergency']);
             Route::get('get-emergency/{id}', [EmergencyController::class, 'getEmergency']);

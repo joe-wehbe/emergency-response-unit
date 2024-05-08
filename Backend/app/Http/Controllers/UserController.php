@@ -291,6 +291,29 @@ class UserController extends Controller{
         }
     }
 
+    public function getAnnouncementsCount($rank){
+        try {
+            if($rank == "Dispatcher") {
+                $announcementsCount = Announcement::whereIn('visible_to', [0, 1, 5, 6])->count();
+                return response()->json(['announcementsCount' => $announcementsCount], 200);
+            }
+            if($rank == "Medic"){
+                $announcementsCount = Announcement::whereIn('visible_to', [0, 2, 4, 6])->count();
+                return response()->json(['announcementsCount' => $announcementsCount], 200);
+            }
+            if($rank == "Admin" || $rank == "Medic & Admin" || $rank == "Dispatcher & Admin"){
+                $announcementsCount = Announcement::count();
+                return response()->json(['announcementsCount' => $announcementsCount], 200);
+            }
+            if($rank == "Dispatcher & Medic"){
+                $announcementsCount = Announcement::whereIn('visible_to', [0, 1, 2, 4, 5, 6])->count();
+                return response()->json(['announcementsCount' => $announcementsCount], 200);
+            }
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
     // COVER REQUESTS PAGE
     public function getAllCoverRequests($id){
         try {

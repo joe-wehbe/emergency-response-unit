@@ -28,6 +28,8 @@ export class AppComponent {
   user_profile_pic: string = '';
   cover_requests_count: number = 0;
   case_reports_count: number = 0;
+  ongoing_emergencies_count: number = 0;
+  unread_announcements_count: number = 0;
 
   @Output() darkModeToggled = new EventEmitter<boolean>();
 
@@ -45,6 +47,8 @@ export class AppComponent {
   ngOnInit(): void {
     this.getUserInfo();
     this.checkDarkModeStatus();
+    this.getOngoingEmergenciesCount();
+    this.getAnnouncementsCount();
     this.getCoverRequestsCount();
     this.getCaseReportsCount();
   }
@@ -55,7 +59,6 @@ export class AppComponent {
       this.userService.getUserInfo(this.id)
       .subscribe({
         next: (response) => {
-          console.log("Fetched user data:", response);
           this.user = response['User'];
           this.first_name = this.user.first_name;
           this.last_name = this.user.last_name;
@@ -75,7 +78,6 @@ export class AppComponent {
 
   checkSignupRequestStatus() {
     if(this.email){
-      console.log("Email: ", this.email);
       this.userService.getRequestStatus(this.email)
       .subscribe({
         next: (response) => {
@@ -89,15 +91,41 @@ export class AppComponent {
     }
   }
 
+  getOngoingEmergenciesCount(){
+    this.emergencyService.getOngoingEmergenciesCount()
+    .subscribe({
+      next: (response: any) => {
+        this.ongoing_emergencies_count = response.ongoingEmergenciesCount;
+      },
+      error: (error) => {
+        console.error('Error fetching ongoing emergencies count:', error);
+      },
+    });
+  }
+
+  getAnnouncementsCount() {
+    this.userService.getAnnouncementsCount()
+    .subscribe({
+      next: (response: any) => {
+        if(response.announcementsCount < parseInt(localStorage.getItem("read_announcements_count")?? '0')){
+          localStorage.setItem("read_announcements_count", (response.announcementsCount).toString());
+        }   
+        this.unread_announcements_count = response.announcementsCount - parseInt(localStorage.getItem("read_announcements_count")?? '0');
+      }, 
+      error: (error) => {
+        console.error('Error fetching announcements count:', error);
+      },
+    });
+  }
+
   getCoverRequestsCount(){
     this.userService.getCoverRequestsCount()
     .subscribe({
       next: (response: any) => {
-        console.log(response);
         this.cover_requests_count = response.coverRequestsCount;
       },
       error: (error) => {
-        console.error('Error fetching signup request status:', error);
+        console.error('Error fetching cover requests count', error);
       },
     });
   }
@@ -106,11 +134,10 @@ export class AppComponent {
     this.emergencyService.getCaseReportsCount()
     .subscribe({
       next: (response: any) => {
-        console.log(response);
         this.case_reports_count = response.caseReportsCount;
       },
       error: (error) => {
-        console.error('Error fetching signup request status:', error);
+        console.error('Error fetching case reports count:', error);
       },
     });
   }
@@ -165,16 +192,14 @@ export class AppComponent {
           cssClass: 'alert-button-ok-green',
           handler: async (data) => {
             if (!data.id || !data.number || !data.major) {
-              const message = 'All fields are required';
-              const toast = await this.toastController.create({message: message, duration: 2000, position: 'bottom',});
-              toast.present();
+              this.presentToast("All fields are required");
               return false;
 
             } else {
               this.userService.apply(data.id, data.number, data.major)
                 .subscribe({
                   next: (response) => {
-                    console.log('User applied successfully:', response);
+                    this.presentToast("Application sent");
                   },
                   error: (error) => {
                     console.error('Error applying:', error);
@@ -225,7 +250,6 @@ export class AppComponent {
             this.authService.logout(this.email)
             .subscribe({
               next: (response) => {
-                console.log('Logged out successfully:', response);
                 localStorage.clear();
                 this.router.navigate(['./login']);
               },
@@ -238,5 +262,14 @@ export class AppComponent {
       ],
     });
     await alert.present();
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom'
+    });
+    toast.present();
   }
 }

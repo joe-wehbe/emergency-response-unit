@@ -9,6 +9,7 @@ export class UserService {
   
   private base_url: string = 'http://localhost:8000/api/v0.1/user/';
   private userId: string = localStorage.getItem("user_id") ?? '';
+  private userRank: string = localStorage.getItem("rank") ?? '';
 
   constructor(private http: HttpClient) {}
 
@@ -96,6 +97,10 @@ export class UserService {
   // ANNOUNCEMENTS PAGE
   getAllAnnouncements() {
     return this.http.get(this.base_url + 'get-all-announcements', {headers: this.getAuthHeaders()});
+  }
+
+  getAnnouncementsCount() {
+    return this.http.get(this.base_url + 'get-announcements-count/' + this.userRank, {headers: this.getAuthHeaders()});
   }
 
   // COVER REQUESTS PAGE

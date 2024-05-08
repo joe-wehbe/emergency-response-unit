@@ -53,6 +53,20 @@ class EmergencyController extends Controller{
         }
     }
 
+    public function getOngoingEmergenciesCount(){
+        try {
+            $emergenciesCount = Emergency::where('status', 1)->count();
+            
+            if($emergenciesCount == 0){
+                return response()->json(['message' => 'No ongoing emergencies'], 200);
+            }
+    
+            return response()->json(['ongoingEmergenciesCount' => $emergenciesCount], 200);
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+    
     public function getEndedEmergencies(){
         try{
             $emergencies = Emergency::with('medic')

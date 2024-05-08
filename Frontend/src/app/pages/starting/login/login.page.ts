@@ -84,6 +84,7 @@ export class LoginPage {
           localStorage.setItem('lau_email', parsedResponse.lau_email);
           localStorage.setItem('profile_picture', parsedResponse.profile_picture);
           localStorage.setItem('user_type', parsedResponse.user_type);
+          localStorage.setItem('read_announcements_count', '0');
           localStorage.setItem('auth_token', parsedResponse.token);
   
           if (parsedResponse.user_type == 1) {
