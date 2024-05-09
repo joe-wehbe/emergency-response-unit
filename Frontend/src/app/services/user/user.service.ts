@@ -71,6 +71,10 @@ export class UserService {
     return this.http.put(this.base_url + 'mark-attendance', body, {headers: this.getAuthHeaders()});
   }
 
+  editProfilePicture(formData: FormData) {
+    return this.http.post(this.base_url + 'edit-profile-picture', formData, {headers: this.getAuthHeaders()});
+  }
+
   // EDIT PROFILE PAGE
   editBio($bio: string) {
     const body = {
@@ -86,12 +90,6 @@ export class UserService {
       tags: $tags
     };
     return this.http.put(this.base_url + 'edit-tags', body, {headers: this.getAuthHeaders()});
-  }
-
-  editProfilePicture(formData: FormData) {
-    const headers = this.getAuthHeaders();
-    const options = { headers: headers };
-    return this.http.put(this.base_url + 'edit-profile-picture', formData, options);
   }
 
   // COMMUNITY PAGE

@@ -16,12 +16,10 @@ export class EditProfilePage implements OnInit {
   shifts: any[] = [];
   semesterData: any[] = [];
   isLoading: boolean = false;
-  user_profile_pic = localStorage.getItem('profile_picture');
   user_src_img: any;
   user_src_img_display: any;
   bio: string = '';
   tags: string = '';
-  user_id: string ="";
 
   constructor(
     private router:Router, 
@@ -43,7 +41,6 @@ export class EditProfilePage implements OnInit {
     .subscribe({
       next: (response) => {
         this.user = response['User'];
-        this.user_id = this.user.id;
         this.bio = this.user.bio;
         this.tags = this.user.tags;
         this.user_src_img = this.user.profile_picture;
@@ -57,22 +54,6 @@ export class EditProfilePage implements OnInit {
     });
   }
 
-  onChange(event: any) {
-    this.user_src_img = event.target.files[0];
-    this.previewImage(event);
-  }
-  
-  previewImage(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.user_src_img_display = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-  
   getUserShifts(){
     this.userService.getUserShifts(this.userId)
     .subscribe({
@@ -85,8 +66,6 @@ export class EditProfilePage implements OnInit {
       },
       error: (error) => {
         console.error("Error getting user info:", error);
-      },
-      complete: () => {
       }
     });
   }
@@ -99,8 +78,6 @@ export class EditProfilePage implements OnInit {
       },
       error: (error) => {
         console.error("Error getting semester data:", error);
-      },
-      complete: () => {
       }
     });
   }
@@ -125,6 +102,22 @@ export class EditProfilePage implements OnInit {
     return undefined;
   }
 
+  onChange(event: any) {
+    this.user_src_img = event.target.files[0];
+    this.previewImage(event);
+  }
+  
+  previewImage(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.user_src_img_display = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   editBio(){
     if(this.bio != this.user.bio){
       this.userService.editBio(this.bio)
@@ -136,61 +129,58 @@ export class EditProfilePage implements OnInit {
           console.error("Error updating bio: ", error);
         },
         complete: () => {  
-          if(this.tags != this.user.tags){
-            this.editTags();     
-          }
-          else{
-            this.router.navigate(["./profile"]).then(() => {
-              window.location.reload();
-            })
-          }
+          this.editTags();
         }
       });
-    }else if(this.tags != this.user.tags){
+    }else{
       this.editTags();
-    } else {
+    } 
+  }
+
+  editTags(){
+    if(this.tags != this.user.tags){
+      this.userService.editTags(this.tags)
+      .subscribe({
+        next: (response) => {
+          console.log("Tags updated successfully: ", response);
+        },
+        error: (error) => {
+          console.error("Error updating tags: ", error);
+        },
+        complete: () => {  
+          this.editProfilePicture();
+        }
+      });
+    }else{
       this.editProfilePicture();
     }
   }
 
-  editTags(){
-    this.userService.editTags(this.tags)
-    .subscribe({
-      next: () => {
-        this.editProfilePicture();
-      },
-      error: (error) => {
-        console.error("Error updating tags: ", error);
-      },
-      complete: () => { this.router.navigate(["./profile"]).then(() => {
+  editProfilePicture(){
+    if(this.user_src_img_display){
+      const formData = new FormData();
+      formData.append('user_id', this.userId);
+      formData.append('user_profile_pic', this.user_src_img);
+  
+      this.userService.editProfilePicture(formData)
+      .subscribe({
+        next: (response) => {
+          const parsedResponse = JSON.parse(JSON.stringify(response));
+          localStorage.setItem('profile_picture', parsedResponse.new_pic);
+        },
+        error: (error) => {
+          console.error("Error updating picture: ", error);
+        },
+        complete: () => { this.router.navigate(["./profile"]).then(() => {
+          window.location.reload();
+        })}
+      });
+    }
+    else{
+      this.router.navigate(["./profile"]).then(() => {
         window.location.reload();
       })
-      }
-    });
-  }
-
-  editProfilePicture(){
-    const formData = new FormData();
-    formData.append('user_id', this.userId);
-    formData.append('user_profile_pic', this.user_src_img);
-    this.userService.editProfilePicture(formData)
-    .subscribe({
-      next: (response) => {
-        const parsedResponse = JSON.parse(JSON.stringify(response));
-         if (parsedResponse.status === 'success') {
-           const newProfilePicUrl = parsedResponse.new_pic;
-           localStorage.setItem('user_profile_pic', newProfilePicUrl);
-         }
-      },
-      error: (error) => {
-        console.error("Error updating picture: ", error);
-      },
-      complete: () => {
-        this.router.navigate(["./profile"]).then(() => {
-          window.location.reload();
-        })
-      }
-    }); 
+    }
   }
 
   async navigateProfile(){
@@ -208,7 +198,7 @@ export class EditProfilePage implements OnInit {
           text: 'Save',
           cssClass: 'alert-button-ok-green',
           handler: () => {
-            this.editBio();      
+            this.editBio();
           },
         },
       ],

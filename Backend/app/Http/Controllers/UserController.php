@@ -193,6 +193,27 @@ class UserController extends Controller{
     }
 
     // EDIT PROFILE PAGE
+    public function editProfilePicture(Request $request) {
+        $user = User::find($request->user_id);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        $validator = Validator::make($request->all(), ['user_profile_pic' => 'nullable',]);
+        
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error','errors' => $validator->errors()]);
+        }
+    
+        if($request->hasFile('user_profile_pic')){
+            $request->validate(['user_profile_pic' => 'mimes:jpeg,bmp,png,jpg']);
+            $request->user_profile_pic->store('public/images');
+            $user->profile_picture = $request->user_profile_pic->hashName();
+        }
+        $user->save();
+        return response()->json(['message' => 'Profile updated successfully', 'new_pic' => $user->profile_picture], 200);
+    }
+
     public function editBio(Request $request){
         $request->validate([
             'id' => 'required',
@@ -235,29 +256,6 @@ class UserController extends Controller{
         }
     }
  
-    function editProfilePicture(Request $request) {
-        $user_id = $request->user_id;
-        $existing_user = User::find($user_id);
-
-        if (!$existing_user) {
-            return response()->json(['status' => 'error', 'message' => 'User not found']);
-        }
-    
-        $validator = Validator::make($request->all(), ['user_profile_pic' => 'nullable']);
-        
-        if ($validator->fails()) {
-            return response()->json(['status' => 'error','errors' => $validator->errors()]);
-        }
-    
-        if($request->hasFile('user_profile_pic')){
-            $request->validate(['user_profile_pic' => 'mimes:jpeg,bmp,png,jpg']);
-            $request->user_profile_pic->store('public/images');
-            $existing_user->profile_picture = $request->user_profile_pic->hashName();
-        }    
-        $existing_user->save();
-        return response()->json(['status' => 'success', 'message' => 'Profile updated successfully','new_pic' => $existing_user->profile_picture]);
-    }
-
     // COMMUNITY PAGE
     public function getAllMembers($id){
         try {
@@ -282,15 +280,6 @@ class UserController extends Controller{
     }
 
     // ANNOUNCEMENTS PAGE
-    // public function getAllAnnouncements(){
-    //     try {
-    //         $announcements = Announcement::with('admin')->orderBy('created_at', 'desc')->get();
-    //         return response()->json(['announcements' => $announcements], 200);
-    //     }  catch (Exception $exception) {
-    //         return response()->json(['error' => $exception->getMessage()], 500);
-    //     }
-    // }
-
     public function getAllAnnouncements($userId){
         try {
             $user = User::find($userId);

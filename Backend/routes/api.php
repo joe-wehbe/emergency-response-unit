@@ -7,9 +7,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmergencyController;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\AdminMiddleware;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\ResetPasswordController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -31,9 +28,9 @@ Route::group(["prefix" => "v0.1"], function () {
             Route::get('get-user-info/{id}', [UserController::class, 'getUserInfo']);
             Route::get("get-user-shifts/{id}", [UserController::class, "getUserShifts"]);
             Route::get("get-request-status/{email}", [UserController::class, "getRequestStatus"]);
+            Route::post("edit-profile-picture", [UserController::class, "editProfilePicture"]);
             Route::put('edit-bio', [UserController::class, 'editBio']);
             Route::put('edit-tags', [UserController::class, 'editTags']);
-            Route::put("edit-profile-picture", [UserController::class, "editProfilePicture"]);
             Route::post('request-cover', [UserController::class, 'requestCover']);
             Route::put('mark-attendance', [UserController::class, 'markAttendance']);
             Route::get('get-all-members/{id}', [UserController::class, 'getAllMembers']);

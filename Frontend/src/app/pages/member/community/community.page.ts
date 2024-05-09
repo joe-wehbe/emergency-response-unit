@@ -10,6 +10,7 @@ interface User {
   phoneNumber: string;
   studentId: string;
   major: string;
+  profilePicture: string;
   bio: string;
   tags: string;
   hasShift: boolean;
@@ -57,6 +58,7 @@ export class CommunityPage implements OnInit {
               phoneNumber: user.phone_number,
               studentId: user.student_id,
               major: user.major,
+              profilePicture: user.profile_picture,
               bio: user.bio,
               tags: user.tags,
               hasShift: user.has_shift

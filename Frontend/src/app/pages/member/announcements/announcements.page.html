@@ -13,7 +13,9 @@
       <div class="announcement" *ngFor = "let announcement of visibleAnnouncements"  id="announcement.id" (click)="openModal(announcement)">
         <div class="first-box">
           <ion-avatar slot="start" class="profile-picture">
-            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+            <img alt="Silhouette of a person's head" [src]="(announcement.admin.profile_picture && announcement.admin.profile_picture !== 'null') ? 
+            'http://localhost:8000/storage/images/' + announcement.admin.profile_picture : 'https://ionicframework.com/docs/img/demos/avatar.svg'" 
+            onerror="this.src='https://ionicframework.com/docs/img/demos/avatar.svg'"/>
           </ion-avatar>
         </div>
         <div class="second-box">
@@ -58,7 +60,9 @@
               <div class="announcement">
                 <div class="first-box">
                   <ion-avatar slot="start" class="profile-picture">
-                    <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                    <img alt="Silhouette of a person's head" [src]="(selectedAnnouncement.admin.profile_picture && selectedAnnouncement.admin.profile_picture !== 'null') ? 
+                    'http://localhost:8000/storage/images/' + selectedAnnouncement.admin.profile_picture : 'https://ionicframework.com/docs/img/demos/avatar.svg'" 
+                    onerror="this.src='https://ionicframework.com/docs/img/demos/avatar.svg'"/>
                   </ion-avatar>
                 </div>
                 <div class="second-box">

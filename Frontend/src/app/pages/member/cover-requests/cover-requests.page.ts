@@ -27,10 +27,7 @@ export class CoverRequestsPage implements OnInit {
       next: (response) => {
         if (response && response.hasOwnProperty('coverRequests')) {
           const parsedResponse = JSON.parse(JSON.stringify(response));
-          this.coverRequests = [].concat.apply(
-            [],
-            Object.values(parsedResponse['coverRequests'])
-          );
+          this.coverRequests = [].concat.apply([],Object.values(parsedResponse['coverRequests']));
           this.coverRequests.forEach((cover_request) => {
             cover_request.shift.time_start = this.formatTime(
               cover_request.shift.time_start

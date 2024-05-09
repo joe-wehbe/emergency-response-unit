@@ -17,7 +17,7 @@ export class ProfilePage implements OnInit {
   shifts: any[] = [];
   semesterData: any[] = [];
   isLoading: boolean = false;
-  user_profile_pic: string = "";
+  profilePicture: string = "";
 
   constructor(
     private router:Router, 
@@ -38,7 +38,7 @@ export class ProfilePage implements OnInit {
     .subscribe({
       next: (response) => {
         this.user = response['User'];
-        this.user_profile_pic = this.user.profile_picture;
+        this.profilePicture = this.user.profile_picture;
       },
       error: (error) => {
         console.error("Error getting user info:", error);
@@ -57,7 +57,7 @@ export class ProfilePage implements OnInit {
         this.userShifts = [].concat.apply([], Object.values(parsedResponse['Shifts']));
 
         this.userShifts.forEach(shiftRecord => {
-          this.shifts.push({ id: shiftRecord.id, day: shiftRecord.shift.day, start_time: shiftRecord.shift.time_start, end_time: shiftRecord.shift.time_end})
+          this.shifts.push({ id: shiftRecord.shift_id, day: shiftRecord.shift.day, start_time: shiftRecord.shift.time_start, end_time: shiftRecord.shift.time_end})
         });
       },
       error: (error) => {
