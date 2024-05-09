@@ -24,7 +24,7 @@ Route::group(["prefix" => "v0.1"], function () {
         Route::post('logout', [AuthController::class, 'logout']);
     });
 
-    Route::group(["middleware" => "auth:sanctum"], function () {
+    // Route::group(["middleware" => "auth:sanctum"], function () {
         // USER CONTROLLER APIs
         Route::group(["prefix" => "user"], function () {
             Route::put("apply", [UserController::class, "apply"]);
@@ -38,7 +38,7 @@ Route::group(["prefix" => "v0.1"], function () {
             Route::put('mark-attendance', [UserController::class, 'markAttendance']);
             Route::get('get-all-members/{id}', [UserController::class, 'getAllMembers']);
             Route::get('get-users-on-shift', [UserController::class, 'getUsersOnShift']);
-            Route::get('get-all-announcements', [UserController::class, 'getAllAnnouncements']);
+            Route::get('get-all-announcements/{id}', [UserController::class, 'getAllAnnouncements']);
             Route::get('get-announcements-count/{rank}', [UserController::class, 'getAnnouncementsCount']);
             Route::get('get-all-cover-requests/{id}', [UserController::class, 'getAllCoverRequests']);
             Route::get('get-cover-requests-count/{id}', [UserController::class, 'getCoverRequestsCount']);
@@ -94,5 +94,5 @@ Route::group(["prefix" => "v0.1"], function () {
                 Route::get('get-shift-covers-count/{userId}/{shiftId}', [AdminController::class, 'getShiftCoversCount']);
             });
         });
-    });
+    // });
 });

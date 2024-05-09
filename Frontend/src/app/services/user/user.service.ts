@@ -101,7 +101,7 @@ export class UserService {
 
   // ANNOUNCEMENTS PAGE
   getAllAnnouncements() {
-    return this.http.get(this.base_url + 'get-all-announcements', {headers: this.getAuthHeaders()});
+    return this.http.get(this.base_url + 'get-all-announcements/' + this.userId, {headers: this.getAuthHeaders()});
   }
 
   getAnnouncementsCount() {

@@ -282,11 +282,27 @@ class UserController extends Controller{
     }
 
     // ANNOUNCEMENTS PAGE
-    public function getAllAnnouncements(){
+    // public function getAllAnnouncements(){
+    //     try {
+    //         $announcements = Announcement::with('admin')->orderBy('created_at', 'desc')->get();
+    //         return response()->json(['announcements' => $announcements], 200);
+    //     }  catch (Exception $exception) {
+    //         return response()->json(['error' => $exception->getMessage()], 500);
+    //     }
+    // }
+
+    public function getAllAnnouncements($userId){
         try {
-            $announcements = Announcement::with('admin')->orderBy('created_at', 'desc')->get();
-            return response()->json(['announcements' => $announcements], 200);
-        }  catch (Exception $exception) {
+            $user = User::find($userId);
+    
+            if ($user) {
+                $announcements = Announcement::where('created_at', '>', $user->created_at)->with('admin')->orderBy('created_at', 'desc')->get();
+                return response()->json(['announcements' => $announcements], 200);
+            }
+            else{
+                return response()->json(['error' => 'User not found'], 404);
+            }
+        } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
