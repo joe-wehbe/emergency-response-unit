@@ -11,17 +11,6 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -35,8 +24,8 @@ Route::group(["prefix" => "v0.1"], function () {
         Route::post('logout', [AuthController::class, 'logout']);
     });
 
-    // USER CONTROLLER APIs
     Route::group(["middleware" => "auth:sanctum"], function () {
+        // USER CONTROLLER APIs
         Route::group(["prefix" => "user"], function () {
             Route::put("apply", [UserController::class, "apply"]);
             Route::get('get-user-info/{id}', [UserController::class, 'getUserInfo']);

@@ -24,6 +24,11 @@ export class UserService {
     return (isAdmin == "Admin" || isAdmin == "Medic & Admin" || isAdmin == "Dispatcher & Admin");
   }
 
+  isSSF(){
+    const isSSF = localStorage.getItem('user_type');
+    return (isSSF == '2');
+  }
+
   // REPORT PAGE
   apply(student_id: number, phone_number: string, major: string) {
     const body = {
