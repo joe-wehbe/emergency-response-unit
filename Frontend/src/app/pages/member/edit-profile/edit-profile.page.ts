@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
+import { ActionSheetController } from '@ionic/angular';
 
 @Component({
   selector: 'app-edit-profile',
@@ -20,13 +21,17 @@ export class EditProfilePage implements OnInit {
   user_src_img_display: any;
   bio: string = '';
   tags: string = '';
-
+  isActionSheetOpen: boolean = false;
+  pictureRemoved: boolean = false;
+  @ViewChild('fileInput') fileInput: any;
+  
   constructor(
     private router:Router, 
     private alertController: AlertController, 
     private modalController:ModalController,
     private toastController:ToastController,
-    private userService:UserService
+    private userService:UserService,
+    private actionSheetController: ActionSheetController
   ) { }
 
   ngOnInit() {
@@ -102,22 +107,6 @@ export class EditProfilePage implements OnInit {
     return undefined;
   }
 
-  onChange(event: any) {
-    this.user_src_img = event.target.files[0];
-    this.previewImage(event);
-  }
-  
-  previewImage(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.user_src_img_display = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
   editBio(){
     if(this.bio != this.user.bio){
       this.userService.editBio(this.bio)
@@ -157,7 +146,7 @@ export class EditProfilePage implements OnInit {
   }
 
   editProfilePicture(){
-    if(this.user_src_img_display){
+    if(this.user_src_img_display && this.pictureRemoved == false){
       const formData = new FormData();
       formData.append('user_id', this.userId);
       formData.append('user_profile_pic', this.user_src_img);
@@ -176,10 +165,66 @@ export class EditProfilePage implements OnInit {
         })}
       });
     }
-    else{
-      this.router.navigate(["./profile"]).then(() => {
-        window.location.reload();
-      })
+    else if(!this.user_src_img_display && this.pictureRemoved == true){
+
+      this.userService.removeProfilePicture()
+      .subscribe({
+        next: () => {
+          localStorage.removeItem('profile_picture');
+        },
+        error: (error) => {
+          console.error("Error removing picture: ", error);
+        },
+        complete: () => {
+          this.router.navigate(["./profile"]).then(() => {
+            window.location.reload();
+          });
+        }
+      });
+    }
+  }
+
+  async openActionSheet() {
+    if(!this.isActionSheetOpen){
+      this.isActionSheetOpen = true;
+      const actionSheet = await this.actionSheetController.create({
+        header: 'Profile Picture',
+        buttons: [{
+          text: 'Change',
+          handler: () => {
+            this.fileInput.nativeElement.click();
+            this.isActionSheetOpen = false;
+          }
+        }, {
+          text: 'Remove',
+          handler: () => {
+            this.user_src_img = null;
+            this.user_src_img_display = null; 
+            this.pictureRemoved = true;
+            this.isActionSheetOpen = false;       
+          }
+        }, {
+          text: 'Cancel',
+          role: 'cancel'
+        }]
+      });
+      await actionSheet.present();
+    }
+  }
+
+  onChange(event: any) {
+    this.user_src_img = event.target.files[0];
+    this.previewImage(event);
+  }
+  
+  previewImage(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.user_src_img_display = e.target.result;
+      };
+      reader.readAsDataURL(file);
     }
   }
 

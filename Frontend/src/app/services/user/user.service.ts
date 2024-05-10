@@ -71,11 +71,15 @@ export class UserService {
     return this.http.put(this.base_url + 'mark-attendance', body, {headers: this.getAuthHeaders()});
   }
 
+  // EDIT PROFILE PAGE
   editProfilePicture(formData: FormData) {
     return this.http.post(this.base_url + 'edit-profile-picture', formData, {headers: this.getAuthHeaders()});
   }
 
-  // EDIT PROFILE PAGE
+  removeProfilePicture() {
+    return this.http.put(this.base_url + 'remove-profile-picture/' + this.userId, {headers: this.getAuthHeaders()});
+  }
+
   editBio($bio: string) {
     const body = {
       id: this.userId,

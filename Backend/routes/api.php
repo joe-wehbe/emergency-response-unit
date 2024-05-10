@@ -29,6 +29,7 @@ Route::group(["prefix" => "v0.1"], function () {
             Route::get("get-user-shifts/{id}", [UserController::class, "getUserShifts"]);
             Route::get("get-request-status/{email}", [UserController::class, "getRequestStatus"]);
             Route::post("edit-profile-picture", [UserController::class, "editProfilePicture"]);
+            Route::put("remove-profile-picture/{id}", [UserController::class, "removeProfilePicture"]);
             Route::put('edit-bio', [UserController::class, 'editBio']);
             Route::put('edit-tags', [UserController::class, 'editTags']);
             Route::post('request-cover', [UserController::class, 'requestCover']);

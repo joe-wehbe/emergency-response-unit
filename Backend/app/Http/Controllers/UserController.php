@@ -214,6 +214,22 @@ class UserController extends Controller{
         return response()->json(['message' => 'Profile updated successfully', 'new_pic' => $user->profile_picture], 200);
     }
 
+    public function removeProfilePicture($id){
+        try {
+            $user = User::find($id);
+
+            if ($user) {
+                $user->profile_picture = null;
+                $user->save();
+                return response()->json(['message' => 'Profile picture removed'], 200);
+            } else {
+                return response()->json(['error' => 'User not found'], 404);
+            }
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
     public function editBio(Request $request){
         $request->validate([
             'id' => 'required',
