@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { IonModal } from '@ionic/angular';
 import { EmergencyService } from 'src/app/services/emergency/emergency.service';
+import { HttpClient } from '@angular/common/http'; 
+import { Observable } from 'rxjs';
+
 
 interface Emergency {
   id: number;
@@ -50,6 +53,7 @@ export class EmergencyRecordsPage {
 
   @ViewChild('detailsModal') modal: IonModal | undefined;
   constructor(
+    private http: HttpClient, 
     private router: Router, 
     private modalController: ModalController,
     private alertController: AlertController,
@@ -227,7 +231,9 @@ export class EmergencyRecordsPage {
       default:
         break;
     }  
-    await this.modalController.dismiss();
+
+
+    await this.modalController.dismiss();  
   }
   
   search(event: any) {
@@ -295,7 +301,6 @@ export class EmergencyRecordsPage {
         }
         break;
       default:
-        break;
     }
     this.groupedEmergencies = this.groupEmergenciesByDate(filteredEmergencies);
   }
@@ -336,4 +341,26 @@ export class EmergencyRecordsPage {
   back() {
     this.router.navigate(['/admin-panel']);
   }
+
+  downloadPDF(groupedEmergencies: { [date: string]: Emergency[] }): void {
+    const emergencies: Emergency[] = ([] as Emergency[]).concat(...Object.values(groupedEmergencies));
+    const emergencyIds = emergencies.map(e => e.id).join(',');  // Convert array to comma-separated string
+  
+    const apiUrl = `http://localhost:8000/api/v0.1/admin/download-table-pdf?emergencyIds=${emergencyIds}`;
+    this.http.get(apiUrl, { responseType: 'blob' })
+      .subscribe({
+        next: (blob: Blob) => {
+          const a = document.createElement('a');
+          const objectUrl = URL.createObjectURL(blob);
+          a.href = objectUrl;
+          a.download = 'emergency_records.pdf';
+          a.click();
+          URL.revokeObjectURL(objectUrl);
+        },
+        error: (error: any) => {
+          console.error('Error downloading the file:', error);
+        }
+      });
+  }
+  
 }

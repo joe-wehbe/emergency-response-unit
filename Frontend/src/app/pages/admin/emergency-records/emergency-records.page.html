@@ -161,8 +161,8 @@
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button id="download-records">
-      <ion-icon class="download-icon" name="download-outline"></ion-icon>
+    <ion-fab-button id="download-records" (click)="downloadPDF(groupedEmergencies)">
+        <ion-icon class="download-icon" name="download-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 

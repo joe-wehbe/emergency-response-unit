@@ -93,6 +93,7 @@ Route::group(["prefix" => "v0.1"], function () {
         Route::get('get-emergency-records', [AdminController::class, 'getEmergencyRecords']);
         Route::get('get-admins', [AdminController::class, 'getAdmins']);
         Route::get('get-shift-covers-count/{userId}/{shiftId}', [AdminController::class, 'getShiftCoversCount']);
+        Route::get('download-table-pdf', [EmergencyController::class, 'downloadTableAsPDF']);
     });
 });
 

@@ -105,7 +105,7 @@ export class EmergencyService {
     const body = {
       "id": id,
     }
-    return this.http.put(this.base_url + "end-emergency", body, {headers: this.getAuthHeaders()});
+    return this.http.put(this.base_url + "end-emergency"  , body, {headers: this.getAuthHeaders()});
   }
 
   // CASE REPORTS PAGE
@@ -116,5 +116,10 @@ export class EmergencyService {
   // EMERGENCY RECORDS PAGE
   getAllEmergenciesWithLastAssessment(){
     return this.http.get(`${this.base_url}get-all-emergencies-with-last-assessment`);
+  }
+
+  //ADMIN PANEL PAGE
+  exportPDF() {
+    return this.http.get(`${this.base_url}, {responseType: 'blob'}`);
   }
 }

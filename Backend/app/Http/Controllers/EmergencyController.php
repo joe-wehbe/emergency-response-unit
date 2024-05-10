@@ -7,16 +7,19 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Assessment;
 use App\Models\Emergency;
+use Illuminate\Support\Facades\DB;
 
 use Exception;
+use Barryvdh\DomPDF\Facade\Pdf;
 
-class EmergencyController extends Controller{
-
-    // REPORT EMERGENCY PAGE 
-    public function reportEmergency(Request $request){
-        $request-> validate([
+class EmergencyController extends Controller
+{
+    // REPORT EMERGENCY PAGE
+    public function reportEmergency(Request $request)
+    {
+        $request->validate([
             'location' => 'required',
-            'reporter_description' => 'required'
+            'reporter_description' => 'required',
         ]);
 
         $emergency = new Emergency();
@@ -24,27 +27,25 @@ class EmergencyController extends Controller{
         $emergency->reporter_description = $request->reporter_description;
         $emergency->save();
 
-        return response()->json(['message' => 'Emergency added successfully'], 201);    
+        return response()->json(['message' => 'Emergency added successfully'], 201);
     }
 
     // STANDBY PAGE
-    public function getOngoingEmergencies(){
+    public function getOngoingEmergencies()
+    {
         try {
-            $emergencies = Emergency::with('medic')
-                ->where('status', 1)
-                ->orderBy('created_at', 'desc')
-                ->get();
-            
-            if($emergencies->isEmpty()){
+            $emergencies = Emergency::with('medic')->where('status', 1)->orderBy('created_at', 'desc')->get();
+
+            if ($emergencies->isEmpty()) {
                 return response()->json(['message' => 'No ongoing emergencies'], 200);
             }
-    
+
             $emergenciesWithLastAssessments = [];
             foreach ($emergencies as $emergency) {
                 $lastAssessment = $emergency->assessments()->latest()->first();
                 $emergenciesWithLastAssessments[] = [
                     'emergency' => $emergency,
-                    'last_assessment' => $lastAssessment
+                    'last_assessment' => $lastAssessment,
                 ];
             }
             return response()->json(['emergencies' => $emergenciesWithLastAssessments], 200);
@@ -53,18 +54,14 @@ class EmergencyController extends Controller{
         }
     }
 
-    public function getEndedEmergencies(){
-        try{
-            $emergencies = Emergency::with('medic')
-            ->where('status', 0)
-            ->where('case_report', 0)
-            ->orderBy('created_at', 'desc')
-            ->get();
+    public function getEndedEmergencies()
+    {
+        try {
+            $emergencies = Emergency::with('medic')->where('status', 0)->where('case_report', 0)->orderBy('created_at', 'desc')->get();
 
-            if($emergencies->isEmpty()){
+            if ($emergencies->isEmpty()) {
                 return response()->json(['message' => 'No ended emergencies'], 200);
-            }
-            else{
+            } else {
                 return response()->json(['emergencies' => $emergencies], 200);
             }
         } catch (Exception $exception) {
@@ -72,33 +69,33 @@ class EmergencyController extends Controller{
         }
     }
 
-    public function deleteEmergency($emergencyId){
-        try{
+    public function deleteEmergency($emergencyId)
+    {
+        try {
             $emergency = Emergency::find($emergencyId);
 
-            if($emergency){
+            if ($emergency) {
                 Assessment::where('emergency_id', $emergencyId)->delete();
                 $emergency->delete();
-                
-                return response()->json(['message' => 'Emergency deleted successfully'], 201);    
-            }
-            else{
+
+                return response()->json(['message' => 'Emergency deleted successfully'], 201);
+            } else {
                 return response()->json(['error' => 'Emergency not found'], 404);
             }
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
-    
+
     // EMERGENCY DETAILS PAGE
-    public function getEmergency($id){
+    public function getEmergency($id)
+    {
         try {
             $emergency = Emergency::with('medic')->find($id);
-            
-            if($emergency){
+
+            if ($emergency) {
                 return response()->json(['emergency' => $emergency], 200);
-            }
-            else{
+            } else {
                 return response()->json(['error' => 'Emergency not found'], 404);
             }
         } catch (Exception $exception) {
@@ -106,15 +103,15 @@ class EmergencyController extends Controller{
         }
     }
 
-    public function getEmergencyAssessments($id){
-        try{
+    public function getEmergencyAssessments($id)
+    {
+        try {
             $emergency = Emergency::find($id);
 
-            if($emergency){
+            if ($emergency) {
                 $assessments = Assessment::where('emergency_id', $id)->get();
                 return response()->json(['assessments' => $assessments], 200);
-            }
-            else{
+            } else {
                 return response()->json(['error' => 'Emergency not found'], 404);
             }
         } catch (Exception $exception) {
@@ -123,46 +120,46 @@ class EmergencyController extends Controller{
     }
 
     // ON SCENE PAGE
-    public function getNoResponseEmergencies(){
-        try{
+    public function getNoResponseEmergencies()
+    {
+        try {
             $emergencies = Emergency::whereNull('medic_id')->where('status', 1)->orderByDesc('created_at')->get();
-    
-            if($emergencies->isEmpty()){
+
+            if ($emergencies->isEmpty()) {
                 return response()->json(['message' => 'No emergencies without response'], 200);
-            }
-            else{
+            } else {
                 return response()->json(['emergencies' => $emergencies], 200);
             }
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
-    
-    public function acceptEmergency(Request $request){
-        $request-> validate([
+
+    public function acceptEmergency(Request $request)
+    {
+        $request->validate([
             'id' => 'required',
-            'medic_id' => 'required'
+            'medic_id' => 'required',
         ]);
 
-        try{
-            $emergency = Emergency::find($request->id);    
+        try {
+            $emergency = Emergency::find($request->id);
 
-            if($emergency){
+            if ($emergency) {
                 $user = User::find($request->medic_id);
 
-                if($user){
-                    if($user->user_rank == 2 || $user->user_rank == 4|| $user->user_rank == 6 || $user->user_rank == 7){
+                if ($user) {
+                    if ($user->user_rank == 2 || $user->user_rank == 4 || $user->user_rank == 6 || $user->user_rank == 7) {
                         $emergency->medic_id = $request->medic_id;
                         $emergency->save();
                         return response()->json(['message' => 'Emergency accepted'], 200);
-                    }
-                    else{
+                    } else {
                         return response()->json(['message' => 'User is not a medic'], 200);
                     }
-                }else{
+                } else {
                     return response()->json(['error' => 'Medic not found'], 404);
                 }
-            }else{
+            } else {
                 return response()->json(['error' => 'Emergency not found'], 404);
             }
         } catch (Exception $exception) {
@@ -171,15 +168,15 @@ class EmergencyController extends Controller{
     }
 
     // MEDIC EMERGENCY DETAILS PAGE
-    public function getEmergencyWithLastAssessment($id){
-        try{
+    public function getEmergencyWithLastAssessment($id)
+    {
+        try {
             $emergency = Emergency::with('medic')->find($id);
 
-            if($emergency){
+            if ($emergency) {
                 $lastAssessment = $emergency->assessments()->latest()->first();
-                return response()->json(['emergency' => $emergency,'last_assessment' => $lastAssessment], 200);
-            }
-            else{
+                return response()->json(['emergency' => $emergency, 'last_assessment' => $lastAssessment], 200);
+            } else {
                 return response()->json(['error' => 'Emergency not found'], 404);
             }
         } catch (Exception $exception) {
@@ -187,47 +184,46 @@ class EmergencyController extends Controller{
         }
     }
 
-    public function addEmergencyDetails(Request $request){
+    public function addEmergencyDetails(Request $request)
+    {
         $request->validate([
-            'id' => 'required'
+            'id' => 'required',
         ]);
-        try{
+        try {
             $emergency = Emergency::find($request->id);
 
-            if($emergency){
-
+            if ($emergency) {
                 $fields = ['patient_name', 'patient_lau_id', 'medic_description', 'patient_condition'];
 
-                foreach($fields as $field){
-                    if($request->$field != null && $request->$field != -1){
+                foreach ($fields as $field) {
+                    if ($request->$field != null && $request->$field != -1) {
                         $emergency->$field = $request->$field;
-                    }else{
+                    } else {
                         $emergency->$field = null;
                     }
                 }
                 $emergency->save();
                 return response()->json(['message' => 'Emergency details added successfully'], 200);
-            }
-            else{
+            } else {
                 return response()->json(['error' => 'Emergency not found'], 404);
             }
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
-    
-    public function findOngoingEmergencyByMedicId(Request $request){
+
+    public function findOngoingEmergencyByMedicId(Request $request)
+    {
         $request->validate([
-            'medic_id' => 'required|integer'
+            'medic_id' => 'required|integer',
         ]);
-    
+
         try {
-    
             $emergency = Emergency::where('medic_id', $request->medic_id)
                 ->where('status', '1')
                 ->first();
-    
-            if($emergency){
+
+            if ($emergency) {
                 return response()->json(['emergency' => $emergency], 200);
             } else {
                 return response()->json(['nothing' => 'No Ongoing emergency not found for this medic'], 404);
@@ -236,54 +232,53 @@ class EmergencyController extends Controller{
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
-    
-    public function addAssessment(Request $request){
+
+    public function addAssessment(Request $request)
+    {
         $request->validate([
             'emergency_id' => 'required',
         ]);
-        try{
+        try {
             $emergency = Emergency::find($request->emergency_id);
-    
-            if($emergency){
+
+            if ($emergency) {
                 $assessment = new Assessment();
                 $assessment->emergency_id = $request->emergency_id;
                 $assessment->blood_pressure = $request->blood_pressure;
                 $assessment->pupils_reaction = $request->pupils_reaction;
-                
+
                 $vitals = ['heart_rate', 'oxygen_saturation', 'temperature', 'respiration_rate', 'capillary_refill_time', 'hemoglucotest'];
-        
+
                 foreach ($vitals as $vital) {
                     if ($request->$vital != -1) {
                         $assessment->$vital = $request->$vital;
-                    }
-                    else{
+                    } else {
                         $assessment->$vital = null;
                     }
                 }
                 $assessment->save();
                 return response()->json(['message' => 'Assessment added successfully'], 201);
-            }
-            else{
+            } else {
                 return response()->json(['error' => 'Emergency not found'], 404);
             }
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
-    
-    public function endEmergency(Request $request){
-        $request-> validate([
-            'id' => 'required'
+
+    public function endEmergency(Request $request)
+    {
+        $request->validate([
+            'id' => 'required',
         ]);
-        try{
+        try {
             $emergency = Emergency::find($request->id);
 
-            if($emergency){
+            if ($emergency) {
                 $emergency->status = 0;
                 $emergency->save();
                 return response()->json(['message' => 'Emergency ended']);
-            }
-            else{
+            } else {
                 return response()->json(['error' => 'Emergency not found'], 404);
             }
         } catch (Exception $exception) {
@@ -292,15 +287,12 @@ class EmergencyController extends Controller{
     }
 
     // CASE REPORTS PAGE
-    public function getAllCaseReports(){
+    public function getAllCaseReports()
+    {
         try {
-            $emergencies = Emergency::with('medic')
-            ->where('status', 0)
-            ->where('case_report', 0)
-            ->orderBy('created_at', 'desc')
-            ->get();
-            
-            if($emergencies->isEmpty()){
+            $emergencies = Emergency::with('medic')->where('status', 0)->where('case_report', 0)->orderBy('created_at', 'desc')->get();
+
+            if ($emergencies->isEmpty()) {
                 return response()->json(['message' => 'No case reports to be filled'], 200);
             }
 
@@ -309,7 +301,7 @@ class EmergencyController extends Controller{
                 $lastAssessment = $emergency->assessments()->latest()->first();
                 $emergenciesWithLastAssessments[] = [
                     'emergency' => $emergency,
-                    'last_assessment' => $lastAssessment
+                    'last_assessment' => $lastAssessment,
                 ];
             }
             return response()->json(['emergencies' => $emergenciesWithLastAssessments], 200);
@@ -319,24 +311,21 @@ class EmergencyController extends Controller{
     }
 
     // EMERGENCY RECORDS TAB
-    public function getAllEmergenciesWithLastAssessment(){
+    public function getAllEmergenciesWithLastAssessment()
+    {
         try {
-            $emergencies = Emergency::with('medic')
-            ->where('status', 0)
-            ->where('case_report', 1)
-            ->orderBy('created_at', 'desc')
-            ->get();
-            
-            if($emergencies->isEmpty()){
+            $emergencies = Emergency::with('medic')->where('status', 0)->where('case_report', 1)->orderBy('created_at', 'desc')->get();
+
+            if ($emergencies->isEmpty()) {
                 return response()->json(['message' => 'No emergency records'], 200);
             }
-    
+
             $emergenciesWithLastAssessments = [];
             foreach ($emergencies as $emergency) {
                 $lastAssessment = $emergency->assessments()->latest()->first();
                 $emergenciesWithLastAssessments[] = [
                     'emergency' => $emergency,
-                    'last_assessment' => $lastAssessment
+                    'last_assessment' => $lastAssessment,
                 ];
             }
             return response()->json(['emergencies' => $emergenciesWithLastAssessments], 200);
@@ -344,4 +333,26 @@ class EmergencyController extends Controller{
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
+
+    public function downloadTableAsPDF(Request $request)
+    {
+        // Get IDs from the request query parameters and convert to array
+        $emergencyIds = explode(',', $request->query('emergencyIds', ''));
+    
+        // Fetch emergencies where id is in the provided array
+        $emergencies = DB::table('emergencies')
+            ->whereIn('id', $emergencyIds)
+            ->where('case_report', 1)
+            ->where('status', 0)
+            ->get();
+    
+        $assessments = DB::table('assessments')
+            ->whereIn('emergency_id', $emergencyIds)
+            ->get()
+            ->groupBy('emergency_id');
+    
+        $pdf = PDF::loadView('pdf.table', ['emergencies' => $emergencies, 'assessments' => $assessments]);
+        return $pdf->download('emergency_records.pdf');
+    }
+    
 }

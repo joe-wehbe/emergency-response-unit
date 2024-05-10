@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\EmergencyController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFExportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
