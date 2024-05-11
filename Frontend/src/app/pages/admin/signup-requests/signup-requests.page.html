@@ -7,6 +7,7 @@
         </ion-button>
       </ion-buttons>
       <ion-title class="title">Requests</ion-title>
+      <ion-toggle mode="md" (ionChange)="modifyApplicationsPermission()" [checked]="applicationsAllowed"></ion-toggle>
     </div>
   </ion-toolbar>
 </ion-header>

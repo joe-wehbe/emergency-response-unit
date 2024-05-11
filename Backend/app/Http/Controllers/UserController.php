@@ -15,6 +15,7 @@ use App\Models\Extension;
 use App\Models\Medical_faq;
 use App\Models\Emergency;
 use App\Models\Semester;
+use App\Models\AllowApplications;
 
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
@@ -23,6 +24,21 @@ use Exception;
 class UserController extends Controller{
 
     // REPORT PAGE
+    public function getApplicationsPermission(){
+        try {
+            $permission = AllowApplications::get();
+
+            if($permission){
+                return response()->json(['Permission' => $permission], 200);
+            }
+            else{
+                return response()->json(['message' => 'No applications permission found'], 200);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
     public function apply(Request $request){
         $request->validate([
             'user_id' => 'required',
@@ -118,7 +134,7 @@ class UserController extends Controller{
                 return response()->json(['Semester' => $semester], 200);
             }
             else{
-                return response()->json(['message' => 'No semesters found'], 200);
+                return response()->json(['message' => 'No semester dates found'], 200);
             }
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);

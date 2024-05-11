@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +30,10 @@ export class UserService {
   }
 
   // REPORT PAGE
+  getApplicationsPermission() {
+    return this.http.get(this.base_url + 'get-applications-permission', {headers: this.getAuthHeaders()});
+  }
+  
   apply(student_id: number, phone_number: string, major: string) {
     const body = {
       user_id: this.userId,

@@ -24,6 +24,7 @@ Route::group(["prefix" => "v0.1"], function () {
     // Route::group(["middleware" => "auth:sanctum"], function () {
         // USER CONTROLLER APIs
         Route::group(["prefix" => "user"], function () {
+            Route::get('get-applications-permission', [UserController::class, 'getApplicationsPermission']);
             Route::put("apply", [UserController::class, "apply"]);
             Route::get('get-user-info/{id}', [UserController::class, 'getUserInfo']);
             Route::get("get-user-shifts/{id}", [UserController::class, "getUserShifts"]);
@@ -32,6 +33,7 @@ Route::group(["prefix" => "v0.1"], function () {
             Route::put("remove-profile-picture/{id}", [UserController::class, "removeProfilePicture"]);
             Route::put('edit-bio', [UserController::class, 'editBio']);
             Route::put('edit-tags', [UserController::class, 'editTags']);
+            Route::get('get-semester', [UserController::class, 'getSemester']);
             Route::post('request-cover', [UserController::class, 'requestCover']);
             Route::put('mark-attendance', [UserController::class, 'markAttendance']);
             Route::get('get-all-members/{id}', [UserController::class, 'getAllMembers']);
@@ -44,7 +46,6 @@ Route::group(["prefix" => "v0.1"], function () {
             Route::get('get-extensions', [UserController::class, 'getExtensions']);
             Route::get('get-medical-faqs/{type}', [UserController::class, 'getMedicalFaqs']);
             Route::put('add-case-report', [UserController::class, 'addCaseReport']);
-            Route::get('get-semester', [UserController::class, 'getSemester']);
         });
 
         // EMERGENCY CONTROLLER APIs
@@ -85,6 +86,7 @@ Route::group(["prefix" => "v0.1"], function () {
                 Route::delete("delete-extension/{id}", [AdminController::class, "deleteExtension"]);
                 Route::get("get-attendance-records", [AdminController::class, "getAttendanceRecords"]);
                 Route::get("get-signup-requests", [AdminController::class, "getSignupRequests"]);
+                Route::put("modify-applications-permission", [AdminController::class, "modifyApplicationsPermission"]);
                 Route::put("accept-signup-request/{id}", [AdminController::class, "acceptSignupRequest"]);
                 Route::put("reject-signup-request/{id}", [AdminController::class, "rejectSignupRequest"]);
                 Route::get('get-emergency-records', [AdminController::class, 'getEmergencyRecords']);

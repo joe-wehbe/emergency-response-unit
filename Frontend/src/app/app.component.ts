@@ -5,6 +5,7 @@ import { filter } from 'rxjs/operators';
 import { UserService } from './services/user/user.service';
 import { AuthService } from './services/authentication/auth.service';
 import { EmergencyService } from './services/emergency/emergency.service';
+import { AdminService } from './services/admin/admin.service';
 
 @Component({
   selector: 'app-root',
@@ -30,11 +31,14 @@ export class AppComponent {
   case_reports_count: number = 0;
   ongoing_emergencies_count: number = 0;
   unread_announcements_count: number = 0;
+  applicationsAllowed: boolean = false;
+  permissionData: any[] = [];
 
   @Output() darkModeToggled = new EventEmitter<boolean>();
 
   constructor(private router: Router, private alertController: AlertController, private authService:AuthService,
-    private toastController: ToastController, private userService: UserService, private emergencyService:EmergencyService) {
+    private toastController: ToastController, private userService: UserService, private emergencyService:EmergencyService,
+    private adminService:AdminService) {
     this.router.events.pipe(filter((event: RouterEvent): event is NavigationEnd =>event instanceof NavigationEnd))
     .subscribe((event: NavigationEnd) => {
       const currentUrl = event.url;
@@ -47,10 +51,13 @@ export class AppComponent {
   ngOnInit(): void {
     this.getUserInfo();
     this.checkDarkModeStatus();
-    this.getOngoingEmergenciesCount();
-    this.getAnnouncementsCount();
-    this.getCoverRequestsCount();
-    this.getCaseReportsCount();
+    if(localStorage.getItem("user_type") == '1'){
+      this.getOngoingEmergenciesCount();
+      this.getAnnouncementsCount();
+      this.getCoverRequestsCount();
+      this.getCaseReportsCount();
+    }
+    console.log(localStorage);
   }
 
   getUserInfo() {
@@ -142,76 +149,95 @@ export class AppComponent {
     });
   }
 
-  async applyAlert() {
-    const alert = await this.alertController.create({
-      header: 'Applying to ERU',
-      subHeader: 'Applications with incorrect information will not be considered!',
-      cssClass: 'alert-dialog',
-      mode: 'ios',
-      inputs: [
-        {
-          name: 'id',
-          type: 'number',
-          placeholder: 'LAU ID...',
-          cssClass: 'location-input',
-          attributes: {
-            required: true,
-          },
-        },
-        {
-          name: 'number',
-          type: 'number',
-          placeholder: 'Phone number...',
-          cssClass: 'description-input',
-          attributes: {
-            required: true,
-          },
-        },
-        {
-          name: 'major',
-          type: 'text',
-          placeholder: 'Major...',
-          cssClass: 'description-input',
-          attributes: {
-            required: true,
-          },
-        },
-      ],
-
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'alert-button-cancel',
-          handler: () => {
-            return true;
-          },
-        },
-        {
-          text: 'Apply',
-          cssClass: 'alert-button-ok-green',
-          handler: async (data) => {
-            if (!data.id || !data.number || !data.major) {
-              this.presentToast("All fields are required");
-              return false;
-
-            } else {
-              this.userService.apply(data.id, data.number, data.major)
-                .subscribe({
-                  next: (response) => {
-                    this.presentToast("Application sent");
-                  },
-                  error: (error) => {
-                    console.error('Error applying:', error);
-                  },
-                });
-              return true;
-            }
-          },
-        },
-      ],
+  applyAlert() {
+    this.userService.getApplicationsPermission()
+    .subscribe({
+      next: (response) => {
+        console.log("Fetched applications permission", response);
+        this.permissionData = (response as any)['Permission'];
+        this.permissionData[0].status == 1 ? this.applicationsAllowed = true : this.applicationsAllowed = false;
+      },
+      error: (error) => {
+        console.error("Error fetching applications permission:", error);
+      },
+      complete: async () => {
+        if(this.applicationsAllowed){
+          const alert = await this.alertController.create({
+            header: 'Applying to ERU',
+            subHeader: 'Applications with incorrect information will not be considered!',
+            cssClass: 'alert-dialog',
+            mode: 'ios',
+            inputs: [
+              {
+                name: 'id',
+                type: 'number',
+                placeholder: 'LAU ID...',
+                cssClass: 'location-input',
+                attributes: {
+                  required: true,
+                },
+              },
+              {
+                name: 'number',
+                type: 'number',
+                placeholder: 'Phone number...',
+                cssClass: 'description-input',
+                attributes: {
+                  required: true,
+                },
+              },
+              {
+                name: 'major',
+                type: 'text',
+                placeholder: 'Major...',
+                cssClass: 'description-input',
+                attributes: {
+                  required: true,
+                },
+              },
+            ],
+      
+            buttons: [
+              {
+                text: 'Cancel',
+                role: 'cancel',
+                cssClass: 'alert-button-cancel',
+                handler: () => {
+                  return true;
+                },
+              },
+              {
+                text: 'Apply',
+                cssClass: 'alert-button-ok-green',
+                handler: async (data) => {
+                  if (!data.id || !data.number || !data.major) {
+                    this.presentToast("All fields are required");
+                    return false;
+      
+                  } else {
+                    this.userService.apply(data.id, data.number, data.major)
+                      .subscribe({
+                        next: (response) => {
+                          this.presentToast("Application sent");
+                          this.request_status = "pending";
+                        },
+                        error: (error) => {
+                          console.error('Error applying:', error);
+                        },
+                      });
+                    return true;
+                  }
+                },
+              },
+            ],
+          });
+          await alert.present();
+        }
+        else{
+          this.presentToast("Applications are currently closed")
+        }
+      }
     });
-    await alert.present();
   }
 
   checkDarkModeStatus() {
