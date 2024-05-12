@@ -26,8 +26,8 @@ export class EmergencyService {
     return this.http.post(this.base_url + "report-emergency", body, {headers: this.getAuthHeaders()});
   }
 
-  findOngoingEmergencyByMedicId(medic_id:string){
-    return this.http.get(this.base_url + "find-ongoing-emergency/" + this.userId, {headers: this.getAuthHeaders()});
+  checkMedicResponse(id: number){
+    return this.http.get(this.base_url + "check-medic-response/" + id, {headers: this.getAuthHeaders()});
   }
   
   // STANDBY PAGE
@@ -48,6 +48,10 @@ export class EmergencyService {
   }
 
   // EMERGENCY DETAILS PAGE
+  findOngoingEmergencyByMedicId(medic_id:string){
+    return this.http.get(this.base_url + "find-ongoing-emergency/" + this.userId, {headers: this.getAuthHeaders()});
+  }
+
   getEmergency(id:number){
     return this.http.get(`${this.base_url}get-emergency/${id}`, {headers: this.getAuthHeaders()});
   }

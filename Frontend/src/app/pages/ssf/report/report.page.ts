@@ -8,27 +8,33 @@ import { EmergencyService } from 'src/app/services/emergency/emergency.service';
   styleUrls: ['./report.page.scss'],
 })
 export class ReportPage implements OnInit {
-  isButtonClicked = false;
-  notifyingStatement: string = '';
+
+  emergency: any;
+  emergencyId: number = 0;
+  intervalTimer: any;
   firstH4Content: string = 'Press the button below';
   secondH4Content: string = 'to notify medics';
+  notifyingStatement: string = '';
+  medicResponded: boolean = false;
+  isButtonClicked = false;
 
-  constructor(private alertController: AlertController, private toastController:ToastController, private emergencyService:EmergencyService) {}
+  constructor(
+    private alertController: AlertController, 
+    private toastController:ToastController, 
+    private emergencyService:EmergencyService
+  ) {}
   
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   async reportEmergencyAlert() {
     if (this.isButtonClicked) {
       return;
     }
-
     const alert = await this.alertController.create({
       header: 'Emergency Alert',
       subHeader: 'Please provide emergency information',
       cssClass: "alert-dialog",
       mode: 'ios',
-
       inputs: [
         {
           name: 'location',
@@ -40,7 +46,6 @@ export class ReportPage implements OnInit {
             maxlength: 20,
           },
         },
-
         {
           name: 'description',
           type: 'text',
@@ -51,7 +56,6 @@ export class ReportPage implements OnInit {
           },
         },
       ],
-
       buttons: [
         {
           text: 'Cancel',
@@ -66,46 +70,26 @@ export class ReportPage implements OnInit {
           cssClass: 'alert-button-ok-red',
           handler: async(data) => {
             if(!data.location && !data.description){
-              const message = 'Please specify emergency location and description';
-              const toast = await this.toastController.create({
-                message: message,
-                duration: 2000, 
-                position: 'bottom'
-              });
-              toast.present();
+              this.presentToast("Please specify emergency location and description")
               return false;
             }
             if(!data.location){
-              const message = 'Please specify the emergency location';
-              const toast = await this.toastController.create({
-                message: message,
-                duration: 2000, 
-                position: 'bottom'
-              });
-              toast.present();
+              this.presentToast('Please specify emergency location')
               return false;
             }
             if(!data.description){
-              const message = 'Please provide a description';
-              const toast = await this.toastController.create({
-                message: message,
-                duration: 2000, 
-                position: 'bottom'
-              });
-              toast.present();
+              this.presentToast('Please specify a description');
               return false;
             }
             else{
               this.emergencyService.reportEmergency(data.location, data.description)
               .subscribe({
                 next: (response) => {
-                  console.log("Emergency reported successfully:", response);
-                  this.sendSOS();
+                  this.emergencyId = (response as any)['emergencyId'];
+                  this.sendSOS(this.emergencyId);
                 },
                 error: (error) => {
                   console.error("Error reporting emergency:", error);
-                },
-                complete: () => {
                 }
               });
               return true;
@@ -117,25 +101,58 @@ export class ReportPage implements OnInit {
     await alert.present();
   }
 
-  sendSOS() {
-    this.notifyingStatement = 'Notifying medics...';
+  sendSOS(emergencyId: number) {
     this.firstH4Content = "We will let you know";
     this.secondH4Content = "when a medic responds";
+    this.notifyingStatement = 'Notifying medics...';
     this.isButtonClicked = true;
+
+    // For SOS button animation
     const sosButton = document.querySelector('.sos-button');
-    
     if (sosButton) {
       sosButton.classList.add('clicked');
       setTimeout(() => {
         sosButton.classList.remove('clicked');
       }, 500);
     }
-
-    setTimeout(() => {
-      this.isButtonClicked = false;
-      this.notifyingStatement = 'No medics responded!';
+  
+    // To terminate checking for medic response and animation
+    const Timeout = setTimeout(() => {
+      clearInterval(this.intervalTimer);
       this.firstH4Content = "Dial #3934 from a nearby";
       this.secondH4Content = "campus phone or try again!";
-    }, 60000);
+      this.notifyingStatement = 'No medics responded!';
+      this.isButtonClicked = false;
+    }, 120000); 
+  
+    // Checking for medic response each 5 seconds for 2 minutes
+    this.intervalTimer = setInterval(() => {
+      this.emergencyService.checkMedicResponse(emergencyId)
+      .subscribe({
+        next: (response) => {
+          this.emergency = (response as any)['Emergency'];
+          if (this.emergency.medic_id != null) {
+            this.medicResponded = true;
+            this.firstH4Content = "Hang on! the emergency unit";
+            this.secondH4Content = "has been notified";
+            this.notifyingStatement = 'A medic is on the way!';
+            clearInterval(this.intervalTimer); 
+            clearTimeout(Timeout); 
+          }   
+        },
+        error: (error) => {
+          console.error("Error checking for medic response:", error);
+        }
+      });
+    }, 5000);
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom'
+    });
+    toast.present();
   }
 }

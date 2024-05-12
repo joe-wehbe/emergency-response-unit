@@ -14,17 +14,33 @@ class EmergencyController extends Controller{
 
     // REPORT EMERGENCY PAGE 
     public function reportEmergency(Request $request){
-        $request-> validate([
+        $request->validate([
             'location' => 'required',
             'reporter_description' => 'required'
         ]);
-
+        
         $emergency = new Emergency();
         $emergency->location = $request->location;
         $emergency->reporter_description = $request->reporter_description;
         $emergency->save();
+    
+        return response()->json(['message' => 'Emergency added successfully','emergencyId' => $emergency->id], 201);    
+    }
+    
 
-        return response()->json(['message' => 'Emergency added successfully'], 201);    
+    public function checkMedicResponse($id){
+        try{
+            $emergency = Emergency::with('medic')->where('id', $id)->first();
+
+            if($emergency){
+                return response()->json(['Emergency' => $emergency], 200);
+            }
+            else{
+                return response()->json(['error' => 'Emergency not found'], 404);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
     }
 
     // STANDBY PAGE

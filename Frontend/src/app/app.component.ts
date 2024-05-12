@@ -217,7 +217,7 @@ export class AppComponent {
                   } else {
                     this.userService.apply(data.id, data.number, data.major)
                       .subscribe({
-                        next: (response) => {
+                        next: () => {
                           this.presentToast("Application sent");
                           this.request_status = "pending";
                         },

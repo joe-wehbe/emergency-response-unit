@@ -51,6 +51,7 @@ Route::group(["prefix" => "v0.1"], function () {
         // EMERGENCY CONTROLLER APIs
         Route::group(["prefix" => "emergency"], function () {
             Route::post("report-emergency", [EmergencyController::class, "reportEmergency"]);
+            Route::get('check-medic-response/{id}', [EmergencyController::class, 'checkMedicResponse']);
             Route::get('get-ongoing-emergencies', [EmergencyController::class, 'getOngoingEmergencies']);
             Route::get('get-ongoing-emergencies-count', [EmergencyController::class, 'getOngoingEmergenciesCount']);
             Route::get('get-ended-emergencies', [EmergencyController::class, 'getEndedEmergencies']);

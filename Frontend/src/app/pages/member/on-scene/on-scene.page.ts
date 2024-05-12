@@ -96,12 +96,13 @@ export class OnScenePage implements OnInit {
             this.emergencyService.acceptEmergency(emergencyId)
             .subscribe({
               next: () => {
-                this.router.navigate(["./medic-emergency-details", emergencyId])
+                this.presentToast("Emergency accepted");
               },
               error: (error) => {
                 console.error("Error accepting emergency:", error);
               },
               complete: () => {
+                this.router.navigate(["./medic-emergency-details", emergencyId])
               }
             });
             return true;            

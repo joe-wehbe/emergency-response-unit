@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <div class="body">
+  <div class="body" *ngIf="!medicResponded">
     <div class="stmt">
       <h1>Spotted an emergency?</h1>
       <h4>{{ firstH4Content }}</h4>
@@ -19,6 +19,17 @@
       <div [ngClass]="{'circle circle-2-animated': isButtonClicked, 'circle circle-2': !isButtonClicked}"></div>
       <div [ngClass]="{'circle circle-3-animated': isButtonClicked, 'circle circle-3': !isButtonClicked}"></div>
     </div>
+    <div *ngIf="notifyingStatement" class="notif-stmt">
+      <h2>{{ notifyingStatement }}</h2>
+    </div>
+  </div>
+  <div class="body" *ngIf="medicResponded">
+    <div class="stmt">
+      <h1>Spotted an emergency?</h1>
+      <h4>{{ firstH4Content }}</h4>
+      <h4 class="second">{{ secondH4Content }}</h4>
+    </div>
+    <ion-img class="ontheway" src="assets/img/ontheway.png"></ion-img>
     <div *ngIf="notifyingStatement" class="notif-stmt">
       <h2>{{ notifyingStatement }}</h2>
     </div>
