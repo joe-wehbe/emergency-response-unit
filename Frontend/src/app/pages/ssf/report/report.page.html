@@ -11,8 +11,7 @@
   <div class="body" *ngIf="!medicResponded">
     <div class="stmt">
       <h1>Spotted an emergency?</h1>
-      <h4>{{ firstH4Content }}</h4>
-      <h4 class="second">{{ secondH4Content }}</h4>
+      <h4>{{ statement }}</h4>
     </div>
     <div class="circles-container">
       <button class="sos-button" [ngClass]="{'sos-button-animated': isButtonClicked}" (click)="reportEmergencyAlert()"><h1>SOS</h1></button>
@@ -26,8 +25,7 @@
   <div class="body" *ngIf="medicResponded">
     <div class="stmt">
       <h1>Spotted an emergency?</h1>
-      <h4>{{ firstH4Content }}</h4>
-      <h4 class="second">{{ secondH4Content }}</h4>
+      <h4>{{ statement }}</h4>
     </div>
     <ion-img class="ontheway" src="assets/img/ontheway.png"></ion-img>
     <div *ngIf="notifyingStatement" class="notif-stmt">

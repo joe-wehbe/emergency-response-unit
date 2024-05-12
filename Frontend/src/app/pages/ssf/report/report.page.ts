@@ -12,8 +12,7 @@ export class ReportPage implements OnInit {
   emergency: any;
   emergencyId: number = 0;
   intervalTimer: any;
-  firstH4Content: string = 'Press the button below';
-  secondH4Content: string = 'to notify medics';
+  statement: string = 'Press the button below to notify medics';
   notifyingStatement: string = '';
   medicResponded: boolean = false;
   isButtonClicked = false;
@@ -78,7 +77,7 @@ export class ReportPage implements OnInit {
               return false;
             }
             if(!data.description){
-              this.presentToast('Please specify a description');
+              this.presentToast('Please specify emergency description');
               return false;
             }
             else{
@@ -102,8 +101,7 @@ export class ReportPage implements OnInit {
   }
 
   sendSOS(emergencyId: number) {
-    this.firstH4Content = "We will let you know";
-    this.secondH4Content = "when a medic responds";
+    this.statement = "We will let you know when a medic responds";
     this.notifyingStatement = 'Notifying medics...';
     this.isButtonClicked = true;
 
@@ -119,8 +117,7 @@ export class ReportPage implements OnInit {
     // To terminate checking for medic response and animation
     const Timeout = setTimeout(() => {
       clearInterval(this.intervalTimer);
-      this.firstH4Content = "Dial #3934 from a nearby";
-      this.secondH4Content = "campus phone or try again!";
+      this.statement = "Dial #3934 from a nearby campus phone or try again!";
       this.notifyingStatement = 'No medics responded!';
       this.isButtonClicked = false;
     }, 120000); 
@@ -133,8 +130,7 @@ export class ReportPage implements OnInit {
           this.emergency = (response as any)['Emergency'];
           if (this.emergency.medic_id != null) {
             this.medicResponded = true;
-            this.firstH4Content = "Hang on! the emergency unit";
-            this.secondH4Content = "has been notified";
+            this.statement = "Hang on! the emergency unit has been notified";
             this.notifyingStatement = 'A medic is on the way!';
             clearInterval(this.intervalTimer); 
             clearTimeout(Timeout); 
