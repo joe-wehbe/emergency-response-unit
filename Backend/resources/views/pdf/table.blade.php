@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Emergency Records PDF</title>
     <style>
         body {
@@ -18,8 +17,8 @@
         .date-right {
             position: absolute;
             right: 20px;
-            top: 20px;
             margin-top: -30px;
+            margin-bottom: 20px;
         }
 
         table {
@@ -42,14 +41,17 @@
             background-color: #f2f2f2;
             font-weight: bold;
         }
-
         h1,
         h2 {
             text-align: center;
         }
 
         h1 {
-            font-size: 16px;
+            font-size: 18px;
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            font-weight: bold;
+            margin-top: -25px;
+            margin-bottom: 20px;
         }
 
         h2 {
@@ -74,6 +76,7 @@
 
         .title {
             padding: 5px;
+            font-size: 15px; 
         }
 
         .asses-table {
