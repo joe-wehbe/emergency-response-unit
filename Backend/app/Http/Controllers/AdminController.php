@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AllowApplications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\AllowApplications;
 use App\Models\Announcement;
 use App\Models\User;
 use App\Models\Medical_faq;
@@ -18,6 +18,7 @@ use App\Models\Rank;
 use App\Models\Semester;
 use App\Models\Cover_request;
 
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 
 class AdminController extends Controller{
@@ -300,6 +301,26 @@ class AdminController extends Controller{
             'status' => 'Success',
             'message' => 'Extension deleted successfully'
         ]);
+    }
+
+    // EMERGENCY RECORDS TAB
+    public function downloadEmergencyRecords(Request $request){
+        $emergencyIds = explode(',', $request->query('emergencyIds', ''));
+    
+        $emergencies = DB::table('emergencies')
+            ->whereIn('id', $emergencyIds)
+            ->where('case_report', 1)
+            ->where('status', 0)
+            ->orderBy('created_at', 'desc')
+            ->get();
+    
+        $assessments = DB::table('assessments')
+            ->whereIn('emergency_id', $emergencyIds)
+            ->get()
+            ->groupBy('emergency_id');
+    
+        $pdf = PDF::loadView('pdf.table', ['emergencies' => $emergencies, 'assessments' => $assessments]);
+        return $pdf->download('emergency_records.pdf');
     }
 
     // ATTENDANCE RECORDS TAB

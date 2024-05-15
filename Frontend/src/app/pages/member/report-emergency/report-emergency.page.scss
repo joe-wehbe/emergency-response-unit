@@ -1,20 +1,20 @@
-.toolbar{
+.toolbar {
     height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-ion-menu-button{
+ion-menu-button {
     font-weight: normal;
 }
 
-.title{
+.title {
     font-size: 22px;
     font-weight: normal;
 }
 
-.body{
+.body {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -30,11 +30,16 @@ ion-menu-button{
     text-align: center;
 }
 
-.stmt h4{
+.stmt h1 {
+    font-size: 24px;
+    margin-bottom: 1em;
+}
+
+.stmt h4 {
     font-size: 18px;
     margin: 0;
     width: 60%;
-  }
+}
 
 .circles-container {
     display: flex;
@@ -71,7 +76,7 @@ ion-menu-button{
     animation: sos-pulse 1.2s ease-out infinite;
 }
 
-.sos-button h1{
+.sos-button h1 {
     font-size: 45px;
 }
 
@@ -117,19 +122,22 @@ ion-menu-button{
     0% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.06);
     }
+
     100% {
         transform: scale(1);
     }
 }
-    
+
 @keyframes sos-wave {
     0% {
         transform: scale(0);
         opacity: 0.8;
     }
+
     100% {
         transform: scale(1.2);
         opacity: 0.6;
@@ -138,4 +146,4 @@ ion-menu-button{
 
 .ontheway {
     width: 80%;
-  }
+}

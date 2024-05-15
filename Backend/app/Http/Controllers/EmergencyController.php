@@ -7,10 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Assessment;
 use App\Models\Emergency;
-use Illuminate\Support\Facades\DB;
 
 use Exception;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class EmergencyController extends Controller{
 
@@ -368,27 +366,5 @@ class EmergencyController extends Controller{
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
-    }
-
-    public function downloadTableAsPDF(Request $request)
-    {
-        // Get IDs from the request query parameters and convert to array
-        $emergencyIds = explode(',', $request->query('emergencyIds', ''));
-    
-        // Fetch emergencies where id is in the provided array
-        $emergencies = DB::table('emergencies')
-            ->whereIn('id', $emergencyIds)
-            ->where('case_report', 1)
-            ->where('status', 0)
-            ->get();
-    
-        $assessments = DB::table('assessments')
-            ->whereIn('emergency_id', $emergencyIds)
-            ->get()
-            ->groupBy('emergency_id');
-    
-        $pdf = PDF::loadView('pdf.table', ['emergencies' => $emergencies, 'assessments' => $assessments]);
-        return $pdf->download('emergency_records.pdf');
-    }
-    
+    }    
 }

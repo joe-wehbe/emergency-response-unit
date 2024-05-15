@@ -21,7 +21,7 @@ Route::group(["prefix" => "v0.1"], function () {
         Route::post('logout', [AuthController::class, 'logout']);
     });
 
-    // Route::group(["middleware" => "auth:sanctum"], function () {
+    Route::group(["middleware" => "auth:sanctum"], function () {
         // USER CONTROLLER APIs
         Route::group(["prefix" => "user"], function () {
             Route::get('get-applications-permission', [UserController::class, 'getApplicationsPermission']);
@@ -93,8 +93,8 @@ Route::group(["prefix" => "v0.1"], function () {
                 Route::get('get-emergency-records', [AdminController::class, 'getEmergencyRecords']);
                 Route::get('get-admins', [AdminController::class, 'getAdmins']);
                 Route::get('get-shift-covers-count/{userId}/{shiftId}', [AdminController::class, 'getShiftCoversCount']);
-                Route::get('download-table-pdf', [EmergencyController::class, 'downloadTableAsPDF']);
-    });
+                Route::get('download-emergency-records', [AdminController::class, 'downloadEmergencyRecords']);
+            });
         });
-    // });
+    });
 });

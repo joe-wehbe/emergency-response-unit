@@ -4,8 +4,7 @@ import { AlertController, ModalController, ToastController } from '@ionic/angula
 import { IonModal } from '@ionic/angular';
 import { EmergencyService } from 'src/app/services/emergency/emergency.service';
 import { HttpClient } from '@angular/common/http'; 
-import { Observable } from 'rxjs';
-
+import { AdminService } from 'src/app/services/admin/admin.service';
 
 interface Emergency {
   id: number;
@@ -58,8 +57,9 @@ export class EmergencyRecordsPage {
     private modalController: ModalController,
     private alertController: AlertController,
     private toastController: ToastController,
-    private emergencyService:EmergencyService) {
-  }
+    private emergencyService:EmergencyService,
+    private adminService: AdminService,
+  ) {}
 
   ngOnInit(){
     this.emergencies = [];
@@ -228,8 +228,6 @@ export class EmergencyRecordsPage {
       default:
         break;
     }  
-
-
     await this.modalController.dismiss();  
   }
   
@@ -309,7 +307,6 @@ export class EmergencyRecordsPage {
            emergency.date.includes(searchTerm);
   }
   
-  
   groupEmergenciesByDate(emergencies: Emergency[]): { [date: string]: Emergency[] } {
     const grouped: { [date: string]: Emergency[] } = {};
     emergencies.forEach(emergency => {
@@ -321,6 +318,31 @@ export class EmergencyRecordsPage {
     return grouped;
   }
   Object = Object;
+
+  downloadEmergencyRecords(): void {
+    const emergencies: Emergency[] = ([] as Emergency[]).concat(...Object.values(this.groupedEmergencies));
+    const emergencyIds = emergencies.map(e => e.id).join(',');
+
+    if(emergencies.length > 0){
+      this.adminService.downloadEmergencyRecords(emergencyIds)
+      .subscribe({
+        next: (blob: Blob) => {
+          const a = document.createElement('a');
+          const objectUrl = URL.createObjectURL(blob);
+          a.href = objectUrl;
+          a.download = 'emergency_records.pdf';
+          a.click();
+          URL.revokeObjectURL(objectUrl);
+        },
+        error: (error: any) => {
+          console.error('Error downloading the file:', error);
+        }
+      });
+    }
+    else{
+      this.presentToast("No emergency records to download");
+    }
+  }
 
   async presentToast(message: string) {
     const toast = await this.toastController.create({
@@ -338,26 +360,4 @@ export class EmergencyRecordsPage {
   back() {
     this.router.navigate(['/admin-panel']);
   }
-
-  downloadPDF(groupedEmergencies: { [date: string]: Emergency[] }): void {
-    const emergencies: Emergency[] = ([] as Emergency[]).concat(...Object.values(groupedEmergencies));
-    const emergencyIds = emergencies.map(e => e.id).join(',');  // Convert array to comma-separated string
-  
-    const apiUrl = `http://localhost:8000/api/v0.1/admin/download-table-pdf?emergencyIds=${emergencyIds}`;
-    this.http.get(apiUrl, { responseType: 'blob' })
-      .subscribe({
-        next: (blob: Blob) => {
-          const a = document.createElement('a');
-          const objectUrl = URL.createObjectURL(blob);
-          a.href = objectUrl;
-          a.download = 'emergency_records.pdf';
-          a.click();
-          URL.revokeObjectURL(objectUrl);
-        },
-        error: (error: any) => {
-          console.error('Error downloading the file:', error);
-        }
-      });
-  }
-  
 }

@@ -83,13 +83,11 @@
             margin-bottom: 20px;
         }
     </style>
-
 </head>
 
 <body>
     <div class="date-right">{{ date('Y-m-d') }}</div>
     <h1>Emergency Records</h1>
-    {{-- <h2>between {{ $fromDate }} and {{ $toDate }}</h2> --}}
     @foreach ($emergencies as $emergency)
         <table>
             <thead>
@@ -166,11 +164,7 @@
                 </tbody>
             </table>
         @endif
+        <br>
     @endforeach
-
-    <br>
-
 </body>
-
-
 </html>

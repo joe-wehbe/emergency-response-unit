@@ -41,7 +41,7 @@ export class UserService {
       phone_number: phone_number,
       major: major,
     };
-    return this.http.put(this.base_url + 'apply', body);
+    return this.http.put(this.base_url + 'apply', body, {headers: this.getAuthHeaders()});
   }
 
   getRequestStatus(email: string) {

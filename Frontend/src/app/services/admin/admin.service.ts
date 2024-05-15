@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -93,6 +94,11 @@ export class AdminService {
     return this.http.delete(this.base_url + 'delete-extension/' + id, { headers: this.getAuthHeaders() });
   }
 
+  // EMERGENCY RECORDS TAB
+  downloadEmergencyRecords(emergencyIds: string): Observable<Blob> {
+    return this.http.get(this.base_url + "download-emergency-records?emergencyIds=" + emergencyIds,{headers: this.getAuthHeaders(), responseType: 'blob'});
+  }
+
   // ATTENDANCE RECORDS TAB
   getAttendanceRecords(){
     return this.http.get(this.base_url + "get-attendance-records", { headers: this.getAuthHeaders() });
@@ -122,7 +128,6 @@ export class AdminService {
     const body = {
       "request_id": request_id
     }
-    return this.http.put(this.base_url + "reject-signup-request/" + request_id, body, { headers: this.getAuthHeaders() }); 
     return this.http.put(this.base_url + "reject-signup-request/" + request_id, body, { headers: this.getAuthHeaders() }); 
   }
 }

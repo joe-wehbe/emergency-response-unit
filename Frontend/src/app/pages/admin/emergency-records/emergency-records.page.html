@@ -60,7 +60,6 @@
   <div class="search-bar-container">
     <ion-searchbar mode="md" #searchBar class="search-bar" [debounce]="800" placeholder="Search name, date, location..." (ionInput)="search($event)"></ion-searchbar>
   </div>
-
   <div *ngFor="let date of Object.keys(groupedEmergencies)">
     <ion-list-header lines="inset">
       <p class="date">{{ date }}</p>
@@ -132,7 +131,6 @@
       </div>
     </ion-card>
   </div>
-
   <div *ngIf="Object.keys(groupedEmergencies).length === 0 && !searchBar.value">
     <ng-container *ngIf="isLoading">
       <div class="body">
@@ -150,22 +148,18 @@
       <div class="body" *ngIf="Object.keys(groupedEmergencies).length === 0 && selectedOption === 'select-time'">
         <p class="no-results">No emergencies found</p>
       </div>
-    </ng-container>
-    
+    </ng-container>   
   </div>
-
   <div *ngIf="Object.keys(groupedEmergencies).length === 0 && searchBar.value">
     <div class="body">
       <p class="no-results">No emergencies found</p>
     </div>
   </div>
-
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button id="download-records" (click)="downloadPDF(groupedEmergencies)">
-        <ion-icon class="download-icon" name="download-outline"></ion-icon>
+    <ion-fab-button id="download-records" (click)="downloadEmergencyRecords()">
+      <ion-icon class="download-icon" name="download-outline"></ion-icon>
     </ion-fab-button>
-  </ion-fab>
-
+  </ion-fab>  
   <ion-modal #detailsModal id="details-modal">
     <ng-template>
       <div class="wrapper">
@@ -386,5 +380,4 @@
       </div>
     </ng-template>
   </ion-modal>
-
 </ion-content>
