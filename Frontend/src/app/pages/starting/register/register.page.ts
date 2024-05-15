@@ -69,6 +69,8 @@ export class RegisterPage implements OnInit {
           console.log(parsedResponse.token);
           localStorage.setItem('user_id', parsedResponse.id);
           localStorage.setItem('first_name', this.fname);
+          localStorage.setItem('student_id', this.studentId)
+          localStorage.setItem('phone_number', this.phone);
           localStorage.setItem('last_name', this.lname);
           localStorage.setItem('lau_email', this.email);
           localStorage.setItem('profile_picture', "undefined");
