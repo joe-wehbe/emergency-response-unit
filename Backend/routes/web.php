@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\EmergencyController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PDFExportController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
+ use App\Http\Controllers\PDFExportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,4 +20,6 @@ use App\Http\Controllers\PDFExportController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
 

@@ -103,11 +103,18 @@ export class AdminService {
     return this.http.get(this.base_url + "get-signup-requests", { headers: this.getAuthHeaders() });
   }
 
+  modifyApplicationsPermission(status:number){
+    const body = {
+      "id": 1,
+      "status": status
+    }
+    return this.http.put(this.base_url + "modify-applications-permission", body, { headers: this.getAuthHeaders() }); 
+  }
+
   acceptSignupRequest(request_id:number){
     const body = {
       "request_id": request_id
     }
-    return this.http.put(this.base_url + "accept-signup-request/" + request_id, body, { headers: this.getAuthHeaders() }); 
     return this.http.put(this.base_url + "accept-signup-request/" + request_id, body, { headers: this.getAuthHeaders() }); 
   }
 

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +9,7 @@ export class UserService {
   
   private base_url: string = 'http://localhost:8000/api/v0.1/user/';
   private userId: string = localStorage.getItem("user_id") ?? '';
+  private userRank: string = localStorage.getItem("rank") ?? '';
 
   constructor(private http: HttpClient) {}
 
@@ -23,7 +24,16 @@ export class UserService {
     return (isAdmin == "Admin" || isAdmin == "Medic & Admin" || isAdmin == "Dispatcher & Admin");
   }
 
+  isSSF(){
+    const isSSF = localStorage.getItem('user_type');
+    return (isSSF == '2');
+  }
+
   // REPORT PAGE
+  getApplicationsPermission() {
+    return this.http.get(this.base_url + 'get-applications-permission', {headers: this.getAuthHeaders()});
+  }
+  
   apply(student_id: number, phone_number: string, major: string) {
     const body = {
       user_id: this.userId,
@@ -35,7 +45,7 @@ export class UserService {
   }
 
   getRequestStatus(email: string) {
-    return this.http.get(this.base_url + 'get-request-status/' + email);
+    return this.http.get(this.base_url + 'get-request-status/' + email, {headers: this.getAuthHeaders()});
   }
 
   // PROFILE PAGE
@@ -66,6 +76,14 @@ export class UserService {
   }
 
   // EDIT PROFILE PAGE
+  editProfilePicture(formData: FormData) {
+    return this.http.post(this.base_url + 'edit-profile-picture', formData, {headers: this.getAuthHeaders()});
+  }
+
+  removeProfilePicture() {
+    return this.http.put(this.base_url + 'remove-profile-picture/' + this.userId, {headers: this.getAuthHeaders()});
+  }
+
   editBio($bio: string) {
     const body = {
       id: this.userId,
@@ -89,12 +107,20 @@ export class UserService {
 
   // ANNOUNCEMENTS PAGE
   getAllAnnouncements() {
-    return this.http.get(this.base_url + 'get-all-announcements', {headers: this.getAuthHeaders()});
+    return this.http.get(this.base_url + 'get-all-announcements/' + this.userId, {headers: this.getAuthHeaders()});
+  }
+
+  getAnnouncementsCount() {
+    return this.http.get(this.base_url + 'get-announcements-count/' + this.userRank, {headers: this.getAuthHeaders()});
   }
 
   // COVER REQUESTS PAGE
   getAllCoverRequests() {
     return this.http.get(this.base_url + 'get-all-cover-requests/' + this.userId, {headers: this.getAuthHeaders()});
+  }
+
+  getCoverRequestsCount(){
+    return this.http.get(this.base_url + 'get-cover-requests-count/' + this.userId, {headers: this.getAuthHeaders()});
   }
 
   acceptCoverRequest($id: number) {
@@ -120,16 +146,16 @@ export class UserService {
       consultation: consultation,
       issues: issues,
     };
-    return this.http.put(this.base_url + 'add-case-report', body);
+    return this.http.put(this.base_url + 'add-case-report', body, {headers: this.getAuthHeaders()});
   }
 
   // EXTENSIONS PAGE
   getExtensions() {
-    return this.http.get(this.base_url + 'get-extensions');
+    return this.http.get(this.base_url + 'get-extensions', {headers: this.getAuthHeaders()});
   }
 
   // MEDICAL FAQs PAGE
   getMedicalFAQs(type: string) {
-    return this.http.get(this.base_url + 'get-medical-faqs/' + type);
+    return this.http.get(this.base_url + 'get-medical-faqs/' + type, {headers: this.getAuthHeaders()});
   }
 }

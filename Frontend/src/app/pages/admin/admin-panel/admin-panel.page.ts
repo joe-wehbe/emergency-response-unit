@@ -23,7 +23,7 @@ export class AdminPanelPage implements OnInit {
   ngOnInit() {
     this.getSemester();
     const name = localStorage.getItem('first_name');
-   console.log(name);
+
     if (name !== null) {
         this.user = name;
     } else {
@@ -35,7 +35,6 @@ export class AdminPanelPage implements OnInit {
     this.userService.getSemester()
     .subscribe({
       next: (response) => {
-        console.log("Fetched semester data", response);
         this.semesterData = (response as any)['Semester'];
 
         if(this.semesterData[0]){
@@ -45,7 +44,6 @@ export class AdminPanelPage implements OnInit {
         else{
           console.log("Semester dates not specified");
         }
-
       },
       error: (error) => {
         console.error("Error getting semester data:", error);

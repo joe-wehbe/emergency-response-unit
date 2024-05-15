@@ -7,7 +7,6 @@ import { forkJoin } from 'rxjs';
 import { ToastController } from '@ionic/angular';
 import { UserService } from 'src/app/services/user/user.service';
 
-
 @Component({
   selector: 'app-change-schedule',
   templateUrl: './change-schedule.page.html',
@@ -130,7 +129,6 @@ export class ChangeSchedulePage implements OnInit {
     this.adminService.deleteShift(this.userId, shiftId)
     .subscribe({
       next: (response) => {
-        console.log('Deleted shift successfully:', response);
         this.presentToast("Shift deleted");
         this.ngOnInit();
       },

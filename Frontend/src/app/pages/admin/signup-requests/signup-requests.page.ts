@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { AdminService } from 'src/app/services/admin/admin.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-signup-requests',
@@ -11,6 +12,9 @@ import { AdminService } from 'src/app/services/admin/admin.service';
 export class SignupRequestsPage implements OnInit {
 
   requests: any[] = [];
+  permissionData: any[] = [];
+  applicationsAllowed: boolean = false;
+  status: number = 0;
   isLoading: boolean = false;
 
   constructor( 
@@ -18,11 +22,45 @@ export class SignupRequestsPage implements OnInit {
     private alertController: AlertController,
     private adminService: AdminService,
     private toastController: ToastController,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
     this.requests = [];
+    this.checkApplicationsPermission()
     this.getSignupRequests();
+  }
+
+  checkApplicationsPermission() {
+    this.userService.getApplicationsPermission()
+    .subscribe({
+      next: (response) => {
+        console.log("Fetched applications permission", response);
+        this.permissionData = (response as any)['Permission'];
+        if(this.permissionData[0].status == 1){
+          this.applicationsAllowed = true;
+        }
+      },
+      error: (error) => {
+        console.error("Error fetching applications permission:", error);
+      }
+    });
+  }
+
+  modifyApplicationsPermission() {
+    this.applicationsAllowed = !this.applicationsAllowed;
+    this.applicationsAllowed ? this.status = 1 : this.status = 0;
+
+    this.adminService.modifyApplicationsPermission(this.status)
+    .subscribe({
+      next: (response) => {
+        console.log("Updated applications permission", response);
+        this.status == 1 ? this.presentToast("Applications are now open") : this.presentToast("Applications are now closed")
+      },
+      error: (error) => {
+        console.error("Error updating applications permission:", error);
+      }
+    });
   }
 
   getSignupRequests(){
@@ -31,7 +69,6 @@ export class SignupRequestsPage implements OnInit {
     .subscribe({
       next: (response) => {
         if(response && response.hasOwnProperty("requests")){
-          console.log("Fetched signup requests:", response);
           const parsedResponse = JSON.parse(JSON.stringify(response));
           this.requests = [].concat.apply([], Object.values(parsedResponse['requests']));
         }
@@ -51,8 +88,7 @@ export class SignupRequestsPage implements OnInit {
   acceptSignupRequest(requestId: number){
     this.adminService.acceptSignupRequest(requestId)
     .subscribe({
-      next: () => {
-        console.log("Signup request accepted");
+      next: () => {  
         this.presentToast("Registration request accepted");
         this.ngOnInit();
       },
@@ -89,7 +125,6 @@ export class SignupRequestsPage implements OnInit {
     this.adminService.rejectSignupRequest(requestId)
     .subscribe({
       next: () => {
-        console.log("Signup request rejected");
         this.presentToast("Registration request rejected");
         this.ngOnInit();
       },

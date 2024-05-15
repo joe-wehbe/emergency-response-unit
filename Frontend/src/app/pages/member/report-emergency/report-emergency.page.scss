@@ -32,11 +32,9 @@ ion-menu-button{
 
 .stmt h4{
     font-size: 18px;
-}
-
-.second{
-    margin-top: -0.5em;
-}
+    margin: 0;
+    width: 60%;
+  }
 
 .circles-container {
     display: flex;
@@ -138,5 +136,6 @@ ion-menu-button{
     }
 }
 
-
-
+.ontheway {
+    width: 80%;
+  }

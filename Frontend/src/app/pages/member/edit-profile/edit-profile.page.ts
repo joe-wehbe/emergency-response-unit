@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
+import { ActionSheetController } from '@ionic/angular';
 
 @Component({
   selector: 'app-edit-profile',
@@ -16,16 +17,22 @@ export class EditProfilePage implements OnInit {
   shifts: any[] = [];
   semesterData: any[] = [];
   isLoading: boolean = false;
-
+  user_src_img: any;
+  user_src_img_display: any;
   bio: string = '';
   tags: string = '';
-
+  isActionSheetOpen: boolean = false;
+  pictureRemoved: boolean = false;
+  @ViewChild('fileInput') fileInput: any;
+  
   constructor(
     private router:Router, 
     private alertController: AlertController, 
     private modalController:ModalController,
     private toastController:ToastController,
-    private userService:UserService) { }
+    private userService:UserService,
+    private actionSheetController: ActionSheetController
+  ) { }
 
   ngOnInit() {
     this.getUserInfo()
@@ -38,10 +45,10 @@ export class EditProfilePage implements OnInit {
     this.userService.getUserInfo(this.userId)
     .subscribe({
       next: (response) => {
-        console.log("Fetched user data:", response);
         this.user = response['User'];
         this.bio = this.user.bio;
         this.tags = this.user.tags;
+        this.user_src_img = this.user.profile_picture;
       },
       error: (error) => {
         console.error("Error getting user info:", error);
@@ -56,18 +63,14 @@ export class EditProfilePage implements OnInit {
     this.userService.getUserShifts(this.userId)
     .subscribe({
       next: (response) => {
-        console.log("Fetched user shifts:", response);
         const parsedResponse = JSON.parse(JSON.stringify(response));
         this.userShifts = [].concat.apply([], Object.values(parsedResponse['Shifts']));
-
         this.userShifts.forEach(shiftRecord => {
           this.shifts.push({ day: shiftRecord.shift.day, start_time: shiftRecord.shift.time_start, end_time: shiftRecord.shift.time_end})
         });
       },
       error: (error) => {
         console.error("Error getting user info:", error);
-      },
-      complete: () => {
       }
     });
   }
@@ -76,13 +79,10 @@ export class EditProfilePage implements OnInit {
     this.userService.getSemester()
     .subscribe({
       next: (response) => {
-        console.log("Fetched semester data", response);
         this.semesterData = (response as any)['Semester'];
       },
       error: (error) => {
         console.error("Error getting semester data:", error);
-      },
-      complete: () => {
       }
     });
   }
@@ -108,31 +108,124 @@ export class EditProfilePage implements OnInit {
   }
 
   editBio(){
-    this.userService.editBio(this.bio)
-    .subscribe({
-      next: (response) => {
-        console.log("Bio updated successfully: ", response);
-      },
-      error: (error) => {
-        console.error("Error updating bio: ", error);
-      },
-      complete: () => {
-      }
-    });
+    if(this.bio != this.user.bio){
+      this.userService.editBio(this.bio)
+      .subscribe({
+        next: (response) => {
+          console.log("Bio updated successfully: ", response);
+        },
+        error: (error) => {
+          console.error("Error updating bio: ", error);
+        },
+        complete: () => {  
+          this.editTags();
+        }
+      });
+    }else{
+      this.editTags();
+    } 
   }
 
   editTags(){
-    this.userService.editTags(this.tags)
-    .subscribe({
-      next: (response) => {
-        console.log("Tags updated successfully: ", response);
-      },
-      error: (error) => {
-        console.error("Error updating tags: ", error);
-      },
-      complete: () => {
-      }
-    });
+    if(this.tags != this.user.tags){
+      this.userService.editTags(this.tags)
+      .subscribe({
+        next: (response) => {
+          console.log("Tags updated successfully: ", response);
+        },
+        error: (error) => {
+          console.error("Error updating tags: ", error);
+        },
+        complete: () => {  
+          this.editProfilePicture();
+        }
+      });
+    }else{
+      this.editProfilePicture();
+    }
+  }
+
+  editProfilePicture(){
+    if(this.user_src_img_display && this.pictureRemoved == false){
+      const formData = new FormData();
+      formData.append('user_id', this.userId);
+      formData.append('user_profile_pic', this.user_src_img);
+  
+      this.userService.editProfilePicture(formData)
+      .subscribe({
+        next: (response) => {
+          const parsedResponse = JSON.parse(JSON.stringify(response));
+          localStorage.setItem('profile_picture', parsedResponse.new_pic);
+        },
+        error: (error) => {
+          console.error("Error updating picture: ", error);
+        },
+        complete: () => { this.router.navigate(["./profile"]).then(() => {
+          window.location.reload();
+        })}
+      });
+    }
+    else if(!this.user_src_img_display && this.pictureRemoved == true){
+
+      this.userService.removeProfilePicture()
+      .subscribe({
+        next: () => {
+          localStorage.removeItem('profile_picture');
+        },
+        error: (error) => {
+          console.error("Error removing picture: ", error);
+        },
+        complete: () => {
+          this.router.navigate(["./profile"]).then(() => {
+            window.location.reload();
+          });
+        }
+      });
+    }
+  }
+
+  async openActionSheet() {
+    if(!this.isActionSheetOpen){
+      this.isActionSheetOpen = true;
+      const actionSheet = await this.actionSheetController.create({
+        header: 'Profile Picture',
+        buttons: [{
+          text: 'Change',
+          handler: () => {
+            this.fileInput.nativeElement.click();
+            this.isActionSheetOpen = false;
+          }
+        }, {
+          text: 'Remove',
+          handler: () => {
+            this.user_src_img = null;
+            this.user_src_img_display = null; 
+            this.pictureRemoved = true;
+            this.isActionSheetOpen = false;       
+          }
+        }, {
+          text: 'Cancel',
+          role: 'cancel'
+        }]
+      });
+      await actionSheet.present();
+    }
+  }
+
+  onChange(event: any) {
+    this.user_src_img = event.target.files[0];
+    this.previewImage(event);
+  }
+  
+  previewImage(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.user_src_img_display = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   async navigateProfile(){
@@ -150,20 +243,7 @@ export class EditProfilePage implements OnInit {
           text: 'Save',
           cssClass: 'alert-button-ok-green',
           handler: () => {
-            if(this.bio != this.user.bio && this.tags == this.user.tags){
-              this.editBio();
-            }
-            else if (this.bio == this.user.bio && this.tags != this.user.tags){
-              this.editTags();
-            }
-            else if (this.bio != this.user.bio && this.tags != this.user.tags){
-              this.editBio();
-              this.editTags();
-            }
-            this.presentToast("Changes saved");
-            this.router.navigate(["./profile"]).then(() => {
-              window.location.reload();
-            });
+            this.editBio();
           },
         },
       ],

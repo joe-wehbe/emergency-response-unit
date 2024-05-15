@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AllowApplications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +43,7 @@ class AdminController extends Controller{
                 $semester->start_date = $request->start_date;
                 $semester->end_date = $request->end_date;
                 $semester->save();
-                return response()->json(['message' => 'Semster not found, created a new one'], 201);
+                return response()->json(['message' => 'Semester not found, created a new one'], 201);
             }
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
@@ -357,6 +358,29 @@ class AdminController extends Controller{
             return response()->json(['message' => 'No signup requests']);
         } else {
             return response()->json(['requests' => $requests], 200);
+        }
+    }
+
+    public function modifyApplicationsPermission(Request $request){
+        $request->validate([
+            'id' => 'required',
+        ]);
+        try {
+            $permission = AllowApplications::find($request->id);
+
+            if ($permission) {
+                $permission->status = $request->status;
+                $permission->save();
+                return response()->json(['message' => 'Applications permission updated'], 201);
+            } 
+            else {
+                $permission = new AllowApplications();
+                $permission->status = $request->status;
+                $permission->save();
+                return response()->json(['message' => 'Permission not found, created a new one'], 201);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 

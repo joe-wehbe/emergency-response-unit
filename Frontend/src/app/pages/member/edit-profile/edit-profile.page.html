@@ -12,11 +12,15 @@
 </ion-header>
 
 <ion-content class="gradient-background" *ngIf="user">
-  <ion-card class="card-container">   
-    <div class="header">
-      <ion-avatar class="icon">
-        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+  <ion-card class="card-container">
+    <div class="header">      
+      <ion-avatar class="icon" (click)="openActionSheet()">
+        <img alt="Silhouette of a person's head" [src]="user_src_img_display ? user_src_img_display :
+          (user_src_img ? 'http://127.0.0.1:8000/storage/images/' + user_src_img : 'https://ionicframework.com/docs/img/demos/avatar.svg')"
+          onerror="this.src='https://ionicframework.com/docs/img/demos/avatar.svg'"/>
+        <input #fileInput style="display: none;" id="fileInput" (change)="onChange($event)" class="img" type="file" accept="image/png, image/jpeg, image/jpg, image/gif">
       </ion-avatar>
+      
       <div class="container">
         <div class="np-container">
           <h2 class="name">{{ user.first_name }} {{ user.last_name }}</h2>
@@ -80,14 +84,9 @@
       <div class="second-line"></div>
     </div>
     <div class="calendar-container">
-      <ion-datetime 
-        class="calendar"
-        mode="md" 
-        presentation="date" 
-        [readonly]="true"
-        [firstDayOfWeek]="1" 
+      <ion-datetime class="calendar" mode="md" presentation="date" [readonly]="true" [firstDayOfWeek]="1"
         [highlightedDates]="highlightedDates">
-      </ion-datetime> 
+      </ion-datetime>
     </div>
     <div class="attendance-button-container">
       <ion-button class="attendance-button" fill="outline" disabled>Mark attendance</ion-button>
@@ -99,8 +98,7 @@
         <p class="statement"> Editing accomplishments</p>
         <div class="input-container">
           <ion-text>Talk about your accomplishments</ion-text>
-          <ion-textarea [(ngModel)]="bio"
-            [autoGrow]="true" placeholder="Experience...">
+          <ion-textarea [(ngModel)]="bio" [autoGrow]="true" placeholder="Experience...">
           </ion-textarea>
         </div>
         <div class="buttons-container">
@@ -116,8 +114,7 @@
         <p class="statement"> Editing skills</p>
         <div class="input-container">
           <ion-text>Seperate tags with a comma</ion-text>
-          <ion-textarea [(ngModel)]="tags"
-            [autoGrow]="true" placeholder="Tags...">
+          <ion-textarea [(ngModel)]="tags" [autoGrow]="true" placeholder="Tags...">
           </ion-textarea>
         </div>
         <div class="buttons-container">
@@ -132,5 +129,5 @@
 <ion-content *ngIf="!user && isLoading">
   <div class="body">
     <ion-spinner name="crescent"></ion-spinner>
-  </div> 
+  </div>
 </ion-content>

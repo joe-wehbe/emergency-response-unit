@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#FFFFFF</color>
+    <string name="app_name">ERU</string>
+    <string name="custom_url_scheme">lb.edu.lau.eru</string>
+    <string name="gcm_defaultSenderId" translatable="false">930229546827</string>
+    <string name="google_api_key" translatable="false">AIzaSyBGbO3VPUfkxLeL47um-Z0G-jUko-zg5w0</string>
+    <string name="google_app_id" translatable="false">1:930229546827:android:6299400dd7434a8d3d02ce</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBGbO3VPUfkxLeL47um-Z0G-jUko-zg5w0</string>
+    <string name="google_storage_bucket" translatable="false">lau-emergency-response-unit.appspot.com</string>
+    <string name="package_name">lb.edu.lau.eru</string>
+    <string name="project_id" translatable="false">lau-emergency-response-unit</string>
+    <string name="title_activity_main">ERU</string>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:background">@null</item>
+    </style>
+    <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
+        <item name="android:background">@drawable/splash</item>
+    </style>
+</resources>

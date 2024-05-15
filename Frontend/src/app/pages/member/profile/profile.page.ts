@@ -17,12 +17,14 @@ export class ProfilePage implements OnInit {
   shifts: any[] = [];
   semesterData: any[] = [];
   isLoading: boolean = false;
+  profilePicture: string = "";
 
   constructor(
     private router:Router, 
     private alertController: AlertController, 
     private toastController:ToastController,
-    private userService:UserService) { }
+    private userService:UserService
+  ) { }
 
   ngOnInit() {
     this.getUserInfo()
@@ -35,8 +37,8 @@ export class ProfilePage implements OnInit {
     this.userService.getUserInfo(localStorage.getItem("user_id") ?? '')
     .subscribe({
       next: (response) => {
-        console.log("Fetched user data:", response);
         this.user = response['User'];
+        this.profilePicture = this.user.profile_picture;
       },
       error: (error) => {
         console.error("Error getting user info:", error);
@@ -51,12 +53,11 @@ export class ProfilePage implements OnInit {
     this.userService.getUserShifts(localStorage.getItem("user_id") ?? '')
     .subscribe({
       next: (response) => {
-        console.log("Fetched user shifts:", response);
         const parsedResponse = JSON.parse(JSON.stringify(response));
         this.userShifts = [].concat.apply([], Object.values(parsedResponse['Shifts']));
 
         this.userShifts.forEach(shiftRecord => {
-          this.shifts.push({ id: shiftRecord.id, day: shiftRecord.shift.day, start_time: shiftRecord.shift.time_start, end_time: shiftRecord.shift.time_end})
+          this.shifts.push({ id: shiftRecord.shift_id, day: shiftRecord.shift.day, start_time: shiftRecord.shift.time_start, end_time: shiftRecord.shift.time_end})
         });
       },
       error: (error) => {

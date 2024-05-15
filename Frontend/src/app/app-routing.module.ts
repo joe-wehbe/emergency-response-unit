@@ -3,6 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { AdminGuard } from './guards/admin/admin.guard';
 import { AuthGuard } from './guards/authentication/auth.guard';
+import { SsfGuard } from './guards/ssf/ssf.guard';
 
 const routes: Routes = [
   /* STARTING ROUTES */
@@ -13,6 +14,13 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./pages/starting/register/register.module').then( m => m.RegisterPageModule), data: { showSideMenu: false }
+  },
+
+  /* SSF ROUTES */
+  {
+    path: 'report',
+    loadChildren: () => import('./pages/ssf/report/report.module').then( m => m.ReportPageModule),
+    canActivate: [AuthGuard, SsfGuard]
   },
 
   /* MEMBER ROUTES*/
@@ -106,7 +114,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
 
-  /* Admin Routes */
+  /* ADMIN ROUTES */
   {
     path: 'admin-panel',
     loadChildren: () => import('./pages/admin/admin-panel/admin-panel.module').then( m => m.AdminPanelPageModule),
@@ -161,14 +169,7 @@ const routes: Routes = [
     path: 'signup-requests',
     loadChildren: () => import('./pages/admin/signup-requests/signup-requests.module').then( m => m.SignupRequestsPageModule), data: { showSideMenu: false },
     canActivate: [AuthGuard, AdminGuard]
-  },
-
-  /* SSF Routes */
-  {
-    path: 'report',
-    loadChildren: () => import('./pages/ssf/report/report.module').then( m => m.ReportPageModule),
-    canActivate: [AuthGuard]
-  },
+  }
 ];
 
 @NgModule({

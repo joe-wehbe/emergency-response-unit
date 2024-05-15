@@ -10,6 +10,7 @@ interface User {
   phoneNumber: string;
   studentId: string;
   major: string;
+  profilePicture: string;
   bio: string;
   tags: string;
   hasShift: boolean;
@@ -45,7 +46,6 @@ export class CommunityPage implements OnInit {
     .subscribe({
       next: (response) => {
         if(response && response.hasOwnProperty("users")){
-          console.log("Fetched all users: ", response);
           const parsedResponse = JSON.parse(JSON.stringify(response));
           this.allUsers = [].concat.apply([], Object.values(parsedResponse['users']));
 
@@ -58,6 +58,7 @@ export class CommunityPage implements OnInit {
               phoneNumber: user.phone_number,
               studentId: user.student_id,
               major: user.major,
+              profilePicture: user.profile_picture,
               bio: user.bio,
               tags: user.tags,
               hasShift: user.has_shift
@@ -89,7 +90,6 @@ export class CommunityPage implements OnInit {
         return 'Admin';
       case 6:
         return 'Dispatcher & Medic';
-       
       default:
         return '';
     }

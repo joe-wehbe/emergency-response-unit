@@ -22,6 +22,12 @@
   font-weight: normal;
 }
 
+ion-toggle{
+  --track-background: lightgray;
+  --track-background-checked: #810808;
+  --handle-background-checked: white;
+}
+
 .stmt{
   display: flex;
   flex-direction: column;

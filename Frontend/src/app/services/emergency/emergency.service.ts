@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 export class EmergencyService {
 
   private base_url:string = "http://localhost:8000/api/v0.1/emergency/";
+  private userId: string = localStorage.getItem("user_id") ?? '';
 
   constructor(private http:HttpClient) { }
 
@@ -25,16 +26,17 @@ export class EmergencyService {
     return this.http.post(this.base_url + "report-emergency", body, {headers: this.getAuthHeaders()});
   }
 
-  getOngoingForMedic(medic_id:string){
-    const body = {
-      "medic_id": medic_id,
-    }
-    return this.http.post(this.base_url + "find-ongoing-emergency", body, {headers: this.getAuthHeaders()});
+  checkMedicResponse(id: number){
+    return this.http.get(this.base_url + "check-medic-response/" + id, {headers: this.getAuthHeaders()});
   }
   
   // STANDBY PAGE
   getOngoingEmergencies(){
     return this.http.get(this.base_url + "get-ongoing-emergencies", {headers: this.getAuthHeaders()});
+  }
+
+  getOngoingEmergenciesCount(){
+    return this.http.get(this.base_url + "get-ongoing-emergencies-count", {headers: this.getAuthHeaders()});
   }
 
   getEndedEmergencies(){
@@ -46,6 +48,10 @@ export class EmergencyService {
   }
 
   // EMERGENCY DETAILS PAGE
+  findOngoingEmergencyByMedicId(medic_id:string){
+    return this.http.get(this.base_url + "find-ongoing-emergency/" + this.userId, {headers: this.getAuthHeaders()});
+  }
+
   getEmergency(id:number){
     return this.http.get(`${this.base_url}get-emergency/${id}`, {headers: this.getAuthHeaders()});
   }
@@ -113,9 +119,13 @@ export class EmergencyService {
     return this.http.get(this.base_url + "get-all-case-reports",  { headers: this.getAuthHeaders() }); 
   }
 
+  getCaseReportsCount(){
+    return this.http.get(this.base_url + "get-case-reports-count",  { headers: this.getAuthHeaders() }); 
+  }
+
   // EMERGENCY RECORDS PAGE
   getAllEmergenciesWithLastAssessment(){
-    return this.http.get(`${this.base_url}get-all-emergencies-with-last-assessment`);
+    return this.http.get(`${this.base_url}get-all-emergencies-with-last-assessment`, {headers: this.getAuthHeaders()});
   }
 
   //ADMIN PANEL PAGE

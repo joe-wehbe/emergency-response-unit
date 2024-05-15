@@ -15,13 +15,30 @@ use App\Models\Extension;
 use App\Models\Medical_faq;
 use App\Models\Emergency;
 use App\Models\Semester;
+use App\Models\AllowApplications;
 
+use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Exception;
 
 class UserController extends Controller{
 
     // REPORT PAGE
+    public function getApplicationsPermission(){
+        try {
+            $permission = AllowApplications::get();
+
+            if($permission){
+                return response()->json(['Permission' => $permission], 200);
+            }
+            else{
+                return response()->json(['message' => 'No applications permission found'], 200);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
     public function apply(Request $request){
         $request->validate([
             'user_id' => 'required',
@@ -117,7 +134,7 @@ class UserController extends Controller{
                 return response()->json(['Semester' => $semester], 200);
             }
             else{
-                return response()->json(['message' => 'No semesters found'], 200);
+                return response()->json(['message' => 'No semester dates found'], 200);
             }
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
@@ -192,6 +209,43 @@ class UserController extends Controller{
     }
 
     // EDIT PROFILE PAGE
+    public function editProfilePicture(Request $request) {
+        $user = User::find($request->user_id);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        $validator = Validator::make($request->all(), ['user_profile_pic' => 'nullable',]);
+        
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error','errors' => $validator->errors()]);
+        }
+    
+        if($request->hasFile('user_profile_pic')){
+            $request->validate(['user_profile_pic' => 'mimes:jpeg,bmp,png,jpg']);
+            $request->user_profile_pic->store('public/images');
+            $user->profile_picture = $request->user_profile_pic->hashName();
+        }
+        $user->save();
+        return response()->json(['message' => 'Profile updated successfully', 'new_pic' => $user->profile_picture], 200);
+    }
+
+    public function removeProfilePicture($id){
+        try {
+            $user = User::find($id);
+
+            if ($user) {
+                $user->profile_picture = null;
+                $user->save();
+                return response()->json(['message' => 'Profile picture removed'], 200);
+            } else {
+                return response()->json(['error' => 'User not found'], 404);
+            }
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
     public function editBio(Request $request){
         $request->validate([
             'id' => 'required',
@@ -233,7 +287,7 @@ class UserController extends Controller{
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
-
+ 
     // COMMUNITY PAGE
     public function getAllMembers($id){
         try {
@@ -258,10 +312,40 @@ class UserController extends Controller{
     }
 
     // ANNOUNCEMENTS PAGE
-    public function getAllAnnouncements(){
+    public function getAllAnnouncements($userId){
         try {
-            $announcements = Announcement::with('admin')->orderBy('created_at', 'desc')->get();
-            return response()->json(['announcements' => $announcements], 200);
+            $user = User::find($userId);
+    
+            if ($user) {
+                $announcements = Announcement::where('created_at', '>', $user->created_at)->with('admin')->orderBy('created_at', 'desc')->get();
+                return response()->json(['announcements' => $announcements], 200);
+            }
+            else{
+                return response()->json(['error' => 'User not found'], 404);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
+    public function getAnnouncementsCount($rank){
+        try {
+            if($rank == "Dispatcher") {
+                $announcementsCount = Announcement::whereIn('visible_to', [0, 1, 5, 6])->count();
+                return response()->json(['announcementsCount' => $announcementsCount], 200);
+            }
+            if($rank == "Medic"){
+                $announcementsCount = Announcement::whereIn('visible_to', [0, 2, 4, 6])->count();
+                return response()->json(['announcementsCount' => $announcementsCount], 200);
+            }
+            if($rank == "Admin" || $rank == "Medic & Admin" || $rank == "Dispatcher & Admin"){
+                $announcementsCount = Announcement::count();
+                return response()->json(['announcementsCount' => $announcementsCount], 200);
+            }
+            if($rank == "Dispatcher & Medic"){
+                $announcementsCount = Announcement::whereIn('visible_to', [0, 1, 2, 4, 5, 6])->count();
+                return response()->json(['announcementsCount' => $announcementsCount], 200);
+            }
         }  catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }
@@ -274,6 +358,15 @@ class UserController extends Controller{
                 $query->with('rank');
             }])->with("shift")->where('request_status', 0)->get();
             return response()->json(['coverRequests' => $coverRequests], 200);
+        }  catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
+    public function getCoverRequestsCount($id){
+        try {
+            $coverRequestsCount = Cover_request::whereNotIn("user_id", [$id])->where('request_status', 0)->count();
+            return response()->json(['coverRequestsCount' => $coverRequestsCount], 200);
         }  catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }

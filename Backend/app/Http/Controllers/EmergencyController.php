@@ -12,22 +12,37 @@ use Illuminate\Support\Facades\DB;
 use Exception;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-class EmergencyController extends Controller
-{
-    // REPORT EMERGENCY PAGE
-    public function reportEmergency(Request $request)
-    {
+class EmergencyController extends Controller{
+
+    // REPORT EMERGENCY PAGE 
+    public function reportEmergency(Request $request){
         $request->validate([
             'location' => 'required',
             'reporter_description' => 'required',
         ]);
-
+        
         $emergency = new Emergency();
         $emergency->location = $request->location;
         $emergency->reporter_description = $request->reporter_description;
         $emergency->save();
+    
+        return response()->json(['message' => 'Emergency added successfully','emergencyId' => $emergency->id], 201);    
+    }
+    
 
-        return response()->json(['message' => 'Emergency added successfully'], 201);
+    public function checkMedicResponse($id){
+        try{
+            $emergency = Emergency::with('medic')->where('id', $id)->first();
+
+            if($emergency){
+                return response()->json(['Emergency' => $emergency], 200);
+            }
+            else{
+                return response()->json(['error' => 'Emergency not found'], 404);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
     }
 
     // STANDBY PAGE
@@ -54,10 +69,27 @@ class EmergencyController extends Controller
         }
     }
 
-    public function getEndedEmergencies()
-    {
+    public function getOngoingEmergenciesCount(){
         try {
-            $emergencies = Emergency::with('medic')->where('status', 0)->where('case_report', 0)->orderBy('created_at', 'desc')->get();
+            $emergenciesCount = Emergency::where('status', 1)->count();
+            
+            if($emergenciesCount == 0){
+                return response()->json(['message' => 'No ongoing emergencies'], 200);
+            }
+    
+            return response()->json(['ongoingEmergenciesCount' => $emergenciesCount], 200);
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+    
+    public function getEndedEmergencies(){
+        try{
+            $emergencies = Emergency::with('medic')
+            ->where('status', 0)
+            ->where('case_report', 0)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
             if ($emergencies->isEmpty()) {
                 return response()->json(['message' => 'No ended emergencies'], 200);
@@ -68,10 +100,9 @@ class EmergencyController extends Controller
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
-
-    public function deleteEmergency($emergencyId)
-    {
-        try {
+    
+    public function deleteEmergency($emergencyId){
+        try{
             $emergency = Emergency::find($emergencyId);
 
             if ($emergency) {
@@ -141,9 +172,8 @@ class EmergencyController extends Controller
             'id' => 'required',
             'medic_id' => 'required',
         ]);
-
-        try {
-            $emergency = Emergency::find($request->id);
+        try{
+            $emergency = Emergency::find($request->id);    
 
             if ($emergency) {
                 $user = User::find($request->medic_id);
@@ -168,9 +198,22 @@ class EmergencyController extends Controller
     }
 
     // MEDIC EMERGENCY DETAILS PAGE
-    public function getEmergencyWithLastAssessment($id)
-    {
+    public function findOngoingEmergencyByMedicId($id){
         try {
+            $emergency = Emergency::where('medic_id', $id)->where('status', '1')->first();
+    
+            if($emergency){
+                return response()->json(['emergency' => $emergency], 200);
+            } else {
+                return response()->json(['message' => 'No ongoing emergency found for this medic'], 200);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
+    public function getEmergencyWithLastAssessment($id){
+        try{
             $emergency = Emergency::with('medic')->find($id);
 
             if ($emergency) {
@@ -211,30 +254,8 @@ class EmergencyController extends Controller
             return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
-
-    public function findOngoingEmergencyByMedicId(Request $request)
-    {
-        $request->validate([
-            'medic_id' => 'required|integer',
-        ]);
-
-        try {
-            $emergency = Emergency::where('medic_id', $request->medic_id)
-                ->where('status', '1')
-                ->first();
-
-            if ($emergency) {
-                return response()->json(['emergency' => $emergency], 200);
-            } else {
-                return response()->json(['nothing' => 'No Ongoing emergency not found for this medic'], 404);
-            }
-        } catch (Exception $exception) {
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
-    }
-
-    public function addAssessment(Request $request)
-    {
+    
+    public function addAssessment(Request $request){
         $request->validate([
             'emergency_id' => 'required',
         ]);
@@ -305,6 +326,21 @@ class EmergencyController extends Controller
                 ];
             }
             return response()->json(['emergencies' => $emergenciesWithLastAssessments], 200);
+        } catch (Exception $exception) {
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+    }
+
+    public function getCaseReportsCount(){
+        try{
+            $caseReportsCount = Emergency::where('status', 0)->where('case_report', 0)->count();
+    
+            if($caseReportsCount === 0){
+                return response()->json(['message' => 'No case reports'], 200);
+            }
+            else{
+                return response()->json(['caseReportsCount' => $caseReportsCount], 200);
+            }
         } catch (Exception $exception) {
             return response()->json(['error' => $exception->getMessage()], 500);
         }

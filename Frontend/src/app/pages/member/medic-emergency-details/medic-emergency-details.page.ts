@@ -55,10 +55,8 @@ export class MedicEmergencyDetailsPage implements OnInit {
     this.emergencyService.getEmergencyWithLastAssessment(this.emergencyId)
       .subscribe({
         next: (response) => {
-          console.log("Fetched emergency with last assessment:", response);
           this.emergency = (response as any).emergency;
           this.assessment = (response as any).last_assessment;
-
           this.patientName = this.emergency.patient_name;
           this.patientId = this.emergency.patient_lau_id;
           this.medicDescription = this.emergency.medic_description;
@@ -66,7 +64,6 @@ export class MedicEmergencyDetailsPage implements OnInit {
           if(this.emergency.patient_condition == 'Serious' || 
           this.emergency.patient_condition == 'Not Serious' || 
           this.emergency.patient_condition == null){
-
             this.patientCondition = this.emergency.patient_condition;
           }
           else{
@@ -88,19 +85,12 @@ export class MedicEmergencyDetailsPage implements OnInit {
       this.patientCondition? !this.otherPatientCondition : !this.patientCondition){
       this.presentToast("At least one field should not be empty");
 
-    } else {
-      console.log("hi: ", this.patientName);
-      console.log("hi: ", this.patientId);
-      console.log("hi: ", this.medicDescription);
-      console.log("hi: ", this.patientCondition);
-      console.log("hi: ", this.otherPatientCondition);
-      
+    } else {    
       this.emergencyService.addEmergencyDetails(this.emergencyId, this.patientName, 
         this.patientId !== null ? this.patientId : -1, this.medicDescription, 
         this.patientCondition == "other" ? this.otherPatientCondition : this.patientCondition
       ).subscribe({
-        next: (response) => {
-          console.log("Emergency details added successfully", response);
+        next: () => {
           this.presentToast("Patient information saved");
         },
         error: (error) => {
@@ -123,10 +113,8 @@ export class MedicEmergencyDetailsPage implements OnInit {
         this.pupils_reaction)
 
       .subscribe({
-        next: (response) => {
-          console.log("Assessment added successfully", response);
+        next: () => {
           this.presentToast("Assessment recorded");
-
           this.heart_rate= null;
           this.blood_pressure = "";
           this.oxygen_saturation = null;
@@ -137,7 +125,6 @@ export class MedicEmergencyDetailsPage implements OnInit {
           this.pupils_reaction = "";
           this.assessmentsCount++;
           localStorage.setItem(`assessmentsCount${this.emergencyId}`, this.assessmentsCount.toString());
-
           this.getEmergencyWithLastAssessment();
         },
         error: (error) => {
@@ -164,8 +151,7 @@ export class MedicEmergencyDetailsPage implements OnInit {
           handler: () => {
             this.emergencyService.endEmergency(this.emergencyId)
             .subscribe({
-              next: (response) => {
-                console.log("Emergency ended:", response);
+              next: () => {
                 localStorage.removeItem(`assessmentsCount${this.emergencyId}`);
                 this.router.navigate(["./tabs/on-scene"]).then(() => {
                   window.location.reload();

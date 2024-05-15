@@ -45,7 +45,6 @@ export class UserProfilePage implements OnInit {
       this.userService.getUserInfo(this.userId)
       .subscribe({
         next: (response) => {
-          console.log("Fetched user data:", response);
           this.user = response['User'];
         },
         error: (error) => {
@@ -63,8 +62,7 @@ export class UserProfilePage implements OnInit {
       this.userId = params['id'];
       this.userService.getUserShifts(this.userId)
       .subscribe({
-        next: (response) => {
-          console.log("Fetched user shifts:", response);
+        next: (response) => {  
           const parsedResponse = JSON.parse(JSON.stringify(response));
           this.userShifts = [].concat.apply([], Object.values(parsedResponse['Shifts']));
   
@@ -84,8 +82,7 @@ export class UserProfilePage implements OnInit {
   getSemester() {
     this.userService.getSemester()
     .subscribe({
-      next: (response) => {
-        console.log("Fetched semester data", response);
+      next: (response) => {     
         this.semesterData = (response as any)['Semester'];
       },
       error: (error) => {
@@ -280,8 +277,7 @@ export class UserProfilePage implements OnInit {
   changeRank(rank: number){
     this.adminService.changeRank(this.userId, rank)
     .subscribe({
-      next: (response) => {
-        console.log('Rank updated successfully', response);
+      next: () => {       
         this.presentToast(this.user.first_name + ' ' + this.user.last_name + "'s rank is updated");
         this.getUserInfo();
       },
@@ -321,8 +317,7 @@ export class UserProfilePage implements OnInit {
   removeMember(id: string) {
     this.adminService.removeMember(id)
     .subscribe({
-      next: (response) => {
-        console.log('User removed successfully', response);
+      next: () => {
         this.presentToast(this.user.first_name + ' ' + this.user.last_name + " is no longer in the unit.");
         this.router.navigate(['./manage-members']).then(() => {
           window.location.reload();

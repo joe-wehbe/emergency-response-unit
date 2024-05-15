@@ -4,6 +4,7 @@ import { UserService } from 'src/app/services/user/user.service';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { AdminService } from 'src/app/services/admin/admin.service';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-manage-announcements',
@@ -28,7 +29,8 @@ export class ManageAnnouncementsPage implements OnInit {
     private alertController: AlertController,
     private userService: UserService,
     private adminService: AdminService,
-    private toastController:ToastController,
+    private toastController: ToastController,
+    private appComponent: AppComponent
   ) {}
 
   ngOnInit() {
@@ -42,7 +44,6 @@ export class ManageAnnouncementsPage implements OnInit {
     .subscribe({
       next: (response) => {
         if(response && response.hasOwnProperty("announcements")){
-          console.log("Fetched all announcements: ", response);
           const parsedResponse = JSON.parse(JSON.stringify(response));
           this.announcements = [].concat.apply([], Object.values(parsedResponse['announcements']));
 
@@ -98,7 +99,7 @@ export class ManageAnnouncementsPage implements OnInit {
     this.adminService.addAnnouncement(this.userId, this.importanceSelectedOption, this.description, this.setVisibility(this.visibilitySelectedOption))
     .subscribe({
       next: () => {
-        this.presentToast("Announcement sent")
+        this.presentToast("Announcement sent");
         this.dismiss();
         this.ngOnInit();
       },
@@ -162,7 +163,7 @@ export class ManageAnnouncementsPage implements OnInit {
     this.adminService.deleteAnnouncement(id)
     .subscribe({
       next: () => {
-        this.presentToast("Announcement deleted")
+        this.presentToast("Announcement deleted");
       },
       error: (error) => {
         console.error("Error deleting announcements:", error);
