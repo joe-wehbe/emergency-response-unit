@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ERU</string>
+    <string name="title_activity_main">ERU</string>
+    <string name="package_name">lb.edu.lau.eru</string>
+    <string name="custom_url_scheme">lb.edu.lau.eru</string>
+</resources>

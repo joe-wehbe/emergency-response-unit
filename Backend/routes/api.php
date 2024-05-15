@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FcmController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -96,5 +97,15 @@ Route::group(["prefix" => "v0.1"], function () {
                 Route::get('download-emergency-records', [AdminController::class, 'downloadEmergencyRecords']);
             });
         });
+    });
+
+    // FCM CONTROLLER APIs
+    Route::group(["prefix" => "fcm"], function () {
+        Route::put("save-fcm-token", [FcmController::class, "saveFcmToken"]);
+        Route::get("get-dispatchers-fcm-tokens/{id}", [FcmController::class, "getDispatchersFcmTokens"]);
+        Route::get("get-medics-fcm-tokens/{id}", [FcmController::class, "getMedicsFcmTokens"]);
+        Route::get("get-admins-fcm-tokens/{id}", [FcmController::class, "getAdminsFcmTokens"]);
+        Route::get("get-on-shift-fcm-tokens/{id}", [FcmController::class, "getOnShiftFcmTokens"]);
+        Route::get("get-all-fcm-tokens/{id}", [FcmController::class, "getAllFcmTokens"]);
     });
 });

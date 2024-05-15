@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
 import { EmergencyService } from 'src/app/services/emergency/emergency.service';
+import { FcmService } from 'src/app/services/firebase/fcm.service';
 
 @Component({
   selector: 'app-report-emergency',
@@ -8,7 +9,6 @@ import { EmergencyService } from 'src/app/services/emergency/emergency.service';
   styleUrls: ['./report-emergency.page.scss'],
 })
 export class ReportEmergencyPage implements OnInit {
-
   emergency: any;
   emergencyId: number = 0;
   intervalTimer: any;
@@ -20,7 +20,9 @@ export class ReportEmergencyPage implements OnInit {
   constructor(
     private alertController: AlertController, 
     private toastController:ToastController,
-    private emergencyService:EmergencyService
+    private emergencyService:EmergencyService,
+    private fcmService: FcmService
+  
   ) {}
 
   ngOnInit() {}
@@ -86,6 +88,7 @@ export class ReportEmergencyPage implements OnInit {
                 next: (response) => {
                   this.emergencyId = (response as any)['emergencyId'];
                   this.sendSOS(this.emergencyId);
+                  this.fcmService.notifyFirstResponders(data.location, data.description);
                 },
                 error: (error) => {
                   console.error("Error reporting emergency:", error);
@@ -107,6 +110,7 @@ export class ReportEmergencyPage implements OnInit {
 
     // For SOS button animation
     const sosButton = document.querySelector('.sos-button');
+    
     if (sosButton) {
       sosButton.classList.add('clicked');
       setTimeout(() => {

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { AppComponent } from 'src/app/app.component';
 import { AuthService } from 'src/app/services/authentication/auth.service';
+import { FcmService } from 'src/app/services/firebase/fcm.service';
 
 @Component({
   selector: 'app-register',
@@ -31,7 +32,8 @@ export class RegisterPage implements OnInit {
     private authService:AuthService,
     private router: Router, 
     private toastController: ToastController,
-    private appComponent: AppComponent
+    private appComponent: AppComponent,
+    private fcmService: FcmService
   ) {}
 
   ngOnInit() {
@@ -77,6 +79,7 @@ export class RegisterPage implements OnInit {
           localStorage.setItem('user_type', "2");
           localStorage.setItem('auth_token', parsedResponse.token);
           this.router.navigate(['/report']);
+          this.fcmService.initializePushNotifications();
           this.appComponent.ngOnInit();
         }      
       }); 

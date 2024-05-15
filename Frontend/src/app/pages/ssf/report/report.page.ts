@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ToastController } from '@ionic/angular';
 import { EmergencyService } from 'src/app/services/emergency/emergency.service';
+import { FcmService } from 'src/app/services/firebase/fcm.service';
 
 @Component({
   selector: 'app-report',
@@ -20,7 +21,8 @@ export class ReportPage implements OnInit {
   constructor(
     private alertController: AlertController, 
     private toastController:ToastController, 
-    private emergencyService:EmergencyService
+    private emergencyService:EmergencyService,
+    private fcmService:FcmService,
   ) {}
   
   ngOnInit() {}
@@ -86,6 +88,7 @@ export class ReportPage implements OnInit {
                 next: (response) => {
                   this.emergencyId = (response as any)['emergencyId'];
                   this.sendSOS(this.emergencyId);
+                  this.fcmService.notifyFirstResponders(data.location, data.description);
                 },
                 error: (error) => {
                   console.error("Error reporting emergency:", error);

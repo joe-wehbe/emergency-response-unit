@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
   
-  private base_url: string = 'http://localhost:8000/api/v0.1/user/';
+  private base_url: string = 'http://10.0.2.2:8000/api/v0.1/user/';
   private userId: string = localStorage.getItem("user_id") ?? '';
   private userRank: string = localStorage.getItem("rank") ?? '';
 
@@ -61,11 +61,11 @@ export class UserService {
     return this.http.get(this.base_url + 'get-semester', {headers: this.getAuthHeaders()});
   }
 
-  requestCover($shift_id: number, $reason: string) {
+  requestCover(shift_id: number, reason: string) {
     const body = {
       user_id: this.userId,
-      shift_id: $shift_id,
-      reason: $reason
+      shift_id: shift_id,
+      reason: reason
     };
     return this.http.post(this.base_url + 'request-cover', body, {headers: this.getAuthHeaders()});
   }

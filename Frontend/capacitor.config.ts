@@ -1,12 +1,17 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'Tabs',
+  appId: 'lb.edu.lau.eru',
+  appName: 'ERU',
   webDir: 'www',
   server: {
-    androidScheme: 'https'
-  }
+    androidScheme: 'http'
+  },
+  plugins: {
+    PushNotifications: {
+      presentationOptions: ["badge", "sound", "alert"],
+    },
+  },
 };
 
 export default config;

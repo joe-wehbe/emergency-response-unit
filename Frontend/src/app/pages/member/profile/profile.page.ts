@@ -3,6 +3,7 @@ import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { UserService } from 'src/app/services/user/user.service';
+import { FcmService } from 'src/app/services/firebase/fcm.service';
 
 @Component({
   selector: 'app-profile',
@@ -23,7 +24,9 @@ export class ProfilePage implements OnInit {
     private router:Router, 
     private alertController: AlertController, 
     private toastController:ToastController,
-    private userService:UserService
+    private userService:UserService,
+    private fcmService:FcmService
+  
   ) { }
 
   ngOnInit() {
@@ -57,6 +60,7 @@ export class ProfilePage implements OnInit {
         this.userShifts = [].concat.apply([], Object.values(parsedResponse['Shifts']));
 
         this.userShifts.forEach(shiftRecord => {
+          this.shifts.push({ id: shiftRecord.shift_id, day: shiftRecord.shift.day, start_time: shiftRecord.shift.time_start, end_time: shiftRecord.shift.time_end})
           this.shifts.push({ id: shiftRecord.shift_id, day: shiftRecord.shift.day, start_time: shiftRecord.shift.time_start, end_time: shiftRecord.shift.time_end})
         });
       },
@@ -127,7 +131,7 @@ export class ProfilePage implements OnInit {
               cssClass: 'alert-button-ok-red',
               handler: () => {
                 if (shiftsOnDay.length === 1) {
-                  this.reason(shiftsOnDay[0].id);
+                  this.reason(shiftsOnDay[0].id, shiftsOnDay[0].start_time, shiftsOnDay[0].end_time, shiftsOnDay[0].day);
                 } else {
                   this.multiShiftsAlert(shiftsOnDay);
                 }
@@ -164,7 +168,7 @@ export class ProfilePage implements OnInit {
           text: 'Select',
           cssClass: 'alert-button-ok-red',
           handler: (selectedShift) => { 
-            this.reason(selectedShift.id)
+            this.reason(selectedShift.id, selectedShift.start_time, selectedShift.end_time, selectedShift.day);
           },
         },
       ],
@@ -172,7 +176,7 @@ export class ProfilePage implements OnInit {
     await alert.present();
   }
 
-  async reason($shiftId:any) {
+  async reason(shiftId:any, shiftStartTime: string, shiftEndTime: string, shiftDay: string) {
     const alert = await this.alertController.create({
       header: 'Request cover?',
       subHeader: 'Your attendance will be affected if the member accepting your request fails to cover your shift!',
@@ -205,11 +209,12 @@ export class ProfilePage implements OnInit {
               this.presentToast("Please speficy the reason");
               return false;
             } else {
-              this.userService.requestCover($shiftId, data.reason)
+              this.userService.requestCover(shiftId, data.reason)
               .subscribe({
                 next: (response) => {
                   console.log("Cover request sent successfully:", response);
                   this.presentToast("Cover request sent")
+                  this.fcmService.notifyForCoverRequest(localStorage.getItem("first_name") ?? '', localStorage.getItem("last_name") ?? '', shiftStartTime, shiftEndTime, shiftDay);
                 },
                 error: (error) => {
                   console.error("Error requesting cover:", error);
@@ -233,8 +238,6 @@ export class ProfilePage implements OnInit {
       },
       error: (error) => {
         console.error("Error marking attendance:", error);
-      },
-      complete: () => {
       }
     });
   }

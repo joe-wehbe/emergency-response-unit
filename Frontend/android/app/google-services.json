@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "930229546827",
+    "project_id": "lau-emergency-response-unit",
+    "storage_bucket": "lau-emergency-response-unit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930229546827:android:6299400dd7434a8d3d02ce",
+        "android_client_info": {
+          "package_name": "lb.edu.lau.eru"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGbO3VPUfkxLeL47um-Z0G-jUko-zg5w0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { AppComponent } from 'src/app/app.component';
 import { AuthService } from 'src/app/services/authentication/auth.service';
+import { FcmService } from 'src/app/services/firebase/fcm.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,9 @@ export class LoginPage {
     private authService:AuthService,
     private router: Router, 
     private toastController: ToastController,
-    private appComponent: AppComponent) {}
+    private appComponent: AppComponent,
+    private fcmService: FcmService
+  ) {}
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
@@ -41,6 +44,7 @@ export class LoginPage {
         next: (response) => {
           console.log('Auto login successful:', response);
           const user_type = localStorage.getItem("user_type");
+          this.fcmService.initializePushNotifications();
 
           if(user_type == "1"){
             this.router.navigate(['./tabs/report-emergency']);
@@ -96,6 +100,7 @@ export class LoginPage {
             this.router.navigate(["report"]);
             console.log(localStorage);
           }
+          this.fcmService.initializePushNotifications();
           this.appComponent.ngOnInit();
         }
       });
