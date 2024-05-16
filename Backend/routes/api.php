@@ -14,6 +14,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(["prefix" => "v0.1"], function () {
+
     // AUTHENTICATION CONTROLLER APIs
     Route::group(["prefix" => "auth"], function () {
         Route::post("register", [AuthController::class, "register"]);
@@ -97,15 +98,15 @@ Route::group(["prefix" => "v0.1"], function () {
                 Route::get('download-emergency-records', [AdminController::class, 'downloadEmergencyRecords']);
             });
         });
-    });
 
-    // FCM CONTROLLER APIs
-    Route::group(["prefix" => "fcm"], function () {
-        Route::put("save-fcm-token", [FcmController::class, "saveFcmToken"]);
-        Route::get("get-dispatchers-fcm-tokens/{id}", [FcmController::class, "getDispatchersFcmTokens"]);
-        Route::get("get-medics-fcm-tokens/{id}", [FcmController::class, "getMedicsFcmTokens"]);
-        Route::get("get-admins-fcm-tokens/{id}", [FcmController::class, "getAdminsFcmTokens"]);
-        Route::get("get-on-shift-fcm-tokens/{id}", [FcmController::class, "getOnShiftFcmTokens"]);
-        Route::get("get-all-fcm-tokens/{id}", [FcmController::class, "getAllFcmTokens"]);
+        // FCM CONTROLLER APIs
+        Route::group(["prefix" => "fcm"], function () {
+            Route::put("save-fcm-token", [FcmController::class, "saveFcmToken"]);
+            Route::get("get-dispatchers-fcm-tokens/{id}", [FcmController::class, "getDispatchersFcmTokens"]);
+            Route::get("get-medics-fcm-tokens/{id}", [FcmController::class, "getMedicsFcmTokens"]);
+            Route::get("get-admins-fcm-tokens/{id}", [FcmController::class, "getAdminsFcmTokens"]);
+            Route::get("get-on-shift-fcm-tokens/{id}", [FcmController::class, "getOnShiftFcmTokens"]);
+            Route::get("get-all-fcm-tokens/{id}", [FcmController::class, "getAllFcmTokens"]);
+        });
     });
 });

@@ -165,7 +165,6 @@ class AuthController extends Controller{
                 "user_id" => $user->id,
                 "first_name" => $user->first_name,
                 "last_name" => $user->last_name,
-                "student_id" =>$user->student_id,
                 "lau_email" => $user->lau_email,
                 "rank" => $user->rank,
                 "profile_picture" => $user->profile_picture,

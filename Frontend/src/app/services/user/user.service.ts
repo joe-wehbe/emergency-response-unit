@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
   
-  private base_url: string = 'http://10.0.2.2:8000/api/v0.1/user/';
+  private baseUrl: string = 'http://10.0.2.2:8000/api/v0.1/user/';
   private userId: string = localStorage.getItem("user_id") ?? '';
   private userRank: string = localStorage.getItem("rank") ?? '';
 
@@ -31,7 +31,7 @@ export class UserService {
 
   // REPORT PAGE
   getApplicationsPermission() {
-    return this.http.get(this.base_url + 'get-applications-permission', {headers: this.getAuthHeaders()});
+    return this.http.get(this.baseUrl + 'get-applications-permission', {headers: this.getAuthHeaders()});
   }
   
   apply(student_id: number, phone_number: string, major: string) {
@@ -41,24 +41,24 @@ export class UserService {
       phone_number: phone_number,
       major: major,
     };
-    return this.http.put(this.base_url + 'apply', body, {headers: this.getAuthHeaders()});
+    return this.http.put(this.baseUrl + 'apply', body, {headers: this.getAuthHeaders()});
   }
 
   getRequestStatus(email: string) {
-    return this.http.get(this.base_url + 'get-request-status/' + email, {headers: this.getAuthHeaders()});
+    return this.http.get(this.baseUrl + 'get-request-status/' + email, {headers: this.getAuthHeaders()});
   }
 
   // PROFILE PAGE
   getUserInfo(id:string): Observable<any> {
-    return this.http.get(this.base_url + 'get-user-info/' + id, {headers: this.getAuthHeaders()});
+    return this.http.get(this.baseUrl + 'get-user-info/' + id, {headers: this.getAuthHeaders()});
   }
 
   getUserShifts(id:string) {
-    return this.http.get(this.base_url + 'get-user-shifts/' + id, {headers: this.getAuthHeaders()});
+    return this.http.get(this.baseUrl + 'get-user-shifts/' + id, {headers: this.getAuthHeaders()});
   }
 
   getSemester() {
-    return this.http.get(this.base_url + 'get-semester', {headers: this.getAuthHeaders()});
+    return this.http.get(this.baseUrl + 'get-semester', {headers: this.getAuthHeaders()});
   }
 
   requestCover(shift_id: number, reason: string) {
@@ -67,68 +67,68 @@ export class UserService {
       shift_id: shift_id,
       reason: reason
     };
-    return this.http.post(this.base_url + 'request-cover', body, {headers: this.getAuthHeaders()});
+    return this.http.post(this.baseUrl + 'request-cover', body, {headers: this.getAuthHeaders()});
   }
 
   markAttendance() {
     const body = {user_id: this.userId};
-    return this.http.put(this.base_url + 'mark-attendance', body, {headers: this.getAuthHeaders()});
+    return this.http.put(this.baseUrl + 'mark-attendance', body, {headers: this.getAuthHeaders()});
   }
 
   // EDIT PROFILE PAGE
   editProfilePicture(formData: FormData) {
-    return this.http.post(this.base_url + 'edit-profile-picture', formData, {headers: this.getAuthHeaders()});
+    return this.http.post(this.baseUrl + 'edit-profile-picture', formData, {headers: this.getAuthHeaders()});
   }
 
   removeProfilePicture() {
-    return this.http.put(this.base_url + 'remove-profile-picture/' + this.userId, {headers: this.getAuthHeaders()});
+    return this.http.put(this.baseUrl + 'remove-profile-picture/' + this.userId, {headers: this.getAuthHeaders()});
   }
 
-  editBio($bio: string) {
+  editBio(bio: string) {
     const body = {
       id: this.userId,
-      bio: $bio
+      bio: bio
     };
-    return this.http.put(this.base_url + 'edit-bio', body, {headers: this.getAuthHeaders()});
+    return this.http.put(this.baseUrl + 'edit-bio', body, {headers: this.getAuthHeaders()});
   }
 
-  editTags($tags: string) {
+  editTags(tags: string) {
     const body = {
       id: this.userId,
-      tags: $tags
+      tags: tags
     };
-    return this.http.put(this.base_url + 'edit-tags', body, {headers: this.getAuthHeaders()});
+    return this.http.put(this.baseUrl + 'edit-tags', body, {headers: this.getAuthHeaders()});
   }
 
   // COMMUNITY PAGE
   getAllMembers() {
-    return this.http.get(this.base_url + 'get-all-members/' + this.userId, {headers: this.getAuthHeaders()});
+    return this.http.get(this.baseUrl + 'get-all-members/' + this.userId, {headers: this.getAuthHeaders()});
   }
 
   // ANNOUNCEMENTS PAGE
   getAllAnnouncements() {
-    return this.http.get(this.base_url + 'get-all-announcements/' + this.userId, {headers: this.getAuthHeaders()});
+    return this.http.get(this.baseUrl + 'get-all-announcements/' + this.userId, {headers: this.getAuthHeaders()});
   }
 
   getAnnouncementsCount() {
-    return this.http.get(this.base_url + 'get-announcements-count/' + this.userRank, {headers: this.getAuthHeaders()});
+    return this.http.get(this.baseUrl + 'get-announcements-count/' + this.userRank, {headers: this.getAuthHeaders()});
   }
 
   // COVER REQUESTS PAGE
   getAllCoverRequests() {
-    return this.http.get(this.base_url + 'get-all-cover-requests/' + this.userId, {headers: this.getAuthHeaders()});
+    return this.http.get(this.baseUrl + 'get-all-cover-requests/' + this.userId, {headers: this.getAuthHeaders()});
   }
 
   getCoverRequestsCount(){
-    return this.http.get(this.base_url + 'get-cover-requests-count/' + this.userId, {headers: this.getAuthHeaders()});
+    return this.http.get(this.baseUrl + 'get-cover-requests-count/' + this.userId, {headers: this.getAuthHeaders()});
   }
 
-  acceptCoverRequest($id: number) {
+  acceptCoverRequest(id: number) {
     const body = {
-      id: $id,
+      id: id,
       covered_by: this.userId,
     };
-    return this.http.put(this.base_url + 'accept-cover-request', body,  { headers: this.getAuthHeaders() });
+    return this.http.put(this.baseUrl + 'accept-cover-request', body,  { headers: this.getAuthHeaders() });
   }
 
   // CASE REPORTS PAGE
@@ -146,16 +146,16 @@ export class UserService {
       consultation: consultation,
       issues: issues,
     };
-    return this.http.put(this.base_url + 'add-case-report', body, {headers: this.getAuthHeaders()});
+    return this.http.put(this.baseUrl + 'add-case-report', body, {headers: this.getAuthHeaders()});
   }
 
   // EXTENSIONS PAGE
   getExtensions() {
-    return this.http.get(this.base_url + 'get-extensions', {headers: this.getAuthHeaders()});
+    return this.http.get(this.baseUrl + 'get-extensions', {headers: this.getAuthHeaders()});
   }
 
   // MEDICAL FAQs PAGE
   getMedicalFAQs(type: string) {
-    return this.http.get(this.base_url + 'get-medical-faqs/' + type, {headers: this.getAuthHeaders()});
+    return this.http.get(this.baseUrl + 'get-medical-faqs/' + type, {headers: this.getAuthHeaders()});
   }
 }

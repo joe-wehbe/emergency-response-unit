@@ -7,7 +7,7 @@ import { Observable, tap } from 'rxjs';
 })
 export class AuthService {
 
-  private base_url: string = 'http://10.0.2.2:8000/api/v0.1/auth/';
+  private baseUrl: string = 'http://10.0.2.2:8000/api/v0.1/auth/';
 
   constructor(private http: HttpClient) {}
 
@@ -20,13 +20,13 @@ export class AuthService {
     }
   }
 
-  register(first_name: string, last_name: string, studentId: string, number: string, major: string, 
+  register(first_name: string, last_name: string, student_id: string, number: string, major: string, 
     lau_email: string, password: string, confirmation:string, isERU: string) {
 
     const body = {
       first_name: first_name,
       last_name: last_name,
-      student_id: studentId,
+      student_id: student_id,
       phone_number: number,
       major: major,
       lau_email: lau_email,
@@ -34,7 +34,7 @@ export class AuthService {
       confirmation: confirmation,
       isERU: isERU,
     };
-    const response = this.http.post(this.base_url + 'register', body);
+    const response = this.http.post(this.baseUrl + 'register', body);
     return response;
   }
 
@@ -44,7 +44,7 @@ export class AuthService {
       password: password,
       remember_me: rememberMe
     };
-    return this.http.post<any>(this.base_url + "login", body).pipe(
+    return this.http.post<any>(this.baseUrl + "login", body).pipe(
       tap(result => {
         if (result.token && rememberMe) {
           localStorage.setItem('rememberToken', result.remember_token);
@@ -55,13 +55,13 @@ export class AuthService {
 
   autoLogin(rememberToken: string): Observable<any> {
     const body = { rememberToken };
-    return this.http.post<any>(this.base_url + 'auto-login', body);
+    return this.http.post<any>(this.baseUrl + 'auto-login', body);
   }
 
   logout(email: string): Observable<any> {
     const body = {
       lau_email: email,
     };
-    return this.http.post(this.base_url + 'logout', body, {});
+    return this.http.post(this.baseUrl + 'logout', body, {});
   }
 }
