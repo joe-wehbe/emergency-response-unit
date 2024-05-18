@@ -1,7 +1,6 @@
-<p align="center"><img src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/868cacf0-b2b8-456f-aa56-5cf71ed764ae"></p>
-
 # Emergency Response Unit
 This project was completed for the Capstone Project (CSC599) course at the <a href="http://www.lau.edu.lb/">Lebanese American University</a>. It is a proposed idea to LAU's Emergency Response Unit to develop a mobile application that facilitates operational management within the unit and improves the process of handling on-campus medical emergencies from the moment they are reported till they are resolved.
+<p align="center"><img width="250" src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/868cacf0-b2b8-456f-aa56-5cf71ed764ae"></p>
 
 # Application Preview
 |Login|Side Menu|Report Emergency|
@@ -15,6 +14,9 @@ This project was completed for the Capstone Project (CSC599) course at the <a hr
 |Community (Dark Mode) |Extensions (Dark Mode) |Medical FAQs (Dark Mode)|
 |-------|---------|--------------|
 |<img height="600" src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/8bb4350c-1c00-4120-a0ae-ba806c15650e">|<img height="600" src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/56cb5cee-daff-4f53-9e0c-2d670c5e554a">|<img height="600" src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/81ddf66c-c7c4-450e-be5d-8b3713ca3119">|
+
+# High-level System Design
+![image](https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/c82544b0-ffa2-4abb-9424-b757d8a7f806)
 
 # How to run the project
 ## Setting up the project
@@ -87,9 +89,9 @@ npx cap run android
 ```
 
 # Stacks & Technologies
-|Frameworks|Languages|Databases|Third-party|Other tools|
+|Frameworks|Languages|Databases|Third-party|Other Tools|
 |----------|---------|---------|-----------|-----------|
-|<img width="55" src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/641334fc-6c12-449c-8da8-a252bb4a90dc"> [![My Skills](https://skillicons.dev/icons?i=laravel)](https://skillicons.dev)|[![My Skills](https://skillicons.dev/icons?i=typescript,html,css,php)](https://skillicons.dev)|<img align="center" src="https://skillicons.dev/icons?i=mysql">|[![My Skills](https://skillicons.dev/icons?i=firebase)](https://skillicons.dev)|[![My Skills](https://skillicons.dev/icons?i=github,git,figma)](https://skillicons.dev)|
+|<img width="55" src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/641334fc-6c12-449c-8da8-a252bb4a90dc"> [![My Skills](https://skillicons.dev/icons?i=laravel)](https://skillicons.dev)|[![My Skills](https://skillicons.dev/icons?i=typescript,html,css,php)](https://skillicons.dev)|<p align="center"><img align="center" src="https://skillicons.dev/icons?i=mysql"></p>|<p align="center"><img src="https://skillicons.dev/icons?i=firebase"></p>|[![My Skills](https://skillicons.dev/icons?i=github,git,figma)](https://skillicons.dev)|
 
 # Contributors
 <a href = "https://github.com/joe-wehbe"><img src = "https://contrib.rocks/image?repo=joe-wehbe/csc498g"/></a>
