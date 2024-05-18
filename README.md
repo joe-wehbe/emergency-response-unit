@@ -1,4 +1,7 @@
-# Emergency Response Unit <img width="70" align="center" src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/868cacf0-b2b8-456f-aa56-5cf71ed764ae">
+<p align="center"><img src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/868cacf0-b2b8-456f-aa56-5cf71ed764ae"></p>
+
+# Emergency Response Unit
+This project was completed for the Capstone Project (CSC599) course at the <a href="http://www.lau.edu.lb/">Lebanese American University</a>. It is a proposed idea to LAU's Emergency Response Unit to develop a mobile application that facilitates operational management within the unit and improves the process of handling on-campus medical emergencies from the moment they are reported till they are resolved.
 
 # Application Preview
 |Login|Side Menu|Report Emergency|
@@ -9,22 +12,31 @@
 |-------|---------|--------------|
 |<img height="600" src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/af3d53c4-abdb-473e-bf3f-2ce34037eae5">|<img height="600" src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/1d8ad6c8-8f27-44c1-bfad-b3b43f13dcf1">|<img height="600" src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/c8c4fe7a-c39c-4d9a-8100-3c4c4f0fd324">|
 
-|Community (Dark) |Extensions (Dark) |Medical FAQs (Dark)|
+|Community (Dark Mode) |Extensions (Dark Mode) |Medical FAQs (Dark Mode)|
 |-------|---------|--------------|
 |<img height="600" src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/8bb4350c-1c00-4120-a0ae-ba806c15650e">|<img height="600" src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/56cb5cee-daff-4f53-9e0c-2d670c5e554a">|<img height="600" src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/81ddf66c-c7c4-450e-be5d-8b3713ca3119">|
 
 # How to run the project
-Clone the repository
+## Setting up the project
+Download xampp and start `MySQL` and `Apache`:
 ```
-https://github.com/joe-wehbe/emergency-response-unit.git
+https://www.apachefriends.org/download.html
 ```
 
-Navigate to the backend folder, install necessary packages and dependencies, and run the backend server
+Clone the repository
+```
+git clone https://github.com/joe-wehbe/emergency-response-unit.git
+```
+
+Navigate to the backend folder, install necessary packages and dependencies, then run the backend server
 ```
 cd Backend
 ```
 ```
 composer install
+```
+```
+composer require barryvdh/laravel-dompdf
 ```
 ```
 php artisan serve
@@ -35,7 +47,7 @@ Migrate the database tables
 php artisan migrate
 ```
 
-Navigate to the frontend folder, install necessary packages and dependencies, and run the frontend server
+Navigate to the frontend folder, install necessary packages and dependencies
 ```
 cd Frontend
 ```
@@ -43,13 +55,44 @@ cd Frontend
 npm install
 ```
 ```
+npm install @capacitor/core
+```
+```
+npm install @capacitor/cli
+```
+```
+npm install @capacitor/push-notifications
+```
+
+## Running the project in a browser
+To run the project in a browser (FCM not supported)
+```
 ionic serve
 ```
 
+## Running the project in an emulator (android)
+Firebase push notifications (FCM) require an emulator since it is a native functionality. Download android studio and an emulator:
+```
+https://developer.android.com/
+```
+In the frontend directory, run:
+```
+ionic build
+```
+```
+npx cap sync
+```
+```
+npx cap run android
+```
+
 # Stacks & Technologies
-|Frameworks|Languages|Databases|Third-party tools|
-|----------|---------|--------|-----|
-|<img src="https://img.shields.io/badge/Ionic-%233880FF.svg?style=for-the-badge&logo=Ionic&logoColor=white" alt="ionic"> <img src="https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white" alt="laravel">|<img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript"> <img src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white" alt="html"> <img src="https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white" alt="css"> <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="php">|<img src="https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white" alt="mysql">|<img src="https://img.shields.io/badge/firebase-a08021?style=for-the-badge&logo=firebase&logoColor=ffcd34" alt="firebase">|
+|Frameworks|Languages|Databases|Third-party|Other tools|
+|----------|---------|---------|-----------|-----------|
+|<img width="55" src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/641334fc-6c12-449c-8da8-a252bb4a90dc"> [![My Skills](https://skillicons.dev/icons?i=laravel)](https://skillicons.dev)|[![My Skills](https://skillicons.dev/icons?i=typescript,html,css,php)](https://skillicons.dev)|<img align="center" src="https://skillicons.dev/icons?i=mysql">|[![My Skills](https://skillicons.dev/icons?i=firebase)](https://skillicons.dev)|[![My Skills](https://skillicons.dev/icons?i=github,git,figma)](https://skillicons.dev)|
 
 # Contributors
-<a href="https://github.com/joe-wehbe">Joe Wehbe</a> - <a href="https://github.com/roulaaa">Roula Ghaleb</a> - <a href="https://github.com/TheresaRoukaibe">Theresa Roukaibe</a>
+<a href = "https://github.com/joe-wehbe"><img src = "https://contrib.rocks/image?repo=joe-wehbe/csc498g"/></a>
+<a href = "https://github.com/roulaaa"><img src = "https://contrib.rocks/image?repo=roulaaa/roulaaa"/></a>
+<a href = "https://github.com/TheresaRoukaibe"><img src = "https://contrib.rocks/image?repo=TheresaRoukaibe/TheresaRoukaibe"/></a>
+
