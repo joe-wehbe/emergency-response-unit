@@ -1,5 +1,5 @@
 # Emergency Response Unit
-This project was completed for the Capstone Project (CSC599) course at the <a href="http://www.lau.edu.lb/">Lebanese American University</a>. It is a proposed idea to LAU's Emergency Response Unit to develop a mobile application that facilitates operational management within the unit and improves the process of handling on-campus medical emergencies from the moment they are reported till they are resolved.
+This project was completed for the Capstone Project (CSC599) course at the <a href="http://www.lau.edu.lb/">Lebanese American University</a>. It is a proposed idea to LAU's Emergency Response Unit to develop a mobile application that facilitates operational management within the unit and improves the process of handling on-campus medical emergencies from the moment they are reported till they are resolved, while also improving data documentation and communication.
 <p align="center"><img width="250" src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/868cacf0-b2b8-456f-aa56-5cf71ed764ae"></p>
 
 # Application Preview
