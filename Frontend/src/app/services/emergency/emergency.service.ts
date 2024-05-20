@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class EmergencyService {
 
-  private baseUrl:string = "http://10.0.2.2:8000/api/v0.1/emergency/";
+  private baseUrl:string = "http://localhost:8000/api/v0.1/emergency/";
   private userId: string = localStorage.getItem("user_id") ?? '';
 
   constructor(private http:HttpClient) { }

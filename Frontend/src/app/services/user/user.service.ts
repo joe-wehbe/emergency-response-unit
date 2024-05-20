@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
   
-  private baseUrl: string = 'http://10.0.2.2:8000/api/v0.1/user/';
+  private baseUrl: string = 'http://localhost:8000/api/v0.1/user/';
   private userId: string = localStorage.getItem("user_id") ?? '';
   private userRank: string = localStorage.getItem("rank") ?? '';
 

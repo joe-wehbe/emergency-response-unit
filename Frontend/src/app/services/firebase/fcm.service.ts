@@ -11,9 +11,9 @@ export const FCM_TOKEN = 'push_notification_token';
 })
 export class FcmService {
 
-  private baseUrl:string = "http://10.0.2.2:8000/api/v0.1/fcm/";
+  private baseUrl:string = "http://localhost:8000/api/v0.1/fcm/";
   private fcmUrl:string = "https://fcm.googleapis.com/fcm/send";
-  private serverKey:string = "AAAA2JYAb0s:APA91bFGsDePgAPQIpny5NcTRxhEEYOVAKFb9Gg14X7EqAwP_Yv7Orv2leUY03MFdbd5d_Wdz-ItALW95KURJJTfeUK_0Zi1v8Ojn-wpO5_N5wgxbgNLWdGaun8ONTAA4xjXVib2Z7at";
+  private serverKey:string = "";
   private userId = localStorage.getItem("user_id");
 
   constructor(private http: HttpClient) {}
