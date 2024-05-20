@@ -71,6 +71,7 @@ To run the project in a browser (FCM not supported)
 ```
 ionic serve
 ```
+You need to replace occurences of `10.0.2.2` with `localhost` in all services.
 
 ## Running the project in an emulator (android)
 Firebase push notifications (FCM) require an emulator since it is a native functionality. Download android studio and an emulator:
@@ -91,7 +92,7 @@ npx cap run android
 # Stacks & Technologies
 |Frameworks|Languages|Databases|Third-party|Other Tools|
 |----------|---------|---------|-----------|-----------|
-|<img width="55" src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/641334fc-6c12-449c-8da8-a252bb4a90dc"> [![My Skills](https://skillicons.dev/icons?i=laravel)](https://skillicons.dev)|[![My Skills](https://skillicons.dev/icons?i=typescript,html,css,php)](https://skillicons.dev)|<p align="center"><img align="center" src="https://skillicons.dev/icons?i=mysql"></p>|<p align="center"><img src="https://skillicons.dev/icons?i=firebase"></p>|[![My Skills](https://skillicons.dev/icons?i=github,git,figma)](https://skillicons.dev)|
+|<img width="55" src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/641334fc-6c12-449c-8da8-a252bb4a90dc"> [![My Skills](https://skillicons.dev/icons?i=laravel)](https://skillicons.dev)|[![My Skills](https://skillicons.dev/icons?i=typescript,html,css,php)](https://skillicons.dev)|<p align="center"><img align="center" src="https://skillicons.dev/icons?i=mysql"></p>|<p align="center"><img src="https://skillicons.dev/icons?i=firebase"></p>|[![My Skills](https://skillicons.dev/icons?i=github,git,figma)](https://skillicons.dev) &nbsp; <img width="45" src="https://github.com/joe-wehbe/emergency-response-unit/assets/102875229/b478ee5b-1c87-4b10-b50e-79770a1a1b86">|
 
 # Contributors
 <a href = "https://github.com/joe-wehbe"><img src = "https://contrib.rocks/image?repo=joe-wehbe/csc498g"/></a>
