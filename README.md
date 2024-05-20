@@ -71,7 +71,6 @@ To run the project in a browser (FCM not supported)
 ```
 ionic serve
 ```
-You need to replace occurences of `10.0.2.2` with `localhost` in all services.
 
 ## Running the project in an emulator (android)
 Firebase push notifications (FCM) require an emulator since it is a native functionality. Download android studio and an emulator:
@@ -88,6 +87,7 @@ npx cap sync
 ```
 npx cap run android
 ```
+You have to replace occurences of `localhost` with `10.0.2.2` in all services.
 
 # Stacks & Technologies
 |Frameworks|Languages|Databases|Third-party|Other Tools|
